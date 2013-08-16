@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+   <title>${REPORT_TITLE}$</title>
+   <link rel="stylesheet" type="text/css" href="SherlockHtmlReport.css" />
+   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+   <meta name="generator" content="Sherlock [${SHERLOCK_VERSION}$]" />
+</head>
+<body class="sherlock-report">
+    <div class="header">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        Product: ${PRODUCT_NAME}$
+                    </td>
+                    <td>
+                        Start time: ${TEST_START_TIME}$
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Version: ${PRODUCT_VERSION}$
+                    </td>
+                    <td>
+                        End time: ${TEST_END_TIME}$
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="testresult">
+        <div class="${REPORT_RESULT_CCS_CLASS}$">
+            ${REPORT_RESULT_TEXT}$
+        </div>
+    </div>
+   <div class="content">
+      <table title="Tests">
+         <thead class="section-results">
+            <tr>
+               <th>
+                  Test status
+               </th>
+               <th>
+                  Category
+               </th>
+               <th>
+                  Description
+               </th>
+               <th>
+                  Messages
+               </th>
+            </tr>
+         </thead>
+         <tfoot>
+         </tfoot>
+         <tbody>
+            <tr class="test">
+               <td class="section-icon">
+                  <img src="${SECTION_ICON}$" class="icon" />
+               </td>
+               <td class="section-category">
+                  ${SECTION_CATEGORY}$
+               </td>
+               <td class="section-description">
+${SECTION_DESCRIPTION}$
+               </td>
+               <td class="section-messages">
+                  <table>
+                     <tbody>
+                        <tr class="message">
+                           <td class="message-icon">
+                              <img src="${INFO_ICON}$" class="icon" />
+                           </td>
+                           <td class="message-time">
+                              ${INFO_TIME}$
+                           </td>
+                           <td class="message-text">
+                              ${INFO_TEXT}$
+                           </td>
+                        </tr>
+                        <tr class="message">
+                           <td class="message-icon">
+                              <img src="${WARNING_ICON}$" class="icon" />
+                           </td>
+                           <td class="message-time">
+                              ${WARNING_TIME}$
+                           </td>
+                           <td class="message-text">
+                              ${WARNING_TEXT}$
+                           </td>
+                        </tr>
+                        <tr class="message">
+                           <td class="message-icon">
+                              <img src="${ERROR_ICON}$" class="icon" />
+                           </td>
+                           <td class="message-time">
+                              ${ERROR_TIME}$
+                           </td>
+                           <td class="message-text">
+                              ${ERROR_TEXT}$
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+   <div class="footer">
+      Tests run by Sherlock ${SHERLOCK_VERSION}$
+      <br />
+      <br />
+      Started by ${USERNAME}$ on ${HOST}$
+   </div>
+</body>
+</html>

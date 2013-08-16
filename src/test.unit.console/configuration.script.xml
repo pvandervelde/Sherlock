@@ -1,0 +1,8 @@
+<script configurationVersion="${VERSION}$"
+                steporder="${STEP_ORDER_INDEX}$"
+                environment="${ENVIRONMENT_INDEX}$" >
+    <file language="${SCRIPT_LANGUAGE_GOES_HERE}$"><![CDATA[${SCRIPT_FULL_PATH_GOES_HERE}$]]></file>
+    <params>
+        <param key="${PARAMETER_KEY}$"><![CDATA[${PARAMETER_VALUE}$]]></param>
+    </params>
+</script>

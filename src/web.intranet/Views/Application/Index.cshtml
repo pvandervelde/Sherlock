@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Sherlock.Web.Intranet.Models.ApplicationModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Applications</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Version)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Version)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ApplicationId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ApplicationId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ApplicationId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="421ba47e6245433dafa62c34a6c206b4" Name="EnvironmentTables" ZoomLevel="74">
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.ApplicationDescription" Width="2" PointX="8.625" PointY="0.75" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.MachineDescription" Width="2" PointX="1" PointY="4" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.MachineApplication" Width="2.25" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.OperatingSystemDescription" Width="2.375" PointX="2.625" PointY="0.75" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_MachineApplication_ToApplication" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_Machine_ToOperatingSystem" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_MachineApplication_ToMachine" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.HypervMachineDescription" Width="2.125" PointX="7.75" PointY="6.125" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.PhysicalMachineDescription" Width="2.125" PointX="4.875" PointY="6.125" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_HypervMachine_ToHostMachine" />
+        <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.PhysicalMachineDescription" ManuallyRouted="false" >
+        </InheritanceConnector>
+        <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.HypervMachineDescription" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.MsiInstallTestStep" Width="2.125" PointX="18" PointY="4.25" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.ScriptExecuteTestStep" Width="2.25" PointX="18" PointY="6" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.Test" Width="1.875" PointX="17.75" PointY="0.625" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestApplication" Width="2" PointX="11.125" PointY="1" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestEnvironment" Width="2.25" PointX="13.875" PointY="0.5" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestStep" Width="2.125" PointX="14.625" PointY="5.875" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestStepParameter" Width="2" PointX="11.625" PointY="7.375" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.XCopyTestStep" Width="2" PointX="18.125" PointY="8.125" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestApplication_ToApplication" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToMachine" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToOperatingSystem" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToTest" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestApplication_ToTestEnvironment" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestStep_ToTestEnvironment" />
+        <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestStepParameter_ToTestStep" />
+        <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.XCopyTestStep" />
+        <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.MsiInstallTestStep" />
+        <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.ScriptExecuteTestStep" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

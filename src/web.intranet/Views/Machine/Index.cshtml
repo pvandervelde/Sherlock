@@ -1,0 +1,170 @@
+﻿@model IEnumerable<Sherlock.Web.Intranet.Models.MachineModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h3>Physical machines</h3>
+<p>
+    @Html.ActionLink("Create New", "CreatePhysicalMachine")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MachineId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetworkName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MacAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperatingSystemId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAvailableForTesting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => ((Sherlock.Web.Intranet.Models.PhysicalMachineModel)model).CanStartRemotely)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (Sherlock.Web.Intranet.Models.PhysicalMachineModel item in Model.Where(m => m is Sherlock.Web.Intranet.Models.PhysicalMachineModel))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetworkName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MacAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatingSystemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAvailableForTesting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CanStartRemotely)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditPhysicalMachine", new { id = item.MachineId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MachineId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MachineId })
+            </td>
+        </tr>
+    }
+</table>
+
+
+<h3>Hyper-V machines</h3>
+<p>
+    @Html.ActionLink("Create New", "CreateHypervMachine")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MachineId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetworkName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MacAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperatingSystemId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAvailableForTesting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => ((Sherlock.Web.Intranet.Models.HypervMachineModel)model).Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => ((Sherlock.Web.Intranet.Models.HypervMachineModel)model).SnapshotToReturnTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => ((Sherlock.Web.Intranet.Models.HypervMachineModel)model).HostMachineId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (Sherlock.Web.Intranet.Models.HypervMachineModel item in Model.Where(m => m is Sherlock.Web.Intranet.Models.HypervMachineModel))
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MachineId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NetworkName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MacAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OperatingSystemId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAvailableForTesting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SnapshotToReturnTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HostMachineId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditHypervMachine", new { id = item.MachineId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.MachineId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.MachineId })
+        </td>
+    </tr>
+}
+</table>

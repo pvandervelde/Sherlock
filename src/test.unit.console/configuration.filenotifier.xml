@@ -1,0 +1,3 @@
+<file configurationVersion="${VERSION}$">
+    <path><![CDATA[${DIRECTORY_FULL_PATH_GOES_HERE}$]]></path>
+</file>

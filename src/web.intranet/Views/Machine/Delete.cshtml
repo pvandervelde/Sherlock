@@ -1,0 +1,161 @@
+﻿@model Sherlock.Web.Intranet.Models.MachineModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<table>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Description)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Description)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.NetworkName)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.NetworkName)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.MacAddress)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.MacAddress)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.OperatingSystemId)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.OperatingSystemId)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IsAvailableForTesting)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.IsAvailableForTesting)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.IsActive)
+            </div>
+        </td>
+    </tr>
+    @{
+        var physicalModel = Model as Sherlock.Web.Intranet.Models.PhysicalMachineModel;
+        if (physicalModel != null)
+        {
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => physicalModel.CanStartRemotely)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => physicalModel.CanStartRemotely)
+                    </div>
+                </td>
+            </tr>
+        }
+        
+        var hypervModel = Model as Sherlock.Web.Intranet.Models.HypervMachineModel;
+        if (hypervModel != null)
+        {
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => hypervModel.Image)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => hypervModel.Image)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => hypervModel.SnapshotToReturnTo)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => hypervModel.SnapshotToReturnTo)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => hypervModel.HostMachineId)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DisplayFor(model => hypervModel.HostMachineId)
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+</table>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

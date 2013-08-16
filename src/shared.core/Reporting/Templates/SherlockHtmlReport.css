@@ -1,0 +1,107 @@
+﻿.sherlock-report {
+    font-family: Verdana, Arial, Helvetica, Helv, sans-serif;
+    font-size: 10pt;
+    word-wrap: break-word; /* IE and CSS3, we use <wbr> for other browsers */
+}
+
+/* Containers */
+div.sherlock-report, body.sherlock-report {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.sherlock-report div.header {
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    background-color: #95b0be;
+    width: 100%;
+    border-bottom: solid 1px black;
+}
+
+.sherlock-report .header table {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    width: 100%;
+}
+
+.sherlock-report .header td {
+    margin: 5px 5px 5px 5px;
+    padding: 0px 0px 0px 0px;
+}
+
+.sherlock-report div.content {
+    padding: 10px 10px 10px 10px;
+    top: 60px;
+    left: 0px;
+    right: 17px;
+    bottom: 0px;
+    overflow: auto;
+    width: auto;
+}
+
+.sherlock-report .content .icon {
+    height: 16px;
+    width: 16px;
+}
+
+
+.sherlock-report .content table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.sherlock-report .testresult {
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    font-size: 14pt;
+    background-color: #95b0be;
+}
+
+.sherlock-report .testresult-passed {
+    color: darkgreen;
+}
+
+.sherlock-report .testresult-failed {
+    color: crimson;
+}
+
+.sherlock-report .section-results {
+    border-bottom-style: double;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+}
+
+.sherlock-report tr.section {
+    border-bottom-style: solid;
+    border-bottom-color: gray;
+    border-bottom-width: 1px;
+}
+
+.sherlock-report .section-icon {
+    text-align: center;
+}
+
+.sherlock-report .section-category {
+}
+
+.sherlock-report .section-description {
+}
+
+.sherlock-report td.message-icon {
+}
+
+.sherlock-report td.message-time {
+    width: auto;
+}
+
+.sherlock-report td.message-text {
+}
+
+.sherlock-report div.message-textdiv {
+}
+
+.sherlock-report div.footer {
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    background-color: #95b0be;
+}

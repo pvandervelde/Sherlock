@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)' == '' or '$(SolutionDir)' == '*undefined*'">$(MSBuildProjectDirectory)\..</SolutionDir>
+    <ProjectGuid>{55C5B4EB-A9D8-4AC4-BB5D-9FB6E31030CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Sherlock.Shared.Core</RootNamespace>
+    <AssemblyName>Sherlock.Shared.Core</AssemblyName>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.ActionPolicy, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.ActionPolicy.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Logging, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Quality, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Quality.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Shared, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Stack, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Stack.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Testing, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei">
+      <HintPath>..\..\packages\Nuclei.0.6.1.0\lib\net45\Nuclei.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei.Build">
+      <HintPath>..\..\packages\Nuclei.Build.0.6.1.0\lib\net45\Nuclei.Build.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei.Communication">
+      <HintPath>..\..\packages\Nuclei.Communication.0.6.1.0\lib\net45\Nuclei.Communication.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei.Configuration">
+      <HintPath>..\..\packages\Nuclei.Configuration.0.6.1.0\lib\net45\Nuclei.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei.Diagnostics">
+      <HintPath>..\..\packages\Nuclei.Diagnostics.0.6.1.0\lib\net45\Nuclei.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Data, Version=3.6.61114.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Graphviz, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Serialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Main.1.0.11226\lib\Net4\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(SOFTWARE_SIGNING_KEY_PATH)">
+      <Link>Properties\App.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\templates\AssemblyInfo.Base.cs">
+      <Link>Properties\AssemblyInfo.Base.cs</Link>
+    </Compile>
+    <Compile Include="..\..\build\temp\AssemblyInfo.BuildInformation.cs">
+      <Link>Properties\AssemblyInfo.BuildInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\build\temp\AssemblyInfo.InternalsVisibleTo.cs">
+      <Link>Properties\AssemblyInfo.InternalsVisibleTo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\build\temp\AssemblyInfo.VersionNumber.cs">
+      <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
+    </Compile>
+    <Compile Include="ApplicationConstants.cs" />
+    <Compile Include="CommunicationSubjects.cs" />
+    <Compile Include="ConsoleApplicationRunner.cs" />
+    <Compile Include="CouldNotLoadEnvironmentException.cs" />
+    <Compile Include="NeedPackagePathException.cs" />
+    <Compile Include="TestEnvironmentPackage.cs" />
+    <Compile Include="IExecutorCommands.cs" />
+    <Compile Include="EnvironmentState.cs" />
+    <Compile Include="FailedToRestoreEnvironmentException.cs" />
+    <Compile Include="FileConstants.cs" />
+    <Compile Include="GlobalConstants.cs" />
+    <Compile Include="IActiveEnvironment.cs" />
+    <Compile Include="IEnvironmentActivator.cs" />
+    <Compile Include="IExecuteTestStepsCommands.cs" />
+    <Compile Include="InvalidEnvironmentSpecificationException.cs" />
+    <Compile Include="IPackageFile.cs" />
+    <Compile Include="IParticipateInCleanUp.cs" />
+    <Compile Include="IProcessTestStep.cs" />
+    <Compile Include="IRunConsoleApplications.cs" />
+    <Compile Include="ITestEnvironmentPackage.cs" />
+    <Compile Include="ITestExecutionNotifications.cs" />
+    <Compile Include="ITestExecutionNotificationsInvoker.cs" />
+    <Compile Include="ITestStepPackage.cs" />
+    <Compile Include="EnvironmentAlreadyInUseException.cs" />
+    <Compile Include="ITestSuitePackage.cs" />
+    <Compile Include="ITransferTestDataCommands.cs" />
+    <Compile Include="MachineUnreachableException.cs" />
+    <Compile Include="MissingConfigurationException.cs" />
+    <Compile Include="ProcessInformation.cs" />
+    <Compile Include="ProcessOutputEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\CannotAddMessageToUninitializedTestSectionException.cs" />
+    <Compile Include="Reporting\CannotAddSectionToFinalizedReportException.cs" />
+    <Compile Include="Reporting\CannotAddSectionToUninitializedReportException.cs" />
+    <Compile Include="Reporting\CannotBuildAnUninitializedReportException.cs" />
+    <Compile Include="Reporting\CannotBuildNonFinalizedReportException.cs" />
+    <Compile Include="Reporting\CannotFinalizeAnUninitializedReportException.cs" />
+    <Compile Include="Reporting\CannotFinalizeAnUninitializedTestSectionException.cs" />
+    <Compile Include="Reporting\CannotRefinalizeReportException.cs" />
+    <Compile Include="Reporting\DateBasedTestInformation.cs" />
+    <Compile Include="Reporting\HtmlHelpers.cs" />
+    <Compile Include="Reporting\HtmlReportTransformer.cs" />
+    <Compile Include="Reporting\IReport.cs" />
+    <Compile Include="Reporting\IReportBuilder.cs" />
+    <Compile Include="Reporting\IReportTransformer.cs" />
+    <Compile Include="Reporting\ITestSectionBuilder.cs" />
+    <Compile Include="Reporting\Report.cs" />
+    <Compile Include="Reporting\ReportBuilder.cs" />
+    <Compile Include="Reporting\ReportHeader.cs" />
+    <Compile Include="Reporting\ReportSection.cs" />
+    <Compile Include="Reporting\ReportTestSectionEventArgs.cs" />
+    <Compile Include="Reporting\TestSection.cs" />
+    <Compile Include="Reporting\TestSectionBuilder.cs" />
+    <Compile Include="Reporting\XmlReportTransformer.cs" />
+    <Compile Include="SharedConfigurationKeys.cs" />
+    <Compile Include="TestExecutionFailureException.cs" />
+    <Compile Include="TestExecutionNotifications.cs" />
+    <Compile Include="TestExecutionProgressEventArgs.cs" />
+    <Compile Include="TestExecutionResult.cs" />
+    <Compile Include="TestExecutionResultEventArgs.cs" />
+    <Compile Include="TestExecutionState.cs" />
+    <Compile Include="InputParameter.cs" />
+    <Compile Include="TestStepPackage.cs" />
+    <Compile Include="TestSuitePackage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\shared.dataaccess\Sherlock.Shared.DataAccess.csproj">
+      <Project>{2fd8cade-136f-4f46-9de8-afd5955cf7fe}</Project>
+      <Name>Sherlock.Shared.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\solutionlevel\SolutionLevel.csproj">
+      <Project>{b0b1c32a-53fc-4b7e-ba60-6dafb8180a42}</Project>
+      <Name>SolutionLevel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reporting\Templates\error.png" />
+    <EmbeddedResource Include="Reporting\Templates\failed.png" />
+    <EmbeddedResource Include="Reporting\Templates\favicon.ico" />
+    <EmbeddedResource Include="Reporting\Templates\information.png" />
+    <EmbeddedResource Include="Reporting\Templates\passed.png" />
+    <EmbeddedResource Include="Reporting\Templates\ReportSectionTemplate.xml" />
+    <EmbeddedResource Include="Reporting\Templates\ReportTemplate.html" />
+    <EmbeddedResource Include="Reporting\Templates\ReportTemplate.xml" />
+    <EmbeddedResource Include="Reporting\Templates\SherlockHtmlReport.css" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionErrorTemplate.html" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionErrorTemplate.xml" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionInfoTemplate.html" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionInfoTemplate.xml" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionTemplate.html" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionTemplate.xml" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionWarningTemplate.html" />
+    <EmbeddedResource Include="Reporting\Templates\TestSectionWarningTemplate.xml" />
+    <EmbeddedResource Include="Reporting\Templates\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reporting\Templates\ReportResultFailedTemplate.html" />
+    <EmbeddedResource Include="Reporting\Templates\ReportResultPassedTemplate.html" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

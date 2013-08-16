@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CommandLine_Options_Help_Description" xml:space="preserve">
+    <value>Prints out the command line options.</value>
+  </data>
+  <data name="CommandLine_Options_Help_Key" xml:space="preserve">
+    <value>?|h|help</value>
+  </data>
+  <data name="CommandLine_Param_ConfigurationFile_Description" xml:space="preserve">
+    <value>The full path to the configuration file that contains the information describing the test.</value>
+  </data>
+  <data name="CommandLine_Param_ConfigurationFile_Key" xml:space="preserve">
+    <value>c=|ConfigurationFile=</value>
+  </data>
+  <data name="Exceptions_Messages_InvalidInputElement" xml:space="preserve">
+    <value>The input element was not valid for the current process.</value>
+  </data>
+  <data name="Exceptions_Messages_InvalidServerResponse" xml:space="preserve">
+    <value>Invalid server response.</value>
+  </data>
+  <data name="Exceptions_Messages_MissingNotificationConfiguration" xml:space="preserve">
+    <value>The configuration for the notification is missing.</value>
+  </data>
+  <data name="Exceptions_Messages_NonMatchingVersionFound" xml:space="preserve">
+    <value>The version number of the configuration does not match the version of the configuration reader.</value>
+  </data>
+  <data name="Exceptions_Messages_NonMatchingVersionFound_WithVersions" xml:space="preserve">
+    <value>The version number of the configuration (version: {0}) does not match the version of the configuration reader (version: {1}).</value>
+  </data>
+  <data name="Exceptions_Messages_UnknownConstraintConfiguration" xml:space="preserve">
+    <value>No builder was found for the given constraint configuration.</value>
+  </data>
+  <data name="Exceptions_Messages_UnknownNotificationConfiguration" xml:space="preserve">
+    <value>No builder was found for the given notification configuration.</value>
+  </data>
+  <data name="Exceptions_Messages_UnknownTestStepConfiguration" xml:space="preserve">
+    <value>No builder was found for the given test step configuration.</value>
+  </data>
+  <data name="Header_ApplicationAndVersion" xml:space="preserve">
+    <value>Sherlock ({0})</value>
+  </data>
+  <data name="Header_OtherPackages_IdAndLicense" xml:space="preserve">
+    <value>        {0} (version: {1}). For more information see: {2}</value>
+  </data>
+  <data name="Header_OtherPackages_Intro" xml:space="preserve">
+    <value>This application makes use of the following open source software:</value>
+  </data>
+  <data name="Help_Usage_Intro" xml:space="preserve">
+    <value>Usage: apollo.UI.console.exe [OPTIONS]</value>
+  </data>
+  <data name="Log_Error_ConfigurationFileDoesNotExist" xml:space="preserve">
+    <value>The provided configuration file does not exist. File should be at: {0}</value>
+  </data>
+  <data name="Log_Error_CouldNotFindServer" xml:space="preserve">
+    <value>Unable to locate the test server.</value>
+  </data>
+  <data name="Log_Error_InvalidInputParameters_WithException" xml:space="preserve">
+    <value>Unable to parse the input parameters. Exception was: {0}</value>
+  </data>
+  <data name="Log_Error_ProcessingError_WithException" xml:space="preserve">
+    <value>An error occurred while processing the test configuration. The exception is: {0}</value>
+  </data>
+  <data name="Log_Information_ApplicationAndVersion" xml:space="preserve">
+    <value>Sherlock.Console - Version: {0}</value>
+  </data>
+  <data name="Log_Information_FoundSuitableServer_WithEndpoint" xml:space="preserve">
+    <value>Found one or more suitable Sherlock servers. Using first available one with endpoint ID: {0}</value>
+  </data>
+  <data name="Log_Information_InputParameterConfigurationFile" xml:space="preserve">
+    <value>Configuration file path: {0}</value>
+  </data>
+  <data name="Log_Error_MarkingTestAsReadyFailed_WithStatusCodeAndReason" xml:space="preserve">
+    <value>Failed to mark test as ready for processing. Server error code: {0}. Server reason: {1}.</value>
+  </data>
+  <data name="Log_Error_TestEnvironmentRegistrationFailed_WithStatusCodeAndReason" xml:space="preserve">
+    <value>Failed to register the test environments. Server error code: {0}. Server reason: {1}</value>
+  </data>
+  <data name="Log_Error_TestFileUploadFailed_WithStatusCodeAndReason" xml:space="preserve">
+    <value>Failed to upload test files. Server error code: {0}. Server reason: {1}</value>
+  </data>
+  <data name="Log_Information_TestQueued" xml:space="preserve">
+    <value>The test was queued. The test ID is: {0}</value>
+  </data>
+  <data name="Log_Error_TestStepParameterRegistrationFailed_WithStatusCodeAndReason" xml:space="preserve">
+    <value>Failed to register the test parameters. Server error code: {0}. Server reason: {1}</value>
+  </data>
+  <data name="Log_Error_TestStepRegistrationFailed_WithStatusCodeAndReason" xml:space="preserve">
+    <value>Failed to register the test steps. Server error code: {0}. Server reason: {1}</value>
+  </data>
+  <data name="Log_Warning_NoSuitableServerFound" xml:space="preserve">
+    <value>No Sherlock server was found that could handle test requests.</value>
+  </data>
+  <data name="Output_Error_ConfigurationFileDoesNotExist" xml:space="preserve">
+    <value>The provided configuration file does not exist.</value>
+  </data>
+  <data name="Output_Error_CouldNotFindServer" xml:space="preserve">
+    <value>Unable to locate the test server.</value>
+  </data>
+  <data name="Output_Error_InvalidInput" xml:space="preserve">
+    <value>The provided input parameters were not valid.</value>
+  </data>
+  <data name="Output_Error_MissingValues" xml:space="preserve">
+    <value>The full path to a configuration file has to be provided.</value>
+  </data>
+  <data name="Output_Error_WhileProcessing" xml:space="preserve">
+    <value>An error occurred while processing the test configuration.</value>
+  </data>
+  <data name="Output_Information_MarkingTestAsReady" xml:space="preserve">
+    <value>Marking test ready for processing ...</value>
+  </data>
+  <data name="Output_Error_MarkingTestAsReadyFailed" xml:space="preserve">
+    <value>Failed to mark test ready for processing.</value>
+  </data>
+  <data name="Output_Information_QueueingTest" xml:space="preserve">
+    <value>Queueing test with server ...</value>
+  </data>
+  <data name="Output_Information_ReadingConfigurationFile" xml:space="preserve">
+    <value>Reading configuration file ...</value>
+  </data>
+  <data name="Output_Information_RegisteringTestEnvironments" xml:space="preserve">
+    <value>Registering test environments ...</value>
+  </data>
+  <data name="Output_Information_RegisteringTestStepParameters" xml:space="preserve">
+    <value>Registering test parameters ...</value>
+  </data>
+  <data name="Output_Information_RegisteringTestSteps" xml:space="preserve">
+    <value>Registering test steps ...</value>
+  </data>
+  <data name="Output_Error_TestEnvironmentRegistrationFailed" xml:space="preserve">
+    <value>Failed to register test environments. Please see log for more detailed information.</value>
+  </data>
+  <data name="Output_Error_TestFileUploadFailed" xml:space="preserve">
+    <value>Upload of test files failed. Please see the log for more detailed information.</value>
+  </data>
+  <data name="Output_Information_TestQueued_WithId" xml:space="preserve">
+    <value>The test was successfully send to the server. The test ID is: {0}</value>
+  </data>
+  <data name="Output_Error_TestStepParameterRegistrationFailed" xml:space="preserve">
+    <value>Failed to register test parameters. Please see the log for more detailed information.</value>
+  </data>
+  <data name="Output_Error_TestStepRegistrationFailed" xml:space="preserve">
+    <value>Failed to register test steps. Please see log for more detailed information.</value>
+  </data>
+  <data name="Output_Information_UploadingTestFiles" xml:space="preserve">
+    <value>Uploading test files to the server ...</value>
+  </data>
+  <data name="Log_Error_TestRegistrationFailed_WithStatusCodeAndReason" xml:space="preserve">
+    <value>Failed to register test. Server error code: {0}. Server reason: {1}</value>
+  </data>
+  <data name="Output_Error_TestRegistrationFailed" xml:space="preserve">
+    <value>Failed to register the test. Please see log for more detailed information.</value>
+  </data>
+  <data name="Output_Information_RegisteringTest" xml:space="preserve">
+    <value>Registering test ...</value>
+  </data>
+</root>

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)' == '' or '$(SolutionDir)' == '*undefined*'">$(MSBuildProjectDirectory)\..</SolutionDir>
+    <ProjectGuid>{C4B2FEBD-9AAF-43E0-A045-1BA77AD36720}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Sherlock.Console</RootNamespace>
+    <AssemblyName>Test.Unit.Console</AssemblyName>
+    <ShouldDoDocumentation>false</ShouldDoDocumentation>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
+  <PropertyGroup>
+    <NoWarn>1685</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.ActionPolicy, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.ActionPolicy.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Logging, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Quality, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Quality.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Shared, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Stack, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Stack.dll</HintPath>
+    </Reference>
+    <Reference Include="Lokad.Testing, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.Cecil, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei">
+      <HintPath>..\..\packages\Nuclei.0.6.1.0\lib\net45\Nuclei.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclei.Build">
+      <HintPath>..\..\packages\Nuclei.Build.0.6.1.0\lib\net45\Nuclei.Build.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.IO.Abstractions, Version=1.4.0.40, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Abstractions.1.4.0.40\lib\net35\System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Abstractions.TestingHelpers, Version=1.4.0.40, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Abstractions.TestingHelpers.1.4.0.40\lib\net35\System.IO.Abstractions.TestingHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(SOFTWARE_SIGNING_KEY_PATH)">
+      <Link>Properties\App.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\templates\AssemblyInfo.Base.cs">
+      <Link>Properties\AssemblyInfo.Base.cs</Link>
+    </Compile>
+    <Compile Include="..\..\build\temp\AssemblyInfo.BuildInformation.cs">
+      <Link>Properties\AssemblyInfo.BuildInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\build\temp\AssemblyInfo.VersionNumber.cs">
+      <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
+    </Compile>
+    <Compile Include="..\test.srconly\AssertExtensions.cs">
+      <Link>AssertExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\test.srconly\ExceptionContractVerifier.cs">
+      <Link>ExceptionContractVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\test.srconly\MockDirectory.cs">
+      <Link>MockDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\test.srconly\MockFile.cs">
+      <Link>MockFile.cs</Link>
+    </Compile>
+    <Compile Include="ConfigurationReaderVersion10Test.cs" />
+    <Compile Include="InvalidServerResponseExceptionTest.cs" />
+    <Compile Include="MissingNotificationConfigurationExceptionTest.cs" />
+    <Compile Include="MsiDeployStepBuilderTest.cs" />
+    <Compile Include="NonMatchingVersionFoundExceptionTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptExecuteStepBuilderTest.cs" />
+    <Compile Include="UnknownTestStepConfigurationExceptionTest.cs" />
+    <Compile Include="XCopyDeployStepBuilderTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\console\Sherlock.Console.csproj">
+      <Project>{e80d994b-a230-49f7-86a3-e5ea72246d96}</Project>
+      <Name>Sherlock.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\shared.core\Sherlock.Shared.Core.csproj">
+      <Project>{55c5b4eb-a9d8-4ac4-bb5d-9fb6e31030ca}</Project>
+      <Name>Sherlock.Shared.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\solutionlevel\SolutionLevel.csproj">
+      <Project>{b0b1c32a-53fc-4b7e-ba60-6dafb8180a42}</Project>
+      <Name>SolutionLevel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\samples\Sherlock.Configuration.v1.xml">
+      <Link>Sherlock.Configuration.v1.xml</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="configuration.filenotifier.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="configuration.msi.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="configuration.script.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="configuration.xcopy.xml" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

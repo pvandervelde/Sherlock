@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c42e34d2-6467-4230-ad24-b132d0dc4bc3" ChangeDateTime="06/01/2013 05:30:35">
+    <Property Name="ElementName" Value="[Environments].[OperatingSystem].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[Environments].[OperatingSystem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="pk_Id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5c77f68b-5656-4d47-b988-56285a1455a9" ChangeDateTime="06/01/2013 05:36:09">
+    <Property Name="ElementName" Value="[Environments].[OperatingSystem].[Bit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[Environments].[OperatingSystem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ArchitectureBitSize" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cd535c0a-fa1d-4b34-842d-e29b90a6833c" ChangeDateTime="06/01/2013 06:16:55">
+    <Property Name="ElementName" Value="[Environments].[Application].[Version]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[Environments].[Application]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VersionMajor" />
+  </Operation>
+</Operations>

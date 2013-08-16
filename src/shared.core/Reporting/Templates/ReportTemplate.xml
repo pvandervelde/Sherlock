@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sherlockreport version="${REPORT_VERSION}$">
+   <header>
+      <sherlock>
+         <host>${HOST_NAME}$</host>
+         <user>${USER_NAME}$</user>
+         <version>${SHERLOCK_VERSION}$</version>
+         <starttime>${TEST_START_TIME}$</starttime>
+         <endtime>${TEST_END_TIME}$</endtime>
+      </sherlock>
+      <product>
+         <name>${PRODUCT_NAME}$</name>
+         <version>${PRODUCT_VERSION}$</version>
+      </product>
+   </header>
+   <tests>
+      ${TEST_SECTIONS}$
+   </tests>
+</sherlockreport>

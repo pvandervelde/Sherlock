@@ -1,0 +1,3 @@
+﻿<section name="${REPORT_SECTION_NAME}$" >
+   ${TEST_SECTIONS}$
+</section>

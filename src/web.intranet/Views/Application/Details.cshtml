@@ -1,0 +1,37 @@
+﻿@model Sherlock.Web.Intranet.Models.ApplicationModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<table>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Version)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Version)
+            </div>
+        </td>
+    </tr>
+</table>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ApplicationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

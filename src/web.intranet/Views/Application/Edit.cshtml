@@ -1,0 +1,57 @@
+﻿@model Sherlock.Web.Intranet.Models.ApplicationModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Application</legend>
+        @Html.HiddenFor(model => model.ApplicationId)
+    
+        <table>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.Name)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.Version)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.Version)
+                        @Html.ValidationMessageFor(model => model.Version)
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

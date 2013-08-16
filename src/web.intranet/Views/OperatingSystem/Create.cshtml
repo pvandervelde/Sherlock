@@ -1,0 +1,82 @@
+﻿@model Sherlock.Web.Intranet.Models.OperatingSystemModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Operating system</legend>
+        <table>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.ServicePack)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.ServicePack)
+                        @Html.ValidationMessageFor(model => model.ServicePack)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.PointerSize)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DropDownListFor(model => model.PointerSize, (IEnumerable<SelectListItem>)ViewBag.Architectures)
+                        @Html.ValidationMessageFor(model => model.PointerSize)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.CultureInfo)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DropDownListFor(model => model.CultureInfo, (IEnumerable<SelectListItem>)ViewBag.Cultures)
+                        @Html.ValidationMessageFor(model => model.CultureInfo)
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

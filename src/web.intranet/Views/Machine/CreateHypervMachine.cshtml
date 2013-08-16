@@ -1,0 +1,161 @@
+﻿@model Sherlock.Web.Intranet.Models.HypervMachineModel
+
+@{
+    ViewBag.Title = "CreateHypervMachine";
+}
+
+<h2>CreateHypervMachine</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>HypervMachineModel</legend>
+
+        <table>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.MachineId)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.MachineId)
+                        @Html.ValidationMessageFor(model => model.MachineId)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.Name)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.Description)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.Description)
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.NetworkName)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.NetworkName)
+                        @Html.ValidationMessageFor(model => model.NetworkName)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.MacAddress)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.MacAddress)
+                        @Html.ValidationMessageFor(model => model.MacAddress)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.OperatingSystemId)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DropDownListFor(model => model.OperatingSystemId, (IEnumerable<SelectListItem>)ViewBag.OperatingSystems)
+                        @Html.ValidationMessageFor(model => model.OperatingSystemId)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.IsAvailableForTesting)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.IsAvailableForTesting)
+                        @Html.ValidationMessageFor(model => model.IsAvailableForTesting)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.Image)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.Image)
+                        @Html.ValidationMessageFor(model => model.Image)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.SnapshotToReturnTo)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.EditorFor(model => model.SnapshotToReturnTo)
+                        @Html.ValidationMessageFor(model => model.SnapshotToReturnTo)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.HostMachineId)
+                    </div>
+                </td>
+                <td>
+                    <div class="display-field">
+                        @Html.DropDownListFor(model => model.HostMachineId, (IEnumerable<SelectListItem>)ViewBag.HostMachines)
+                        @Html.ValidationMessageFor(model => model.HostMachineId)
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Sherlock.Console</id>
+    <version>${Version}</version>
+    <authors>P. van der Velde</authors>
+    <owners>P. van der Velde</owners>
+    <licenseUrl>http://www.google.com</licenseUrl>
+    <projectUrl>http://www.google.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+        The console application for the Sherlock testing application.
+    </description>
+    <releaseNotes>
+      ${ReleaseNotes}
+    </releaseNotes>
+  </metadata>
+  <files>
+        <file src="${DirBin}\Autofac.dll" />
+        <file src="${DirBin}\Castle.Core.dll" />
+        <file src="${DirBin}\Ionic.Zip.Reduced.dll" />
+        <file src="${DirBin}\Lokad.Shared.dll" />
+        <file src="${DirBin}\Mono.Options.dll" />
+        <file src="${DirBin}\NLog.dll" />
+        <file src="${DirBin}\NSarrac.Framework.dll" />
+        <file src="${DirBin}\Sherlock.Console.exe" />
+        <file src="${DirBin}\Sherlock.Console.exe.config" />
+        <file src="${DirBin}\Sherlock.Shared.Core.dll" />
+        <file src="${DirBin}\Sherlock.Shared.DataAccess.dll" />
+        <file src="${DirBin}\System.IO.Abstractions.dll" />
+        <file src="${DirBin}\System.Reactive.dll" />
+        <file src="${DirBin}\Nuclei.dll" />
+        <file src="${DirBin}\Nuclei.Communication.dll" />
+        <file src="${DirBin}\Nuclei.Diagnostics.dll" />
+    </files>
+</package>

@@ -1,0 +1,2266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Sherlock.Shared.DataAccess.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SherlockSharedDataAccessStoreContainer">
+          <EntitySet Name="Application" EntityType="Sherlock.Shared.DataAccess.Store.Application" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="HypervMachine" EntityType="Sherlock.Shared.DataAccess.Store.HypervMachine" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="Machine" EntityType="Sherlock.Shared.DataAccess.Store.Machine" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="MachineApplication" EntityType="Sherlock.Shared.DataAccess.Store.MachineApplication" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="OperatingSystem" EntityType="Sherlock.Shared.DataAccess.Store.OperatingSystem" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="PhysicalMachine" EntityType="Sherlock.Shared.DataAccess.Store.PhysicalMachine" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="MsiInstallTestStep" EntityType="Sherlock.Shared.DataAccess.Store.MsiInstallTestStep" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="ScriptExecuteTestStep" EntityType="Sherlock.Shared.DataAccess.Store.ScriptExecuteTestStep" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="Test" EntityType="Sherlock.Shared.DataAccess.Store.Test" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="TestApplication" EntityType="Sherlock.Shared.DataAccess.Store.TestApplication" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="TestEnvironment" EntityType="Sherlock.Shared.DataAccess.Store.TestEnvironment" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="TestStep" EntityType="Sherlock.Shared.DataAccess.Store.TestStep" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="TestStepParameter" EntityType="Sherlock.Shared.DataAccess.Store.TestStepParameter" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="XCopyTestStep" EntityType="Sherlock.Shared.DataAccess.Store.XCopyTestStep" store:Type="Tables" Schema="Tests" />
+          <AssociationSet Name="FK_HypervMachine_ToHostMachine" Association="Sherlock.Shared.DataAccess.Store.FK_HypervMachine_ToHostMachine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="HypervMachine" EntitySet="HypervMachine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HypervMachine_ToMachine" Association="Sherlock.Shared.DataAccess.Store.FK_HypervMachine_ToMachine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="HypervMachine" EntitySet="HypervMachine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machine_ToOperatingSystem" Association="Sherlock.Shared.DataAccess.Store.FK_Machine_ToOperatingSystem">
+            <End Role="OperatingSystem" EntitySet="OperatingSystem" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MachineApplication_ToApplication" Association="Sherlock.Shared.DataAccess.Store.FK_MachineApplication_ToApplication">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="MachineApplication" EntitySet="MachineApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MachineApplication_ToMachine" Association="Sherlock.Shared.DataAccess.Store.FK_MachineApplication_ToMachine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="MachineApplication" EntitySet="MachineApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MsiInstallTestStep_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_MsiInstallTestStep_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="MsiInstallTestStep" EntitySet="MsiInstallTestStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhysicalMachine_ToMachine" Association="Sherlock.Shared.DataAccess.Store.FK_PhysicalMachine_ToMachine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="PhysicalMachine" EntitySet="PhysicalMachine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScriptExecuteTestStep_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_ScriptExecuteTestStep_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="ScriptExecuteTestStep" EntitySet="ScriptExecuteTestStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestApplication_ToApplication" Association="Sherlock.Shared.DataAccess.Store.FK_TestApplication_ToApplication">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="TestApplication" EntitySet="TestApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestApplication_ToTestEnvironment" Association="Sherlock.Shared.DataAccess.Store.FK_TestApplication_ToTestEnvironment">
+            <End Role="TestEnvironment" EntitySet="TestEnvironment" />
+            <End Role="TestApplication" EntitySet="TestApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestEnvironment_ToMachine" Association="Sherlock.Shared.DataAccess.Store.FK_TestEnvironment_ToMachine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="TestEnvironment" EntitySet="TestEnvironment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestEnvironment_ToOperatingSystem" Association="Sherlock.Shared.DataAccess.Store.FK_TestEnvironment_ToOperatingSystem">
+            <End Role="OperatingSystem" EntitySet="OperatingSystem" />
+            <End Role="TestEnvironment" EntitySet="TestEnvironment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestEnvironment_ToTest" Association="Sherlock.Shared.DataAccess.Store.FK_TestEnvironment_ToTest">
+            <End Role="Test" EntitySet="Test" />
+            <End Role="TestEnvironment" EntitySet="TestEnvironment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStep_ToTestEnvironment" Association="Sherlock.Shared.DataAccess.Store.FK_TestStep_ToTestEnvironment">
+            <End Role="TestEnvironment" EntitySet="TestEnvironment" />
+            <End Role="TestStep" EntitySet="TestStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepParameter_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_TestStepParameter_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="TestStepParameter" EntitySet="TestStepParameter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_XCopyTestStep_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_XCopyTestStep_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="XCopyTestStep" EntitySet="XCopyTestStep" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="pk_ApplicationId" />
+          </Key>
+          <Property Name="pk_ApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="VersionMajor" Type="int" Nullable="false" />
+          <Property Name="VersionMinor" Type="int" Nullable="false" />
+          <Property Name="VersionPatch" Type="int" Nullable="false" />
+          <Property Name="VersionBuild" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HypervMachine">
+          <Key>
+            <PropertyRef Name="pk_HypervMachineId" />
+          </Key>
+          <Property Name="pk_HypervMachineId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Image" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SnapshotToReturnTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fk_HostId" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="pk_MachineId" />
+          </Key>
+          <Property Name="pk_MachineId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NetworkName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MacAddress" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsAvailableForTesting" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="fk_OperatingSystem" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MachineApplication">
+          <Key>
+            <PropertyRef Name="pk_MachineApplicationId" />
+          </Key>
+          <Property Name="pk_MachineApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_MachineId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="fk_ApplicationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OperatingSystem">
+          <Key>
+            <PropertyRef Name="pk_OperatingSystemId" />
+          </Key>
+          <Property Name="pk_OperatingSystemId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ServicePack" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArchitecturePointerSize" Type="int" Nullable="false" />
+          <Property Name="Culture" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PhysicalMachine">
+          <Key>
+            <PropertyRef Name="pk_PhysicalMachineId" />
+          </Key>
+          <Property Name="pk_PhysicalMachineId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CanStartRemotely" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MsiInstallTestStep">
+          <Key>
+            <PropertyRef Name="pk_MsiInstallTestStepId" />
+          </Key>
+          <Property Name="pk_MsiInstallTestStepId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScriptExecuteTestStep">
+          <Key>
+            <PropertyRef Name="pk_ScriptExecuteTestStepId" />
+          </Key>
+          <Property Name="pk_ScriptExecuteTestStepId" Type="int" Nullable="false" />
+          <Property Name="Language" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="pk_TestId" />
+          </Key>
+          <Property Name="pk_TestId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Owner" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TestDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReportPath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsReadyForExecution" Type="bit" Nullable="false" />
+          <Property Name="RequestTime" Type="datetimeoffset" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="StartTime" Type="datetimeoffset" StoreGeneratedPattern="Computed" />
+          <Property Name="EndTime" Type="datetimeoffset" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="TestApplication">
+          <Key>
+            <PropertyRef Name="pk_TestApplicationId" />
+          </Key>
+          <Property Name="pk_TestApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_TestEnvironmentId" Type="int" Nullable="false" />
+          <Property Name="fk_ApplicationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestEnvironment">
+          <Key>
+            <PropertyRef Name="pk_TestEnvironmentId" />
+          </Key>
+          <Property Name="pk_TestEnvironmentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_TestId" Type="int" Nullable="false" />
+          <Property Name="fk_DesiredOperatingSystemId" Type="int" Nullable="false" />
+          <Property Name="EnvironmentName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="fk_SelectedMachineId" Type="nvarchar" MaxLength="50" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="TestStep">
+          <Key>
+            <PropertyRef Name="pk_TestStepId" />
+          </Key>
+          <Property Name="pk_TestStepId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_TestEnvironmentId" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestStepParameter">
+          <Key>
+            <PropertyRef Name="pk_TestStepParameterId" />
+          </Key>
+          <Property Name="pk_TestStepParameterId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_TestStepId" Type="int" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="XCopyTestStep">
+          <Key>
+            <PropertyRef Name="pk_XCopyTestStepId" />
+          </Key>
+          <Property Name="pk_XCopyTestStepId" Type="int" Nullable="false" />
+          <Property Name="Destination" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HypervMachine_ToHostMachine">
+          <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="1" />
+          <End Role="HypervMachine" Type="Sherlock.Shared.DataAccess.Store.HypervMachine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="HypervMachine">
+              <PropertyRef Name="fk_HostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HypervMachine_ToMachine">
+          <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HypervMachine" Type="Sherlock.Shared.DataAccess.Store.HypervMachine" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="HypervMachine">
+              <PropertyRef Name="pk_HypervMachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Machine_ToOperatingSystem">
+          <End Role="OperatingSystem" Type="Sherlock.Shared.DataAccess.Store.OperatingSystem" Multiplicity="1" />
+          <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperatingSystem">
+              <PropertyRef Name="pk_OperatingSystemId" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="fk_OperatingSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MachineApplication_ToApplication">
+          <End Role="Application" Type="Sherlock.Shared.DataAccess.Store.Application" Multiplicity="1" />
+          <End Role="MachineApplication" Type="Sherlock.Shared.DataAccess.Store.MachineApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="pk_ApplicationId" />
+            </Principal>
+            <Dependent Role="MachineApplication">
+              <PropertyRef Name="fk_ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MachineApplication_ToMachine">
+          <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MachineApplication" Type="Sherlock.Shared.DataAccess.Store.MachineApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="MachineApplication">
+              <PropertyRef Name="fk_MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MsiInstallTestStep_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MsiInstallTestStep" Type="Sherlock.Shared.DataAccess.Store.MsiInstallTestStep" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="MsiInstallTestStep">
+              <PropertyRef Name="pk_MsiInstallTestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhysicalMachine_ToMachine">
+          <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PhysicalMachine" Type="Sherlock.Shared.DataAccess.Store.PhysicalMachine" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="PhysicalMachine">
+              <PropertyRef Name="pk_PhysicalMachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScriptExecuteTestStep_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScriptExecuteTestStep" Type="Sherlock.Shared.DataAccess.Store.ScriptExecuteTestStep" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="ScriptExecuteTestStep">
+              <PropertyRef Name="pk_ScriptExecuteTestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestApplication_ToApplication">
+          <End Role="Application" Type="Sherlock.Shared.DataAccess.Store.Application" Multiplicity="1" />
+          <End Role="TestApplication" Type="Sherlock.Shared.DataAccess.Store.TestApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="pk_ApplicationId" />
+            </Principal>
+            <Dependent Role="TestApplication">
+              <PropertyRef Name="fk_ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestApplication_ToTestEnvironment">
+          <End Role="TestEnvironment" Type="Sherlock.Shared.DataAccess.Store.TestEnvironment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestApplication" Type="Sherlock.Shared.DataAccess.Store.TestApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestEnvironment">
+              <PropertyRef Name="pk_TestEnvironmentId" />
+            </Principal>
+            <Dependent Role="TestApplication">
+              <PropertyRef Name="fk_TestEnvironmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestEnvironment_ToMachine">
+          <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="0..1" />
+          <End Role="TestEnvironment" Type="Sherlock.Shared.DataAccess.Store.TestEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="TestEnvironment">
+              <PropertyRef Name="fk_SelectedMachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestEnvironment_ToOperatingSystem">
+          <End Role="OperatingSystem" Type="Sherlock.Shared.DataAccess.Store.OperatingSystem" Multiplicity="1" />
+          <End Role="TestEnvironment" Type="Sherlock.Shared.DataAccess.Store.TestEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperatingSystem">
+              <PropertyRef Name="pk_OperatingSystemId" />
+            </Principal>
+            <Dependent Role="TestEnvironment">
+              <PropertyRef Name="fk_DesiredOperatingSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestEnvironment_ToTest">
+          <End Role="Test" Type="Sherlock.Shared.DataAccess.Store.Test" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestEnvironment" Type="Sherlock.Shared.DataAccess.Store.TestEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="pk_TestId" />
+            </Principal>
+            <Dependent Role="TestEnvironment">
+              <PropertyRef Name="fk_TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStep_ToTestEnvironment">
+          <End Role="TestEnvironment" Type="Sherlock.Shared.DataAccess.Store.TestEnvironment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestEnvironment">
+              <PropertyRef Name="pk_TestEnvironmentId" />
+            </Principal>
+            <Dependent Role="TestStep">
+              <PropertyRef Name="fk_TestEnvironmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepParameter_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestStepParameter" Type="Sherlock.Shared.DataAccess.Store.TestStepParameter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="TestStepParameter">
+              <PropertyRef Name="fk_TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_XCopyTestStep_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="XCopyTestStep" Type="Sherlock.Shared.DataAccess.Store.XCopyTestStep" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="XCopyTestStep">
+              <PropertyRef Name="pk_XCopyTestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddApplication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="major" Type="int" Mode="In" />
+          <Parameter Name="minor" Type="int" Mode="In" />
+          <Parameter Name="patch" Type="int" Mode="In" />
+          <Parameter Name="build" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddApplicationToMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="applicationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddHypervMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="networkName" Type="nvarchar" Mode="In" />
+          <Parameter Name="macAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="isAvailableForTesting" Type="bit" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+          <Parameter Name="operatingSystemId" Type="int" Mode="In" />
+          <Parameter Name="hostId" Type="nvarchar" Mode="In" />
+          <Parameter Name="image" Type="nvarchar" Mode="In" />
+          <Parameter Name="snapshotToReturnTo" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddOperatingSystem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="servicePack" Type="nvarchar" Mode="In" />
+          <Parameter Name="architecturePointerSize" Type="int" Mode="In" />
+          <Parameter Name="culture" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddPhysicalMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="networkName" Type="nvarchar" Mode="In" />
+          <Parameter Name="macAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="isAvailableForTesting" Type="bit" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+          <Parameter Name="operatingSystemId" Type="int" Mode="In" />
+          <Parameter Name="canStartRemotely" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="DeleteApplicationById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteApplicationFromMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="applicationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteHypervMachineById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteOperatingSystemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeletePhysicalMachineById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetApplicationsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetApplicationsByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="versionMajor" Type="int" Mode="In" />
+          <Parameter Name="versionMinor" Type="int" Mode="In" />
+          <Parameter Name="versionPatch" Type="int" Mode="In" />
+          <Parameter Name="versionBuild" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetHypervMachines" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetHypervMachinesByHostId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMachineApplicationByApplicationId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetMachineApplicationByMachineId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMachineApplications" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetMachinesByApplicationId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="applicationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetMachinesByOperatingSystemId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="operatingSystemId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOperatingSystemsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOperatingSystemsByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="servicePack" Type="nvarchar" Mode="In" />
+          <Parameter Name="architecturePointerSize" Type="int" Mode="In" />
+          <Parameter Name="culture" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetPhysicalMachines" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="IsHypervMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="IsPhysicalMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SwitchMachineToActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SwitchMachineToInactive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateApplication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="major" Type="int" Mode="In" />
+          <Parameter Name="minor" Type="int" Mode="In" />
+          <Parameter Name="patch" Type="int" Mode="In" />
+          <Parameter Name="build" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateHypervMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="networkName" Type="nvarchar" Mode="In" />
+          <Parameter Name="macAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="isAvailableForTesting" Type="bit" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+          <Parameter Name="operatingSystemId" Type="int" Mode="In" />
+          <Parameter Name="hostId" Type="nvarchar" Mode="In" />
+          <Parameter Name="image" Type="nvarchar" Mode="In" />
+          <Parameter Name="snapshotToReturnTo" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdateOperatingSystem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="servicePack" Type="nvarchar" Mode="In" />
+          <Parameter Name="architecturePointerSize" Type="int" Mode="In" />
+          <Parameter Name="culture" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdatePhysicalMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
+          <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="networkName" Type="nvarchar" Mode="In" />
+          <Parameter Name="macAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="isAvailableForTesting" Type="bit" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+          <Parameter Name="operatingSystemId" Type="int" Mode="In" />
+          <Parameter Name="canStartRemotely" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="AddApplicationToTestEnvironment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="applicationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddMsiInstallTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddScriptExecuteTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="productName" Type="nvarchar" Mode="In" />
+          <Parameter Name="productVersion" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="reportPath" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddTestEnvironment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testId" Type="int" Mode="In" />
+          <Parameter Name="desiredOperatingSystemId" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddTestStepParameter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testStepId" Type="int" Mode="In" />
+          <Parameter Name="key" Type="nvarchar" Mode="In" />
+          <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddXCopyTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="destination" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AttachMachineToTestEnvironment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="environment" Type="int" Mode="In" />
+          <Parameter Name="machine" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteApplicationFromTestEnvironment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="applicationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteMsiInstallTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteScriptExecuteTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteTestById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteTestEnvironmentById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteTestStepParameterById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteXCopyTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetMsiInstallTestStepsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetNotExecutedTests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests" />
+        <Function Name="GetScriptExecuteTestStepsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestApplicationsByApplicationId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestApplicationsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestApplicationsByTestEnvironmentId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestEnvironmentByMachineId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetTestEnvironmentByOperatingSystemId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestEnvironmentsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestEnvironmentsByTestId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepParametersById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepParametersByTestStepId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepsByTestEnvironmentId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetXCopyTestStepsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MarkTestAsEnded" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MarkTestAsReadyForExecution" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MarkTestAsStarted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateMsiInstallTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateScriptExecuteTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="productName" Type="nvarchar" Mode="In" />
+          <Parameter Name="productVersion" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="reportPath" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdateTestEnvironment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testId" Type="int" Mode="In" />
+          <Parameter Name="desiredOperatingSystemId" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateTestStepParameter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testStepId" Type="int" Mode="In" />
+          <Parameter Name="key" Type="nvarchar" Mode="In" />
+          <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdateXCopyTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="destination" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GetSchemaVersion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Versioning" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Sherlock.Shared.DataAccess" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SherlockContext" p1:LazyLoadingEnabled="true" a:TypeAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <FunctionImport Name="AddApplication" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="major" Mode="In" Type="Int32" />
+            <Parameter Name="minor" Mode="In" Type="Int32" />
+            <Parameter Name="patch" Mode="In" Type="Int32" />
+            <Parameter Name="build" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddApplicationToMachine" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="applicationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddHypervMachine" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="networkName" Mode="In" Type="String" />
+            <Parameter Name="macAddress" Mode="In" Type="String" />
+            <Parameter Name="isAvailableForTesting" Mode="In" Type="Boolean" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+            <Parameter Name="operatingSystemId" Mode="In" Type="Int32" />
+            <Parameter Name="hostId" Mode="In" Type="String" />
+            <Parameter Name="image" Mode="In" Type="String" />
+            <Parameter Name="snapshotToReturnTo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddOperatingSystem" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="servicePack" Mode="In" Type="String" />
+            <Parameter Name="architecturePointerSize" Mode="In" Type="Int32" />
+            <Parameter Name="culture" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddPhysicalMachine" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="networkName" Mode="In" Type="String" />
+            <Parameter Name="macAddress" Mode="In" Type="String" />
+            <Parameter Name="isAvailableForTesting" Mode="In" Type="Boolean" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+            <Parameter Name="operatingSystemId" Mode="In" Type="Int32" />
+            <Parameter Name="canStartRemotely" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteApplicationById" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteApplicationFromMachine" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="applicationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteHypervMachineById" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <Parameter Name="machineId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteOperatingSystemById" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeletePhysicalMachineById" a:MethodAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <Parameter Name="machineId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetHypervMachines" a:MethodAccess="Private" EntitySet="MachineDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.HypervMachineDescription)">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetPhysicalMachines" a:MethodAccess="Private" EntitySet="MachineDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.PhysicalMachineDescription)">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="ApplicationDescriptions" EntityType="Sherlock.Shared.DataAccess.ApplicationDescription" a:GetterAccess="Private" />
+          <EntitySet Name="MachineDescriptions" EntityType="Sherlock.Shared.DataAccess.MachineDescription" a:GetterAccess="Private" />
+          <EntitySet Name="MachineApplications" EntityType="Sherlock.Shared.DataAccess.MachineApplication" a:GetterAccess="Private" />
+          <EntitySet Name="OperatingSystemDescriptions" EntityType="Sherlock.Shared.DataAccess.OperatingSystemDescription" a:GetterAccess="Private" />
+          <AssociationSet Name="FK_MachineApplication_ToApplication" Association="Sherlock.Shared.DataAccess.FK_MachineApplication_ToApplication">
+            <End Role="Application" EntitySet="ApplicationDescriptions" />
+            <End Role="MachineApplication" EntitySet="MachineApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machine_ToOperatingSystem" Association="Sherlock.Shared.DataAccess.FK_Machine_ToOperatingSystem">
+            <End Role="OperatingSystem" EntitySet="OperatingSystemDescriptions" />
+            <End Role="Machine" EntitySet="MachineDescriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MachineApplication_ToMachine" Association="Sherlock.Shared.DataAccess.FK_MachineApplication_ToMachine">
+            <End Role="Machine" EntitySet="MachineDescriptions" />
+            <End Role="MachineApplication" EntitySet="MachineApplications" />
+          </AssociationSet>
+          <FunctionImport Name="UpdateApplication" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="major" Mode="In" Type="Int32" />
+            <Parameter Name="minor" Mode="In" Type="Int32" />
+            <Parameter Name="patch" Mode="In" Type="Int32" />
+            <Parameter Name="build" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateHypervMachine" a:MethodAccess="Private">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="networkName" Mode="In" Type="String" />
+            <Parameter Name="macAddress" Mode="In" Type="String" />
+            <Parameter Name="isAvailableForTesting" Mode="In" Type="Boolean" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+            <Parameter Name="operatingSystemId" Mode="In" Type="Int32" />
+            <Parameter Name="hostId" Mode="In" Type="String" />
+            <Parameter Name="image" Mode="In" Type="String" />
+            <Parameter Name="snapshotToReturnTo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateOperatingSystem" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="servicePack" Mode="In" Type="String" />
+            <Parameter Name="architecturePointerSize" Mode="In" Type="Int32" />
+            <Parameter Name="culture" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePhysicalMachine" a:MethodAccess="Private">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="networkName" Mode="In" Type="String" />
+            <Parameter Name="macAddress" Mode="In" Type="String" />
+            <Parameter Name="isAvailableForTesting" Mode="In" Type="Boolean" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+            <Parameter Name="operatingSystemId" Mode="In" Type="Int32" />
+            <Parameter Name="canStartRemotely" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <AssociationSet Name="FK_HypervMachine_ToHostMachine" Association="Sherlock.Shared.DataAccess.FK_HypervMachine_ToHostMachine">
+            <End Role="Machine" EntitySet="MachineDescriptions" />
+            <End Role="HypervMachine" EntitySet="MachineDescriptions" />
+          </AssociationSet>
+          <FunctionImport Name="GetSchemaVersion" a:MethodAccess="Private" ReturnType="Collection(Int32)">
+          </FunctionImport>
+          <FunctionImport Name="SwitchMachineToActive" a:MethodAccess="Private">
+          <Parameter Name="machineId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SwitchMachineToInactive" a:MethodAccess="Private">
+          <Parameter Name="machineId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IsHypervMachine" ReturnType="Collection(Boolean)" a:MethodAccess="Private">
+          <Parameter Name="machineId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IsPhysicalMachine" ReturnType="Collection(Boolean)" a:MethodAccess="Private">
+          <Parameter Name="machineId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetApplicationsById" EntitySet="ApplicationDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.ApplicationDescription)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetApplicationsByName" EntitySet="ApplicationDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.ApplicationDescription)" a:MethodAccess="Private">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="versionMajor" Mode="In" Type="Int32" />
+            <Parameter Name="versionMinor" Mode="In" Type="Int32" />
+            <Parameter Name="versionPatch" Mode="In" Type="Int32" />
+            <Parameter Name="versionBuild" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOperatingSystemsById" EntitySet="OperatingSystemDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.OperatingSystemDescription)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOperatingSystemsByName" EntitySet="OperatingSystemDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.OperatingSystemDescription)" a:MethodAccess="Private">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="servicePack" Mode="In" Type="String" />
+            <Parameter Name="architecturePointerSize" Mode="In" Type="Int32" />
+            <Parameter Name="culture" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMachineApplications" EntitySet="MachineApplications" ReturnType="Collection(Sherlock.Shared.DataAccess.MachineApplication)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetMachineApplicationByApplicationId" a:MethodAccess="Private" EntitySet="MachineApplications" ReturnType="Collection(Sherlock.Shared.DataAccess.MachineApplication)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetMachineApplicationByMachineId" a:MethodAccess="Private" EntitySet="MachineApplications" ReturnType="Collection(Sherlock.Shared.DataAccess.MachineApplication)">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetHypervMachinesByHostId" EntitySet="MachineDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.HypervMachineDescription)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Tests" EntityType="Sherlock.Shared.DataAccess.Test" a:GetterAccess="Private" />
+          <EntitySet Name="TestApplications" EntityType="Sherlock.Shared.DataAccess.TestApplication" a:GetterAccess="Private" />
+          <EntitySet Name="TestEnvironments" EntityType="Sherlock.Shared.DataAccess.TestEnvironment" a:GetterAccess="Private" />
+          <EntitySet Name="TestSteps" EntityType="Sherlock.Shared.DataAccess.TestStep" a:GetterAccess="Private" />
+          <EntitySet Name="TestStepParameters" EntityType="Sherlock.Shared.DataAccess.TestStepParameter" a:GetterAccess="Private" />
+          <AssociationSet Name="FK_TestApplication_ToApplication" Association="Sherlock.Shared.DataAccess.FK_TestApplication_ToApplication">
+            <End Role="ApplicationDescription" EntitySet="ApplicationDescriptions" />
+            <End Role="TestApplication" EntitySet="TestApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestEnvironment_ToMachine" Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToMachine">
+            <End Role="MachineDescription" EntitySet="MachineDescriptions" />
+            <End Role="TestEnvironment" EntitySet="TestEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestEnvironment_ToOperatingSystem" Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToOperatingSystem">
+            <End Role="OperatingSystemDescription" EntitySet="OperatingSystemDescriptions" />
+            <End Role="TestEnvironment" EntitySet="TestEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestEnvironment_ToTest" Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToTest">
+            <End Role="Test" EntitySet="Tests" />
+            <End Role="TestEnvironment" EntitySet="TestEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestApplication_ToTestEnvironment" Association="Sherlock.Shared.DataAccess.FK_TestApplication_ToTestEnvironment">
+            <End Role="TestEnvironment" EntitySet="TestEnvironments" />
+            <End Role="TestApplication" EntitySet="TestApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStep_ToTestEnvironment" Association="Sherlock.Shared.DataAccess.FK_TestStep_ToTestEnvironment">
+            <End Role="TestEnvironment" EntitySet="TestEnvironments" />
+            <End Role="TestStep" EntitySet="TestSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepParameter_ToTestStep" Association="Sherlock.Shared.DataAccess.FK_TestStepParameter_ToTestStep">
+            <End Role="TestStep" EntitySet="TestSteps" />
+            <End Role="TestStepParameter" EntitySet="TestStepParameters" />
+          </AssociationSet>
+          <FunctionImport Name="AddApplicationToTestEnvironment" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="applicationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddMsiInstallTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddScriptExecuteTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddTest" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="productName" Mode="In" Type="String" />
+            <Parameter Name="productVersion" Mode="In" Type="String" />
+            <Parameter Name="owner" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="reportPath" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddTestEnvironment" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testId" Mode="In" Type="Int32" />
+            <Parameter Name="desiredOperatingSystemId" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddTestStepParameter" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testStepId" Mode="In" Type="Int32" />
+            <Parameter Name="key" Mode="In" Type="String" />
+            <Parameter Name="value" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddXCopyTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="destination" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteApplicationFromTestEnvironment" a:MethodAccess="Private">
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="applicationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMsiInstallTestStepById" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteScriptExecuteTestStepById" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteTestById" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteTestEnvironmentById" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteTestStepParameterById" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteXCopyTestStepById" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetMsiInstallTestStepsById" EntitySet="TestSteps" ReturnType="Collection(Sherlock.Shared.DataAccess.MsiInstallTestStep)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetScriptExecuteTestStepsById" EntitySet="TestSteps" ReturnType="Collection(Sherlock.Shared.DataAccess.ScriptExecuteTestStep)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestEnvironmentsById" EntitySet="TestEnvironments" ReturnType="Collection(Sherlock.Shared.DataAccess.TestEnvironment)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestsById" EntitySet="Tests" ReturnType="Collection(Sherlock.Shared.DataAccess.Test)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepParametersById" EntitySet="TestStepParameters" ReturnType="Collection(Sherlock.Shared.DataAccess.TestStepParameter)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetXCopyTestStepsById" EntitySet="TestSteps" ReturnType="Collection(Sherlock.Shared.DataAccess.XCopyTestStep)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateMsiInstallTestStep" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateScriptExecuteTestStep" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateTest" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="productName" Mode="In" Type="String" />
+            <Parameter Name="productVersion" Mode="In" Type="String" />
+            <Parameter Name="owner" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="reportPath" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateTestEnvironment" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testId" Mode="In" Type="Int32" />
+            <Parameter Name="desiredOperatingSystemId" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateTestStepParameter" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testStepId" Mode="In" Type="Int32" />
+            <Parameter Name="key" Mode="In" Type="String" />
+            <Parameter Name="value" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateXCopyTestStep" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="destination" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestEnvironmentByMachineId" EntitySet="TestEnvironments" ReturnType="Collection(Sherlock.Shared.DataAccess.TestEnvironment)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMachinesByApplicationId" ReturnType="Collection(String)" a:MethodAccess="Private">
+          <Parameter Name="applicationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetMachinesByOperatingSystemId" ReturnType="Collection(String)" a:MethodAccess="Private">
+          <Parameter Name="operatingSystemId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestApplicationsById" EntitySet="TestApplications" ReturnType="Collection(Sherlock.Shared.DataAccess.TestApplication)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestApplicationsByTestEnvironmentId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestEnvironmentsByTestId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepParametersByTestStepId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepsByTestEnvironmentId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestApplicationsByApplicationId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestEnvironmentByOperatingSystemId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AttachMachineToTestEnvironment" a:MethodAccess="Private">
+            <Parameter Name="environment" Mode="In" Type="Int32" />
+            <Parameter Name="machine" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetNotExecutedTests" a:MethodAccess="Private" EntitySet="Tests" ReturnType="Collection(Sherlock.Shared.DataAccess.Test)" />
+          <FunctionImport Name="MarkTestAsEnded" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MarkTestAsStarted" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MarkTestAsReadyForExecution" a:MethodAccess="Private">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="ApplicationDescription">
+          <Documentation>
+            <Summary>Stores information about an application that is installed in a given environment.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_ApplicationId" />
+          </Key>
+          <Property Type="Int32" Name="pk_ApplicationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the application.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets or sets the name of the application.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="VersionMajor" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Private" >
+            <Documentation>
+              <Summary>Gets or sets the major part of the version.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="VersionMinor" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Private" >
+            <Documentation>
+              <Summary>Gets or sets the minor part of the version.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="VersionPatch" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Private" >
+            <Documentation>
+              <Summary>Gets or sets the patch part of the version.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="VersionBuild" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Private" >
+            <Documentation>
+              <Summary>Gets or sets the build part of the version.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="MachineApplications" Relationship="Sherlock.Shared.DataAccess.FK_MachineApplication_ToApplication" FromRole="Application" ToRole="MachineApplication" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets the collection containing all the machines that have the current application installed.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestApplications" Relationship="Sherlock.Shared.DataAccess.FK_TestApplication_ToApplication" FromRole="ApplicationDescription" ToRole="TestApplication" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets the test environment mapping for the current application.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="MachineDescription" Abstract="true">
+          <Documentation>
+            <Summary>Defines the base class for machine environments.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_MachineId" />
+          </Key>
+          <Property Type="String" Name="pk_MachineId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets the ID of the machine environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the name of the machine.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the description for the machine environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="NetworkName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the network name of the machine.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="MacAddress" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the MAC address of the machine.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Boolean" Name="IsAvailableForTesting" Nullable="false" >
+            <Documentation>
+              <Summary>Gets or sets a value indicating whether the current machine can be used for testing.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_OperatingSystem" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the operating system related to this machine.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="OperatingSystem" Relationship="Sherlock.Shared.DataAccess.FK_Machine_ToOperatingSystem" FromRole="Machine" ToRole="OperatingSystem" >
+            <Documentation>
+              <Summary>Gets or sets the operating system for the current machine.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="MachineApplications" Relationship="Sherlock.Shared.DataAccess.FK_MachineApplication_ToMachine" FromRole="Machine" ToRole="MachineApplication" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets a collection containing all the applications installed on the current machine.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="HypervMachines" Relationship="Sherlock.Shared.DataAccess.FK_HypervMachine_ToHostMachine" FromRole="Machine" ToRole="HypervMachine" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets a collection containing all the Hyper-V virtual machines that are hosted by the current machine.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Type="Boolean" Name="IsActive" Nullable="false" >
+            <Documentation>
+              <Summary>Gets or sets a value indicating whether the machine is active or not.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="TestEnvironments" Relationship="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToMachine" FromRole="MachineDescription" ToRole="TestEnvironment" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets the collection containing the test environments related to the current machine.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          </EntityType>
+        <EntityType Name="MachineApplication">
+          <Documentation>
+            <Summary>Stores information about an application that is installed on a specific machine.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_MachineApplicationId" />
+          </Key>
+          <Property Type="Int32" Name="pk_MachineApplicationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets the ID of the application install.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="fk_MachineId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets the ID of the machine on which the application is installed.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_ApplicationId" Nullable="false" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets the ID of the installed application.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Application" Relationship="Sherlock.Shared.DataAccess.FK_MachineApplication_ToApplication" FromRole="MachineApplication" ToRole="Application" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets the application.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Machine" Relationship="Sherlock.Shared.DataAccess.FK_MachineApplication_ToMachine" FromRole="MachineApplication" ToRole="Machine" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets the machine.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="OperatingSystemDescription">
+          <Documentation>
+            <Summary>Stores information about an operating system that may be installed on an environment.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_OperatingSystemId" />
+          </Key>
+          <Property Type="Int32" Name="pk_OperatingSystemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets the ID of the operating system.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the name of the operating system.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="ServicePack" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the description of the service pack of the operating system.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="ArchitecturePointerSize" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the size, in bits, of a pointer in the operating system.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Culture" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the culture of the operating system.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Machines" Relationship="Sherlock.Shared.DataAccess.FK_Machine_ToOperatingSystem" FromRole="OperatingSystem" ToRole="Machine" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets a collection containing all the machines on which the current operating system is installed.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestEnvironments" Relationship="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToOperatingSystem" FromRole="OperatingSystemDescription" ToRole="TestEnvironment" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets the collection containing the test environments related to the current operating system.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="FK_MachineApplication_ToApplication">
+          <Documentation>
+            <Summary>Links an installed application reference to a machine.</Summary>
+          </Documentation>
+          <End Type="Sherlock.Shared.DataAccess.ApplicationDescription" Role="Application" Multiplicity="1" />
+          <End Type="Sherlock.Shared.DataAccess.MachineApplication" Role="MachineApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="pk_ApplicationId" />
+            </Principal>
+            <Dependent Role="MachineApplication">
+              <PropertyRef Name="fk_ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Machine_ToOperatingSystem">
+          <Documentation>
+            <Summary>Links a machine to the operating system installed on that machine.</Summary>
+          </Documentation>
+          <End Type="Sherlock.Shared.DataAccess.OperatingSystemDescription" Role="OperatingSystem" Multiplicity="1" />
+          <End Type="Sherlock.Shared.DataAccess.MachineDescription" Role="Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperatingSystem">
+              <PropertyRef Name="pk_OperatingSystemId" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="fk_OperatingSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MachineApplication_ToMachine">
+          <Documentation>
+            <Summary>Links an installed application reference to the application.</Summary>
+          </Documentation>
+          <End Type="Sherlock.Shared.DataAccess.MachineDescription" Role="Machine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.MachineApplication" Role="MachineApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="MachineApplication">
+              <PropertyRef Name="fk_MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HypervMachineDescription" BaseType="Sherlock.Shared.DataAccess.MachineDescription">
+          <Documentation>
+            <Summary>Stores information about a Hyper-V machine available for testing.</Summary>
+          </Documentation>
+          <Property Type="String" Name="Image" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the name of the virtual machine image.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="SnapshotToReturnTo" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the name of the snapshot to which the virtual machine should be returned after use.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="fk_HostId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets the ID of the machine that hosts the image for the current Hyper-V virtual machine.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="HostMachine" Relationship="Sherlock.Shared.DataAccess.FK_HypervMachine_ToHostMachine" FromRole="HypervMachine" ToRole="Machine" >
+            <Documentation>
+              <Summary>Gets or sets the machine that hosts the image for the current virtual machine.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="PhysicalMachineDescription" BaseType="Sherlock.Shared.DataAccess.MachineDescription">
+          <Documentation>
+            <Summary>Stores information about a physical machine available for testing.</Summary>
+          </Documentation>
+          <Property Type="Boolean" Name="CanStartRemotely" Nullable="false" >
+            <Documentation>
+              <Summary>Gets or sets a value indicating whether the current machine can be started via a remote network call.</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <Association Name="FK_HypervMachine_ToHostMachine">
+          <Documentation>
+            <Summary>Links a Hyper-V machine to the host machine.</Summary>
+          </Documentation>
+          <End Type="Sherlock.Shared.DataAccess.MachineDescription" Role="Machine" Multiplicity="1" />
+          <End Type="Sherlock.Shared.DataAccess.HypervMachineDescription" Role="HypervMachine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="HypervMachine">
+              <PropertyRef Name="fk_HostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MsiInstallTestStep" BaseType="Sherlock.Shared.DataAccess.TestStep">
+          <Documentation>
+            <Summary>Defines a test step during which an application is installed from an MSI file.</Summary>
+          </Documentation>
+        </EntityType>
+        <EntityType Name="ScriptExecuteTestStep" BaseType="Sherlock.Shared.DataAccess.TestStep">
+          <Documentation>
+            <Summary>Defines a test step during which a script is executed.</Summary>
+          </Documentation>
+          <Property Type="String" Name="Language" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the language of the script.</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="Test">
+          <Documentation>
+            <Summary>Defines a test that should be executed.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the name of the product that is being tested.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="ProductVersion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the version of the product that is being tested.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Owner" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:SetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the name of the user that requested the test.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="TestDescription" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the description for the current test.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTimeOffset" Name="RequestTime" Nullable="false" Precision="7" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the date and time on which the test was requested.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTimeOffset" Name="StartTime" Precision="7" annotation:StoreGeneratedPattern="Computed" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the date and time on which the test was started.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="DateTimeOffset" Name="EndTime" Precision="7" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Public" annotation:StoreGeneratedPattern="Computed" >
+            <Documentation>
+              <Summary>Gets or sets the date and time on which the test was completed.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="TestEnvironments" Relationship="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToTest" FromRole="Test" ToRole="TestEnvironment" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the collection containing all the environments required for the test.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <Property Type="String" Name="ReportPath" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the full path to the directory in which the test report should be placed.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Boolean" Name="IsReadyForExecution" Nullable="false" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets a value indicating whether the test setup is completed and the test is ready for execution.</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="TestApplication">
+          <Documentation>
+            <Summary>Maps an application to a test environment.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestApplicationId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestApplicationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the application mapping.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_TestEnvironmentId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_ApplicationId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the application.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Application" Relationship="Sherlock.Shared.DataAccess.FK_TestApplication_ToApplication" FromRole="TestApplication" ToRole="ApplicationDescription" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the application.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestEnvironment" Relationship="Sherlock.Shared.DataAccess.FK_TestApplication_ToTestEnvironment" FromRole="TestApplication" ToRole="TestEnvironment" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the environment.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="TestEnvironment">
+          <Documentation>
+            <Summary>Defines an environment required for a given test.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestEnvironmentId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestEnvironmentId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_TestId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test related to the current test environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_DesiredOperatingSystemId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the operating system desired for the environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="EnvironmentName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the name of the environment.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="fk_SelectedMachineId" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" annotation:StoreGeneratedPattern="Computed" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the machine selected for the environment.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Machine" Relationship="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToMachine" FromRole="TestEnvironment" ToRole="MachineDescription" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the machine that will be used to satisfy the environment demand.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="OperatingSystem" Relationship="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToOperatingSystem" FromRole="TestEnvironment" ToRole="OperatingSystemDescription" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the operating system required for the environment.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Test" Relationship="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToTest" FromRole="TestEnvironment" ToRole="Test" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the test to which the environment belongs.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestApplications" Relationship="Sherlock.Shared.DataAccess.FK_TestApplication_ToTestEnvironment" FromRole="TestEnvironment" ToRole="TestApplication" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the collection of application required for the environment.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestSteps" Relationship="Sherlock.Shared.DataAccess.FK_TestStep_ToTestEnvironment" FromRole="TestEnvironment" ToRole="TestStep" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the collection containing the test steps for the current environment.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="TestStep" Abstract="true">
+          <Documentation>
+            <Summary>Defines the base class for a single step taken during the execution of a test.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestStepId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestStepId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test step.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_TestEnvironmentId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the environment on which the current test step should be executed.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="Order" Nullable="false" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the order index of the test step.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="TestEnvironment" Relationship="Sherlock.Shared.DataAccess.FK_TestStep_ToTestEnvironment" FromRole="TestStep" ToRole="TestEnvironment" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the test environment on which the current step should be executed.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestStepParameters" Relationship="Sherlock.Shared.DataAccess.FK_TestStepParameter_ToTestStep" FromRole="TestStep" ToRole="TestStepParameter" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the parameters for the current test step.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="TestStepParameter">
+          <Documentation>
+            <Summary>Stores parameter information for a given test step.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestStepParameterId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestStepParameterId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the parameter</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_TestStepId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test step associated with the current parameter.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Key" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the key.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the value.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="TestStep" Relationship="Sherlock.Shared.DataAccess.FK_TestStepParameter_ToTestStep" FromRole="TestStepParameter" ToRole="TestStep" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the test step associated with the current parameter.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="XCopyTestStep" BaseType="Sherlock.Shared.DataAccess.TestStep">
+          <Documentation>
+            <Summary>Defines a test step during which one or more files are x-copied.</Summary>
+          </Documentation>
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Public" >
+            <Documentation>
+              <Summary>Gets or sets the full path to the destination directory.</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <Association Name="FK_TestApplication_ToApplication">
+          <End Type="Sherlock.Shared.DataAccess.ApplicationDescription" Role="ApplicationDescription" Multiplicity="1" />
+          <End Type="Sherlock.Shared.DataAccess.TestApplication" Role="TestApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationDescription">
+              <PropertyRef Name="pk_ApplicationId" />
+            </Principal>
+            <Dependent Role="TestApplication">
+              <PropertyRef Name="fk_ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestEnvironment_ToMachine">
+          <End Type="Sherlock.Shared.DataAccess.MachineDescription" Role="MachineDescription" Multiplicity="0..1" />
+          <End Type="Sherlock.Shared.DataAccess.TestEnvironment" Role="TestEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MachineDescription">
+              <PropertyRef Name="pk_MachineId" />
+            </Principal>
+            <Dependent Role="TestEnvironment">
+              <PropertyRef Name="fk_SelectedMachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestEnvironment_ToOperatingSystem">
+          <End Type="Sherlock.Shared.DataAccess.OperatingSystemDescription" Role="OperatingSystemDescription" Multiplicity="1" />
+          <End Type="Sherlock.Shared.DataAccess.TestEnvironment" Role="TestEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperatingSystemDescription">
+              <PropertyRef Name="pk_OperatingSystemId" />
+            </Principal>
+            <Dependent Role="TestEnvironment">
+              <PropertyRef Name="fk_DesiredOperatingSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestEnvironment_ToTest">
+          <End Type="Sherlock.Shared.DataAccess.Test" Role="Test" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.TestEnvironment" Role="TestEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="pk_TestId" />
+            </Principal>
+            <Dependent Role="TestEnvironment">
+              <PropertyRef Name="fk_TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestApplication_ToTestEnvironment">
+          <End Type="Sherlock.Shared.DataAccess.TestEnvironment" Role="TestEnvironment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.TestApplication" Role="TestApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestEnvironment">
+              <PropertyRef Name="pk_TestEnvironmentId" />
+            </Principal>
+            <Dependent Role="TestApplication">
+              <PropertyRef Name="fk_TestEnvironmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStep_ToTestEnvironment">
+          <End Type="Sherlock.Shared.DataAccess.TestEnvironment" Role="TestEnvironment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.TestStep" Role="TestStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestEnvironment">
+              <PropertyRef Name="pk_TestEnvironmentId" />
+            </Principal>
+            <Dependent Role="TestStep">
+              <PropertyRef Name="fk_TestEnvironmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepParameter_ToTestStep">
+          <End Type="Sherlock.Shared.DataAccess.TestStep" Role="TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.TestStepParameter" Role="TestStepParameter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="TestStepParameter">
+              <PropertyRef Name="fk_TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SherlockSharedDataAccessStoreContainer" CdmEntityContainer="SherlockContext">
+          <FunctionImportMapping FunctionImportName="AddApplication" FunctionName="Sherlock.Shared.DataAccess.Store.AddApplication" />
+          <FunctionImportMapping FunctionImportName="AddApplicationToMachine" FunctionName="Sherlock.Shared.DataAccess.Store.AddApplicationToMachine" />
+          <FunctionImportMapping FunctionImportName="AddHypervMachine" FunctionName="Sherlock.Shared.DataAccess.Store.AddHypervMachine" />
+          <FunctionImportMapping FunctionImportName="AddOperatingSystem" FunctionName="Sherlock.Shared.DataAccess.Store.AddOperatingSystem" />
+          <FunctionImportMapping FunctionImportName="AddPhysicalMachine" FunctionName="Sherlock.Shared.DataAccess.Store.AddPhysicalMachine" />
+          <FunctionImportMapping FunctionImportName="DeleteApplicationById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteApplicationById" />
+          <FunctionImportMapping FunctionImportName="DeleteApplicationFromMachine" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteApplicationFromMachine" />
+          <FunctionImportMapping FunctionImportName="DeleteHypervMachineById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteHypervMachineById" />
+          <FunctionImportMapping FunctionImportName="DeleteOperatingSystemById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteOperatingSystemById" />
+          <FunctionImportMapping FunctionImportName="DeletePhysicalMachineById" FunctionName="Sherlock.Shared.DataAccess.Store.DeletePhysicalMachineById" />
+          <FunctionImportMapping FunctionImportName="GetHypervMachines" FunctionName="Sherlock.Shared.DataAccess.Store.GetHypervMachines">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.HypervMachineDescription">
+                <ScalarProperty Name="fk_HostId" ColumnName="fk_HostId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPhysicalMachines" FunctionName="Sherlock.Shared.DataAccess.Store.GetPhysicalMachines">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ApplicationDescriptions">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ApplicationDescription">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="VersionBuild" ColumnName="VersionBuild" />
+                <ScalarProperty Name="VersionPatch" ColumnName="VersionPatch" />
+                <ScalarProperty Name="VersionMinor" ColumnName="VersionMinor" />
+                <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="pk_ApplicationId" ColumnName="pk_ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ApplicationDescription">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddApplication" >
+                  <ScalarProperty Name="VersionBuild" ParameterName="build" />
+                  <ScalarProperty Name="VersionPatch" ParameterName="patch" />
+                  <ScalarProperty Name="VersionMinor" ParameterName="minor" />
+                  <ScalarProperty Name="VersionMajor" ParameterName="major" />
+                  <ScalarProperty Name="Name" ParameterName="name" />
+                  <ResultBinding Name="pk_ApplicationId" ColumnName="Id" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteApplicationById" >
+                  <ScalarProperty Name="pk_ApplicationId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateApplication" >
+                  <ScalarProperty Name="VersionBuild" ParameterName="build" Version="Current" />
+                  <ScalarProperty Name="VersionPatch" ParameterName="patch" Version="Current" />
+                  <ScalarProperty Name="VersionMinor" ParameterName="minor" Version="Current" />
+                  <ScalarProperty Name="VersionMajor" ParameterName="major" Version="Current" />
+                  <ScalarProperty Name="Name" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="pk_ApplicationId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineDescriptions">
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.MachineDescription)">
+              <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="pk_MachineId" ColumnName="pk_MachineId" />
+                <ScalarProperty Name="fk_OperatingSystem" ColumnName="fk_OperatingSystem" />
+                <ScalarProperty Name="IsAvailableForTesting" ColumnName="IsAvailableForTesting" />
+                <ScalarProperty Name="MacAddress" ColumnName="MacAddress" />
+                <ScalarProperty Name="NetworkName" ColumnName="NetworkName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.PhysicalMachineDescription)">
+              <MappingFragment StoreEntitySet="PhysicalMachine">
+                <ScalarProperty Name="pk_MachineId" ColumnName="pk_PhysicalMachineId" />
+                <ScalarProperty Name="CanStartRemotely" ColumnName="CanStartRemotely" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.HypervMachineDescription)">
+              <MappingFragment StoreEntitySet="HypervMachine">
+                <ScalarProperty Name="pk_MachineId" ColumnName="pk_HypervMachineId" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="SnapshotToReturnTo" ColumnName="SnapshotToReturnTo" />
+                <ScalarProperty Name="fk_HostId" ColumnName="fk_HostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.PhysicalMachineDescription">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddPhysicalMachine" >
+                  <ScalarProperty Name="IsActive" ParameterName="isActive" />
+                  <ScalarProperty Name="CanStartRemotely" ParameterName="canStartRemotely" />
+                  <ScalarProperty Name="fk_OperatingSystem" ParameterName="operatingSystemId" />
+                  <ScalarProperty Name="IsAvailableForTesting" ParameterName="isAvailableForTesting" />
+                  <ScalarProperty Name="MacAddress" ParameterName="macAddress" />
+                  <ScalarProperty Name="NetworkName" ParameterName="networkName" />
+                  <ScalarProperty Name="Description" ParameterName="description" />
+                  <ScalarProperty Name="Name" ParameterName="name" />
+                  <ScalarProperty Name="pk_MachineId" ParameterName="machineId" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdatePhysicalMachine" >
+                  <ScalarProperty Name="IsActive" ParameterName="isActive" Version="Current" />
+                  <ScalarProperty Name="CanStartRemotely" ParameterName="canStartRemotely" Version="Current" />
+                  <ScalarProperty Name="fk_OperatingSystem" ParameterName="operatingSystemId" Version="Current" />
+                  <ScalarProperty Name="IsAvailableForTesting" ParameterName="isAvailableForTesting" Version="Current" />
+                  <ScalarProperty Name="MacAddress" ParameterName="macAddress" Version="Current" />
+                  <ScalarProperty Name="NetworkName" ParameterName="networkName" Version="Current" />
+                  <ScalarProperty Name="Description" ParameterName="description" Version="Current" />
+                  <ScalarProperty Name="Name" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="pk_MachineId" ParameterName="machineId" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeletePhysicalMachineById" >
+                  <ScalarProperty Name="pk_MachineId" ParameterName="machineId" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.HypervMachineDescription">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddHypervMachine" >
+                  <ScalarProperty Name="IsActive" ParameterName="isActive" />
+                  <ScalarProperty Name="SnapshotToReturnTo" ParameterName="snapshotToReturnTo" />
+                  <ScalarProperty Name="Image" ParameterName="image" />
+                  <ScalarProperty Name="fk_HostId" ParameterName="hostId" />
+                  <ScalarProperty Name="fk_OperatingSystem" ParameterName="operatingSystemId" />
+                  <ScalarProperty Name="IsAvailableForTesting" ParameterName="isAvailableForTesting" />
+                  <ScalarProperty Name="MacAddress" ParameterName="macAddress" />
+                  <ScalarProperty Name="NetworkName" ParameterName="networkName" />
+                  <ScalarProperty Name="Description" ParameterName="description" />
+                  <ScalarProperty Name="Name" ParameterName="name" />
+                  <ScalarProperty Name="pk_MachineId" ParameterName="machineId" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteHypervMachineById" >
+                  <ScalarProperty Name="pk_MachineId" ParameterName="machineId" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateHypervMachine" >
+                  <ScalarProperty Name="IsActive" ParameterName="isActive" Version="Current" />
+                  <ScalarProperty Name="SnapshotToReturnTo" ParameterName="snapshotToReturnTo" Version="Current" />
+                  <ScalarProperty Name="Image" ParameterName="image" Version="Current" />
+                  <ScalarProperty Name="fk_HostId" ParameterName="hostId" Version="Current" />
+                  <ScalarProperty Name="fk_OperatingSystem" ParameterName="operatingSystemId" Version="Current" />
+                  <ScalarProperty Name="IsAvailableForTesting" ParameterName="isAvailableForTesting" Version="Current" />
+                  <ScalarProperty Name="MacAddress" ParameterName="macAddress" Version="Current" />
+                  <ScalarProperty Name="NetworkName" ParameterName="networkName" Version="Current" />
+                  <ScalarProperty Name="Description" ParameterName="description" Version="Current" />
+                  <ScalarProperty Name="Name" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="pk_MachineId" ParameterName="machineId" Version="Current" />
+                </UpdateFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+            </EntitySetMapping>
+          <EntitySetMapping Name="MachineApplications">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MachineApplication">
+              <MappingFragment StoreEntitySet="MachineApplication">
+                <ScalarProperty Name="fk_ApplicationId" ColumnName="fk_ApplicationId" />
+                <ScalarProperty Name="fk_MachineId" ColumnName="fk_MachineId" />
+                <ScalarProperty Name="pk_MachineApplicationId" ColumnName="pk_MachineApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MachineApplication">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddApplicationToMachine" >
+                  <ScalarProperty Name="fk_ApplicationId" ParameterName="applicationId" />
+                  <ScalarProperty Name="fk_MachineId" ParameterName="machineId" />
+                  <ResultBinding Name="pk_MachineApplicationId" ColumnName="Id" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteApplicationFromMachine" >
+                  <ScalarProperty Name="fk_ApplicationId" ParameterName="applicationId" />
+                  <ScalarProperty Name="fk_MachineId" ParameterName="machineId" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperatingSystemDescriptions">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.OperatingSystemDescription">
+              <MappingFragment StoreEntitySet="OperatingSystem">
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="ArchitecturePointerSize" ColumnName="ArchitecturePointerSize" />
+                <ScalarProperty Name="ServicePack" ColumnName="ServicePack" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="pk_OperatingSystemId" ColumnName="pk_OperatingSystemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.OperatingSystemDescription">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddOperatingSystem" >
+                  <ScalarProperty Name="Culture" ParameterName="culture" />
+                  <ScalarProperty Name="ArchitecturePointerSize" ParameterName="architecturePointerSize" />
+                  <ScalarProperty Name="ServicePack" ParameterName="servicePack" />
+                  <ScalarProperty Name="Name" ParameterName="name" />
+                  <ResultBinding Name="pk_OperatingSystemId" ColumnName="Id" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteOperatingSystemById" >
+                  <ScalarProperty Name="pk_OperatingSystemId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateOperatingSystem" >
+                  <ScalarProperty Name="Culture" ParameterName="culture" Version="Current" />
+                  <ScalarProperty Name="ArchitecturePointerSize" ParameterName="architecturePointerSize" Version="Current" />
+                  <ScalarProperty Name="ServicePack" ParameterName="servicePack" Version="Current" />
+                  <ScalarProperty Name="Name" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="pk_OperatingSystemId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UpdateApplication" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateApplication" />
+          <FunctionImportMapping FunctionImportName="UpdateHypervMachine" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateHypervMachine" />
+          <FunctionImportMapping FunctionImportName="UpdateOperatingSystem" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateOperatingSystem" />
+          <FunctionImportMapping FunctionImportName="UpdatePhysicalMachine" FunctionName="Sherlock.Shared.DataAccess.Store.UpdatePhysicalMachine" />
+          <FunctionImportMapping FunctionImportName="GetSchemaVersion" FunctionName="Sherlock.Shared.DataAccess.Store.GetSchemaVersion" />
+          <FunctionImportMapping FunctionImportName="SwitchMachineToActive" FunctionName="Sherlock.Shared.DataAccess.Store.SwitchMachineToActive" />
+          <FunctionImportMapping FunctionImportName="SwitchMachineToInactive" FunctionName="Sherlock.Shared.DataAccess.Store.SwitchMachineToInactive" />
+          <FunctionImportMapping FunctionImportName="IsHypervMachine" FunctionName="Sherlock.Shared.DataAccess.Store.IsHypervMachine" />
+          <FunctionImportMapping FunctionImportName="IsPhysicalMachine" FunctionName="Sherlock.Shared.DataAccess.Store.IsPhysicalMachine" />
+          <FunctionImportMapping FunctionImportName="GetApplicationsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetApplicationsById">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ApplicationDescription">
+                <ScalarProperty Name="pk_ApplicationId" ColumnName="pk_ApplicationId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetApplicationsByName" FunctionName="Sherlock.Shared.DataAccess.Store.GetApplicationsByName">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ApplicationDescription">
+                <ScalarProperty Name="pk_ApplicationId" ColumnName="pk_ApplicationId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOperatingSystemsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetOperatingSystemsById">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.OperatingSystemDescription">
+                <ScalarProperty Name="pk_OperatingSystemId" ColumnName="pk_OperatingSystemId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOperatingSystemsByName" FunctionName="Sherlock.Shared.DataAccess.Store.GetOperatingSystemsByName">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.OperatingSystemDescription">
+                <ScalarProperty Name="pk_OperatingSystemId" ColumnName="pk_OperatingSystemId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMachineApplications" FunctionName="Sherlock.Shared.DataAccess.Store.GetMachineApplications">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MachineApplication">
+                <ScalarProperty Name="pk_MachineApplicationId" ColumnName="pk_MachineApplicationId" />
+                <ScalarProperty Name="fk_MachineId" ColumnName="fk_MachineId" />
+                <ScalarProperty Name="fk_ApplicationId" ColumnName="fk_ApplicationId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMachineApplicationByApplicationId" FunctionName="Sherlock.Shared.DataAccess.Store.GetMachineApplicationByApplicationId">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MachineApplication">
+                <ScalarProperty Name="pk_MachineApplicationId" ColumnName="pk_MachineApplicationId" />
+                <ScalarProperty Name="fk_MachineId" ColumnName="fk_MachineId" />
+                <ScalarProperty Name="fk_ApplicationId" ColumnName="fk_ApplicationId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMachineApplicationByMachineId" FunctionName="Sherlock.Shared.DataAccess.Store.GetMachineApplicationByMachineId">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MachineApplication">
+                <ScalarProperty Name="pk_MachineApplicationId" ColumnName="pk_MachineApplicationId" />
+                <ScalarProperty Name="fk_MachineId" ColumnName="fk_MachineId" />
+                <ScalarProperty Name="fk_ApplicationId" ColumnName="fk_ApplicationId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHypervMachinesByHostId" FunctionName="Sherlock.Shared.DataAccess.Store.GetHypervMachinesByHostId">
+            <ResultMapping>
+              <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.HypervMachineDescription">
+                <ScalarProperty Name="fk_HostId" ColumnName="fk_HostId" />
+              </EntityTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Tests">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.Test">
+              <MappingFragment StoreEntitySet="Test">
+                <ScalarProperty Name="IsReadyForExecution" ColumnName="IsReadyForExecution" />
+                <ScalarProperty Name="ReportPath" ColumnName="ReportPath" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
+                <ScalarProperty Name="TestDescription" ColumnName="TestDescription" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="pk_TestId" ColumnName="pk_TestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.Test">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestById" >
+                  <ScalarProperty Name="pk_TestId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTest" >
+                  <ScalarProperty Name="ReportPath" ParameterName="reportPath" Version="Current" />
+                  <ScalarProperty Name="TestDescription" ParameterName="description" Version="Current" />
+                  <ScalarProperty Name="Owner" ParameterName="owner" Version="Current" />
+                  <ScalarProperty Name="ProductVersion" ParameterName="productVersion" Version="Current" />
+                  <ScalarProperty Name="ProductName" ParameterName="productName" Version="Current" />
+                  <ScalarProperty Name="pk_TestId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddTest" >
+                  <ScalarProperty Name="ReportPath" ParameterName="reportPath" />
+                  <ScalarProperty Name="TestDescription" ParameterName="description" />
+                  <ScalarProperty Name="Owner" ParameterName="owner" />
+                  <ScalarProperty Name="ProductVersion" ParameterName="productVersion" />
+                  <ScalarProperty Name="ProductName" ParameterName="productName" />
+                  <ResultBinding Name="pk_TestId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestApplications">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestApplication">
+              <MappingFragment StoreEntitySet="TestApplication">
+                <ScalarProperty Name="fk_ApplicationId" ColumnName="fk_ApplicationId" />
+                <ScalarProperty Name="fk_TestEnvironmentId" ColumnName="fk_TestEnvironmentId" />
+                <ScalarProperty Name="pk_TestApplicationId" ColumnName="pk_TestApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestApplication">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteApplicationFromTestEnvironment" >
+                  <ScalarProperty Name="fk_ApplicationId" ParameterName="applicationId" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
+                </DeleteFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddApplicationToTestEnvironment" >
+                  <ScalarProperty Name="fk_ApplicationId" ParameterName="applicationId" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
+                  <ResultBinding Name="pk_TestApplicationId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestEnvironments">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestEnvironment">
+              <MappingFragment StoreEntitySet="TestEnvironment">
+                <ScalarProperty Name="fk_SelectedMachineId" ColumnName="fk_SelectedMachineId" />
+                <ScalarProperty Name="EnvironmentName" ColumnName="EnvironmentName" />
+                <ScalarProperty Name="fk_DesiredOperatingSystemId" ColumnName="fk_DesiredOperatingSystemId" />
+                <ScalarProperty Name="fk_TestId" ColumnName="fk_TestId" />
+                <ScalarProperty Name="pk_TestEnvironmentId" ColumnName="pk_TestEnvironmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestEnvironment">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestEnvironmentById" >
+                  <ScalarProperty Name="pk_TestEnvironmentId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestEnvironment" >
+                  <ScalarProperty Name="EnvironmentName" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="fk_DesiredOperatingSystemId" ParameterName="desiredOperatingSystemId" Version="Current" />
+                  <ScalarProperty Name="fk_TestId" ParameterName="testId" Version="Current" />
+                  <ScalarProperty Name="pk_TestEnvironmentId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddTestEnvironment" >
+                  <ScalarProperty Name="EnvironmentName" ParameterName="name" />
+                  <ScalarProperty Name="fk_DesiredOperatingSystemId" ParameterName="desiredOperatingSystemId" />
+                  <ScalarProperty Name="fk_TestId" ParameterName="testId" />
+                  <ResultBinding Name="pk_TestEnvironmentId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestSteps">
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.TestStep)">
+              <MappingFragment StoreEntitySet="TestStep">
+                <ScalarProperty Name="pk_TestStepId" ColumnName="pk_TestStepId" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="fk_TestEnvironmentId" ColumnName="fk_TestEnvironmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.XCopyTestStep)">
+              <MappingFragment StoreEntitySet="XCopyTestStep">
+                <ScalarProperty Name="pk_TestStepId" ColumnName="pk_XCopyTestStepId" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.MsiInstallTestStep)">
+              <MappingFragment StoreEntitySet="MsiInstallTestStep">
+                <ScalarProperty Name="pk_TestStepId" ColumnName="pk_MsiInstallTestStepId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.ScriptExecuteTestStep)">
+              <MappingFragment StoreEntitySet="ScriptExecuteTestStep">
+                <ScalarProperty Name="pk_TestStepId" ColumnName="pk_ScriptExecuteTestStepId" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MsiInstallTestStep">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddMsiInstallTestStep" >
+                  <ScalarProperty Name="Order" ParameterName="order" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
+                  <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateMsiInstallTestStep" >
+                  <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteMsiInstallTestStepById" >
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ScriptExecuteTestStep">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddScriptExecuteTestStep" >
+                  <ScalarProperty Name="Language" ParameterName="language" />
+                  <ScalarProperty Name="Order" ParameterName="order" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
+                  <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateScriptExecuteTestStep" >
+                  <ScalarProperty Name="Language" ParameterName="language" Version="Current" />
+                  <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteScriptExecuteTestStepById" >
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.XCopyTestStep">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddXCopyTestStep" >
+                  <ScalarProperty Name="Destination" ParameterName="destination" />
+                  <ScalarProperty Name="Order" ParameterName="order" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
+                  <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateXCopyTestStep" >
+                  <ScalarProperty Name="Destination" ParameterName="destination" Version="Current" />
+                  <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteXCopyTestStepById" >
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestStepParameters">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepParameter">
+              <MappingFragment StoreEntitySet="TestStepParameter">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="fk_TestStepId" ColumnName="fk_TestStepId" />
+                <ScalarProperty Name="pk_TestStepParameterId" ColumnName="pk_TestStepParameterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepParameter">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestStepParameterById" >
+                  <ScalarProperty Name="pk_TestStepParameterId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestStepParameter" >
+                  <ScalarProperty Name="Value" ParameterName="value" Version="Current" />
+                  <ScalarProperty Name="Key" ParameterName="key" Version="Current" />
+                  <ScalarProperty Name="fk_TestStepId" ParameterName="testStepId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepParameterId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddTestStepParameter" >
+                  <ScalarProperty Name="Value" ParameterName="value" />
+                  <ScalarProperty Name="Key" ParameterName="key" />
+                  <ScalarProperty Name="fk_TestStepId" ParameterName="testStepId" />
+                  <ResultBinding Name="pk_TestStepParameterId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddApplicationToTestEnvironment" FunctionName="Sherlock.Shared.DataAccess.Store.AddApplicationToTestEnvironment" />
+          <FunctionImportMapping FunctionImportName="AddMsiInstallTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.AddMsiInstallTestStep" />
+          <FunctionImportMapping FunctionImportName="AddScriptExecuteTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.AddScriptExecuteTestStep" />
+          <FunctionImportMapping FunctionImportName="AddTest" FunctionName="Sherlock.Shared.DataAccess.Store.AddTest" />
+          <FunctionImportMapping FunctionImportName="AddTestEnvironment" FunctionName="Sherlock.Shared.DataAccess.Store.AddTestEnvironment" />
+          <FunctionImportMapping FunctionImportName="AddTestStepParameter" FunctionName="Sherlock.Shared.DataAccess.Store.AddTestStepParameter" />
+          <FunctionImportMapping FunctionImportName="AddXCopyTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.AddXCopyTestStep" />
+          <FunctionImportMapping FunctionImportName="DeleteApplicationFromTestEnvironment" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteApplicationFromTestEnvironment" />
+          <FunctionImportMapping FunctionImportName="DeleteMsiInstallTestStepById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteMsiInstallTestStepById" />
+          <FunctionImportMapping FunctionImportName="DeleteScriptExecuteTestStepById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteScriptExecuteTestStepById" />
+          <FunctionImportMapping FunctionImportName="DeleteTestById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestById" />
+          <FunctionImportMapping FunctionImportName="DeleteTestEnvironmentById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestEnvironmentById" />
+          <FunctionImportMapping FunctionImportName="DeleteTestStepParameterById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestStepParameterById" />
+          <FunctionImportMapping FunctionImportName="DeleteXCopyTestStepById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteXCopyTestStepById" />
+          <FunctionImportMapping FunctionImportName="GetMsiInstallTestStepsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetMsiInstallTestStepsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetScriptExecuteTestStepsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetScriptExecuteTestStepsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTestEnvironmentsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestEnvironmentsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTestsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTestStepParametersById" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepParametersById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetXCopyTestStepsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetXCopyTestStepsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateMsiInstallTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateMsiInstallTestStep" />
+          <FunctionImportMapping FunctionImportName="UpdateScriptExecuteTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateScriptExecuteTestStep" />
+          <FunctionImportMapping FunctionImportName="UpdateTest" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTest" />
+          <FunctionImportMapping FunctionImportName="UpdateTestEnvironment" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestEnvironment" />
+          <FunctionImportMapping FunctionImportName="UpdateTestStepParameter" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestStepParameter" />
+          <FunctionImportMapping FunctionImportName="UpdateXCopyTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateXCopyTestStep" />
+          <FunctionImportMapping FunctionImportName="GetTestEnvironmentByMachineId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestEnvironmentByMachineId">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMachinesByApplicationId" FunctionName="Sherlock.Shared.DataAccess.Store.GetMachinesByApplicationId" />
+          <FunctionImportMapping FunctionImportName="GetMachinesByOperatingSystemId" FunctionName="Sherlock.Shared.DataAccess.Store.GetMachinesByOperatingSystemId" />
+          <FunctionImportMapping FunctionImportName="GetTestApplicationsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestApplicationsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTestApplicationsByTestEnvironmentId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestApplicationsByTestEnvironmentId" />
+          <FunctionImportMapping FunctionImportName="GetTestEnvironmentsByTestId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestEnvironmentsByTestId" />
+          <FunctionImportMapping FunctionImportName="GetTestStepParametersByTestStepId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepParametersByTestStepId" />
+          <FunctionImportMapping FunctionImportName="GetTestStepsByTestEnvironmentId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepsByTestEnvironmentId" />
+          <FunctionImportMapping FunctionImportName="GetTestApplicationsByApplicationId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestApplicationsByApplicationId" />
+          <FunctionImportMapping FunctionImportName="GetTestEnvironmentByOperatingSystemId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestEnvironmentByOperatingSystemId" />
+          <FunctionImportMapping FunctionImportName="AttachMachineToTestEnvironment" FunctionName="Sherlock.Shared.DataAccess.Store.AttachMachineToTestEnvironment" />
+          <FunctionImportMapping FunctionImportName="GetNotExecutedTests" FunctionName="Sherlock.Shared.DataAccess.Store.GetNotExecutedTests">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MarkTestAsEnded" FunctionName="Sherlock.Shared.DataAccess.Store.MarkTestAsEnded" />
+          <FunctionImportMapping FunctionImportName="MarkTestAsStarted" FunctionName="Sherlock.Shared.DataAccess.Store.MarkTestAsStarted" />
+          <FunctionImportMapping FunctionImportName="MarkTestAsReadyForExecution" FunctionName="Sherlock.Shared.DataAccess.Store.MarkTestAsReadyForExecution" />
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

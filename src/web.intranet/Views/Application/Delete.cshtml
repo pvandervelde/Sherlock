@@ -1,0 +1,42 @@
+﻿@model Sherlock.Web.Intranet.Models.ApplicationModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<table>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Version)
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Version)
+            </div>
+        </td>
+    </tr>
+</table>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

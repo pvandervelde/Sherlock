@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <section name="service"
+                 type="Utilities.Configuration.ConfigurationSectionToXmlTranslator, Utilities"/>
+    </configSections>
+    <startup>
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+    </startup>
+    <service>
+        <DefaultLogLevel>
+            <LevelToLog>Trace</LevelToLog>
+        </DefaultLogLevel>
+        <KeepAliveCycleTimeInMilliSeconds>
+            <int>10000</int>
+        </KeepAliveCycleTimeInMilliSeconds>
+        <UpdateCycleTimeInMilliseconds>
+            <int>300000</int>
+        </UpdateCycleTimeInMilliseconds>
+        <UpdateManifestUri>
+            <string>${ManifestUri}</string>
+        </UpdateManifestUri>
+        <ApplicationName>
+            <string>${ApplicationName}</string>
+        </ApplicationName>
+    </service>
+</configuration>

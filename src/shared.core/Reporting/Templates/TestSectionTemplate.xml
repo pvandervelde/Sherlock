@@ -1,0 +1,6 @@
+﻿<test text="${TEST_SECTION_NAME}$"
+      start="${TEST_SECTION_START_TIME}$"
+      end="${TEST_SECTION_END_TIME}$"
+      success="${TEST_SECTION_WAS_SUCCESSFUL}$">
+   ${TEST_SECTION_MESSAGES}$
+</test>

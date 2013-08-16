@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Sherlock.Web.Intranet.Models.MachineModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h3>Active machines</h3>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetworkName)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => m.IsActive && m.IsAvailableForTesting))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetworkName)
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Inactive machines</h3>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetworkName)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => !m.IsActive && m.IsAvailableForTesting))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetworkName)
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Unavailable machines</h3>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetworkName)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => !m.IsAvailableForTesting))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetworkName)
+            </td>
+        </tr>
+    }
+</table>

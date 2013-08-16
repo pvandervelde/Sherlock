@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)' == '' or '$(SolutionDir)' == '*undefined*'">$(MSBuildProjectDirectory)\..</SolutionDir>
+    <Name>Sherlock.Shared.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{9fdf76d7-5cc0-48ff-b28a-f12d12d0e51b}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootNamespace>Sherlock.Shared.Database</RootNamespace>
+    <AssemblyName>Sherlock.Shared.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetLanguage>CS</TargetLanguage>
+    <SqlServerVerification>False</SqlServerVerification>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <GenerateCreateScript>True</GenerateCreateScript>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatTSqlWarningsAsErrors>True</TreatTSqlWarningsAsErrors>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Environment" />
+    <Folder Include="Versioning" />
+    <Folder Include="Versioning\Tables" />
+    <Folder Include="Environment\Programmability" />
+    <Folder Include="Environment\Tables" />
+    <Folder Include="Versioning\Programmability" />
+    <Folder Include="Versioning\Programmability\Stored Procedures" />
+    <Folder Include="Versioning\Initialization" />
+    <Folder Include="Environment\Programmability\Stored Procedures" />
+    <Folder Include="Environment\Programmability\Functions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Versioning\Versioning.sql" />
+    <Build Include="Versioning\Tables\SchemaVersion.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\GetSchemaVersion.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\GetVersionParts.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\ChangeSchemaVersion.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\CompareSchemaVersions.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\CompareWithCurrentSchemaVersion.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\AssertSchemaVersion.sql" />
+    <Build Include="Environment\Tables\OperatingSystem.sql" />
+    <Build Include="Environment\Environments.sql" />
+    <Build Include="Environment\Tables\Application.sql" />
+    <Build Include="Environment\Tables\Machine.sql" />
+    <Build Include="Environment\Tables\VirtualMachineHost.sql" />
+    <Build Include="Environment\Tables\PhysicalMachine.sql" />
+    <Build Include="Environment\Tables\HypervMachine.sql" />
+    <Build Include="Environment\Tables\MachineApplication.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddOperatingSystem.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddApplication.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteOperatingSystemByName.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteOperatingSystemById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteApplicationByName.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteApplicationById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddPhysicalMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddHypervMachine.sql" />
+    <Build Include="Environment\Programmability\Functions\IsPhysicalMachine.sql" />
+    <Build Include="Environment\Programmability\Functions\IsHypervMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddApplicationToMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteApplicationFromMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeletePhysicalMachineById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteHypervMachineById.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Versioning\Initialization\Version.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Sherlock.Shared.Database.refactorlog" />
+  </ItemGroup>
+</Project>

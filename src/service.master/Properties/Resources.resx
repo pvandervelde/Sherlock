@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Exceptions_Messages_AnEnvironmentWithTheGivenIDHasAlreadyBeenRegistered" xml:space="preserve">
+    <value>An environment with the given ID has already been registered.</value>
+  </data>
+  <data name="Exceptions_Messages_ATestWithTheGivenIDHasAlreadyBeenRegistered" xml:space="preserve">
+    <value>A test with the given ID has already been registered.</value>
+  </data>
+  <data name="Exceptions_Messages_NoActivatorHasBeenRegisteredForTheEnvironment" xml:space="preserve">
+    <value>No activator has been registered for the selected environment type.</value>
+  </data>
+  <data name="Exceptions_Messages_NoEnvironmentWithTheGivenIDHasBeenRegistered" xml:space="preserve">
+    <value>No environments with the given ID have been registered.</value>
+  </data>
+  <data name="Exceptions_Messages_NoTestWithTheGivenIDHasBeenRegistered" xml:space="preserve">
+    <value>No test with the given ID has been registered.</value>
+  </data>
+  <data name="Header_ApplicationAndVersion" xml:space="preserve">
+    <value>Sherlock Master Service ({0})</value>
+  </data>
+  <data name="Header_OtherPackages_IdAndLicense" xml:space="preserve">
+    <value>        {0} (version: {1}). For more information see: {2}</value>
+  </data>
+  <data name="Header_OtherPackages_Intro" xml:space="preserve">
+    <value>This application makes use of the following open source software:</value>
+  </data>
+  <data name="Log_Messages_FailedToContactEnvironment" xml:space="preserve">
+    <value>Failed to contact environment [{0}].</value>
+  </data>
+  <data name="Log_Messages_FailedToContactEnvironment_WithException" xml:space="preserve">
+    <value>Failed to contact environment [{0}]. An exception was thrown: {1}</value>
+  </data>
+  <data name="Log_Messages_NoEnvironmentForTestCase" xml:space="preserve">
+    <value>No suitable environment is available for test: {0}</value>
+  </data>
+  <data name="Log_Messages_ProgressFromEnvironment" xml:space="preserve">
+    <value>Environment [{0}]: State: {1}</value>
+  </data>
+  <data name="Log_Messages_StartedTestOnEnvironments" xml:space="preserve">
+    <value>Started test [{0}] in environments [{1}].</value>
+  </data>
+  <data name="Service_Description" xml:space="preserve">
+    <value>Processes incoming requests for test execution, sends the tests off to a remote test environment and returns the test results to the requestor.</value>
+  </data>
+  <data name="Service_DisplayName" xml:space="preserve">
+    <value>Sherlock.Master</value>
+  </data>
+  <data name="Service_ServiceName" xml:space="preserve">
+    <value>Sherlock.MasterService</value>
+  </data>
+  <data name="Exceptions_Messages_AnEnvironmentWithTheGivenIDHasNotBeenRegistered" xml:space="preserve">
+    <value>An environment with the given ID has not been registered.</value>
+  </data>
+  <data name="Log_Messages_ActivatingEnvironment_WithTestAndEnvironment" xml:space="preserve">
+    <value>{0}: Activating environment {1}</value>
+  </data>
+  <data name="Log_Messages_CompletedTest_WithId" xml:space="preserve">
+    <value>Completed test with ID: {0}</value>
+  </data>
+  <data name="Log_Messages_ExecutingTestOnEnvironment_WithTestAndEnvironment" xml:space="preserve">
+    <value>{0}: Executing on environment {1}</value>
+  </data>
+  <data name="Log_Messages_FailedToDeleteTestFiles_WithFileAndError" xml:space="preserve">
+    <value>Failed to delete the file for test: {0}. Error was: {1}</value>
+  </data>
+  <data name="Log_Messages_FailedToStartEnvironments_WithError" xml:space="preserve">
+    <value>Failed to start environment(s) for test. Error was: {0}</value>
+  </data>
+  <data name="Log_Messages_PackagingTestFilesForEnvironment_WithTestAndEnvironment" xml:space="preserve">
+    <value>{0}: Packaging test files for environment {1}</value>
+  </data>
+  <data name="Log_Messages_ReceivingTest_WithNameVersionOwnerAndEndpoint" xml:space="preserve">
+    <value>Receiving new test for {0}({1}). Owned by {2} on endpoint {3}</value>
+  </data>
+  <data name="Log_Messages_StoringTestFiles_WithDirectory" xml:space="preserve">
+    <value>Writing test files to: {0}</value>
+  </data>
+  <data name="Log_Messages_TestFilesStored" xml:space="preserve">
+    <value>Test files transferred successfully</value>
+  </data>
+  <data name="Log_Messages_TestQueued_WithId" xml:space="preserve">
+    <value>Test queued with id: {0}</value>
+  </data>
+  <data name="ReportSection_Error_FailedToStartEnvironments" xml:space="preserve">
+    <value>Failed to start environment(s) for test.</value>
+  </data>
+  <data name="ReportSection_Error_LostContactWithEnvironment_WithEnvironment" xml:space="preserve">
+    <value>Lost contact with environmentId: {0}</value>
+  </data>
+  <data name="ReportSection_Group_Name_Environments" xml:space="preserve">
+    <value>Environments</value>
+  </data>
+  <data name="ReportSection_Group_Name_Initialization" xml:space="preserve">
+    <value>Initialization</value>
+  </data>
+  <data name="ReportSection_Name_Environments" xml:space="preserve">
+    <value>Selecting environments</value>
+  </data>
+  <data name="ReportSection_Name_LoadEnvironments" xml:space="preserve">
+    <value>Loading environments</value>
+  </data>
+  <data name="Exceptions_Messages_HypervVirtualMachine_CouldNotGetSnapshot" xml:space="preserve">
+    <value>Restoring snapshot failed because the snapshot could not be found.</value>
+  </data>
+  <data name="Exceptions_Messages_HypervVirtualMachine_JobFailedToComplete" xml:space="preserve">
+    <value>Restoring snapshot failed because WMI job failed to complete successfully.</value>
+  </data>
+  <data name="Exceptions_Messages_HypervVirtualMachine_UnknownReturnCode" xml:space="preserve">
+    <value>Restoring snapshot failed with unknown return code: {0}.</value>
+  </data>
+  <data name="Exceptions_Messages_MachineUnreachable_WithNetworkName" xml:space="preserve">
+    <value>The machine ({0}) could not be reached. It may be offline or not attached to the network.</value>
+  </data>
+  <data name="Exceptions_Messages_TestExecutionFailure" xml:space="preserve">
+    <value>The execution of the test has failed.</value>
+  </data>
+  <data name="Log_Messages_FailedToShutdownEnvironment_WithError" xml:space="preserve">
+    <value>Failed to shut down the machine environment. Error was: {0}</value>
+  </data>
+</root>

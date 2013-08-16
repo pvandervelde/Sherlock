@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)' == '' or '$(SolutionDir)' == '*undefined*'">$(MSBuildProjectDirectory)\..</SolutionDir>
+    <Name>Sherlock</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{9fdf76d7-5cc0-48ff-b28a-f12d12d0e51b}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootNamespace>Sherlock.Shared.Database</RootNamespace>
+    <AssemblyName>Sherlock.Shared.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetLanguage>CS</TargetLanguage>
+    <SqlServerVerification>False</SqlServerVerification>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <GenerateCreateScript>True</GenerateCreateScript>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatTSqlWarningsAsErrors>True</TreatTSqlWarningsAsErrors>
+    <SqlTargetName>Sherlock</SqlTargetName>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <SqlCodeAnalysisRules>+!Microsoft.Rules.Data.SR0014;+!Microsoft.Rules.Data.SR0008;+!Microsoft.Rules.Data.SR0010;+!Microsoft.Rules.Data.SR0013;+!Microsoft.Rules.Data.SR0001;+!Microsoft.Rules.Data.SR0009;+!Microsoft.Rules.Data.SR0012;+!Microsoft.Rules.Data.SR0011;+!Microsoft.Rules.Data.SR0016;+!Microsoft.Rules.Data.SR0015;+!Microsoft.Rules.Data.SR0005;+!Microsoft.Rules.Data.SR0006;+!Microsoft.Rules.Data.SR0004;+!Microsoft.Rules.Data.SR0007</SqlCodeAnalysisRules>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Environment" />
+    <Folder Include="Versioning" />
+    <Folder Include="Environment\Programmability" />
+    <Folder Include="Environment\Tables" />
+    <Folder Include="Versioning\Programmability" />
+    <Folder Include="Versioning\Programmability\Stored Procedures" />
+    <Folder Include="Environment\Programmability\Stored Procedures" />
+    <Folder Include="Test" />
+    <Folder Include="Test\Programmability" />
+    <Folder Include="Test\Tables" />
+    <Folder Include="Test\Programmability\Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Versioning\Versioning.sql" />
+    <Build Include="Versioning\Programmability\Stored Procedures\GetSchemaVersion.sql" />
+    <Build Include="Environment\Tables\OperatingSystem.sql" />
+    <Build Include="Environment\Environments.sql" />
+    <Build Include="Environment\Tables\Application.sql" />
+    <Build Include="Environment\Tables\Machine.sql" />
+    <Build Include="Environment\Tables\PhysicalMachine.sql" />
+    <Build Include="Environment\Tables\HypervMachine.sql" />
+    <Build Include="Environment\Tables\MachineApplication.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddOperatingSystem.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddApplication.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteOperatingSystemById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteApplicationById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddPhysicalMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddHypervMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\AddApplicationToMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteApplicationFromMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeletePhysicalMachineById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\DeleteHypervMachineById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetApplicationsById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetOperatingSystemsById.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetPhysicalMachines.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetHypervMachines.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\UpdateApplication.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\UpdateOperatingSystem.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\UpdateHypervMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\UpdatePhysicalMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\IsHypervMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\IsPhysicalMachine.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetMachinesByOperatingSystemId.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetMachinesByApplicationId.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\SwitchMachineToActive.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\SwitchMachineToInactive.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetOperatingSystemsByName.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetApplicationsByName.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetMachineApplications.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetMachineApplicationByMachineId.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetMachineApplicationByApplicationId.sql" />
+    <Build Include="Environment\Programmability\Stored Procedures\GetHypervMachinesByHostId.sql" />
+    <Build Include="Test\Tests.sql" />
+    <Build Include="Test\Tables\Test.sql" />
+    <Build Include="Test\Tables\TestEnvironment.sql" />
+    <Build Include="Test\Tables\TestApplication.sql" />
+    <Build Include="Test\Tables\TestStep.sql" />
+    <Build Include="Test\Tables\MsiInstallTestStep.sql" />
+    <Build Include="Test\Tables\ScriptExecuteTestStep.sql" />
+    <Build Include="Test\Tables\XCopyTestStep.sql" />
+    <Build Include="Test\Tables\TestStepParameter.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddTest.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteTestById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateTest.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddTestEnvironment.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteTestEnvironmentById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateTestEnvironment.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestEnvironmentsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddApplicationToTestEnvironment.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteApplicationFromTestEnvironment.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestApplicationsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddMsiInstallTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteMsiInstallTestStepById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateMsiInstallTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetMsiInstallTestStepsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddScriptExecuteTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteScriptExecuteTestStepById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateScriptExecuteTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetScriptExecuteTestStepsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddXCopyTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteXCopyTestStepById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateXCopyTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetXCopyTestStepsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddTestStepParameter.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteTestStepParameterById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateTestStepParameter.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepParametersById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestEnvironmentByMachineId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestApplicationsByTestEnvironmentId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepsByTestEnvironmentId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepParametersByTestStepId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestEnvironmentsByTestId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestEnvironmentByOperatingSystemId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestApplicationsByApplicationId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetNotExecutedTests.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\MarkTestAsStarted.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\MarkTestAsEnded.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AttachMachineToTestEnvironment.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\MarkTestAsReadyForExecution.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Sherlock.Shared.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sherlock.Shared.Database.publish.xml" />
+  </ItemGroup>
+</Project>
