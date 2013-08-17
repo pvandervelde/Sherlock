@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Sherlock by pvandervelde</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Sherlock</h1>
+        <h2>Sherlock provides a means to schedule and automatically execute tests in an controlled virtual machine environment.</h2>
+        <a href="https://github.com/pvandervelde/Sherlock" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="sherlock" class="anchor" href="#sherlock"><span class="octicon octicon-link"></span></a>Sherlock</h1>
+
+<p>Sherlock provides a means to schedule and automatically execute tests in an controlled environment. In order to schedule a test the configuration and the test data can be uploaded to the server via a console application. The test configuration describes all the steps necessary to perform a complete test. This includes installation of MSI files, copying files / directories and execution of powershell scripts. </p>
+
+<p>For environments Sherlock uses Hyper-V virtual machines which allow easy control of the environment state prior to the execution of a test.</p>
+
+<p>Sherlock consists of: </p>
+
+<ul>
+<li>
+<strong>Sherlock.Console</strong> - The command line application that can be used to schedule tests based on a XML configuration file. The application extracts the desired information from the configuration file and uploads the test information and the required binaries, e.g. MSI installer files, to the server.</li>
+<li>
+<strong>Sherlock.Service.Master</strong> - The application that schedules and tracks the execution of the tests.</li>
+<li>
+<strong>Sherlock.Service.Executor</strong> - The application that runs on the test environment which handles the communication with the <em>Sherlock.Service.Master</em> service for exchange of test information, test files and test reports.</li>
+<li>
+<strong>Sherlock.Executor</strong> - The application that executes the actual test steps.</li>
+<li>
+<strong>Sherlock.Web.Api</strong> - The web service that is used to register tests. </li>
+<li>
+<strong>Sherlock.Web.Intranet</strong> - Provides a way to add, update and remove information about the available test environments. Can also be used to temporarily disable an environment, e.g. when maintenance needs to be done on the environment.</li>
+<li>
+<strong>Sherlock.Service</strong> - The service that controls the <em>Sherlock.Service.Master</em> and <em>Sherlock.Service.Executor</em> applications and allows automatic updates when new versions become available.</li>
+</ul><p>The <a href="https://github.com/pvandervelde/Sherlock/wiki/Installation">installation</a> and <a href="https://github.com/pvandervelde/Sherlock/wiki/Using">operating</a> procedures are described on the wiki.</p>
+
+<h1>
+<a name="how-to-build" class="anchor" href="#how-to-build"><span class="octicon octicon-link"></span></a>How to build</h1>
+
+<p>The solution files are created in Visual Studio 2012 (using .NET 4.5) and the entire project can be build by invoking MsBuild on the sherlock.integration.msbuild script. This will build the binaries and the ZIP archives. The binaries will be placed in the <code>build\bin\AnyCpu\Release</code> directory and the ZIP archives will be placed in the <code>build\deploy</code> directory. Note that the two web projects are an exception in that they place their binaries inside the bin directory of the web project.</p>
+
+<p>Note that the build scripts assume that:</p>
+
+<ul>
+<li>The binaries should be signed, however the SNK key file is not included in the repository so a new key file has to be <a href="http://msdn.microsoft.com/en-us/library/6f05ezxy(v=vs.110).aspx">created</a>. The key file is referenced through an environment variable called <code>SOFTWARE_SIGNING_KEY_PATH</code> that has as value the full path of the key file. </li>
+<li>GIT can be found on the PATH somewhere so that it can be called to get the hash of the last commit in the current repository. This hash is embedded in the Sherlock executable together with information about the build configuration and build time and date.</li>
+</ul><p>The icon for Sherlock is the <a href="http://www.fatcow.com/free-icons">User detective icon</a> which is licensed under the <a href="http://creativecommons.org/licenses/by/3.0/">CC Attribution 3.0</a> license.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/pvandervelde/Sherlock/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/pvandervelde/Sherlock/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/pvandervelde/Sherlock"></a> is maintained by <a href="https://github.com/pvandervelde">pvandervelde</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
