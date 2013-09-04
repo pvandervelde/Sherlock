@@ -107,6 +107,8 @@
     <Compile Include="ApplicationDescription.cs" />
     <Compile Include="ConfigurationInfo.cs" />
     <Compile Include="ConfigurationReaderVersion10.cs" />
+    <Compile Include="ConfigurationReaderVersion11.cs" />
+    <Compile Include="ConfigurationReaderVersion1X.cs" />
     <Compile Include="ConsoleConfigurationKeys.cs" />
     <Compile Include="ConsoleConstants.cs" />
     <Compile Include="DependencyInjection.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="Mono.Options\Options.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="MsiDeployStepBuilder.cs" />
     <Compile Include="MsiInstallTestStepDescription.cs" />
     <Compile Include="NonMatchingVersionFoundException.cs" />
     <Compile Include="Nuclei\ExceptionHandling\EventType.cs">
@@ -157,17 +158,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ScriptExecuteStepBuilder.cs" />
     <Compile Include="ScriptExecuteTestStepDescription.cs" />
     <Compile Include="StoreFileDataForEnvironment.cs" />
     <Compile Include="TestDescription.cs" />
     <Compile Include="TestEnvironmentDescription.cs" />
-    <Compile Include="TestStepConstructor.cs" />
     <Compile Include="TestStepDescription.cs" />
     <Compile Include="TestStepParameterDescription.cs" />
     <Compile Include="UnknownTestStepConfigurationException.cs" />
     <Compile Include="Nuclei\NucleiModule.cs" />
-    <Compile Include="XCopyDeployStepBuilder.cs" />
     <Compile Include="XCopyTestStepDescription.cs" />
   </ItemGroup>
   <ItemGroup>

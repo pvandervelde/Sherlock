@@ -11,9 +11,9 @@ using System.IO.Abstractions;
 namespace Sherlock.Console
 {
     /// <summary>
-    /// An <see cref="IVersionedConfigurationReader"/> that reads configuration files with version 1.0.
+    /// An <see cref="IVersionedConfigurationReader"/> that reads configuration files with version 1.1.
     /// </summary>
-    internal sealed class ConfigurationReaderVersion10 : ConfigurationReaderVersion1X
+    internal sealed class ConfigurationReaderVersion11 : ConfigurationReaderVersion1X
     {
         /// <summary>
         /// Gets the version of the configuration that the current reader can read.
@@ -22,12 +22,12 @@ namespace Sherlock.Console
         {
             get
             {
-                return new Version(1, 0);
+                return new Version(1, 1);
             }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigurationReaderVersion10"/> class.
+        /// Initializes a new instance of the <see cref="ConfigurationReaderVersion11"/> class.
         /// </summary>
         /// <param name="fileSystem">The object that provides access to the file system.</param>
         /// <param name="fileStorage">The action that stores the files in a package.</param>
@@ -37,7 +37,7 @@ namespace Sherlock.Console
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="fileStorage"/> is <see langword="null" />.
         /// </exception>
-        public ConfigurationReaderVersion10(IFileSystem fileSystem, StoreFileDataForEnvironment fileStorage)
+        public ConfigurationReaderVersion11(IFileSystem fileSystem, StoreFileDataForEnvironment fileStorage)
             : base(fileSystem, fileStorage)
         {
         }

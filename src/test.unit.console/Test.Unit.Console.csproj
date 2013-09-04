@@ -107,12 +107,9 @@
     <Compile Include="ConfigurationReaderVersion10Test.cs" />
     <Compile Include="InvalidServerResponseExceptionTest.cs" />
     <Compile Include="MissingNotificationConfigurationExceptionTest.cs" />
-    <Compile Include="MsiDeployStepBuilderTest.cs" />
     <Compile Include="NonMatchingVersionFoundExceptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptExecuteStepBuilderTest.cs" />
     <Compile Include="UnknownTestStepConfigurationExceptionTest.cs" />
-    <Compile Include="XCopyDeployStepBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\console\Sherlock.Console.csproj">
@@ -132,21 +129,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\samples\Sherlock.Configuration.v1.xml">
-      <Link>Sherlock.Configuration.v1.xml</Link>
+    <EmbeddedResource Include="..\..\samples\Sherlock.Configuration.v10.xml">
+      <Link>Sherlock.Configuration.v10.xml</Link>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="configuration.filenotifier.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="configuration.msi.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="configuration.script.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="configuration.xcopy.xml" />
+    <EmbeddedResource Include="..\..\samples\Sherlock.Configuration.v11.xml">
+      <Link>Sherlock.Configuration.v11.xml</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,6 +17,7 @@ using System.Xml.Linq;
 using Moq;
 using Nuclei;
 using NUnit.Framework;
+using Test.Mocks;
 
 namespace Sherlock.Console
 {
@@ -23,12 +26,158 @@ namespace Sherlock.Console
                 Justification = "Unit tests do not need documentation.")]
     public sealed class ConfigurationReaderVersion10Test
     {
-        private sealed class MockTestStepDescription : TestStepDescription
+        private delegate void BuildStep(StringBuilder builder);
+
+        private delegate void FileStep(string environment, int step, string name, string data);
+
+        private static Tuple<BuildStep, FileStep, Action<MsiInstallTestStepDescription>> BuildMsiDeployTestStepFunctions(
+            int index,
+            string environmentName,
+            Dictionary<string, string> filePathAndContent)
         {
-            public MockTestStepDescription(string environment, int order, IEnumerable<TestStepParameterDescription> parameters) 
-                : base(environment, order, parameters)
-            {
-            }
+            const string path = @"c:\m\s\i.msi";
+            const string parameterKey = "Parameter_Key";
+            const string parameterValue = "Parameter_Value";
+
+            BuildStep buildAction = 
+                builder =>
+                {
+                    builder.Replace("${MSI_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${MSI_ENVIRONMENT_NAME}$", environmentName);
+                    builder.Replace("${MSI_INSTALLER_FULL_PATH_GOES_HERE}$", path);
+                    builder.Replace("${MSI_PARAMETER_KEY}$", parameterKey);
+                    builder.Replace("${MSI_PARAMETER_VALUE}$", parameterValue);
+                };
+
+            filePathAndContent.Add(path, "msiContent");
+
+            FileStep fileAction =
+                (environment, step, name, data) =>
+                {
+                    Assert.AreEqual(environmentName, environment);
+                    Assert.AreEqual(index, step);
+                    Assert.AreEqual(Path.GetFileName(path), name);
+                    Assert.AreEqual(path, data);
+                };
+
+            Action<MsiInstallTestStepDescription> verifyAction =
+                description =>
+                {
+                    Assert.AreEqual(environmentName, description.Environment);
+                    Assert.AreEqual(index, description.Order);
+
+                    Assert.AreEqual(1, description.Parameters.Count());
+                    Assert.AreEqual(parameterKey, description.Parameters.First().Key);
+                    Assert.AreEqual(parameterValue, description.Parameters.First().Value);
+                };
+
+            return new Tuple<BuildStep, FileStep, Action<MsiInstallTestStepDescription>>(buildAction, fileAction, verifyAction);
+        }
+
+        private static Tuple<BuildStep, FileStep, Action<ScriptExecuteTestStepDescription>> BuildScriptExecuteTestStepFunctions(
+            int index,
+            string environmentName,
+            Dictionary<string, string> filePathAndContent)
+        {
+            const string scriptLanguage = "Powershell";
+            const string scriptPath = @"c:\s\c\ript.ps1";
+            const string scriptParameterKey = "Script_Parameter_Key";
+            const string scriptParameterValue = "Script_Parameter_Value";
+
+            BuildStep buildAction =
+                builder =>
+                {
+                    builder.Replace("${SCRIPT_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${SCRIPT_ENVIRONMENT_NAME}$", environmentName.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${SCRIPT_LANGUAGE_GOES_HERE}$", scriptLanguage);
+                    builder.Replace("${SCRIPT_FULL_PATH_GOES_HERE}$", scriptPath);
+                    builder.Replace("${SCRIPT_PARAMETER_KEY}$", scriptParameterKey);
+                    builder.Replace("${SCRIPT_PARAMETER_VALUE}$", scriptParameterValue);
+                };
+
+            filePathAndContent.Add(scriptPath, "scriptContent");
+            
+            FileStep fileAction =
+                (environment, step, name, data) =>
+                {
+                    Assert.AreEqual(environmentName, environment);
+                    Assert.AreEqual(index, step);
+                    Assert.AreEqual(Path.GetFileName(scriptPath), name);
+                    Assert.AreEqual(scriptPath, data);
+                };
+
+            Action<ScriptExecuteTestStepDescription> verifyAction =
+                description =>
+                {
+                    Assert.AreEqual(environmentName, description.Environment);
+                    Assert.AreEqual(index, description.Order);
+                    Assert.AreEqual(scriptLanguage, description.ScriptLanguage);
+
+                    Assert.AreEqual(1, description.Parameters.Count());
+                    Assert.AreEqual(scriptParameterKey, description.Parameters.First().Key);
+                    Assert.AreEqual(scriptParameterValue, description.Parameters.First().Value);
+                };
+
+            return new Tuple<BuildStep, FileStep, Action<ScriptExecuteTestStepDescription>>(buildAction, fileAction, verifyAction);
+        }
+
+        private static Tuple<BuildStep, FileStep, Action<XCopyTestStepDescription>, string[]> BuildXCopyDeployTestStepFunctions(
+            int index,
+            string environmentName,
+            Dictionary<string, string> filePathAndContent)
+        {
+            const string destination = @"c:\a\b\c";
+            const string basePath = @"c:\d\e\f";
+            const string installFile = @"c:\d\e\f\g\h.ijk";
+            const string installDirectory = @"c:\d\e\f\g\l";
+
+            BuildStep buildAction =
+                builder =>
+                {
+                    builder.Replace("${XCOPY_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${XCOPY_ENVIRONMENT_NAME}$", environmentName.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${XCOPY_DESTINATION_PATH}$", destination);
+                    builder.Replace("${XCOPY_BASE_PATH}$", basePath);
+                    builder.Replace("${XCOPY_FILE_FULL_PATH_GOES_HERE}$", installFile);
+                    builder.Replace("${XCOPY_DIRECTORY_FULL_PATH_GOES_HERE}$", installDirectory);
+                };
+
+            filePathAndContent.Add(installFile, "h.ijk");
+            filePathAndContent.Add(Path.Combine(installDirectory, "m.nop"), "m.nop");
+            filePathAndContent.Add(Path.Combine(installDirectory, "q.rst"), "q.rst");
+
+            var relativeFiles = new List<string>
+                {
+                    @"g\h.ijk",
+                    @"g\l\m.nop",
+                    @"g\l\q.rst",
+                };
+            FileStep fileAction =
+                (environment, step, name, data) =>
+                {
+                    Assert.AreEqual(environmentName, environment);
+                    Assert.AreEqual(index, step);
+                    Assert.IsTrue(relativeFiles.Contains(name));
+                    Assert.IsTrue(filePathAndContent.ContainsKey(data));
+                };
+
+            Action<XCopyTestStepDescription> verifyAction =
+                description =>
+                {
+                    Assert.AreEqual(environmentName, description.Environment);
+                    Assert.AreEqual(index, description.Order);
+                    Assert.AreEqual(destination, description.Destination);
+                };
+
+            return new Tuple<BuildStep, FileStep, Action<XCopyTestStepDescription>, string[]>(
+                buildAction, 
+                fileAction, 
+                verifyAction,
+                new[]
+                {
+                    Path.Combine(installDirectory, "m.nop"),
+                    Path.Combine(installDirectory, "q.rst")
+                });
         }
 
         [Test]
@@ -37,14 +186,16 @@ namespace Sherlock.Console
             // Load the config file string
             var configText = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v1.xml");
+               "Sherlock.Console.Sherlock.Configuration.v10.xml");
 
             // Replace the version place holder
             configText = configText.Replace("${VERSION}$", new Version(2, 1).ToString());
             var doc = XDocument.Parse(configText, LoadOptions.None);
 
-            var reader = new ConfigurationReaderVersion10(
-                new List<IConstructTestSteps>());
+            var fileSystem = new Mock<IFileSystem>();
+            StoreFileDataForEnvironment storage = (environment, step, name, data) => { };
+
+            var reader = new ConfigurationReaderVersion10(fileSystem.Object, storage);
             Assert.Throws<NonMatchingVersionFoundException>(() => reader.Read(doc));
         }
 
@@ -65,15 +216,20 @@ namespace Sherlock.Console
             const string applicationName = "application";
             const string applicationVersion = "1.0";
 
-            const int stepOrder = 1;
-            const int environmentIndex = 0;
-
+            const string environmentName = "environment_a";
             const string notificationPath = @"c:\a\b\c\d";
+
+            // Note that the order of the elements is purposefully out of document order to 
+            // test the ordering of the test steps
+            var files = new Dictionary<string, string>();
+            var msi = BuildMsiDeployTestStepFunctions(1, environmentName, files);
+            var script = BuildScriptExecuteTestStepFunctions(2, environmentName, files);
+            var xcopy = BuildXCopyDeployTestStepFunctions(0, environmentName, files);
 
             // Load the config file string
             var text = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v1.xml");
+               "Sherlock.Console.Sherlock.Configuration.v10.xml");
             string configText;
             {
                 var builder = new StringBuilder(text);
@@ -92,30 +248,48 @@ namespace Sherlock.Console
                 builder.Replace("${APPLICATION_NAME}$", applicationName);
                 builder.Replace("${APPLICATION_VERSION}$", applicationVersion);
 
-                builder.Replace("${STEP_ORDER_INDEX}$", stepOrder.ToString(CultureInfo.InvariantCulture));
-                builder.Replace("${ENVIRONMENT_NAME}$", environmentIndex.ToString(CultureInfo.InvariantCulture));
+                msi.Item1(builder);
+                script.Item1(builder);
+                xcopy.Item1(builder);
 
-                builder.Replace("${DIRECTORY_FULL_PATH_GOES_HERE}$", notificationPath);
+                builder.Replace("${NOTIFICATION_DIRECTORY_FULL_PATH_GOES_HERE}$", notificationPath);
 
                 configText = builder.ToString();
             }
 
             var doc = XDocument.Parse(configText, LoadOptions.None);
 
-            var testStep = new MockTestStepDescription("a", 0, new List<TestStepParameterDescription>());
-            var testStepProcessor = new Mock<IConstructTestSteps>();
+            var file = new MockFile(files);
+            var directory = new MockDirectory(xcopy.Item4);
+            var fileSystem = new Mock<IFileSystem>();
             {
-                testStepProcessor.Setup(t => t.Contract)
-                    .Returns("msi");
-                testStepProcessor.Setup(t => t.Construct(It.IsAny<XElement>()))
-                    .Returns(testStep);
+                fileSystem.Setup(f => f.File)
+                    .Returns(file);
+                fileSystem.Setup(f => f.Directory)
+                    .Returns(directory);
             }
 
-            var reader = new ConfigurationReaderVersion10(
-                new List<IConstructTestSteps>
+            StoreFileDataForEnvironment storage =
+                (environment, step, name, data) =>
+                {
+                    switch (step)
                     {
-                        testStepProcessor.Object,
-                    });
+                        case 0:
+                            xcopy.Item2(environment, step, name, data);
+                            break;
+                        case 1:
+                            msi.Item2(environment, step, name, data);
+                            break;
+                        case 2:
+                            script.Item2(environment, step, name, data);
+                            break;
+                        default:
+                            Assert.Fail();
+                            break;
+                    }
+                };
+
+            var reader = new ConfigurationReaderVersion10(fileSystem.Object, storage);
             var config = reader.Read(doc);
             Assert.IsNotNull(config);
 
@@ -125,15 +299,11 @@ namespace Sherlock.Console
 
             Assert.AreEqual(1, config.Test.Environments.Count());
 
-            Assert.AreEqual(1, config.Test.TestSteps.Count());
+            var testSteps = config.Test.TestSteps.ToList();
+            msi.Item3(testSteps[0] as MsiInstallTestStepDescription);
+            script.Item3(testSteps[1] as ScriptExecuteTestStepDescription);
+            xcopy.Item3(testSteps[2] as XCopyTestStepDescription);
 
-            Assert.That(
-                config.Test.TestSteps, 
-                Is.EquivalentTo(
-                    new List<TestStepDescription>
-                    {
-                        testStep
-                    }));
             Assert.AreEqual(notificationPath, config.Test.ReportPath);
         }
     }

@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sherlock configurationVersion="${VERSION}$">
+    <server>
+        <url>${SERVER_URL}$</url>
+    </server>
+    
     <!--
         Provide some human readable information for the test. This information
         is used in the reports.
@@ -33,8 +37,7 @@
                     http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx
                     for more information.
                 -->
-                <operatingsystem configurationVersion="${VERSION}$"
-                                 name="${OPERATING_SYSTEM_NAME}$"
+                <operatingsystem name="${OPERATING_SYSTEM_NAME}$"
                                  servicepack="${OPERATING_SYSTEM_SERVICE_PACK}$"
                                  culture="${OPERATING_SYSTEM_CULTURE}$"
                                  architecturepointersize="${OPERATING_SYSTEM_POINTER_SIZE}$"/>
@@ -43,11 +46,9 @@
                     Indicates which software applications need to be installed
                     for the current test to run.
                 -->
-                <!--
-                <software configurationVersion="${VERSION}$"
-                          name="${APPLICATION_NAME}$"
+                <software name="${APPLICATION_NAME}$"
                           version="${APPLICATION_VERSION}$"/>
-                -->
+                
                 <!-- Place more constraints here -->
             </constraints>
         </environment>
@@ -59,59 +60,34 @@
         The test steps that need to be taken for the test to be completed 
     -->
     <teststeps>
-        <msi configurationVersion="${VERSION}$"
-             steporder="${STEP_ORDER_INDEX}$"
-             environment="${ENVIRONMENT_NAME}$">
-            <file><![CDATA[${INSTALLER_FULL_PATH_GOES_HERE}$]]></file>
+        <msi steporder="${MSI_STEP_ORDER_INDEX}$"
+             environment="${MSI_ENVIRONMENT_NAME}$">
+            <file><![CDATA[${MSI_INSTALLER_FULL_PATH_GOES_HERE}$]]></file>
             <params>
-                <param key="${PARAMETER_KEY}$"><![CDATA[${PARAMETER_VALUE}$]]></param>
+                <param key="${MSI_PARAMETER_KEY}$"><![CDATA[${MSI_PARAMETER_VALUE}$]]></param>
             </params>
         </msi>
-        <!--
-        <xcopy configurationVersion="${VERSION}$"
-               steporder="${STEP_ORDER_INDEX}$" 
-               environment="${ENVIRONMENT_NAME}$">
-            <destination><![CDATA[${DESTINATION_PATH}$]]></destination>
-            <base><![CDATA[${BASE_PATH}$]]></base>
-            <paths>
-                <file><![CDATA[${FILE_FULL_PATH_GOES_HERE}$]]></file>
-                <directory><![CDATA[${DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
-            </paths>
-        </xcopy>
-        -->
-        <!--
-        <script configurationVersion="${VERSION}$"
-                steporder="${STEP_ORDER_INDEX}$" 
-                environment="${ENVIRONMENT_NAME}$" >
+        <script steporder="${SCRIPT_STEP_ORDER_INDEX}$"
+                        environment="${SCRIPT_ENVIRONMENT_NAME}$">
             <file language="${SCRIPT_LANGUAGE_GOES_HERE}$"><![CDATA[${SCRIPT_FULL_PATH_GOES_HERE}$]]></file>
             <params>
-                <param key="${PARAMETER_KEY}$"><![CDATA[${PARAMETER_VALUE}$]]></param>
+                <param key="${SCRIPT_PARAMETER_KEY}$"><![CDATA[${SCRIPT_PARAMETER_VALUE}$]]></param>
             </params>
         </script>
-        -->
-        <!--
-        <wait configurationVersion="${VERSION}$"
-              steporder="${STEP_ORDER_INDEX}$" 
-              environment="${ENVIRONMENT_NAME}$" >
-        </wait>
-        -->
-        <!--
-        <callback configurationVersion="${VERSION}$"
-                  steporder="${STEP_ORDER_INDEX}$" 
-                  environment="${ENVIRONMENT_NAME}$" >
-        </callback>
-        -->
+        <xcopy steporder="${XCOPY_STEP_ORDER_INDEX}$" 
+               environment="${XCOPY_ENVIRONMENT_NAME}$">
+            <destination><![CDATA[${XCOPY_DESTINATION_PATH}$]]></destination>
+            <base><![CDATA[${XCOPY_BASE_PATH}$]]></base>
+            <paths>
+                <file><![CDATA[${XCOPY_FILE_FULL_PATH_GOES_HERE}$]]></file>
+                <directory><![CDATA[${XCOPY_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
+            </paths>
+        </xcopy>
     </teststeps>
 
     <completednotification>
-        <!--
-        <url configurationVersion="${VERSION}$">
-            <path><![CDATA[${URL_GOES_HERE}$]]></path>
-        </url>
-        -->
-
-        <file configurationVersion="${VERSION}$">
-            <path><![CDATA[${DIRECTORY_FULL_PATH_GOES_HERE}$]]></path>
+        <file>
+            <path><![CDATA[${NOTIFICATION_DIRECTORY_FULL_PATH_GOES_HERE}$]]></path>
         </file>
     </completednotification>
 </sherlock>

@@ -64,10 +64,18 @@ namespace Sherlock.Console
         private static void RegisterConfigurationReaders(ContainerBuilder builder)
         {
             builder.Register(c => new ConfigurationReaderVersion10(
-                    c.Resolve<IEnumerable<IConstructTestSteps>>()))
+                    c.Resolve<IFileSystem>(),
+                    c.Resolve<StoreFileDataForEnvironment>()))
                 .As<IVersionedConfigurationReader>()
                 .WithMetadata<IReaderVersionMetaData>(
                     m => m.For(reader => reader.ReaderVersion, ConfigurationReaderVersion10.VersionToRead));
+
+            builder.Register(c => new ConfigurationReaderVersion11(
+                    c.Resolve<IFileSystem>(),
+                    c.Resolve<StoreFileDataForEnvironment>()))
+                .As<IVersionedConfigurationReader>()
+                .WithMetadata<IReaderVersionMetaData>(
+                    m => m.For(reader => reader.ReaderVersion, ConfigurationReaderVersion11.VersionToRead));
         }
 
         private static void RegisterFileSystem(ContainerBuilder builder)
@@ -112,24 +120,6 @@ namespace Sherlock.Console
                 });
         }
 
-        private static void RegisterPlugins(ContainerBuilder builder)
-        {
-            builder.Register(c => new MsiDeployStepBuilder(
-                    c.Resolve<IFileSystem>(),
-                    c.Resolve<StoreFileDataForEnvironment>()))
-                .As<IConstructTestSteps>();
-
-            builder.Register(c => new ScriptExecuteStepBuilder(
-                    c.Resolve<IFileSystem>(),
-                    c.Resolve<StoreFileDataForEnvironment>()))
-                .As<IConstructTestSteps>();
-
-            builder.Register(c => new XCopyDeployStepBuilder(
-                    c.Resolve<IFileSystem>(),
-                    c.Resolve<StoreFileDataForEnvironment>()))
-                .As<IConstructTestSteps>();
-        }
-
         /// <summary>
         /// Creates the DI container for the application.
         /// </summary>
@@ -144,7 +134,6 @@ namespace Sherlock.Console
                 RegisterConfigurationReaders(builder);
                 RegisterFileSystem(builder);
                 RegisterTestFilePacker(builder);
-                RegisterPlugins(builder);
             }
 
             return builder.Build();

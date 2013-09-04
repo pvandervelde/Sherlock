@@ -274,8 +274,7 @@
         <StringProperty Name="SP2100_Limit">150:4</StringProperty>
         <StringProperty Name="SP2102_Limit">25</StringProperty>
         <StringProperty Name="SP2103_Limit">1000</StringProperty>
-        <StringProperty Name="AdvancedNaming_Words">FxCop HyperV NSarrac StyleCop x64 x86 XCopy</StringProperty>
-        <StringProperty Name="AdvancedNaming_Namespace">$(AaBb):NSarrac</StringProperty>
+        <StringProperty Name="AdvancedNaming_Words">1X FxCop HyperV NSarrac StyleCop x64 x86 XCopy</StringProperty>
         <StringProperty Name="AdvancedNaming_MethodGeneral">$(AaBb):Application_Start</StringProperty>
       </AnalyzerSettings>
     </Analyzer>
