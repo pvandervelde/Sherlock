@@ -144,9 +144,6 @@ namespace Sherlock.Console
                 throw new NonMatchingVersionFoundException(configurationVersion.ToString(), VersionToRead.ToString());
             }
 
-            var serverNode = rootNode.Element("server");
-            var serverUrl = serverNode.Element("url").Value;
-
             var descriptionNode = rootNode.Element("description");
             var productName = descriptionNode.Element("product").Value;
             var productVersion = descriptionNode.Element("version").Value;
@@ -162,7 +159,7 @@ namespace Sherlock.Console
             var reportPath = ExtractCompletedNotification(rootNode);
 
             var description = new TestDescription(productName, productVersion, owner, testPurpose, reportPath, constraints, testSteps);
-            return new ConfigurationInfo(serverUrl, description);
+            return new ConfigurationInfo(description);
         }
 
         private IEnumerable<TestStepDescription> ExtractTestSteps(XElement rootNode)

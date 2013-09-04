@@ -241,6 +241,15 @@ namespace Sherlock.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} application configuration was missing from the application configuration file..
+        /// </summary>
+        internal static string Log_Error_MissingApplicationConfigurationValue {
+            get {
+                return ResourceManager.GetString("Log_Error_MissingApplicationConfigurationValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while processing the test configuration. The exception is: {0}.
         /// </summary>
         internal static string Log_Error_ProcessingError_WithException {
@@ -381,6 +390,15 @@ namespace Sherlock.Console.Properties {
         internal static string Output_Error_MissingValues {
             get {
                 return ResourceManager.GetString("Output_Error_MissingValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The URL of the Sherlock webservice was not provided in the application configuration file. Please update the configuration file..
+        /// </summary>
+        internal static string Output_Error_MissingWebServiceUrlConfiguration {
+            get {
+                return ResourceManager.GetString("Output_Error_MissingWebServiceUrlConfiguration", resourceCulture);
             }
         }
         

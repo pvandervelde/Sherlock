@@ -35,6 +35,11 @@ namespace Sherlock.Console
     static class Program
     {
         /// <summary>
+        /// The exit code used when the application has shown the help information.
+        /// </summary>
+        private const int HelpShownExitCode = -1;
+        
+        /// <summary>
         /// Defines the error code for a normal application exit (i.e without errors).
         /// </summary>
         private const int NormalApplicationExitCode = 0;
@@ -45,15 +50,16 @@ namespace Sherlock.Console
         private const int UnhandledExceptionApplicationExitCode = 1;
 
         /// <summary>
+        /// The exit code used when the application was not able to gather all the required data
+        /// from the application configuration file.
+        /// </summary>
+        private const int InvalidApplicationConfigurationExitCode = 2;
+
+        /// <summary>
         /// The exit code used when the application has been provided with one or more invalid
         /// command line parameters.
         /// </summary>
-        private const int InvalidCommandLineParametersExitCode = 2;
-
-        /// <summary>
-        /// The exit code used when the application has shown the help information.
-        /// </summary>
-        private const int HelpShownExitCode = 3;
+        private const int InvalidCommandLineParametersExitCode = 3;
 
         /// <summary>
         /// The exit code used when the application has been provided with the path to a 
@@ -86,6 +92,11 @@ namespace Sherlock.Console
         /// The object that provides the diagnostics methods for the application.
         /// </summary>
         private static SystemDiagnostics s_Diagnostics;
+
+        /// <summary>
+        /// The object that contains the configuration for the application.
+        /// </summary>
+        private static IConfiguration s_Configuration;
 
         /// <summary>
         /// A flag indicating if the help information for the application should be displayed.
@@ -174,8 +185,24 @@ namespace Sherlock.Console
                     return InvalidConfigurationFileExitCode;
                 }
 
+                if (!s_Configuration.HasValueFor(ConsoleConfigurationKeys.WebServiceUrl))
+                {
+                    s_Diagnostics.Log(
+                        LevelToLog.Fatal,
+                        ConsoleConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Log_Error_MissingApplicationConfigurationValue,
+                            ConsoleConfigurationKeys.WebServiceUrl));
+
+                    WriteErrorToConsole(Resources.Output_Error_MissingWebServiceUrlConfiguration);
+                    return InvalidApplicationConfigurationExitCode;
+                }
+                
+                var serverUrl = s_Configuration.Value<string>(ConsoleConfigurationKeys.WebServiceUrl);
+
                 WriteInputParametersToLog(s_ConfigurationFile);
-                return QueueTest();
+                return QueueTest(serverUrl);
             }
             finally
             {
@@ -269,6 +296,7 @@ namespace Sherlock.Console
         {
             s_Container = DependencyInjection.CreateContainer();
             s_Diagnostics = s_Container.Resolve<SystemDiagnostics>();
+            s_Configuration = s_Container.Resolve<IConfiguration>();
         }
 
         private static void LogStartup()
@@ -313,7 +341,7 @@ namespace Sherlock.Console
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Once we catch the exception we'll exit, but now we should be able to log the failure.")]
-        private static int QueueTest()
+        private static int QueueTest(string serverUrl)
         {
             try
             {
@@ -337,7 +365,7 @@ namespace Sherlock.Console
                     var packer = s_Container.Resolve<ITestSuitePackage>();
                     packer.PackTo(zipFile);
 
-                    var baseUri = new Uri(configurationInfo.ServerUrl);
+                    var baseUri = new Uri(serverUrl);
                     var http = new HttpClient
                         {
                             BaseAddress = baseUri,

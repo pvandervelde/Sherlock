@@ -15,10 +15,10 @@ namespace Sherlock.Console
     internal static class ConsoleConfigurationKeys
     {
         /// <summary>
-        /// The configuration key that is used to retrieve the directory path to the directory that contains the plugins.
+        /// The configuration key that is used to retrieve the web service URL.
         /// </summary>
-        public static readonly ConfigurationKey PluginLocation
-            = new ConfigurationKey("PluginLocation", typeof(string));
+        public static readonly ConfigurationKey WebServiceUrl
+            = new ConfigurationKey("WebServiceUrl", typeof(string));
 
         /// <summary>
         /// Returns a collection containing all the configuration keys for the application.
@@ -28,7 +28,7 @@ namespace Sherlock.Console
         {
             return new List<ConfigurationKey>
                 {
-                    PluginLocation,
+                    WebServiceUrl,
                 };
         }
     }

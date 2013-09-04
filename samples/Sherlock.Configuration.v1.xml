@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sherlock configurationVersion="${VERSION}$">
-    <server>
-        <url>${SERVER_URL}$</url>
-    </server>
-    
     <!--
         Provide some human readable information for the test. This information
         is used in the reports.

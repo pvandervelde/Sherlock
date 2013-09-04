@@ -270,4 +270,10 @@
   <data name="Output_Information_RegisteringTest" xml:space="preserve">
     <value>Registering test ...</value>
   </data>
+  <data name="Log_Error_MissingApplicationConfigurationValue" xml:space="preserve">
+    <value>The {0} application configuration was missing from the application configuration file.</value>
+  </data>
+  <data name="Output_Error_MissingWebServiceUrlConfiguration" xml:space="preserve">
+    <value>The URL of the Sherlock webservice was not provided in the application configuration file. Please update the configuration file.</value>
+  </data>
 </root>
