@@ -105,6 +105,7 @@
       <Link>MockFile.cs</Link>
     </Compile>
     <Compile Include="ConfigurationReaderVersion10Test.cs" />
+    <Compile Include="ConfigurationReaderVersion11Test.cs" />
     <Compile Include="InvalidServerResponseExceptionTest.cs" />
     <Compile Include="MissingNotificationConfigurationExceptionTest.cs" />
     <Compile Include="NonMatchingVersionFoundExceptionTest.cs" />

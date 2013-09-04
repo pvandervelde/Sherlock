@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
+using System.Xml.Linq;
 
 namespace Sherlock.Console
 {
@@ -67,6 +68,17 @@ namespace Sherlock.Console
             {
                 return VersionToRead;
             }
+        }
+
+        /// <summary>
+        /// Extracts the failure mode that describes what action should be taken in case of failure
+        /// of a test step.
+        /// </summary>
+        /// <param name="node">The node that contains the failure mode attribute.</param>
+        /// <returns>The failure mode, being either 'stop' or 'continue'.</returns>
+        protected override string ExtractFailureModeFromTestStepConfiguration(XElement node)
+        {
+            return "Stop";
         }
     }
 }

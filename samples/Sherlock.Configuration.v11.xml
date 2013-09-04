@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sherlock configurationVersion="${VERSION}$">
+    <!--
+        Provide some human readable information for the test. This information
+        is used in the reports.
+    -->
+    <description>
+        <product>${NAME_OF_PRODUCT_UNDER_TEST}$</product>
+        <version>${VERSION_OF_PRODUCT_UNDER_TEST}$</version>
+        <testpurpose>${PURPOSE_OF_TEST}$</testpurpose>
+    </description>
+
+    <!--
+        Define the environments that are required for the test. Environments are selected by limiting the
+        selection through constraints.
+    -->
+    <environments>
+        <environment name="${ENVIRONMENT_NAME}$">
+            <constraints>
+                <!-- 
+                    Indicates on which operating systems the tests have to be run.
+                    Note that you can specify what ever you want, however the tests
+                    will not be run if the operating system is not recognised 
+
+                    Service pack names are designated with SP and a number, e.g. SP1
+
+                    Operating system cultures follow the RFC 4646 specification: 
+                    The name is a combination of and ISO 639 two-letter lowercase
+                    culture code associated with a language and an ISO 3166 two-
+                    letter uppercase subculture code associated with a country or 
+                    region. Examples are: en-US (US english), jp-JP (japanese) etc.
+                    see here: 
+                    http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx
+                    for more information.
+                -->
+                <operatingsystem name="${OPERATING_SYSTEM_NAME}$"
+                                 servicepack="${OPERATING_SYSTEM_SERVICE_PACK}$"
+                                 culture="${OPERATING_SYSTEM_CULTURE}$"
+                                 architecturepointersize="${OPERATING_SYSTEM_POINTER_SIZE}$"/>
+
+                <!--
+                    Indicates which software applications need to be installed
+                    for the current test to run.
+                -->
+                <software name="${APPLICATION_NAME}$"
+                          version="${APPLICATION_VERSION}$"/>
+                
+                <!-- Place more constraints here -->
+            </constraints>
+        </environment>
+        
+        <!-- Place more environments here -->
+    </environments>
+
+    <!-- 
+        The test steps that need to be taken for the test to be completed 
+    -->
+    <teststeps>
+        <msi steporder="${MSI_STEP_ORDER_INDEX}$"
+             environment="${MSI_ENVIRONMENT_NAME}$"
+             onfailure="${MSI_FAILURE_ACTION}$">
+            <file><![CDATA[${MSI_INSTALLER_FULL_PATH_GOES_HERE}$]]></file>
+            <params>
+                <param key="${MSI_PARAMETER_KEY}$"><![CDATA[${MSI_PARAMETER_VALUE}$]]></param>
+            </params>
+        </msi>
+        <script steporder="${SCRIPT_STEP_ORDER_INDEX}$"
+                environment="${SCRIPT_ENVIRONMENT_NAME}$"
+                onfailure="${SCRIPT_FAILURE_ACTION}$">
+            <file language="${SCRIPT_LANGUAGE_GOES_HERE}$"><![CDATA[${SCRIPT_FULL_PATH_GOES_HERE}$]]></file>
+            <params>
+                <param key="${SCRIPT_PARAMETER_KEY}$"><![CDATA[${SCRIPT_PARAMETER_VALUE}$]]></param>
+            </params>
+        </script>
+        <xcopy steporder="${XCOPY_STEP_ORDER_INDEX}$" 
+               environment="${XCOPY_ENVIRONMENT_NAME}$"
+               onfailure="${XCOPY_FAILURE_ACTION}$">
+            <destination><![CDATA[${XCOPY_DESTINATION_PATH}$]]></destination>
+            <base><![CDATA[${XCOPY_BASE_PATH}$]]></base>
+            <paths>
+                <file><![CDATA[${XCOPY_FILE_FULL_PATH_GOES_HERE}$]]></file>
+                <directory><![CDATA[${XCOPY_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
+            </paths>
+        </xcopy>
+    </teststeps>
+
+    <completednotification>
+        <file>
+            <path><![CDATA[${NOTIFICATION_DIRECTORY_FULL_PATH_GOES_HERE}$]]></path>
+        </file>
+    </completednotification>
+</sherlock>

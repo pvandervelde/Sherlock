@@ -19,9 +19,14 @@ namespace Sherlock.Console
         /// </summary>
         /// <param name="environment">The name of the environment to which the current step belongs.</param>
         /// <param name="order">The index of the test step in the test sequence.</param>
+        /// <param name="failureMode">The failure mode that describes what action should be taken if the current test step fails.</param>
         /// <param name="destination">The full path to the directory where the files and directories should be copied to.</param>
-        public XCopyTestStepDescription(string environment, int order, string destination)
-            : base(environment, order, Enumerable.Empty<TestStepParameterDescription>())
+        public XCopyTestStepDescription(
+            string environment, 
+            int order,
+            string failureMode,
+            string destination)
+            : base(environment, order, failureMode, Enumerable.Empty<TestStepParameterDescription>())
         {
             {
                 Debug.Assert(!string.IsNullOrEmpty(destination), "The destination directory should not be an empty string.");

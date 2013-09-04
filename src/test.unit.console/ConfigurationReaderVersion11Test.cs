@@ -24,7 +24,7 @@ namespace Sherlock.Console
     [TestFixture]
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented",
                 Justification = "Unit tests do not need documentation.")]
-    public sealed class ConfigurationReaderVersion10Test
+    public sealed class ConfigurationReaderVersion11Test
     {
         private delegate void BuildStep(StringBuilder builder);
 
@@ -35,15 +35,17 @@ namespace Sherlock.Console
             string environmentName,
             Dictionary<string, string> filePathAndContent)
         {
+            const string failureAction = "Msi_Failure_Action";
             const string path = @"c:\m\s\i.msi";
             const string parameterKey = "Parameter_Key";
             const string parameterValue = "Parameter_Value";
 
-            BuildStep buildAction = 
+            BuildStep buildAction =
                 builder =>
                 {
                     builder.Replace("${MSI_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
                     builder.Replace("${MSI_ENVIRONMENT_NAME}$", environmentName);
+                    builder.Replace("${MSI_FAILURE_ACTION}$", failureAction);
                     builder.Replace("${MSI_INSTALLER_FULL_PATH_GOES_HERE}$", path);
                     builder.Replace("${MSI_PARAMETER_KEY}$", parameterKey);
                     builder.Replace("${MSI_PARAMETER_VALUE}$", parameterValue);
@@ -65,7 +67,7 @@ namespace Sherlock.Console
                 {
                     Assert.AreEqual(environmentName, description.Environment);
                     Assert.AreEqual(index, description.Order);
-                    Assert.AreEqual("Stop", description.FailureMode);
+                    Assert.AreEqual(failureAction, description.FailureMode);
 
                     Assert.AreEqual(1, description.Parameters.Count());
                     Assert.AreEqual(parameterKey, description.Parameters.First().Key);
@@ -80,6 +82,7 @@ namespace Sherlock.Console
             string environmentName,
             Dictionary<string, string> filePathAndContent)
         {
+            const string failureAction = "Script_Failure_Action";
             const string scriptLanguage = "Powershell";
             const string scriptPath = @"c:\s\c\ript.ps1";
             const string scriptParameterKey = "Script_Parameter_Key";
@@ -90,6 +93,7 @@ namespace Sherlock.Console
                 {
                     builder.Replace("${SCRIPT_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
                     builder.Replace("${SCRIPT_ENVIRONMENT_NAME}$", environmentName.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${SCRIPT_FAILURE_ACTION}$", failureAction);
                     builder.Replace("${SCRIPT_LANGUAGE_GOES_HERE}$", scriptLanguage);
                     builder.Replace("${SCRIPT_FULL_PATH_GOES_HERE}$", scriptPath);
                     builder.Replace("${SCRIPT_PARAMETER_KEY}$", scriptParameterKey);
@@ -97,7 +101,7 @@ namespace Sherlock.Console
                 };
 
             filePathAndContent.Add(scriptPath, "scriptContent");
-            
+
             FileStep fileAction =
                 (environment, step, name, data) =>
                 {
@@ -112,7 +116,7 @@ namespace Sherlock.Console
                 {
                     Assert.AreEqual(environmentName, description.Environment);
                     Assert.AreEqual(index, description.Order);
-                    Assert.AreEqual("Stop", description.FailureMode);
+                    Assert.AreEqual(failureAction, description.FailureMode);
                     Assert.AreEqual(scriptLanguage, description.ScriptLanguage);
 
                     Assert.AreEqual(1, description.Parameters.Count());
@@ -128,6 +132,7 @@ namespace Sherlock.Console
             string environmentName,
             Dictionary<string, string> filePathAndContent)
         {
+            const string failureAction = "XCopy_Failure_Action";
             const string destination = @"c:\a\b\c";
             const string basePath = @"c:\d\e\f";
             const string installFile = @"c:\d\e\f\g\h.ijk";
@@ -138,6 +143,7 @@ namespace Sherlock.Console
                 {
                     builder.Replace("${XCOPY_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
                     builder.Replace("${XCOPY_ENVIRONMENT_NAME}$", environmentName.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${XCOPY_FAILURE_ACTION}$", failureAction);
                     builder.Replace("${XCOPY_DESTINATION_PATH}$", destination);
                     builder.Replace("${XCOPY_BASE_PATH}$", basePath);
                     builder.Replace("${XCOPY_FILE_FULL_PATH_GOES_HERE}$", installFile);
@@ -168,13 +174,13 @@ namespace Sherlock.Console
                 {
                     Assert.AreEqual(environmentName, description.Environment);
                     Assert.AreEqual(index, description.Order);
-                    Assert.AreEqual("Stop", description.FailureMode);
+                    Assert.AreEqual(failureAction, description.FailureMode);
                     Assert.AreEqual(destination, description.Destination);
                 };
 
             return new Tuple<BuildStep, FileStep, Action<XCopyTestStepDescription>, string[]>(
-                buildAction, 
-                fileAction, 
+                buildAction,
+                fileAction,
                 verifyAction,
                 new[]
                 {
@@ -189,7 +195,7 @@ namespace Sherlock.Console
             // Load the config file string
             var configText = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v10.xml");
+               "Sherlock.Console.Sherlock.Configuration.v11.xml");
 
             // Replace the version place holder
             configText = configText.Replace("${VERSION}$", new Version(2, 1).ToString());
@@ -198,15 +204,14 @@ namespace Sherlock.Console
             var fileSystem = new Mock<IFileSystem>();
             StoreFileDataForEnvironment storage = (environment, step, name, data) => { };
 
-            var reader = new ConfigurationReaderVersion10(fileSystem.Object, storage);
+            var reader = new ConfigurationReaderVersion11(fileSystem.Object, storage);
             Assert.Throws<NonMatchingVersionFoundException>(() => reader.Read(doc));
         }
 
         [Test]
         public void Read()
         {
-            const string configVersion = "1.0";
-            const string serverUrl = @"http:\\www.myawesomesite\sherlock";
+            const string configVersion = "1.1";
             const string product = "product";
             const string productVersion = "2.0";
             const string testPurpose = "client";
@@ -232,12 +237,11 @@ namespace Sherlock.Console
             // Load the config file string
             var text = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v10.xml");
+               "Sherlock.Console.Sherlock.Configuration.v11.xml");
             string configText;
             {
                 var builder = new StringBuilder(text);
                 builder.Replace("${VERSION}$", configVersion);
-                builder.Replace("${SERVER_URL}$", serverUrl);
 
                 builder.Replace("${NAME_OF_PRODUCT_UNDER_TEST}$", product);
                 builder.Replace("${VERSION_OF_PRODUCT_UNDER_TEST}$", productVersion);
@@ -292,7 +296,7 @@ namespace Sherlock.Console
                     }
                 };
 
-            var reader = new ConfigurationReaderVersion10(fileSystem.Object, storage);
+            var reader = new ConfigurationReaderVersion11(fileSystem.Object, storage);
             var config = reader.Read(doc);
             Assert.IsNotNull(config);
 

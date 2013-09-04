@@ -25,7 +25,7 @@ namespace Sherlock.Console
         /// </summary>
         /// <param name="input">The configuration element for the current test step.</param>
         /// <returns>The name of the test step in the overall test step sequence.</returns>
-        private static int GetStepOrderFromTestStepConfiguration(XElement input)
+        private static int ExtractStepOrderFromTestStepConfiguration(XElement input)
         {
             return int.Parse(input.Attribute("steporder").Value, CultureInfo.InvariantCulture);
         }
@@ -35,7 +35,7 @@ namespace Sherlock.Console
         /// </summary>
         /// <param name="input">The configuration element for the current test step.</param>
         /// <returns>The name of the environment that will execute the current test step.</returns>
-        private static string GetEnvironmentNameFromTestStepConfiguration(XElement input)
+        private static string ExtractEnvironmentNameFromTestStepConfiguration(XElement input)
         {
             return input.Attribute("environment").Value;
         }
@@ -47,7 +47,7 @@ namespace Sherlock.Console
         /// <returns>A collection containing all the parameters.</returns>
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
             Justification = "Users should really be putting in XElement objects.")]
-        private static IEnumerable<TestStepParameterDescription> GetParametersFromTestStepConfiguration(XElement input)
+        private static IEnumerable<TestStepParameterDescription> ExtractParametersFromTestStepConfiguration(XElement input)
         {
             var parameters = new List<TestStepParameterDescription>();
             foreach (var element in input.Element("params").Elements("param"))
@@ -214,7 +214,7 @@ namespace Sherlock.Console
             var result = new List<TestStepDescription>();
             foreach (var testStepNode in testStepsNode.Elements())
             {
-                TestStepDescription testStep = null;
+                TestStepDescription testStep;
                 switch (testStepNode.Name.LocalName)
                 {
                     case "msi":
@@ -236,38 +236,52 @@ namespace Sherlock.Console
             return result;
         }
 
+        /// <summary>
+        /// Extracts the failure mode that describes what action should be taken in case of failure
+        /// of a test step.
+        /// </summary>
+        /// <param name="node">The node that contains the failure mode attribute.</param>
+        /// <returns>The failure mode, being either 'Stop' or 'Continue'.</returns>
+        protected virtual string ExtractFailureModeFromTestStepConfiguration(XElement node)
+        {
+            return node.Attribute("onfailure").Value;
+        }
+
         private MsiInstallTestStepDescription ExtractMsiDeployTestStep(XElement node)
         {
-            var stepOrder = GetStepOrderFromTestStepConfiguration(node);
-            var environment = GetEnvironmentNameFromTestStepConfiguration(node);
+            var stepOrder = ExtractStepOrderFromTestStepConfiguration(node);
+            var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
+            var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
             var file = (node.Element("file").FirstNode as XCData).Value;
-            var parameters = GetParametersFromTestStepConfiguration(node);
+            var parameters = ExtractParametersFromTestStepConfiguration(node);
 
             AddFileToEnvironmentPackage(environment, stepOrder, Path.GetFileName(file), file);
 
-            return new MsiInstallTestStepDescription(environment, stepOrder, parameters);
+            return new MsiInstallTestStepDescription(environment, stepOrder, failureMode, parameters);
         }
 
         private ScriptExecuteTestStepDescription ExtractScriptExecuteTestStep(XElement node)
         {
-            var stepOrder = GetStepOrderFromTestStepConfiguration(node);
-            var environment = GetEnvironmentNameFromTestStepConfiguration(node);
+            var stepOrder = ExtractStepOrderFromTestStepConfiguration(node);
+            var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
+            var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
             var fileNode = node.Element("file");
             var language = fileNode.Attribute("language").Value;
             var file = (fileNode.FirstNode as XCData).Value;
-            var parameters = GetParametersFromTestStepConfiguration(node);
+            var parameters = ExtractParametersFromTestStepConfiguration(node);
 
             AddFileToEnvironmentPackage(environment, stepOrder, Path.GetFileName(file), file);
 
-            return new ScriptExecuteTestStepDescription(environment, stepOrder, parameters, language);
+            return new ScriptExecuteTestStepDescription(environment, stepOrder, failureMode, parameters, language);
         }
 
         private XCopyTestStepDescription ExtractXCopyDeployTestStep(XElement node)
         {
-            var stepOrder = GetStepOrderFromTestStepConfiguration(node);
-            var environment = GetEnvironmentNameFromTestStepConfiguration(node);
+            var stepOrder = ExtractStepOrderFromTestStepConfiguration(node);
+            var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
+            var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
             var remoteBasePath = (node.Element("destination").FirstNode as XCData).Value;
             var basePath = (node.Element("base").FirstNode as XCData).Value;
@@ -291,7 +305,7 @@ namespace Sherlock.Console
                 }
             }
 
-            return new XCopyTestStepDescription(environment, stepOrder, remoteBasePath);
+            return new XCopyTestStepDescription(environment, stepOrder, failureMode, remoteBasePath);
         }
 
         private string ExtractCompletedNotification(XElement rootNode)

@@ -18,9 +18,14 @@ namespace Sherlock.Console
         /// </summary>
         /// <param name="environment">The name of the environment to which the current step belongs.</param>
         /// <param name="order">The index of the test step in the test sequence.</param>
+        /// <param name="failureMode">The failure mode that describes what action should be taken if the current test step fails.</param>
         /// <param name="parameters">The collection containing the parameters for the current test step.</param>
-        public MsiInstallTestStepDescription(string environment, int order, IEnumerable<TestStepParameterDescription> parameters) 
-            : base(environment, order, parameters)
+        public MsiInstallTestStepDescription(
+            string environment, 
+            int order,
+            string failureMode,
+            IEnumerable<TestStepParameterDescription> parameters) 
+            : base(environment, order, failureMode, parameters)
         {
         }
     }

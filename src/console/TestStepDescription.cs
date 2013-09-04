@@ -19,17 +19,24 @@ namespace Sherlock.Console
         /// </summary>
         /// <param name="environment">The name of the environment to which the current step belongs.</param>
         /// <param name="order">The index of the test step in the test sequence.</param>
+        /// <param name="failureMode">The failure mode that describes what action should be taken if the current test step fails.</param>
         /// <param name="parameters">The collection containing the parameters for the current test step.</param>
-        protected TestStepDescription(string environment, int order, IEnumerable<TestStepParameterDescription> parameters)
+        protected TestStepDescription(
+            string environment, 
+            int order, 
+            string failureMode,
+            IEnumerable<TestStepParameterDescription> parameters)
         {
             {
                 Debug.Assert(!string.IsNullOrEmpty(environment), "The name of the environment should not be an empty string.");
                 Debug.Assert(order >= 0, "The order of the test step should be a postive integer.");
+                Debug.Assert(!string.IsNullOrEmpty(failureMode), "The failure mode should not be an empty string.");
                 Debug.Assert(parameters != null, "The parameters collection should not be a null reference.");
             }
 
             Environment = environment;
             Order = order;
+            FailureMode = failureMode;
             Parameters = parameters;
         }
 
@@ -46,6 +53,16 @@ namespace Sherlock.Console
         /// Gets the order of the test step in the test sequence.
         /// </summary>
         public int Order
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the failure mode that describes if the test sequence should continue or stop if the current
+        /// test step fails.
+        /// </summary>
+        public string FailureMode
         {
             get;
             private set;

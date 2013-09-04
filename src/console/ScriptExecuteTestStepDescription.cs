@@ -19,14 +19,16 @@ namespace Sherlock.Console
         /// </summary>
         /// <param name="environment">The name of the environment to which the current step belongs.</param>
         /// <param name="order">The index of the test step in the test sequence.</param>
+        /// <param name="failureMode">The failure mode that describes what action should be taken if the current test step fails.</param>
         /// <param name="parameters">The collection containing the parameters for the current test step.</param>
         /// <param name="scriptLanguage">The name of the script language used to write the script that should be executed.</param>
         public ScriptExecuteTestStepDescription(
             string environment, 
-            int order, 
+            int order,
+            string failureMode,
             IEnumerable<TestStepParameterDescription> parameters, 
             string scriptLanguage) 
-            : base(environment, order, parameters)
+            : base(environment, order, failureMode, parameters)
         {
             {
                 Debug.Assert(!string.IsNullOrEmpty(scriptLanguage), "The script language name should not be an empty string.");
