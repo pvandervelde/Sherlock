@@ -6,19 +6,22 @@
 
 CREATE PROCEDURE [Tests].[AddMsiInstallTestStep]
     @testEnvironmentId INT,
-    @order INT
+    @order INT,
+    @onFailure NVARCHAR(50)
 AS
     BEGIN TRANSACTION
 
         INSERT INTO [Tests].[TestStep]
             (
                 [fk_TestEnvironmentId],
-                [Order]
+                [Order],
+                [OnFailure]
             )
         VALUES
             (
                 @testEnvironmentId,
-                @order
+                @order,
+                @onFailure
             )
 
         DECLARE @id INT

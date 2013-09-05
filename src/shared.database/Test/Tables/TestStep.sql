@@ -9,6 +9,7 @@ CREATE TABLE [Tests].[TestStep]
     [pk_TestStepId] INT NOT NULL PRIMARY KEY IDENTITY,
     [fk_TestEnvironmentId] INT NOT NULL,
     [Order] INT NOT NULL,
+    [OnFailure] NVARCHAR(50) NOT NULL DEFAULT 'Stop',
     CONSTRAINT [FK_TestStep_ToTestEnvironment]
         FOREIGN KEY ([fk_TestEnvironmentId])
         REFERENCES [Tests].[TestEnvironment]([pk_TestEnvironmentId])

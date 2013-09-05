@@ -8,6 +8,7 @@ CREATE PROCEDURE [Tests].[UpdateScriptExecuteTestStep]
     @id INT,
     @testEnvironmentId INT,
     @order INT,
+    @onFailure NVARCHAR(50),
     @language NVARCHAR(50)
 AS
     IF NOT EXISTS (
@@ -30,7 +31,8 @@ AS
         UPDATE [Tests].[TestStep]
         SET
             [fk_TestEnvironmentId] = @testEnvironmentId,
-            [Order] = @order
+            [Order] = @order,
+            [OnFailure] = @onFailure
         WHERE [pk_TestStepId] = @id
 
         UPDATE [Tests].[ScriptExecuteTestStep]

@@ -7,6 +7,7 @@
 CREATE PROCEDURE [Tests].[AddScriptExecuteTestStep]
     @testEnvironmentId INT,
     @order INT,
+    @onFailure NVARCHAR(50),
     @language NVARCHAR(50)
 AS
     BEGIN TRANSACTION
@@ -14,12 +15,14 @@ AS
         INSERT INTO [Tests].[TestStep]
             (
                 [fk_TestEnvironmentId],
-                [Order]
+                [Order],
+                [OnFailure]
             )
         VALUES
             (
                 @testEnvironmentId,
-                @order
+                @order,
+                @onFailure
             )
 
         DECLARE @id INT

@@ -11,6 +11,7 @@ AS
         [Tests].[TestStep].[pk_TestStepId],
         [Tests].[TestStep].[fk_TestEnvironmentId],
         [Tests].[TestStep].[Order],
+        [Tests].[TestStep].[OnFailure],
         [Tests].[XCopyTestStep].[Destination]
     FROM [Tests].[XCopyTestStep]
     JOIN [Tests].[TestStep]
