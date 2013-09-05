@@ -715,10 +715,11 @@ namespace Sherlock.Console
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "api/TestStep/Register{0}?environment={1}&order={2}{3}",
+                "api/TestStep/Register{0}?environment={1}&order={2}&failuremode={3}{4}",
                 stepType,
                 environmentToIdMapping[step.Environment],
                 step.Order,
+                step.FailureMode,
                 parameters);
         }
 
