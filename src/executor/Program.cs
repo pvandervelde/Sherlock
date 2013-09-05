@@ -342,6 +342,8 @@ namespace Sherlock.Executor
             sectionWriter.Initialize(Resources.ReportSection_Name_TestExecution);
             var executors = container.Resolve<IEnumerable<IProcessTestStep>>().ToList();
             var executedSteps = new List<Tuple<TestStep, IParticipateInCleanUp>>();
+
+            var testResult = TestExecutionResult.Passed;
             foreach (var step in testSteps)
             {
                 try
@@ -383,41 +385,11 @@ namespace Sherlock.Executor
                         executedSteps.Add(new Tuple<TestStep, IParticipateInCleanUp>(step, cleaner));
                     }
 
-                    if ((result == TestExecutionState.Failed) || (result == TestExecutionState.Crashed))
+                    testResult = (result == TestExecutionState.Passed) ? TestExecutionResult.Passed : TestExecutionResult.Failed;
+                    if (((result == TestExecutionState.Failed) || (result == TestExecutionState.Crashed)) 
+                        && (step.FailureMode == TestStepFailureMode.Stop))
                     {
-                        try
-                        {
-                            for (int i = executedSteps.Count - 1; i > -1; i--)
-                            {
-                                var pair = executedSteps[i];
-                                diagnostics.Log(
-                                    LevelToLog.Info,
-                                    ExecutorConstants.LogPrefix,
-                                    string.Format(
-                                        CultureInfo.InvariantCulture,
-                                        Resources.Log_Messages_CleaningUpTestStep_WithStepAndTestStepType,
-                                        pair.Item1.Order,
-                                        pair.Item1.GetType()));
-
-                                pair.Item2.CleanUp(pair.Item1);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            diagnostics.Log(
-                                LevelToLog.Error,
-                                ExecutorConstants.LogPrefix,
-                                string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    Resources.Log_Messages_FailedToCleanUp_WithError,
-                                    e));
-
-                            sectionWriter.AddErrorMessage(
-                                string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    Resources.Reporting_TestExecution_CleanupFailed_WithException,
-                                    e));
-                        }
+                        RollbackExecutedStepsOnFailure(executedSteps, diagnostics, sectionWriter);
 
                         sectionWriter.FinalizeAndStore(false);
                         notifications.RaiseOnTestCompletion(TestExecutionResult.Failed);
@@ -446,9 +418,49 @@ namespace Sherlock.Executor
                 }
             }
 
-            sectionWriter.FinalizeAndStore(true);
-            notifications.RaiseOnTestCompletion(TestExecutionResult.Passed);
-            return TestExecutionResult.Passed;
+            sectionWriter.FinalizeAndStore(testResult == TestExecutionResult.Passed);
+            notifications.RaiseOnTestCompletion(testResult);
+            return testResult;
+        }
+
+        private static void RollbackExecutedStepsOnFailure(
+            List<Tuple<TestStep, IParticipateInCleanUp>> executedSteps, 
+            SystemDiagnostics diagnostics, 
+            ITestSectionBuilder sectionWriter)
+        {
+            try
+            {
+                for (int i = executedSteps.Count - 1; i > -1; i--)
+                {
+                    var pair = executedSteps[i];
+                    diagnostics.Log(
+                        LevelToLog.Info,
+                        ExecutorConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Log_Messages_CleaningUpTestStep_WithStepAndTestStepType,
+                            pair.Item1.Order,
+                            pair.Item1.GetType()));
+
+                    pair.Item2.CleanUp(pair.Item1);
+                }
+            }
+            catch (Exception e)
+            {
+                diagnostics.Log(
+                    LevelToLog.Error,
+                    ExecutorConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Messages_FailedToCleanUp_WithError,
+                        e));
+
+                sectionWriter.AddErrorMessage(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Reporting_TestExecution_CleanupFailed_WithException,
+                        e));
+            }
         }
     }
 }
