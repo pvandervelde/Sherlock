@@ -196,6 +196,7 @@
           <Property Name="pk_TestStepId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="fk_TestEnvironmentId" Type="int" Nullable="false" />
           <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="OnFailure" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="TestStepParameter">
           <Key>
@@ -583,10 +584,12 @@
         <Function Name="AddMsiInstallTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="AddScriptExecuteTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
           <Parameter Name="language" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="AddTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
@@ -609,6 +612,7 @@
         <Function Name="AddXCopyTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
           <Parameter Name="destination" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="AttachMachineToTestEnvironment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
@@ -693,11 +697,13 @@
           <Parameter Name="id" Type="int" Mode="In" />
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="UpdateScriptExecuteTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
           <Parameter Name="language" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="UpdateTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
@@ -724,6 +730,7 @@
           <Parameter Name="id" Type="int" Mode="In" />
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
           <Parameter Name="destination" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="GetSchemaVersion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Versioning" />
@@ -939,10 +946,12 @@
           <FunctionImport Name="AddMsiInstallTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
             <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
             <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AddScriptExecuteTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
             <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
             <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
             <Parameter Name="language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AddTest" ReturnType="Collection(Int32)" a:MethodAccess="Private">
@@ -965,6 +974,7 @@
           <FunctionImport Name="AddXCopyTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
             <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
             <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
             <Parameter Name="destination" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteApplicationFromTestEnvironment" a:MethodAccess="Private">
@@ -1011,11 +1021,13 @@
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
             <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateScriptExecuteTestStep" a:MethodAccess="Private">
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
             <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
             <Parameter Name="language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateTest" a:MethodAccess="Private">
@@ -1042,6 +1054,7 @@
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
             <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
             <Parameter Name="destination" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetTestEnvironmentByMachineId" EntitySet="TestEnvironments" ReturnType="Collection(Sherlock.Shared.DataAccess.TestEnvironment)" a:MethodAccess="Private">
@@ -1579,6 +1592,11 @@
               <Summary>Gets or sets the parameters for the current test step.</Summary>
             </Documentation>
           </NavigationProperty>
+          <Property Type="String" Name="OnFailure" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the failure mode for the current test step.</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
         <EntityType Name="TestStepParameter">
           <Documentation>
@@ -2084,6 +2102,7 @@
           <EntitySetMapping Name="TestSteps">
             <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.TestStep)">
               <MappingFragment StoreEntitySet="TestStep">
+                <ScalarProperty Name="OnFailure" ColumnName="OnFailure" />
                 <ScalarProperty Name="pk_TestStepId" ColumnName="pk_TestStepId" />
                 <ScalarProperty Name="Order" ColumnName="Order" />
                 <ScalarProperty Name="fk_TestEnvironmentId" ColumnName="fk_TestEnvironmentId" />
@@ -2109,11 +2128,13 @@
             <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.MsiInstallTestStep">
               <ModificationFunctionMapping>
                 <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddMsiInstallTestStep" >
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" />
                   <ScalarProperty Name="Order" ParameterName="order" />
                   <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
                   <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
                 </InsertFunction>
                 <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateMsiInstallTestStep" >
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" Version="Current" />
                   <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
                   <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />
                   <ScalarProperty Name="pk_TestStepId" ParameterName="id" Version="Current" />
@@ -2126,12 +2147,14 @@
             <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ScriptExecuteTestStep">
               <ModificationFunctionMapping>
                 <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddScriptExecuteTestStep" >
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" />
                   <ScalarProperty Name="Language" ParameterName="language" />
                   <ScalarProperty Name="Order" ParameterName="order" />
                   <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
                   <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
                 </InsertFunction>
                 <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateScriptExecuteTestStep" >
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" Version="Current" />
                   <ScalarProperty Name="Language" ParameterName="language" Version="Current" />
                   <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
                   <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />
@@ -2145,12 +2168,14 @@
             <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.XCopyTestStep">
               <ModificationFunctionMapping>
                 <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddXCopyTestStep" >
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" />
                   <ScalarProperty Name="Destination" ParameterName="destination" />
                   <ScalarProperty Name="Order" ParameterName="order" />
                   <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
                   <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
                 </InsertFunction>
                 <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateXCopyTestStep" >
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" Version="Current" />
                   <ScalarProperty Name="Destination" ParameterName="destination" Version="Current" />
                   <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
                   <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />

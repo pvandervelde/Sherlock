@@ -199,6 +199,7 @@
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="TestStep.Public.cs" />
+    <Compile Include="TestStepFailureMode.cs" />
     <Compile Include="TestStepParameter.cs">
       <DependentUpon>SherlockModel.tt</DependentUpon>
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>

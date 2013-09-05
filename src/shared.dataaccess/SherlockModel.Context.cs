@@ -703,7 +703,7 @@ namespace Sherlock.Shared.DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddApplicationToTestEnvironment", testEnvironmentIdParameter, applicationIdParameter);
         }
     
-        private ObjectResult<int?> AddMsiInstallTestStep(Nullable<int> testEnvironmentId, Nullable<int> order)
+        private ObjectResult<int?> AddMsiInstallTestStep(Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure)
         {
             var testEnvironmentIdParameter = testEnvironmentId.HasValue ?
                 new ObjectParameter("testEnvironmentId", testEnvironmentId) :
@@ -713,10 +713,14 @@ namespace Sherlock.Shared.DataAccess
                 new ObjectParameter("order", order) :
                 new ObjectParameter("order", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddMsiInstallTestStep", testEnvironmentIdParameter, orderParameter);
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddMsiInstallTestStep", testEnvironmentIdParameter, orderParameter, onFailureParameter);
         }
     
-        private ObjectResult<int?> AddScriptExecuteTestStep(Nullable<int> testEnvironmentId, Nullable<int> order, string language)
+        private ObjectResult<int?> AddScriptExecuteTestStep(Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure, string language)
         {
             var testEnvironmentIdParameter = testEnvironmentId.HasValue ?
                 new ObjectParameter("testEnvironmentId", testEnvironmentId) :
@@ -725,12 +729,16 @@ namespace Sherlock.Shared.DataAccess
             var orderParameter = order.HasValue ?
                 new ObjectParameter("order", order) :
                 new ObjectParameter("order", typeof(int));
+    
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
     
             var languageParameter = language != null ?
                 new ObjectParameter("language", language) :
                 new ObjectParameter("language", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddScriptExecuteTestStep", testEnvironmentIdParameter, orderParameter, languageParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddScriptExecuteTestStep", testEnvironmentIdParameter, orderParameter, onFailureParameter, languageParameter);
         }
     
         private ObjectResult<int?> AddTest(string productName, string productVersion, string owner, string description, string reportPath)
@@ -792,7 +800,7 @@ namespace Sherlock.Shared.DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddTestStepParameter", testStepIdParameter, keyParameter, valueParameter);
         }
     
-        private ObjectResult<int?> AddXCopyTestStep(Nullable<int> testEnvironmentId, Nullable<int> order, string destination)
+        private ObjectResult<int?> AddXCopyTestStep(Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure, string destination)
         {
             var testEnvironmentIdParameter = testEnvironmentId.HasValue ?
                 new ObjectParameter("testEnvironmentId", testEnvironmentId) :
@@ -802,11 +810,15 @@ namespace Sherlock.Shared.DataAccess
                 new ObjectParameter("order", order) :
                 new ObjectParameter("order", typeof(int));
     
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
+    
             var destinationParameter = destination != null ?
                 new ObjectParameter("destination", destination) :
                 new ObjectParameter("destination", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddXCopyTestStep", testEnvironmentIdParameter, orderParameter, destinationParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddXCopyTestStep", testEnvironmentIdParameter, orderParameter, onFailureParameter, destinationParameter);
         }
     
         private int DeleteApplicationFromTestEnvironment(Nullable<int> testEnvironmentId, Nullable<int> applicationId)
@@ -984,7 +996,7 @@ namespace Sherlock.Shared.DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<XCopyTestStep>("GetXCopyTestStepsById", mergeOption, idParameter);
         }
     
-        private int UpdateMsiInstallTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order)
+        private int UpdateMsiInstallTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("id", id) :
@@ -998,10 +1010,14 @@ namespace Sherlock.Shared.DataAccess
                 new ObjectParameter("order", order) :
                 new ObjectParameter("order", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateMsiInstallTestStep", idParameter, testEnvironmentIdParameter, orderParameter);
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateMsiInstallTestStep", idParameter, testEnvironmentIdParameter, orderParameter, onFailureParameter);
         }
     
-        private int UpdateScriptExecuteTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order, string language)
+        private int UpdateScriptExecuteTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure, string language)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("id", id) :
@@ -1014,12 +1030,16 @@ namespace Sherlock.Shared.DataAccess
             var orderParameter = order.HasValue ?
                 new ObjectParameter("order", order) :
                 new ObjectParameter("order", typeof(int));
+    
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
     
             var languageParameter = language != null ?
                 new ObjectParameter("language", language) :
                 new ObjectParameter("language", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateScriptExecuteTestStep", idParameter, testEnvironmentIdParameter, orderParameter, languageParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateScriptExecuteTestStep", idParameter, testEnvironmentIdParameter, orderParameter, onFailureParameter, languageParameter);
         }
     
         private int UpdateTest(Nullable<int> id, string productName, string productVersion, string owner, string description, string reportPath)
@@ -1093,7 +1113,7 @@ namespace Sherlock.Shared.DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTestStepParameter", idParameter, testStepIdParameter, keyParameter, valueParameter);
         }
     
-        private int UpdateXCopyTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order, string destination)
+        private int UpdateXCopyTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure, string destination)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("id", id) :
@@ -1107,11 +1127,15 @@ namespace Sherlock.Shared.DataAccess
                 new ObjectParameter("order", order) :
                 new ObjectParameter("order", typeof(int));
     
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
+    
             var destinationParameter = destination != null ?
                 new ObjectParameter("destination", destination) :
                 new ObjectParameter("destination", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateXCopyTestStep", idParameter, testEnvironmentIdParameter, orderParameter, destinationParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateXCopyTestStep", idParameter, testEnvironmentIdParameter, orderParameter, onFailureParameter, destinationParameter);
         }
     
         private ObjectResult<TestEnvironment> GetTestEnvironmentByMachineId(string id)

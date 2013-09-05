@@ -47,6 +47,11 @@ namespace Sherlock.Shared.DataAccess
         public int Order { get; set; }
     
         /// <summary>
+        /// Gets or sets the failure mode for the current test step.
+        /// </summary>
+        internal string OnFailure { get; set; }
+    
+        /// <summary>
         /// Gets or sets the test environment on which the current step should be executed.
         /// </summary>
         internal TestEnvironment TestEnvironment { get; set; }

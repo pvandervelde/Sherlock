@@ -14,6 +14,6 @@ namespace Sherlock.Shared.DataAccess
         /// <summary>
         /// The expected database schema version.
         /// </summary>
-        public const int ExpectedSchemaVersion = 1;
+        public const int ExpectedSchemaVersion = 2;
     }
 }

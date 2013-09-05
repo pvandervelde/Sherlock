@@ -47,6 +47,22 @@ namespace Sherlock.Shared.DataAccess
         }
 
         /// <summary>
+        /// Gets or sets the failure mode for the current test step.
+        /// </summary>
+        public TestStepFailureMode FailureMode
+        {
+            get
+            {
+                return (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), OnFailure);
+            }
+
+            set
+            {
+                OnFailure = value.ToString();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the ID of the test environment to which the current test step belongs.
         /// </summary>
         public int TestEnvironmentId
