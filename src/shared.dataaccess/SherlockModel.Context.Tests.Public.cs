@@ -19,6 +19,7 @@ namespace Sherlock.Shared.DataAccess
         private static bool Update(TestStep stored, TestStep changed)
         {
             stored.Order = changed.Order;
+            stored.OnFailure = changed.OnFailure;
             if (stored.TestEnvironmentId != changed.TestEnvironmentId)
             {
                 stored.TestEnvironment = null;

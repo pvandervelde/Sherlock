@@ -412,9 +412,12 @@ namespace Sherlock.Executor
                             Resources.Reporting_TestExecution_Failed_WithException,
                             e));
 
-                    sectionWriter.FinalizeAndStore(false);
-                    notifications.RaiseOnTestCompletion(TestExecutionResult.Failed);
-                    return TestExecutionResult.Failed;
+                    if (step.FailureMode != TestStepFailureMode.Continue)
+                    {
+                        sectionWriter.FinalizeAndStore(false);
+                        notifications.RaiseOnTestCompletion(TestExecutionResult.Failed);
+                        return TestExecutionResult.Failed;
+                    }
                 }
             }
 

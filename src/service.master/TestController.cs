@@ -556,6 +556,7 @@ namespace Sherlock.Service.Master
                 var newStep = new MsiInstallTestStep
                     {
                         Order = step.Order,
+                        FailureMode = step.FailureMode,
                     };
 
                 result = newStep;
@@ -567,6 +568,7 @@ namespace Sherlock.Service.Master
                 var newStep = new ScriptExecuteTestStep
                     {
                         Order = step.Order,
+                        FailureMode = step.FailureMode,
                         ScriptLanguage = scriptStep.ScriptLanguage,
                     };
 
@@ -579,6 +581,7 @@ namespace Sherlock.Service.Master
                 var newStep = new XCopyTestStep
                     {
                         Order = step.Order,
+                        FailureMode = step.FailureMode,
                         Destination = xcopyStep.Destination,
                     };
 

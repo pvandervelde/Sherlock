@@ -270,7 +270,14 @@ namespace Sherlock.Service.Master
             var environmentName = "td";
             var testEnvironment = CreateFakeTestEnvironment(environmentName);
             var test = CreateFakeTestSpecification(testEnvironment);
-            var steps = new List<TestStep> { new MsiInstallTestStep { Order = 0 } };
+            var steps = new List<TestStep> 
+            { 
+                new MsiInstallTestStep
+                    {
+                        Order = 0,
+                        FailureMode = TestStepFailureMode.Continue,
+                    } 
+            };
             var activeTests = new ActiveTestStorage();
             var machineDescription = new PhysicalMachineDescription
                 {
