@@ -18,14 +18,14 @@
         <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.PhysicalMachineDescription" ManuallyRouted="false" >
         </InheritanceConnector>
         <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.HypervMachineDescription" />
-        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.MsiInstallTestStep" Width="2.125" PointX="18" PointY="4.25" />
-        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.ScriptExecuteTestStep" Width="2.25" PointX="18" PointY="6" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.MsiInstallTestStep" Width="2.125" PointX="18.5" PointY="6.5" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.ScriptExecuteTestStep" Width="2.25" PointX="18.5" PointY="8" />
         <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.Test" Width="1.875" PointX="17.75" PointY="0.625" />
         <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestApplication" Width="2" PointX="11.125" PointY="1" />
         <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestEnvironment" Width="2.25" PointX="13.875" PointY="0.5" />
         <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestStep" Width="2.125" PointX="14.625" PointY="5.875" />
         <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.TestStepParameter" Width="2" PointX="11.625" PointY="7.375" />
-        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.XCopyTestStep" Width="2" PointX="18.125" PointY="8.125" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.XCopyTestStep" Width="2" PointX="18.625" PointY="10.125" />
         <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestApplication_ToApplication" />
         <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToMachine" />
         <AssociationConnector Association="Sherlock.Shared.DataAccess.FK_TestEnvironment_ToOperatingSystem" />
@@ -36,6 +36,8 @@
         <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.XCopyTestStep" />
         <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.MsiInstallTestStep" />
         <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.ScriptExecuteTestStep" />
+        <EntityTypeShape EntityType="Sherlock.Shared.DataAccess.ConsoleExecuteTestStep" Width="3.125" PointX="18.375" PointY="4" />
+        <InheritanceConnector EntityType="Sherlock.Shared.DataAccess.ConsoleExecuteTestStep" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

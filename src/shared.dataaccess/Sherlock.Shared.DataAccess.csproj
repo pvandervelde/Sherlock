@@ -107,6 +107,11 @@
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="ApplicationDescription.Public.cs" />
+    <Compile Include="ConsoleExecuteTestStep.cs">
+      <DependentUpon>SherlockModel.tt</DependentUpon>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="ConsoleExecuteTestStep.Public.cs" />
     <Compile Include="DataAccessConstants.cs" />
     <Compile Include="DataAccessModule.cs" />
     <Compile Include="FailedToLocateEnvironmentException.cs" />

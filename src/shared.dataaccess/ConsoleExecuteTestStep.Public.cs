@@ -4,16 +4,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+
 namespace Sherlock.Shared.DataAccess
 {
-    /// <summary>
-    /// Defines a series of constants for use in the data access layer.
-    /// </summary>
-    internal static class DataAccessConstants
+    /// <content>
+    /// Defines the public API part for the console execute test step class.
+    /// </content>
+    [Serializable]
+    public sealed partial class ConsoleExecuteTestStep
     {
-        /// <summary>
-        /// The expected database schema version.
-        /// </summary>
-        public const int ExpectedSchemaVersion = 3;
     }
 }

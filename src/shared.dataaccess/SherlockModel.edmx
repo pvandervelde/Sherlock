@@ -12,6 +12,7 @@
           <EntitySet Name="MachineApplication" EntityType="Sherlock.Shared.DataAccess.Store.MachineApplication" store:Type="Tables" Schema="Environments" />
           <EntitySet Name="OperatingSystem" EntityType="Sherlock.Shared.DataAccess.Store.OperatingSystem" store:Type="Tables" Schema="Environments" />
           <EntitySet Name="PhysicalMachine" EntityType="Sherlock.Shared.DataAccess.Store.PhysicalMachine" store:Type="Tables" Schema="Environments" />
+          <EntitySet Name="ConsoleExecuteTestStep" EntityType="Sherlock.Shared.DataAccess.Store.ConsoleExecuteTestStep" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="MsiInstallTestStep" EntityType="Sherlock.Shared.DataAccess.Store.MsiInstallTestStep" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="ScriptExecuteTestStep" EntityType="Sherlock.Shared.DataAccess.Store.ScriptExecuteTestStep" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="Test" EntityType="Sherlock.Shared.DataAccess.Store.Test" store:Type="Tables" Schema="Tests" />
@@ -20,6 +21,10 @@
           <EntitySet Name="TestStep" EntityType="Sherlock.Shared.DataAccess.Store.TestStep" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="TestStepParameter" EntityType="Sherlock.Shared.DataAccess.Store.TestStepParameter" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="XCopyTestStep" EntityType="Sherlock.Shared.DataAccess.Store.XCopyTestStep" store:Type="Tables" Schema="Tests" />
+          <AssociationSet Name="FK_ConsoleExecuteTestStep_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_ConsoleExecuteTestStep_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="ConsoleExecuteTestStep" EntitySet="ConsoleExecuteTestStep" />
+          </AssociationSet>
           <AssociationSet Name="FK_HypervMachine_ToHostMachine" Association="Sherlock.Shared.DataAccess.Store.FK_HypervMachine_ToHostMachine">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="HypervMachine" EntitySet="HypervMachine" />
@@ -143,6 +148,13 @@
           <Property Name="pk_PhysicalMachineId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CanStartRemotely" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="ConsoleExecuteTestStep">
+          <Key>
+            <PropertyRef Name="pk_ConsoleExecuteTestStepId" />
+          </Key>
+          <Property Name="pk_ConsoleExecuteTestStepId" Type="int" Nullable="false" />
+          <Property Name="ExecutableFilePath" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="MsiInstallTestStep">
           <Key>
             <PropertyRef Name="pk_MsiInstallTestStepId" />
@@ -214,6 +226,20 @@
           <Property Name="pk_XCopyTestStepId" Type="int" Nullable="false" />
           <Property Name="Destination" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ConsoleExecuteTestStep_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ConsoleExecuteTestStep" Type="Sherlock.Shared.DataAccess.Store.ConsoleExecuteTestStep" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="ConsoleExecuteTestStep">
+              <PropertyRef Name="pk_ConsoleExecuteTestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HypervMachine_ToHostMachine">
           <End Role="Machine" Type="Sherlock.Shared.DataAccess.Store.Machine" Multiplicity="1" />
           <End Role="HypervMachine" Type="Sherlock.Shared.DataAccess.Store.HypervMachine" Multiplicity="*" />
@@ -581,6 +607,12 @@
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="applicationId" Type="int" Mode="In" />
         </Function>
+        <Function Name="AddConsoleExecuteTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
+          <Parameter Name="executableFilePath" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="AddMsiInstallTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
@@ -623,6 +655,9 @@
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="applicationId" Type="int" Mode="In" />
         </Function>
+        <Function Name="DeleteConsoleExecuteTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeleteMsiInstallTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -639,6 +674,9 @@
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteXCopyTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetConsoleExecuteTestStepsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="GetMsiInstallTestStepsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
@@ -692,6 +730,13 @@
         </Function>
         <Function Name="MarkTestAsStarted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateConsoleExecuteTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
+          <Parameter Name="order" Type="int" Mode="In" />
+          <Parameter Name="onFailure" Type="nvarchar" Mode="In" />
+          <Parameter Name="executableFilePath" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="UpdateMsiInstallTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
@@ -1100,6 +1145,25 @@
           </FunctionImport>
           <FunctionImport Name="MarkTestAsReadyForExecution" a:MethodAccess="Private">
           <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddConsoleExecuteTestStep" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
+            <Parameter Name="executableFilePath" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteConsoleExecuteTestStepById" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetConsoleExecuteTestStepsById" EntitySet="TestSteps" ReturnType="Collection(Sherlock.Shared.DataAccess.ConsoleExecuteTestStep)" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateConsoleExecuteTestStep" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testEnvironmentId" Mode="In" Type="Int32" />
+            <Parameter Name="order" Mode="In" Type="Int32" />
+            <Parameter Name="onFailure" Mode="In" Type="String" />
+            <Parameter Name="executableFilePath" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="ApplicationDescription">
@@ -1733,6 +1797,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ConsoleExecuteTestStep" BaseType="Sherlock.Shared.DataAccess.TestStep">
+          <Documentation>
+            <Summary>Defines a test step during which a console application is executed.</Summary>
+          </Documentation>
+          <Property Type="String" Name="ExecutableFilePath" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the full path to the console application.</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2186,6 +2260,33 @@
                 </DeleteFunction>
               </ModificationFunctionMapping>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Sherlock.Shared.DataAccess.ConsoleExecuteTestStep)">
+              <MappingFragment StoreEntitySet="ConsoleExecuteTestStep">
+                <ScalarProperty Name="pk_TestStepId" ColumnName="pk_ConsoleExecuteTestStepId" />
+                <ScalarProperty Name="ExecutableFilePath" ColumnName="ExecutableFilePath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.ConsoleExecuteTestStep">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteConsoleExecuteTestStepById" >
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateConsoleExecuteTestStep" >
+                  <ScalarProperty Name="ExecutableFilePath" ParameterName="executableFilePath" Version="Current" />
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" Version="Current" />
+                  <ScalarProperty Name="Order" ParameterName="order" Version="Current" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddConsoleExecuteTestStep" >
+                  <ScalarProperty Name="ExecutableFilePath" ParameterName="executableFilePath" />
+                  <ScalarProperty Name="OnFailure" ParameterName="onFailure" />
+                  <ScalarProperty Name="Order" ParameterName="order" />
+                  <ScalarProperty Name="fk_TestEnvironmentId" ParameterName="testEnvironmentId" />
+                  <ResultBinding Name="pk_TestStepId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TestStepParameters">
             <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepParameter">
@@ -2266,6 +2367,11 @@
           <FunctionImportMapping FunctionImportName="MarkTestAsEnded" FunctionName="Sherlock.Shared.DataAccess.Store.MarkTestAsEnded" />
           <FunctionImportMapping FunctionImportName="MarkTestAsStarted" FunctionName="Sherlock.Shared.DataAccess.Store.MarkTestAsStarted" />
           <FunctionImportMapping FunctionImportName="MarkTestAsReadyForExecution" FunctionName="Sherlock.Shared.DataAccess.Store.MarkTestAsReadyForExecution" />
+          <FunctionImportMapping FunctionImportName="AddConsoleExecuteTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.AddConsoleExecuteTestStep" />
+          <FunctionImportMapping FunctionImportName="DeleteConsoleExecuteTestStepById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteConsoleExecuteTestStepById" />
+          <FunctionImportMapping FunctionImportName="GetConsoleExecuteTestStepsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetConsoleExecuteTestStepsById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateConsoleExecuteTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateConsoleExecuteTestStep" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

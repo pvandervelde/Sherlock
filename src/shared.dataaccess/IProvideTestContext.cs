@@ -107,6 +107,12 @@ namespace Sherlock.Shared.DataAccess
         void DeleteTestEnvironment(int id);
 
         /// <summary>
+        /// Adds a new console execute test step.
+        /// </summary>
+        /// <param name="testStep">The test step.</param>
+        void Add(ConsoleExecuteTestStep testStep);
+
+        /// <summary>
         /// Adds a new MSI install test step.
         /// </summary>
         /// <param name="testStep">The test step.</param>

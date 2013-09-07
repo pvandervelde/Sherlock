@@ -51,6 +51,12 @@ namespace Sherlock.Shared.DataAccess
                 Patch(testStepParameter);
             }
 
+            var consoleTestSteps = GetConsoleExecuteTestStepsById(null).ToList();
+            foreach (var consoleTestStep in consoleTestSteps)
+            {
+                Patch(consoleTestStep);
+            }
+
             var msiTestSteps = GetMsiInstallTestStepsById(null).ToList();
             foreach (var msiTestStep in msiTestSteps)
             {
@@ -172,14 +178,6 @@ namespace Sherlock.Shared.DataAccess
             return result;
         }
 
-        private MsiInstallTestStep Patch(MsiInstallTestStep msiTestStep)
-        {
-            var result = Patch((TestStep)msiTestStep) as MsiInstallTestStep;
-            Debug.Assert(result != null, "The test step should be an MSI install test step.");
-
-            return result;
-        }
-
         private TestStep Patch(TestStep testStep)
         {
             var result = StoredTestSteps.Find(testStep.Id) ?? StoredTestSteps.Add(testStep);
@@ -205,6 +203,22 @@ namespace Sherlock.Shared.DataAccess
                     result.IsPatching = false;
                 }
             }
+
+            return result;
+        }
+
+        private ConsoleExecuteTestStep Patch(ConsoleExecuteTestStep consoleTestStep)
+        {
+            var result = Patch((TestStep)consoleTestStep) as ConsoleExecuteTestStep;
+            Debug.Assert(result != null, "The test step should be an console execute test step.");
+
+            return result;
+        }
+
+        private MsiInstallTestStep Patch(MsiInstallTestStep msiTestStep)
+        {
+            var result = Patch((TestStep)msiTestStep) as MsiInstallTestStep;
+            Debug.Assert(result != null, "The test step should be an MSI install test step.");
 
             return result;
         }
@@ -501,6 +515,19 @@ namespace Sherlock.Shared.DataAccess
         }
 
         /// <summary>
+        /// Adds a new console execute test step.
+        /// </summary>
+        /// <param name="testStep">The test step.</param>
+        public void Add(ConsoleExecuteTestStep testStep)
+        {
+            VerifySchemaVersion();
+            var result = StoredTestSteps.Add(testStep) as ConsoleExecuteTestStep;
+            Debug.Assert(result != null, "The test step should be a console execute test step.");
+
+            Patch(result);
+        }
+
+        /// <summary>
         /// Adds a new MSI install test step.
         /// </summary>
         /// <param name="testStep">The test step.</param>
@@ -582,6 +609,12 @@ namespace Sherlock.Shared.DataAccess
                 return testStep;
             }
 
+            var consoleTestStep = GetConsoleExecuteTestStepsById(id).FirstOrDefault();
+            if (consoleTestStep != null)
+            {
+                return Patch(consoleTestStep);
+            }
+
             var msiTestStep = GetMsiInstallTestStepsById(id).FirstOrDefault();
             if (msiTestStep != null)
             {
@@ -616,6 +649,12 @@ namespace Sherlock.Shared.DataAccess
             {
                 if (!ReferenceEquals(storedTestStep, testStep))
                 {
+                    var storedConsoleExecuteTestStep = storedTestStep as ConsoleExecuteTestStep;
+                    if (storedConsoleExecuteTestStep != null)
+                    {
+                        Update(storedConsoleExecuteTestStep, testStep as ConsoleExecuteTestStep);
+                    }
+
                     var storedMsiInstallTestStep = storedTestStep as MsiInstallTestStep;
                     if (storedMsiInstallTestStep != null)
                     {
@@ -637,6 +676,18 @@ namespace Sherlock.Shared.DataAccess
 
                 var entry = Entry(storedTestStep);
                 entry.State = EntityState.Modified;
+            }
+        }
+
+        private void Update(ConsoleExecuteTestStep stored, ConsoleExecuteTestStep changed)
+        {
+            var shouldPatch = Update(stored as TestStep, changed as TestStep);
+            stored.ExecutableFilePath = changed.ExecutableFilePath;
+
+            if (shouldPatch)
+            {
+                stored.IsPatched = false;
+                Patch(stored);
             }
         }
 

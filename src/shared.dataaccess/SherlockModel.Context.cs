@@ -1295,5 +1295,78 @@ namespace Sherlock.Shared.DataAccess
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MarkTestAsReadyForExecution", idParameter);
         }
+    
+        private ObjectResult<int?> AddConsoleExecuteTestStep(Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure, string executableFilePath)
+        {
+            var testEnvironmentIdParameter = testEnvironmentId.HasValue ?
+                new ObjectParameter("testEnvironmentId", testEnvironmentId) :
+                new ObjectParameter("testEnvironmentId", typeof(int));
+    
+            var orderParameter = order.HasValue ?
+                new ObjectParameter("order", order) :
+                new ObjectParameter("order", typeof(int));
+    
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
+    
+            var executableFilePathParameter = executableFilePath != null ?
+                new ObjectParameter("executableFilePath", executableFilePath) :
+                new ObjectParameter("executableFilePath", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddConsoleExecuteTestStep", testEnvironmentIdParameter, orderParameter, onFailureParameter, executableFilePathParameter);
+        }
+    
+        private int DeleteConsoleExecuteTestStepById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteConsoleExecuteTestStepById", idParameter);
+        }
+    
+        private ObjectResult<ConsoleExecuteTestStep> GetConsoleExecuteTestStepsById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsoleExecuteTestStep>("GetConsoleExecuteTestStepsById", idParameter);
+        }
+    
+        private ObjectResult<ConsoleExecuteTestStep> GetConsoleExecuteTestStepsById(Nullable<int> id, MergeOption mergeOption)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsoleExecuteTestStep>("GetConsoleExecuteTestStepsById", mergeOption, idParameter);
+        }
+    
+        private int UpdateConsoleExecuteTestStep(Nullable<int> id, Nullable<int> testEnvironmentId, Nullable<int> order, string onFailure, string executableFilePath)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var testEnvironmentIdParameter = testEnvironmentId.HasValue ?
+                new ObjectParameter("testEnvironmentId", testEnvironmentId) :
+                new ObjectParameter("testEnvironmentId", typeof(int));
+    
+            var orderParameter = order.HasValue ?
+                new ObjectParameter("order", order) :
+                new ObjectParameter("order", typeof(int));
+    
+            var onFailureParameter = onFailure != null ?
+                new ObjectParameter("onFailure", onFailure) :
+                new ObjectParameter("onFailure", typeof(string));
+    
+            var executableFilePathParameter = executableFilePath != null ?
+                new ObjectParameter("executableFilePath", executableFilePath) :
+                new ObjectParameter("executableFilePath", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateConsoleExecuteTestStep", idParameter, testEnvironmentIdParameter, orderParameter, onFailureParameter, executableFilePathParameter);
+        }
     }
 }
