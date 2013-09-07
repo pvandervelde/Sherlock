@@ -111,6 +111,7 @@
     <Compile Include="ConfigurationReaderVersion1X.cs" />
     <Compile Include="ConsoleConfigurationKeys.cs" />
     <Compile Include="ConsoleConstants.cs" />
+    <Compile Include="ConsoleExecuteTestStepDescription.cs" />
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="IConstructTestSteps.cs" />
     <Compile Include="InvalidServerResponseException.cs" />

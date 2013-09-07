@@ -41,13 +41,36 @@ namespace Sherlock.Console
         }
 
         /// <summary>
-        /// Extracts a collection of parameters from the configuration element.
+        /// Extracts a collection of parameters without keys from the configuration element.
         /// </summary>
         /// <param name="input">The configuration element for the current test step.</param>
         /// <returns>A collection containing all the parameters.</returns>
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
             Justification = "Users should really be putting in XElement objects.")]
-        private static IEnumerable<TestStepParameterDescription> ExtractParametersFromTestStepConfiguration(XElement input)
+        private static IEnumerable<TestStepParameterDescription> ExtractKeylessParametersFromTestStepConfiguration(XElement input)
+        {
+            var parameters = new List<TestStepParameterDescription>();
+
+            int index = 0;
+            foreach (var element in input.Element("params").Elements("param"))
+            {
+                var value = (element.FirstNode as XCData).Value;
+
+                parameters.Add(new TestStepParameterDescription(index.ToString(CultureInfo.InvariantCulture), value));
+                index++;
+            }
+
+            return parameters;
+        }
+
+        /// <summary>
+        /// Extracts a collection of parameters with keys from the configuration element.
+        /// </summary>
+        /// <param name="input">The configuration element for the current test step.</param>
+        /// <returns>A collection containing all the parameters.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
+            Justification = "Users should really be putting in XElement objects.")]
+        private static IEnumerable<TestStepParameterDescription> ExtractKeyedParametersFromTestStepConfiguration(XElement input)
         {
             var parameters = new List<TestStepParameterDescription>();
             foreach (var element in input.Element("params").Elements("param"))
@@ -217,6 +240,9 @@ namespace Sherlock.Console
                 TestStepDescription testStep;
                 switch (testStepNode.Name.LocalName)
                 {
+                    case "console":
+                        testStep = ExtractConsoleExecuteTestStep(testStepNode);
+                        break;
                     case "msi":
                         testStep = ExtractMsiDeployTestStep(testStepNode);
                         break;
@@ -247,6 +273,18 @@ namespace Sherlock.Console
             return node.Attribute("onfailure").Value;
         }
 
+        private ConsoleExecuteTestStepDescription ExtractConsoleExecuteTestStep(XElement node)
+        {
+            var stepOrder = ExtractStepOrderFromTestStepConfiguration(node);
+            var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
+            var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
+
+            var file = (node.Element("exe").FirstNode as XCData).Value;
+            var parameters = ExtractKeylessParametersFromTestStepConfiguration(node);
+
+            return new ConsoleExecuteTestStepDescription(environment, stepOrder, failureMode, parameters, file);
+        }
+
         private MsiInstallTestStepDescription ExtractMsiDeployTestStep(XElement node)
         {
             var stepOrder = ExtractStepOrderFromTestStepConfiguration(node);
@@ -254,7 +292,7 @@ namespace Sherlock.Console
             var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
             var file = (node.Element("file").FirstNode as XCData).Value;
-            var parameters = ExtractParametersFromTestStepConfiguration(node);
+            var parameters = ExtractKeyedParametersFromTestStepConfiguration(node);
 
             AddFileToEnvironmentPackage(environment, stepOrder, Path.GetFileName(file), file);
 
@@ -270,7 +308,7 @@ namespace Sherlock.Console
             var fileNode = node.Element("file");
             var language = fileNode.Attribute("language").Value;
             var file = (fileNode.FirstNode as XCData).Value;
-            var parameters = ExtractParametersFromTestStepConfiguration(node);
+            var parameters = ExtractKeyedParametersFromTestStepConfiguration(node);
 
             AddFileToEnvironmentPackage(environment, stepOrder, Path.GetFileName(file), file);
 

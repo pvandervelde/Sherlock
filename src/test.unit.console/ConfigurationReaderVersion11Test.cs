@@ -30,6 +30,52 @@ namespace Sherlock.Console
 
         private delegate void FileStep(string environment, int step, string name, string data);
 
+        private static Tuple<BuildStep, FileStep, Action<ConsoleExecuteTestStepDescription>> BuildConsoleExecuteTestStepFunctions(
+            int index,
+            string environmentName,
+            Dictionary<string, string> filePathAndContent)
+        {
+            const string failureAction = "Console_Failure_Action";
+            const string path = @"c:\c\o\nsole.exe";
+            const string parameterValue = "Parameter_Value";
+
+            BuildStep buildAction =
+                builder =>
+                {
+                    builder.Replace("${CONSOLE_STEP_ORDER_INDEX}$", index.ToString(CultureInfo.InvariantCulture));
+                    builder.Replace("${CONSOLE_ENVIRONMENT_NAME}$", environmentName);
+                    builder.Replace("${CONSOLE_FAILURE_ACTION}$", failureAction);
+                    builder.Replace("${CONSOLE_EXECUTABLE_FULL_PATH_GOES_HERE}$", path);
+                    builder.Replace("${CONSOLE_PARAMETER_VALUE}$", parameterValue);
+                };
+
+            filePathAndContent.Add(path, "consoleContent");
+
+            FileStep fileAction =
+                (environment, step, name, data) =>
+                {
+                    Assert.AreEqual(environmentName, environment);
+                    Assert.AreEqual(index, step);
+                    Assert.AreEqual(Path.GetFileName(path), name);
+                    Assert.AreEqual(path, data);
+                };
+
+            Action<ConsoleExecuteTestStepDescription> verifyAction =
+                description =>
+                {
+                    Assert.AreEqual(environmentName, description.Environment);
+                    Assert.AreEqual(index, description.Order);
+                    Assert.AreEqual(failureAction, description.FailureMode);
+                    Assert.AreEqual(path, description.ExecutablePath);
+
+                    Assert.AreEqual(1, description.Parameters.Count());
+                    Assert.AreEqual(0.ToString(CultureInfo.InvariantCulture), description.Parameters.First().Key);
+                    Assert.AreEqual(parameterValue, description.Parameters.First().Value);
+                };
+
+            return new Tuple<BuildStep, FileStep, Action<ConsoleExecuteTestStepDescription>>(buildAction, fileAction, verifyAction);
+        }
+
         private static Tuple<BuildStep, FileStep, Action<MsiInstallTestStepDescription>> BuildMsiDeployTestStepFunctions(
             int index,
             string environmentName,
@@ -230,6 +276,7 @@ namespace Sherlock.Console
             // Note that the order of the elements is purposefully out of document order to 
             // test the ordering of the test steps
             var files = new Dictionary<string, string>();
+            var console = BuildConsoleExecuteTestStepFunctions(3, environmentName, files);
             var msi = BuildMsiDeployTestStepFunctions(1, environmentName, files);
             var script = BuildScriptExecuteTestStepFunctions(2, environmentName, files);
             var xcopy = BuildXCopyDeployTestStepFunctions(0, environmentName, files);
@@ -255,6 +302,7 @@ namespace Sherlock.Console
                 builder.Replace("${APPLICATION_NAME}$", applicationName);
                 builder.Replace("${APPLICATION_VERSION}$", applicationVersion);
 
+                console.Item1(builder);
                 msi.Item1(builder);
                 script.Item1(builder);
                 xcopy.Item1(builder);
@@ -290,6 +338,9 @@ namespace Sherlock.Console
                         case 2:
                             script.Item2(environment, step, name, data);
                             break;
+                        case 3:
+                            console.Item2(environment, step, name, data);
+                            break;
                         default:
                             Assert.Fail();
                             break;
@@ -307,9 +358,10 @@ namespace Sherlock.Console
             Assert.AreEqual(1, config.Test.Environments.Count());
 
             var testSteps = config.Test.TestSteps.ToList();
-            msi.Item3(testSteps[0] as MsiInstallTestStepDescription);
-            script.Item3(testSteps[1] as ScriptExecuteTestStepDescription);
-            xcopy.Item3(testSteps[2] as XCopyTestStepDescription);
+            console.Item3(testSteps[0] as ConsoleExecuteTestStepDescription);
+            msi.Item3(testSteps[1] as MsiInstallTestStepDescription);
+            script.Item3(testSteps[2] as ScriptExecuteTestStepDescription);
+            xcopy.Item3(testSteps[3] as XCopyTestStepDescription);
 
             Assert.AreEqual(notificationPath, config.Test.ReportPath);
         }

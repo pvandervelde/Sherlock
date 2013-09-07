@@ -56,6 +56,14 @@
         The test steps that need to be taken for the test to be completed 
     -->
     <teststeps>
+        <console steporder="${CONSOLE_STEP_ORDER_INDEX}$"
+                 environment="${CONSOLE_ENVIRONMENT_NAME}$"
+                 onfailure="${CONSOLE_FAILURE_ACTION}$">
+            <exe><![CDATA[${CONSOLE_EXECUTABLE_FULL_PATH_GOES_HERE}$]]></exe>
+            <params>
+                <param><![CDATA[${CONSOLE_PARAMETER_VALUE}$]]></param>
+            </params>
+        </console>
         <msi steporder="${MSI_STEP_ORDER_INDEX}$"
              environment="${MSI_ENVIRONMENT_NAME}$"
              onfailure="${MSI_FAILURE_ACTION}$">
