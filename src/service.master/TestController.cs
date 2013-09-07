@@ -550,6 +550,19 @@ namespace Sherlock.Service.Master
 
             TestStep result = null;
 
+            var consoleStep = step as ConsoleExecuteTestStep;
+            if (consoleStep != null)
+            {
+                var newStep = new ConsoleExecuteTestStep
+                    {
+                        Order = step.Order,
+                        FailureMode = step.FailureMode,
+                        ExecutableFilePath = consoleStep.ExecutableFilePath,
+                    };
+
+                result = newStep;
+            }
+
             var msiStep = step as MsiInstallTestStep;
             if (msiStep != null)
             {
