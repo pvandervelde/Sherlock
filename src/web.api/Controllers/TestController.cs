@@ -50,7 +50,7 @@ namespace Sherlock.Web.Api.Controllers
         /// <param name="owner">The username of the user that is registering the test.</param>
         /// <param name="description">The description for the test.</param>
         /// <param name="reportPath">The full path to the location where the test results are placed.</param>
-        /// <returns>An XML document containing the ID of the new test.</returns>
+        /// <returns>The ID of the new test.</returns>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="product"/> is <see langword="null" />.
         /// </exception>

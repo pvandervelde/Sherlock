@@ -63,7 +63,7 @@ namespace Sherlock.Web.Api.Controllers
         /// </summary>
         /// <param name="name">The name of the test environment.</param>
         /// <param name="test">The ID of the test to which the environment belongs.</param>
-        /// <returns>An XML document containing the ID of the new test.</returns>
+        /// <returns>The ID of the new test.</returns>
         [HttpPost]
         public int Register(string name, int test)
         {
