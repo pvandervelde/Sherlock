@@ -24,7 +24,7 @@ namespace Sherlock.Executor
     /// <summary>
     /// Processes an <see cref="TestStep"/> during which a script needs to be executed.
     /// </summary>
-    public sealed class ScriptExecuteTestStepProcessor : TestStepProcessor
+    internal sealed class ScriptExecuteTestStepProcessor : TestStepProcessor
     {
         /// <summary>
         /// The object that provides access to the file system.

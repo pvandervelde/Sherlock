@@ -7,13 +7,13 @@
 namespace Sherlock.Executor
 {
     /// <summary>
-    /// Defines constants for script execution steps.
+    /// Defines constants for console application execution steps.
     /// </summary>
-    internal static class ScriptExecuteConstants
+    internal static class ConsoleExecuteConstants
     {
         /// <summary>
         /// The prefix used for each log message.
         /// </summary>
-        public const string LogPrefix = "Sherlock.Executor-Script";
+        public const string LogPrefix = "Sherlock.Executor-Console";
     }
 }

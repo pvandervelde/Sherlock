@@ -117,6 +117,8 @@
     <Compile Include="..\..\build\temp\AssemblyInfo.VersionNumber.cs">
       <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
     </Compile>
+    <Compile Include="ConsoleExecuteConstants.cs" />
+    <Compile Include="ConsoleExecuteTestStepProcessor.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="ExecutorCommands.cs" />

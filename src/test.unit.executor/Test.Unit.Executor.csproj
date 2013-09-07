@@ -122,6 +122,7 @@
     <Compile Include="..\test.srconly\MockFile.cs">
       <Link>MockFile.cs</Link>
     </Compile>
+    <Compile Include="ConsoleExecuteTestStepProcessorTest.cs" />
     <Compile Include="MsiDeployTestStepProcessorTest.cs" />
     <Compile Include="ScriptExecuteTestStepProcessorTest.cs" />
     <Compile Include="XCopyDeployTestStepProcessorTest.cs" />

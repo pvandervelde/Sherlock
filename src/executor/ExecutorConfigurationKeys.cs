@@ -15,21 +15,12 @@ namespace Sherlock.Executor
     internal static class ExecutorConfigurationKeys
     {
         /// <summary>
-        /// The configuration key that is used to retrieve the directory path to the directory that contains the plugins.
-        /// </summary>
-        public static readonly ConfigurationKey PluginLocation
-            = new ConfigurationKey("PluginLocation", typeof(string));
-
-        /// <summary>
         /// Returns a collection containing all the configuration keys for the application.
         /// </summary>
         /// <returns>A collection containing all the configuration keys for the application.</returns>
         public static IEnumerable<ConfigurationKey> ToCollection()
         {
-            return new List<ConfigurationKey>
-                {
-                    PluginLocation,
-                };
+            return new List<ConfigurationKey>();
         }
     }
 }

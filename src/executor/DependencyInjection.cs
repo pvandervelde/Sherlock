@@ -75,8 +75,28 @@ namespace Sherlock.Executor
                 .SingleInstance();
         }
 
-        private static void RegisterPlugins(ContainerBuilder builder)
+        private static void RegisterTestStepProcessors(ContainerBuilder builder)
         {
+            builder.Register(
+                    c =>
+                    {
+                        var notifications = c.Resolve<ITestExecutionNotificationsInvoker>();
+                        Action<string, TestSection> action = notifications.RaiseOnExecutionProgress;
+                        return new ConsoleExecuteTestStepProcessor(
+                            c.Resolve<RetrieveFileDataForTestStep>(),
+                            c.Resolve<SystemDiagnostics>(),
+                            c.Resolve<IRunConsoleApplications>(),
+                            c.Resolve<IFileSystem>(),
+                            c.Resolve<ITestSectionBuilder>(
+                                new TypedParameter(
+                                    typeof(string),
+                                    "testing"),
+                                new TypedParameter(
+                                    typeof(Action<string, TestSection>),
+                                    action)));
+                    })
+                .As<IProcessTestStep>();
+
             builder.Register(
                     c =>
                     {
@@ -158,7 +178,7 @@ namespace Sherlock.Executor
                 RegisterCore(builder, storageDirectory);
                 RegisterCommands(builder);
                 RegisterNotifications(builder);
-                RegisterPlugins(builder);
+                RegisterTestStepProcessors(builder);
             }
 
             return builder.Build();

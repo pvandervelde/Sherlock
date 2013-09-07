@@ -25,7 +25,7 @@ namespace Sherlock.Executor
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Msi",
         Justification = "It's the MSI system we're dealing with here.")]
-    public sealed class MsiDeployTestStepProcessor : TestStepProcessor
+    internal sealed class MsiDeployTestStepProcessor : TestStepProcessor
     {
         /// <summary>
         /// The name of the msiexec application.

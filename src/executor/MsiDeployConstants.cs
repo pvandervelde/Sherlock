@@ -14,6 +14,6 @@ namespace Sherlock.Executor
         /// <summary>
         /// The prefix used for each log message.
         /// </summary>
-        public const string LogPrefix = "Sherlock.Shared.Plugins-Msi";
+        public const string LogPrefix = "Sherlock.Executor-Msi";
     }
 }

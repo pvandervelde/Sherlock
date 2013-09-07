@@ -15,7 +15,7 @@ namespace Sherlock.Executor
     /// <summary>
     /// Defines the base class for types that process test steps.
     /// </summary>
-    public abstract class TestStepProcessor : IProcessTestStep
+    internal abstract class TestStepProcessor : IProcessTestStep
     {
         /// <summary>
         /// The function that takes the name of the test step and returns the full path to the directory containing the files for the 

@@ -22,7 +22,7 @@ namespace Sherlock.Executor
     /// Processes an <see cref="TestStep"/> during which one or more files and directories need to be copied to the
     /// test environment.
     /// </summary>
-    public sealed class XCopyDeployTestStepProcessor : TestStepProcessor
+    internal sealed class XCopyDeployTestStepProcessor : TestStepProcessor
     {
         /// <summary>
         /// The object that provides access to the file system.

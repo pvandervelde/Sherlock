@@ -12,5 +12,5 @@ namespace Sherlock.Executor
     /// </summary>
     /// <param name="stepIndex">The name of the test step.</param>
     /// <returns>The full path to the directory that contains the files for the current test step.</returns>
-    public delegate string RetrieveFileDataForTestStep(int stepIndex);
+    internal delegate string RetrieveFileDataForTestStep(int stepIndex);
 }
