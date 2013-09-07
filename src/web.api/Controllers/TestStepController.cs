@@ -34,6 +34,33 @@ namespace Sherlock.Web.Api.Controllers
         }
 
         /// <summary>
+        /// Registers a script executing test step.
+        /// </summary>
+        /// <param name="environment">The ID of the environment in which the step should be executed.</param>
+        /// <param name="order">The order of the test step.</param>
+        /// <param name="failureMode">
+        ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
+        /// </param>
+        /// <param name="executablePath">The full path of the application that should be executed.</param>
+        /// <returns>The ID of the test step.</returns>
+        [HttpPost]
+        public int RegisterConsole(int environment, int order, string failureMode, string executablePath)
+        {
+            var testStep = new ConsoleExecuteTestStep
+            {
+                Order = order,
+                TestEnvironmentId = environment,
+                FailureMode = (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), failureMode),
+                ExecutableFilePath = executablePath,
+            };
+
+            m_Context.Add(testStep);
+            m_Context.StoreChanges();
+
+            return testStep.Id;
+        }
+
+        /// <summary>
         /// Registers an MSI install test step.
         /// </summary>
         /// <param name="environment">The ID of the environment in which the step should be executed.</param>
@@ -41,7 +68,7 @@ namespace Sherlock.Web.Api.Controllers
         /// <param name="failureMode">
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
-        /// <returns>An XML document containing the ID of the new test step.</returns>
+        /// <returns>The ID of the test step.</returns>
         [HttpPost]
         public int RegisterMsi(int environment, int order, string failureMode)
         {
@@ -67,7 +94,7 @@ namespace Sherlock.Web.Api.Controllers
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
         /// <param name="language">The language of the script that should be executed.</param>
-        /// <returns>An XML document containing the ID of the new test step.</returns>
+        /// <returns>The ID of the test step.</returns>
         [HttpPost]
         public int RegisterScript(int environment, int order, string failureMode, string language)
         {
@@ -94,7 +121,7 @@ namespace Sherlock.Web.Api.Controllers
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
         /// <param name="destination">The full path to the destination folder where the files should be copied to.</param>
-        /// <returns>An XML document containing the ID of the new test step.</returns>
+        /// <returns>The ID of the test step.</returns>
         [HttpPost]
         public int RegisterXCopy(int environment, int order, string failureMode, string destination)
         {

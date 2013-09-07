@@ -687,6 +687,16 @@ namespace Sherlock.Console
             string stepType = string.Empty;
             string parameters = string.Empty;
 
+            var consoleStep = step as ConsoleExecuteTestStepDescription;
+            if (consoleStep != null)
+            {
+                stepType = "Console";
+                parameters = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "&executablePath={0}",
+                    Uri.EscapeDataString(consoleStep.ExecutablePath));
+            }
+
             var msiStep = step as MsiInstallTestStepDescription;
             if (msiStep != null)
             {
