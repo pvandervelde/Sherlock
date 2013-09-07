@@ -135,6 +135,11 @@
     <Build Include="Test\Programmability\Stored Procedures\MarkTestAsEnded.sql" />
     <Build Include="Test\Programmability\Stored Procedures\AttachMachineToTestEnvironment.sql" />
     <Build Include="Test\Programmability\Stored Procedures\MarkTestAsReadyForExecution.sql" />
+    <Build Include="Test\Tables\ConsoleExecuteTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddConsoleExecuteTestStep.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteConsoleExecuteTestStepById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetConsoleExecuteTestStepsById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateConsoleExecuteTestStep.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Sherlock.Shared.Database.refactorlog" />
