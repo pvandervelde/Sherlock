@@ -1,107 +1,138 @@
-﻿.sherlock-report {
-    font-family: Verdana, Arial, Helvetica, Helv, sans-serif;
-    font-size: 10pt;
-    word-wrap: break-word; /* IE and CSS3, we use <wbr> for other browsers */
+﻿html, body {
+    height: 100%;
 }
 
-/* Containers */
-div.sherlock-report, body.sherlock-report {
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
+body {
+    margin: 0px;
+    padding: 0px;
+    background: #080808 repeat;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    color: #2B2B2B;
 }
 
-.sherlock-report div.header {
-    margin: 0px 0px 0px 0px;
-    padding: 10px 10px 10px 10px;
-    background-color: #95b0be;
-    width: 100%;
-    border-bottom: solid 1px black;
+.container {
+    margin: 0px auto;
 }
 
-.sherlock-report .header table {
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    width: 100%;
+/* HEADER */
+#header {
+    overflow: hidden;
+    width: 1000px;
+    height: 100px;
+    padding: 0px 50px;
 }
 
-.sherlock-report .header td {
-    margin: 5px 5px 5px 5px;
-    padding: 0px 0px 0px 0px;
+#header-text{
+    text-align: center;
 }
 
-.sherlock-report div.content {
+#header-text h1{
+    line-height: 40px;
+    color: #B6B6B6;
+}
+
+/* CONTENT */
+
+#content {
+    overflow: hidden;
+    width: 1000px;
+    padding: 50px 50px 50px 50px;
+    background-color: #FFFFFF;
+    border-radius: 10px 10px 0px 0px;
+}
+
+/* TEST RESULT */
+
+#testresult {
+    font-size: 14pt;
+    text-align: center;
+}
+
+#testresult-passed {
+    color: darkgreen;
+}
+
+#testresult-failed {
+    color: crimson;
+}
+
+/* STATISTICS */
+
+#statistics {
+    padding: 0px 0px 20px 0px;
+}
+
+#statistics table{
+    margin: 0px 0px 10px 0px;
+}
+
+#statistics td {
+    padding: 0em 0.5em;
+}
+
+#statistics .table-header{
+    font-weight: bold;
+}
+
+/* SECTIONS */
+
+#sections {
     padding: 10px 10px 10px 10px;
     top: 60px;
     left: 0px;
     right: 17px;
     bottom: 0px;
     overflow: auto;
-    width: auto;
 }
 
-.sherlock-report .content .icon {
+#sections .icon {
     height: 16px;
     width: 16px;
+    text-align: center;
 }
 
-
-.sherlock-report .content table {
+#sections table {
     table-layout: fixed;
     border-collapse: collapse;
 }
 
-.sherlock-report .testresult {
-    margin: 0px 0px 0px 0px;
-    padding: 10px 10px 10px 10px;
-    font-size: 14pt;
-    background-color: #95b0be;
-}
-
-.sherlock-report .testresult-passed {
-    color: darkgreen;
-}
-
-.sherlock-report .testresult-failed {
-    color: crimson;
-}
-
-.sherlock-report .section-results {
+#sections th {
     border-bottom-style: double;
     border-bottom-color: black;
     border-bottom-width: 3px;
+    text-align: left;
+    padding: 0em 1em;
 }
 
-.sherlock-report tr.section {
-    border-bottom-style: solid;
-    border-bottom-color: gray;
-    border-bottom-width: 1px;
+#sections .test {
+    margin: 25px 0px;
 }
 
-.sherlock-report .section-icon {
+.row-light {
+    background-color: #EEEEEE;
+}
+
+#sections td {
+    padding: 0em 1em;
+}
+
+#sections .first-column {
+    padding: 0em 1em 0em 0em;
+}
+
+#sections .last-column {
+    padding: 0em 0em 0em 1em;
+}
+
+#sections .date-column {
+    white-space:nowrap;
+}
+
+/* FOOTER */
+
+#footer {
+    width: 1000px;
     text-align: center;
-}
-
-.sherlock-report .section-category {
-}
-
-.sherlock-report .section-description {
-}
-
-.sherlock-report td.message-icon {
-}
-
-.sherlock-report td.message-time {
-    width: auto;
-}
-
-.sherlock-report td.message-text {
-}
-
-.sherlock-report div.message-textdiv {
-}
-
-.sherlock-report div.footer {
-    margin: 0px 0px 0px 0px;
     padding: 10px 10px 10px 10px;
-    background-color: #95b0be;
 }

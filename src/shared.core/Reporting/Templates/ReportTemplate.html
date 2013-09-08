@@ -6,50 +6,70 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta name="generator" content="Sherlock [${SHERLOCK_VERSION}$]" />
 </head>
-<body class="sherlock-report">
-    <div class="header">
-        <table>
-            <tbody>
+<body>
+    <div id="header" class="container">
+        <div id="header-text">
+            <h1>Regression test for ${PRODUCT_NAME}$ [${PRODUCT_VERSION}$]</h1>
+        </div>
+    </div>
+    <div id="content" class="container">
+        <div id="testresult" >
+            ${REPORT_RESULT_TEXT}$
+        </div>
+        <div id="statistics">
+            <h2>Statistics</h2>
+            <table>
                 <tr>
-                    <td>Product: ${PRODUCT_NAME}$
-                    </td>
-                    <td>Start time: ${TEST_START_TIME}$
-                    </td>
+                    <td class="table-header">Start time</td>
+                    <td>${TEST_START_DATE}$</td>
+                    <td>${TEST_START_TIME}$</td>
                 </tr>
                 <tr>
-                    <td>Version: ${PRODUCT_VERSION}$
-                    </td>
-                    <td>End time: ${TEST_END_TIME}$
-                    </td>
+                    <td class="table-header">End time</td>
+                    <td>${TEST_END_DATE}$</td>
+                    <td>${TEST_END_TIME}$</td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="testresult">
-        ${REPORT_RESULT_TEXT}$
-    </div>
-    <div class="content">
-        <table title="Tests">
-            <thead class="section-results">
                 <tr>
-                    <th>Test status</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Messages</th>
+                    <td class="table-header">Total time</td>
+                    <td></td>
+                    <td>${TEST_TOTAL_TIME}$</td>
                 </tr>
-            </thead>
-            <tfoot>
-            </tfoot>
-            <tbody>
-                ${TEST_SECTIONS}$
-            </tbody>
-        </table>
+                <tr />
+                <tr />
+            </table>
+            <table>
+                <tr>
+                    <td class="table-header">Started by</td>
+                    <td>${USERNAME}$</td>
+                </tr>
+                <tr>
+                    <td class="table-header">On</td>
+                    <td>${HOST}$</td>
+                </tr>
+            </table>
+        </div>
+        <div id="sections">
+            <h2>Sections</h2>
+            <table title="Tests">
+                <thead>
+                    <tr>
+                        <th class="first-column">Status</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th class="last-column">Messages</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                </tfoot>
+                <tbody>
+                    ${TEST_SECTIONS}$
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="footer">
-        Tests run by Sherlock ${SHERLOCK_VERSION}$
-        <br />
-        <br />
-        Started by ${USERNAME}$ on ${HOST}$
+    <div id="footer" class="container">
+        <p>Tests run by Sherlock ${SHERLOCK_VERSION}$</p>
+        <p>The <a href="http://www.fatcow.com/free-icons">icons</a> for this report are licensed under the CC Attribution 3.0 license.</p>
     </div>
 </body>
 </html>

@@ -1,118 +1,116 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-   <title>${REPORT_TITLE}$</title>
-   <link rel="stylesheet" type="text/css" href="SherlockHtmlReport.css" />
-   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-   <meta name="generator" content="Sherlock [${SHERLOCK_VERSION}$]" />
+    <title>${REPORT_TITLE}$</title>
+    <link rel="stylesheet" type="text/css" href="SherlockHtmlReport.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <meta name="generator" content="Sherlock [${SHERLOCK_VERSION}$]" />
 </head>
-<body class="sherlock-report">
-    <div class="header">
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        Product: ${PRODUCT_NAME}$
-                    </td>
-                    <td>
-                        Start time: ${TEST_START_TIME}$
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Version: ${PRODUCT_VERSION}$
-                    </td>
-                    <td>
-                        End time: ${TEST_END_TIME}$
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="testresult">
-        <div class="${REPORT_RESULT_CCS_CLASS}$">
-            ${REPORT_RESULT_TEXT}$
+<body>
+    <div id="header" class="container">
+        <div id="header-text">
+            <h1>Regression test for ${PRODUCT_NAME}$ [${PRODUCT_VERSION}$]</h1>
         </div>
     </div>
-   <div class="content">
-      <table title="Tests">
-         <thead class="section-results">
-            <tr>
-               <th>
-                  Test status
-               </th>
-               <th>
-                  Category
-               </th>
-               <th>
-                  Description
-               </th>
-               <th>
-                  Messages
-               </th>
-            </tr>
-         </thead>
-         <tfoot>
-         </tfoot>
-         <tbody>
-            <tr class="test">
-               <td class="section-icon">
-                  <img src="${SECTION_ICON}$" class="icon" />
-               </td>
-               <td class="section-category">
-                  ${SECTION_CATEGORY}$
-               </td>
-               <td class="section-description">
-${SECTION_DESCRIPTION}$
-               </td>
-               <td class="section-messages">
-                  <table>
-                     <tbody>
-                        <tr class="message">
-                           <td class="message-icon">
-                              <img src="${INFO_ICON}$" class="icon" />
-                           </td>
-                           <td class="message-time">
-                              ${INFO_TIME}$
-                           </td>
-                           <td class="message-text">
-                              ${INFO_TEXT}$
-                           </td>
-                        </tr>
-                        <tr class="message">
-                           <td class="message-icon">
-                              <img src="${WARNING_ICON}$" class="icon" />
-                           </td>
-                           <td class="message-time">
-                              ${WARNING_TIME}$
-                           </td>
-                           <td class="message-text">
-                              ${WARNING_TEXT}$
-                           </td>
-                        </tr>
-                        <tr class="message">
-                           <td class="message-icon">
-                              <img src="${ERROR_ICON}$" class="icon" />
-                           </td>
-                           <td class="message-time">
-                              ${ERROR_TIME}$
-                           </td>
-                           <td class="message-text">
-                              ${ERROR_TEXT}$
-                           </td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </td>
-            </tr>
-         </tbody>
-      </table>
-   </div>
-   <div class="footer">
-      Tests run by Sherlock ${SHERLOCK_VERSION}$
-      <br />
-      <br />
-      Started by ${USERNAME}$ on ${HOST}$
-   </div>
+    <div id="content" class="container">
+        <div id="testresult">
+            <h1 id="testresult-passed">Test passed</h1>
+        </div>
+        <div id="statistics">
+            <h2>Statistics</h2>
+            <table>
+                <tr>
+                    <td class="table-header">Start time</td>
+                    <td>${TEST_START_DATE}$</td>
+                    <td>${TEST_START_TIME}$</td>
+                </tr>
+                <tr>
+                    <td class="table-header">End time</td>
+                    <td>${TEST_END_DATE}$</td>
+                    <td>${TEST_END_TIME}$</td>
+                </tr>
+                <tr>
+                    <td class="table-header">Total time</td>
+                    <td></td>
+                    <td>${TEST_TOTAL_TIME}$</td>
+                </tr>
+                <tr />
+                <tr />
+            </table>
+            <table>
+                <tr>
+                    <td class="table-header">Started by</td>
+                    <td>${USERNAME}$</td>
+                </tr>
+                <tr>
+                    <td class="table-header">On</td>
+                    <td>${HOST}$</td>
+                </tr>
+            </table>
+        </div>
+        <div id="sections">
+            <h2>Sections</h2>
+            <table title="Tests">
+                <thead>
+                    <tr>
+                        <th class="first-column">Status</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th class="last-column">Messages</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                </tfoot>
+                <tbody>
+                    <tr class="row-light">
+                        <td class="first-column">
+                            <img src="${SECTION_ICON}$" class="icon" />
+                        </td>
+                        <td>${SECTION_CATEGORY}$
+                        </td>
+                        <td>${SECTION_DESCRIPTION}$
+                        </td>
+                        <td class="last-column">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="first-column">
+                                            <img src="${INFO_ICON}$" class="icon" />
+                                        </td>
+                                        <td class="date-column">${INFO_TIME}$
+                                        </td>
+                                        <td class="last-column">${INFO_TEXT}$
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="first-column">
+                                            <img src="${WARNING_ICON}$" class="icon" />
+                                        </td>
+                                        <td class="date-column">${WARNING_TIME}$
+                                        </td>
+                                        <td class="last-column">${WARNING_TEXT}$
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="first-column">
+                                            <img src="${ERROR_ICON}$" class="icon" />
+                                        </td>
+                                        <td class="date-column">${ERROR_TIME}$
+                                        </td>
+                                        <td class="last-column">${ERROR_TEXT}$
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="footer" class="container">
+        <p>Tests run by Sherlock ${SHERLOCK_VERSION}$</p>
+        <p>The <a href="http://www.fatcow.com/free-icons">icons</a> for this report are licensed under the CC Attribution 3.0 license.</p>
+    </div>
 </body>
 </html>

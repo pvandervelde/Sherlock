@@ -97,11 +97,11 @@ namespace Sherlock.Shared.Core.Reporting
 
                 builder.Replace("${PRODUCT_NAME}$", productName);
                 builder.Replace("${PRODUCT_VERSION}$", productVersion.ToString());
-                builder.Replace("${TEST_START_TIME}$", start.ToString("G", CultureInfo.CurrentCulture));
-                builder.Replace("${TEST_END_TIME}$", end.ToString("G", CultureInfo.CurrentCulture));
-
-                builder.Replace("${REPORT_RESULT_CCS_CLASS}$", "testresult-passed");
-                builder.Replace("${REPORT_RESULT_TEXT}$", "Test passed");
+                builder.Replace("${TEST_START_DATE}$", start.ToString("d", CultureInfo.CurrentCulture));
+                builder.Replace("${TEST_START_TIME}$", start.ToString("T", CultureInfo.CurrentCulture));
+                builder.Replace("${TEST_END_DATE}$", end.ToString("d", CultureInfo.CurrentCulture));
+                builder.Replace("${TEST_END_TIME}$", end.ToString("T", CultureInfo.CurrentCulture));
+                builder.Replace("${TEST_TOTAL_TIME}$", (end - start).ToString("g", CultureInfo.CurrentCulture));
 
                 builder.Replace("${SECTION_ICON}$", outputNames[3]);
                 builder.Replace("${SECTION_CATEGORY}$", name);

@@ -13,7 +13,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web;
-using Lokad;
 using Nuclei;
 
 namespace Sherlock.Shared.Core.Reporting
@@ -55,27 +54,25 @@ namespace Sherlock.Shared.Core.Reporting
         /// <returns>A string containing the desired HTML.</returns>
         private static string CreateReportSectionHtml(IReport report)
         {
-            var sortedSections = new List<KeyValuePair<DateTimeOffset, string>>();
+            var sortedSections = new List<Tuple<DateTimeOffset, string, TestSection>>();
             foreach (var reportSection in report.Sections())
             {
                 foreach (var testSection in reportSection.Sections())
                 {
-                    var sectionText = CreateTestSectionHtml(reportSection.Name, testSection);
-                    sortedSections.Add(new KeyValuePair<DateTimeOffset, string>(testSection.StartTime, sectionText));
+                    sortedSections.Add(new Tuple<DateTimeOffset, string, TestSection>(testSection.StartTime, reportSection.Name, testSection));
                 }
             }
 
-            sortedSections.Sort(
-               (first, second) =>
-               {
-                   return first.Key.CompareTo(second.Key);
-               });
-
+            sortedSections.Sort((first, second) => first.Item1.CompareTo(second.Item1));
             var builder = new StringBuilder();
             {
+                int section = 0;
                 foreach (var pair in sortedSections)
                 {
-                    builder.AppendLine(pair.Value);
+                    var sectionText = CreateTestSectionHtml(pair.Item2, pair.Item3, section % 2 == 0);
+                    builder.AppendLine(sectionText);
+
+                    section++;
                 }
             }
 
@@ -87,8 +84,9 @@ namespace Sherlock.Shared.Core.Reporting
         /// </summary>
         /// <param name="category">The category of the section.</param>
         /// <param name="section">The report section that holds the test section information.</param>
+        /// <param name="hasHighlight">A flag that indicates if this section should be highlighted.</param>
         /// <returns>A string containing the desired HTML.</returns>
-        private static string CreateTestSectionHtml(string category, TestSection section)
+        private static string CreateTestSectionHtml(string category, TestSection section, bool hasHighlight)
         {
             var testSectionTemplate = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
@@ -97,6 +95,9 @@ namespace Sherlock.Shared.Core.Reporting
             var messages = CreateTestSectionMessagesHtml(section);
             var builder = new StringBuilder(testSectionTemplate);
             {
+                var highlightText = hasHighlight ? "class=\"row-light\"" : string.Empty;
+                builder.Replace(@"${ROW_HIGHLIGHT}$", highlightText);
+                
                 builder.Replace(@"${SECTION_ICON}$", section.WasSuccessful ? TestPassedIconName : TestFailedIconName);
                 builder.Replace(@"${SECTION_CATEGORY}$", category);
                 builder.Replace(
@@ -312,8 +313,8 @@ namespace Sherlock.Shared.Core.Reporting
         public void Transform(IReport report, Action<string, Stream> fileWriter)
         {
             {
-                Enforce.Argument(() => report);
-                Enforce.Argument(() => fileWriter);
+                Lokad.Enforce.Argument(() => report);
+                Lokad.Enforce.Argument(() => fileWriter);
             }
 
             var reportSection = CreateReportSectionHtml(report);
@@ -337,8 +338,11 @@ namespace Sherlock.Shared.Core.Reporting
                 builder.Replace(@"${PRODUCT_VERSION}$", report.Header.ProductVersion.ToString());
 
                 // Write the time in the general date long time format
-                builder.Replace(@"${TEST_START_TIME}$", report.Header.StartTime.ToString("G", CultureInfo.CurrentCulture));
-                builder.Replace(@"${TEST_END_TIME}$", report.Header.EndTime.ToString("G", CultureInfo.CurrentCulture));
+                builder.Replace(@"${TEST_START_DATE}$", report.Header.StartTime.ToString("d", CultureInfo.CurrentCulture));
+                builder.Replace(@"${TEST_START_TIME}$", report.Header.StartTime.ToString("T", CultureInfo.CurrentCulture));
+                builder.Replace(@"${TEST_END_DATE}$", report.Header.EndTime.ToString("d", CultureInfo.CurrentCulture));
+                builder.Replace(@"${TEST_END_TIME}$", report.Header.EndTime.ToString("T", CultureInfo.CurrentCulture));
+                builder.Replace(@"${TEST_TOTAL_TIME}$", (report.Header.EndTime - report.Header.StartTime).ToString("g", CultureInfo.CurrentCulture));
 
                 builder.Replace(@"${SHERLOCK_VERSION}$", report.Header.SherlockVersion.ToString());
                 builder.Replace(@"${HOST}$", report.Header.HostName);
@@ -361,7 +365,7 @@ namespace Sherlock.Shared.Core.Reporting
 
                 // Reset the stream position so that we can pump it.
                 internalStream.Position = 0;
-                internalStream.PumpTo(resultStream, 1024);
+                internalStream.CopyTo(resultStream);
                 resultStream.Position = 0;
             }
 
