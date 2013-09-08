@@ -51,7 +51,7 @@
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup Condition="'$(DirScripts)' != ''">
-            <SqlFiles Include="$(DirScripts)\Sherlock_Complete_V1.sql" />
+            <SqlFiles Include="$(DirScripts)\*.sql" />
         </ItemGroup>
     
         <Message Text="Compressing SQL files" />
