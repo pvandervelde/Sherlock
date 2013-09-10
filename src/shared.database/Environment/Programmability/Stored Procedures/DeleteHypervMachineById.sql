@@ -23,7 +23,7 @@ AS
     END
 
     DECLARE @isHypervMachine INT
-    EXEC @isHypervMachine = [Environments].[IsHypervMachine] @machineId
+    EXEC [Environments].[IsHypervMachine] @machineId, @isHypervMachine OUTPUT
     IF @isHypervMachine = 0
     BEGIN
         RAISERROR 

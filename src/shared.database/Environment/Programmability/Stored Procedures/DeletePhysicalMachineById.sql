@@ -23,7 +23,7 @@ AS
     END
 
     DECLARE @isPhysicalMachine INT
-    EXEC @isPhysicalMachine = [Environments].[IsPhysicalMachine] @machineId
+    EXEC [Environments].[IsPhysicalMachine] @machineId, @isPhysicalMachine OUTPUT
     IF @isPhysicalMachine = 0
     BEGIN
         RAISERROR 
