@@ -8,5 +8,5 @@
 CREATE PROCEDURE [Versioning].[GetSchemaVersion]
 AS
 BEGIN
-    SELECT 3
+    SELECT 4
 END
