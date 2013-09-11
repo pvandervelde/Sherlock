@@ -6,7 +6,7 @@
 
 CREATE PROCEDURE [Environments].[IsHypervMachine]
     @machineId NVARCHAR(50),
-    @result INT OUTPUT
+    @result BIT OUTPUT
 AS
     IF NOT EXISTS (
         SELECT * 

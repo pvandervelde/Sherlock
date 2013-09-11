@@ -472,22 +472,22 @@ namespace Sherlock.Shared.DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SwitchMachineToInactive", machineIdParameter);
         }
     
-        private ObjectResult<bool?> IsHypervMachine(string machineId)
+        private int IsHypervMachine(string machineId, ObjectParameter result)
         {
             var machineIdParameter = machineId != null ?
                 new ObjectParameter("machineId", machineId) :
                 new ObjectParameter("machineId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<bool?>("IsHypervMachine", machineIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IsHypervMachine", machineIdParameter, result);
         }
     
-        private ObjectResult<bool?> IsPhysicalMachine(string machineId)
+        private int IsPhysicalMachine(string machineId, ObjectParameter result)
         {
             var machineIdParameter = machineId != null ?
                 new ObjectParameter("machineId", machineId) :
                 new ObjectParameter("machineId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<bool?>("IsPhysicalMachine", machineIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IsPhysicalMachine", machineIdParameter, result);
         }
     
         private ObjectResult<ApplicationDescription> GetApplicationsById(Nullable<int> id)

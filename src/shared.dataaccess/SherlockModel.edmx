@@ -554,9 +554,11 @@
         </Function>
         <Function Name="IsHypervMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
           <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="result" Type="bit" Mode="InOut" />
         </Function>
         <Function Name="IsPhysicalMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
           <Parameter Name="machineId" Type="nvarchar" Mode="In" />
+          <Parameter Name="result" Type="bit" Mode="InOut" />
         </Function>
         <Function Name="SwitchMachineToActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Environments">
           <Parameter Name="machineId" Type="nvarchar" Mode="In" />
@@ -914,11 +916,13 @@
           <FunctionImport Name="SwitchMachineToInactive" a:MethodAccess="Private">
           <Parameter Name="machineId" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="IsHypervMachine" ReturnType="Collection(Boolean)" a:MethodAccess="Private">
-          <Parameter Name="machineId" Mode="In" Type="String" />
+          <FunctionImport Name="IsHypervMachine" a:MethodAccess="Private">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="result" Mode="InOut" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="IsPhysicalMachine" ReturnType="Collection(Boolean)" a:MethodAccess="Private">
-          <Parameter Name="machineId" Mode="In" Type="String" />
+          <FunctionImport Name="IsPhysicalMachine" a:MethodAccess="Private">
+            <Parameter Name="machineId" Mode="In" Type="String" />
+            <Parameter Name="result" Mode="InOut" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="GetApplicationsById" EntitySet="ApplicationDescriptions" ReturnType="Collection(Sherlock.Shared.DataAccess.ApplicationDescription)" a:MethodAccess="Private">
           <Parameter Name="id" Mode="In" Type="Int32" />
@@ -1153,10 +1157,10 @@
             <Parameter Name="executableFilePath" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteConsoleExecuteTestStepById" a:MethodAccess="Private">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetConsoleExecuteTestStepsById" EntitySet="TestSteps" ReturnType="Collection(Sherlock.Shared.DataAccess.ConsoleExecuteTestStep)" a:MethodAccess="Private">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UpdateConsoleExecuteTestStep" a:MethodAccess="Private">
             <Parameter Name="id" Mode="In" Type="Int32" />
