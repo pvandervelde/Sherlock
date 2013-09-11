@@ -67,6 +67,7 @@
     
         <Message Text="Compressing console files" />
         <Zip InputFileNames="@(ConsoleFiles)"
+             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileConsolePackage)"
              OverwriteExistingFile="true" />
     </Target>
@@ -97,6 +98,7 @@
     
         <Message Text="Compressing service files" />
         <Zip InputFileNames="@(ServiceFiles)"
+             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileServicePackage)"
              OverwriteExistingFile="true" />
     </Target>
@@ -133,6 +135,7 @@
     
         <Message Text="Compressing master service files" />
         <Zip InputFileNames="@(MasterServiceFiles)"
+             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileMasterServicePackage)"
              OverwriteExistingFile="true" />
     </Target>
@@ -172,6 +175,7 @@
         
         <Message Text="Compressing executor service files" />
         <Zip InputFileNames="@(ExecutorServiceFiles)"
+             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileExecutorServicePackage)"
              OverwriteExistingFile="true" />
     </Target>

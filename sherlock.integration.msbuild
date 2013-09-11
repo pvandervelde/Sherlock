@@ -15,7 +15,7 @@
         <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
     </PropertyGroup>
     
-    <Target Name="Run" DependsOnTargets="_PrepareWorkspace;_BuildBinaries;_ExecuteUnitTests;_PackageSQL;_PackageArchive">
+    <Target Name="Run" DependsOnTargets="_PrepareWorkspace;_BuildBinaries;_ExecuteUnitTests;_PackageSQL;_PackageArchive;_PackageWeb">
         <!-- Do nothing here -->
     </Target>
     
@@ -37,8 +37,8 @@
         <MsBuildBuildBinaries>$(DirWorkspace)\sherlock.Build.Binaries.msbuild</MsBuildBuildBinaries>
     </PropertyGroup>
     <Target Name="_BuildBinaries" DependsOnTargets="_PrepareWorkspace">
-        <MSBuild Projects="$(MsBuildBuildBinaries)" Properties="Configuration=Release;Platform=$(Platform)" />
-        <MSBuild Projects="$(MsBuildBuildBinaries)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+        <MSBuild Projects="$(MsBuildBuildBinaries)" Properties="Configuration=Release;Platform=$(Platform);DeployOnBuild=true;DeployTarget=Package" />
+        <MSBuild Projects="$(MsBuildBuildBinaries)" Properties="Configuration=Deploy;Platform=$(Platform);DeployOnBuild=true;DeployTarget=Package" />
     </Target>
     
     <!-- Run unit tests -->
@@ -63,5 +63,13 @@
     </PropertyGroup>
     <Target Name="_PackageArchive" DependsOnTargets="_BuildBinaries">
         <MSBuild Projects="$(MsBuildPackageArchive)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+    
+    <!-- Build web project files -->
+    <PropertyGroup>
+        <MsBuildPackageWeb>$(DirWorkspace)\sherlock.Package.Web.msbuild</MsBuildPackageWeb>
+    </PropertyGroup>
+    <Target Name="_PackageWeb" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageWeb)" Properties="Configuration=Deploy;Platform=$(Platform)" />
     </Target>
 </Project>

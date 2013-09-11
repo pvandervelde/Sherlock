@@ -13,6 +13,7 @@
         <DirPackages>$(DirWorkspace)\packages</DirPackages>
         <DirTools>$(DirWorkspace)\tools</DirTools>
         <DirBuild>$(DirWorkspace)\build</DirBuild>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
         <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
         <DirScripts>$(DirWorkspace)\scripts</DirScripts>
         
@@ -34,7 +35,7 @@
     <Import Project="$(DirWorkspace)\version.xml" 
             Condition="Exists('$(DirWorkspace)\version.xml')" />
     
-    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageSql">
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageWebApi;_PackageWebIntranet">
         <!-- Do nothing here -->
     </Target>
     
@@ -44,20 +45,40 @@
     </Target>
     
     <PropertyGroup>
-        <FileNameSqlPackage>sql.zip</FileNameSqlPackage>
-        <FileSqlPackage>$(DirBuildDeploy)\$(FileNameSqlPackage)</FileSqlPackage>
+        <FileNameWebApi>Sherlock.Web.Api.zip</FileNameWebApi>
+        <FileWebApiPackage>$(DirBuildDeploy)\$(FileNameWebApi)</FileWebApiPackage>
+        <DirBuildTempWebApi>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Api</DirBuildTempWebApi>
     </PropertyGroup>
-    <Target Name="_PackageSql" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageWebApi" DependsOnTargets="_DisplayInfo">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
-        <ItemGroup Condition="'$(DirScripts)' != ''">
-            <SqlFiles Include="$(DirScripts)\*.sql" />
+        <ItemGroup>
+            <WebApiFiles Include="$(DirBuildTempWebApi)\**\*.*" />
         </ItemGroup>
     
-        <Message Text="Compressing SQL files" />
-        <Zip InputFileNames="@(SqlFiles)"
-             BaseDirectory="$(DirScripts)"
-             OutputFileName="$(FileSqlPackage)"
+        <Message Text="Compressing files" />
+        <Zip InputFileNames="@(WebApiFiles)"
+             BaseDirectory="$(DirBuildTempWebApi)"
+             OutputFileName="$(FileWebApiPackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameWebIntranet>Sherlock.Web.Intranet.zip</FileNameWebIntranet>
+        <FileWebIntranetPackage>$(DirBuildDeploy)\$(FileNameWebIntranet)</FileWebIntranetPackage>
+        <DirBuildTempWebIntranet>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Intranet</DirBuildTempWebIntranet>
+    </PropertyGroup>
+    <Target Name="_PackageWebIntranet" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup>
+            <WebIntranetFiles Include="$(DirBuildTempWebIntranet)\**\*.*" />
+        </ItemGroup>
+    
+        <Message Text="Compressing files" />
+        <Zip InputFileNames="@(WebIntranetFiles)"
+             BaseDirectory="$(DirBuildTempWebIntranet)"
+             OutputFileName="$(FileWebIntranetPackage)"
              OverwriteExistingFile="true" />
     </Target>
  </Project>
