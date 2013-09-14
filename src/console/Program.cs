@@ -199,7 +199,7 @@ namespace Sherlock.Console
                     return InvalidApplicationConfigurationExitCode;
                 }
                 
-                var serverUrl = s_Configuration.Value<string>(ConsoleConfigurationKeys.WebServiceUrl);
+                var serverUrl = new Uri(s_Configuration.Value<string>(ConsoleConfigurationKeys.WebServiceUrl));
 
                 WriteInputParametersToLog(s_ConfigurationFile);
                 return QueueTest(serverUrl);
@@ -341,7 +341,7 @@ namespace Sherlock.Console
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Once we catch the exception we'll exit, but now we should be able to log the failure.")]
-        private static int QueueTest(string serverUrl)
+        private static int QueueTest(Uri serverUrl)
         {
             try
             {
@@ -365,22 +365,17 @@ namespace Sherlock.Console
                     var packer = s_Container.Resolve<ITestSuitePackage>();
                     packer.PackTo(zipFile);
 
-                    var baseUri = new Uri(serverUrl);
-                    var http = new HttpClient
-                        {
-                            BaseAddress = baseUri,
-                        };
-
+                    var http = new HttpClient();
                     http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 
-                    RegisterTest(http, configurationInfo.Test);
-                    RegisterTestEnvironments(http, configurationInfo.Test.Id, configurationInfo.Test.Environments);
+                    RegisterTest(http, serverUrl, configurationInfo.Test);
+                    RegisterTestEnvironments(http, serverUrl, configurationInfo.Test.Id, configurationInfo.Test.Environments);
                     var environmentMapping = MapEnvironmentsToTestSteps(configurationInfo.Test);
 
-                    RegisterTestSteps(http, configurationInfo.Test.TestSteps, environmentMapping);
-                    RegisterTestStepParameters(http, configurationInfo.Test.TestSteps);
-                    UploadTestFiles(http, configurationInfo.Test.Id, zipFile);
-                    MarkTestAsReady(http, configurationInfo.Test.Id);
+                    RegisterTestSteps(http, serverUrl, configurationInfo.Test.TestSteps, environmentMapping);
+                    RegisterTestStepParameters(http, serverUrl, configurationInfo.Test.TestSteps);
+                    UploadTestFiles(http, serverUrl, configurationInfo.Test.Id, zipFile);
+                    MarkTestAsReady(http, serverUrl, configurationInfo.Test.Id);
 
                     s_Diagnostics.Log(
                         LevelToLog.Info,
@@ -483,20 +478,21 @@ namespace Sherlock.Console
             return path;
         }
 
-        private static void RegisterTest(HttpClient http, TestDescription test)
+        private static void RegisterTest(HttpClient http, Uri serverUrl, TestDescription test)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTest);
 
             var registerUrl = string.Format(
                 CultureInfo.InvariantCulture,
-                "api/Test/Register?product={0}&version={1}&owner={2}&description={3}&reportpath={4}",
+                "{0}/api/Test/Register?product={1}&version={2}&owner={3}&description={4}&reportpath={5}",
+                serverUrl.AbsoluteUri,
                 Uri.EscapeDataString(test.ProductUnderTest),
                 Uri.EscapeDataString(test.VersionOfProductUnderTest),
                 Uri.EscapeDataString(test.Owner),
                 Uri.EscapeDataString(test.Description),
                 Uri.EscapeDataString(test.ReportPath));
 
-            var response = MakePostRequest(http, registerUrl, null);
+            var response = MakePostRequest(http, new Uri(registerUrl), null);
             if (!response.IsSuccessStatusCode)
             {
                 s_Diagnostics.Log(
@@ -532,7 +528,7 @@ namespace Sherlock.Console
             return storeTask;
         }
 
-        private static void RegisterTestEnvironments(HttpClient http, int testId, IEnumerable<TestEnvironmentDescription> environments)
+        private static void RegisterTestEnvironments(HttpClient http, Uri serverUrl, int testId, IEnumerable<TestEnvironmentDescription> environments)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTestEnvironments);
 
@@ -542,7 +538,8 @@ namespace Sherlock.Console
                 var localEnvironment = environment;
                 var registerUrl = string.Format(
                     CultureInfo.InvariantCulture,
-                    "api/TestEnvironment/Register?name={0}&test={1}",
+                    "{0}/api/TestEnvironment/Register?name={1}&test={2}",
+                    serverUrl.AbsoluteUri,
                     Uri.EscapeDataString(localEnvironment.Name),
                     testId);
 
@@ -557,7 +554,7 @@ namespace Sherlock.Console
                 }
 
                 var content = new StringContent(xmlText, Encoding.UTF8, "application/xml");
-                var response = MakePostRequest(http, registerUrl, content);
+                var response = MakePostRequest(http, new Uri(registerUrl), content);
                 if (!response.IsSuccessStatusCode)
                 {
                     s_Diagnostics.Log(
@@ -643,6 +640,7 @@ namespace Sherlock.Console
 
         private static void RegisterTestSteps(
             HttpClient http, 
+            Uri serverUrl, 
             IEnumerable<TestStepDescription> testSteps, 
             IDictionary<string, int> environmentToIdMapping)
         {
@@ -652,8 +650,8 @@ namespace Sherlock.Console
             foreach (var step in testSteps)
             {
                 var localStep = step;
-                var registerUrl = CreateTestStepRegisterUrl(localStep, environmentToIdMapping);
-                var response = MakePostRequest(http, registerUrl, null);
+                var registerUrl = CreateTestStepRegisterUrl(serverUrl, localStep, environmentToIdMapping);
+                var response = MakePostRequest(http, new Uri(registerUrl), null);
                 if (!response.IsSuccessStatusCode)
                 {
                     s_Diagnostics.Log(
@@ -682,7 +680,7 @@ namespace Sherlock.Console
             Task.WaitAll(tasks.ToArray());
         }
 
-        private static string CreateTestStepRegisterUrl(TestStepDescription step, IDictionary<string, int> environmentToIdMapping)
+        private static string CreateTestStepRegisterUrl(Uri serverUrl, TestStepDescription step, IDictionary<string, int> environmentToIdMapping)
         {
             string stepType = string.Empty;
             string parameters = string.Empty;
@@ -725,7 +723,8 @@ namespace Sherlock.Console
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "api/TestStep/Register{0}?environment={1}&order={2}&failuremode={3}{4}",
+                "{0}/api/TestStep/Register{1}?environment={2}&order={3}&failuremode={4}{5}",
+                serverUrl.AbsoluteUri,
                 stepType,
                 environmentToIdMapping[step.Environment],
                 step.Order,
@@ -733,7 +732,7 @@ namespace Sherlock.Console
                 parameters);
         }
 
-        private static void RegisterTestStepParameters(HttpClient http, IEnumerable<TestStepDescription> testSteps)
+        private static void RegisterTestStepParameters(HttpClient http, Uri serverUrl, IEnumerable<TestStepDescription> testSteps)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTestStepParameters);
 
@@ -743,11 +742,12 @@ namespace Sherlock.Console
                 {
                     var registerUrl = string.Format(
                         CultureInfo.InvariantCulture,
-                        "api/TestStepParameter/Register?teststep={0}&key={1}&value={2}",
+                        "{0}/api/TestStepParameter/Register?teststep={1}&key={2}&value={3}",
+                        serverUrl.AbsoluteUri,
                         step.Id,
                         Uri.EscapeDataString(parameter.Key),
                         Uri.EscapeDataString(parameter.Value));
-                    var response = MakePostRequest(http, registerUrl, null);
+                    var response = MakePostRequest(http, new Uri(registerUrl), null);
                     if (!response.IsSuccessStatusCode)
                     {
                         s_Diagnostics.Log(
@@ -766,19 +766,20 @@ namespace Sherlock.Console
             }
         }
 
-        private static void UploadTestFiles(HttpClient http, int testId, string file)
+        private static void UploadTestFiles(HttpClient http, Uri serverUrl, int testId, string file)
         {
             WriteToConsole(Resources.Output_Information_UploadingTestFiles);
 
             var uploadUrl = string.Format(
                 CultureInfo.InvariantCulture,
-                "api/Test/Upload/{0}",
+                "{0}/api/Test/Upload/{1}",
+                serverUrl.AbsoluteUri,
                 testId);
 
             using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 var content = new StreamContent(fileStream);
-                var response = MakePostRequest(http, uploadUrl, content);
+                var response = MakePostRequest(http, new Uri(uploadUrl), content);
                 if (!response.IsSuccessStatusCode)
                 {
                     s_Diagnostics.Log(
@@ -796,16 +797,17 @@ namespace Sherlock.Console
             }
         }
 
-        private static void MarkTestAsReady(HttpClient http, int testId)
+        private static void MarkTestAsReady(HttpClient http, Uri serverUrl, int testId)
         {
             WriteToConsole(Resources.Output_Information_MarkingTestAsReady);
 
             var markAsReadyUrl = string.Format(
                 CultureInfo.InvariantCulture,
-                "api/Test/MarkAsReady/{0}",
+                "{0}/api/Test/MarkAsReady/{1}",
+                serverUrl.AbsoluteUri,
                 testId);
 
-            var response = MakePostRequest(http, markAsReadyUrl, null);
+            var response = MakePostRequest(http, new Uri(markAsReadyUrl), null);
             if (!response.IsSuccessStatusCode)
             {
                 s_Diagnostics.Log(
@@ -822,7 +824,7 @@ namespace Sherlock.Console
             }
         }
 
-        private static HttpResponseMessage MakePostRequest(HttpClient http, string url, HttpContent data)
+        private static HttpResponseMessage MakePostRequest(HttpClient http, Uri url, HttpContent data)
         {
             var httpResponse = http.PostAsync(url, data).Result;
             return httpResponse;
