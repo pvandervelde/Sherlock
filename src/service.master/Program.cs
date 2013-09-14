@@ -33,7 +33,7 @@ namespace Sherlock.Service.Master
         /// <summary>
         /// The default name for the error log.
         /// </summary>
-        private const string DefaultErrorFileName = "service.master.error.{0}.log";
+        private const string DefaultErrorFileName = "service.master.error.log";
 
         /// <summary>
         /// The DI container.
