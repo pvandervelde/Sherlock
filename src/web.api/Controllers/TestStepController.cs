@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Web.Http;
 using Sherlock.Shared.DataAccess;
 
@@ -54,8 +56,21 @@ namespace Sherlock.Web.Api.Controllers
                 ExecutableFilePath = executablePath,
             };
 
-            m_Context.Add(testStep);
-            m_Context.StoreChanges();
+            try
+            {
+                m_Context.Add(testStep);
+                m_Context.StoreChanges();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Registering the console test step failed with error: {0}",
+                        e));
+
+                throw;
+            }
 
             return testStep.Id;
         }
@@ -79,8 +94,21 @@ namespace Sherlock.Web.Api.Controllers
                     FailureMode = (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), failureMode),
                 };
 
-            m_Context.Add(testStep);
-            m_Context.StoreChanges();
+            try
+            {
+                m_Context.Add(testStep);
+                m_Context.StoreChanges();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Registering the MSI test step failed with error: {0}",
+                        e));
+
+                throw;
+            }
 
             return testStep.Id;
         }
@@ -106,8 +134,21 @@ namespace Sherlock.Web.Api.Controllers
                     ScriptLanguage = (ScriptLanguage)Enum.Parse(typeof(ScriptLanguage), language),
                 };
 
-            m_Context.Add(testStep);
-            m_Context.StoreChanges();
+            try
+            {
+                m_Context.Add(testStep);
+                m_Context.StoreChanges();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Registering the script test step failed with error: {0}",
+                        e));
+
+                throw;
+            }
 
             return testStep.Id;
         }
@@ -133,8 +174,21 @@ namespace Sherlock.Web.Api.Controllers
                 Destination = destination,
             };
 
-            m_Context.Add(testStep);
-            m_Context.StoreChanges();
+            try
+            {
+                m_Context.Add(testStep);
+                m_Context.StoreChanges();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Registering the x-copy test step failed with error: {0}",
+                        e));
+
+                throw;
+            }
 
             return testStep.Id;
         }

@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Web.Http;
@@ -67,33 +68,46 @@ namespace Sherlock.Web.Api.Controllers
         [HttpPost]
         public int Register(string name, int test)
         {
-            var content = Request.Content;
-            var textContent = content.ReadAsStringAsync().Result;
-            var xmlContent = XDocument.Parse(textContent);
+            try
+            {
+                var content = Request.Content;
+                var textContent = content.ReadAsStringAsync().Result;
+                var xmlContent = XDocument.Parse(textContent);
 
-            var operatingSystem = ExtractOperatingSystem(xmlContent);
-            var operatingSystemId = m_Context.OperatingSystems()
-                .Where(
-                    o => string.Equals(o.Name, operatingSystem.Name, StringComparison.OrdinalIgnoreCase)
-                        && string.Equals(o.ServicePack, operatingSystem.ServicePack, StringComparison.OrdinalIgnoreCase)
-                        && o.CultureInfo.Equals(operatingSystem.CultureInfo)
-                        && (o.PointerSize == operatingSystem.PointerSize))
-                .Select(o => o.Id)
-                .First();
+                var operatingSystem = ExtractOperatingSystem(xmlContent);
+                var operatingSystemId = m_Context.OperatingSystems()
+                    .Where(
+                        o => string.Equals(o.Name, operatingSystem.Name, StringComparison.OrdinalIgnoreCase)
+                            && string.Equals(o.ServicePack, operatingSystem.ServicePack, StringComparison.OrdinalIgnoreCase)
+                            && o.CultureInfo.Equals(operatingSystem.CultureInfo)
+                            && (o.PointerSize == operatingSystem.PointerSize))
+                    .Select(o => o.Id)
+                    .First();
 
-            var environment = new TestEnvironment
-                {
-                    Name = name,
-                    DesiredOperatingSystemId = operatingSystemId,
-                    TestId = test,
-                };
+                var environment = new TestEnvironment
+                    {
+                        Name = name,
+                        DesiredOperatingSystemId = operatingSystemId,
+                        TestId = test,
+                    };
 
-            m_Context.Add(environment);
-            m_Context.StoreChanges();
+                m_Context.Add(environment);
+                m_Context.StoreChanges();
 
-            SetApplicationsForEnvironment(xmlContent, environment.Id);
+                SetApplicationsForEnvironment(xmlContent, environment.Id);
 
-            return environment.Id;
+                return environment.Id;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Registering the test environment failed with error: {0}",
+                        e));
+
+                throw;
+            }
         }
 
         private void SetApplicationsForEnvironment(XDocument xmlContent, int environmentId)

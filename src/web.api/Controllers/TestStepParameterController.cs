@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Web.Http;
 using Sherlock.Shared.DataAccess;
 
@@ -58,8 +60,22 @@ namespace Sherlock.Web.Api.Controllers
                     Value = value,
                     TestStepId = testStep,
                 };
-            m_Context.Add(parameter);
-            m_Context.StoreChanges();
+
+            try
+            {
+                m_Context.Add(parameter);
+                m_Context.StoreChanges();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Registering the test step parameter failed with error: {0}",
+                        e));
+
+                throw;
+            }
         }
     }
 }

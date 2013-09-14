@@ -5,10 +5,11 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using System.Web.Http;
-using System.Xml.Linq;
 using Nuclei.Configuration;
 using Sherlock.Shared.DataAccess;
 
@@ -28,6 +29,9 @@ namespace Sherlock.Web.Api.Controllers
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="context">The context.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="configuration"/> is <see langword="null" />.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="context"/> is <see langword="null" />.
         /// </exception>
@@ -106,8 +110,21 @@ namespace Sherlock.Web.Api.Controllers
                     ReportPath = reportPath
                 };
 
-            m_Context.Add(test);
-            m_Context.StoreChanges();
+            try
+            {
+                m_Context.Add(test);
+                m_Context.StoreChanges();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Test registration failed with error. Error was: {0}",
+                        e));
+
+                throw;
+            }
 
             return test.Id;
         }
@@ -119,18 +136,37 @@ namespace Sherlock.Web.Api.Controllers
         [HttpPost]
         public void Upload(int id)
         {
-            var content = Request.Content;
-            var streamContent = content.ReadAsStreamAsync().Result;
-
-            var testFile = Path.Combine(
-                m_Configuration.Value<string>(WebApiConfigurationKeys.TestDataDirectory),
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}.zip",
-                    id));
-            using (var fileStream = new FileStream(testFile, FileMode.Create, FileAccess.Write, FileShare.None))
+            try
             {
-                streamContent.CopyTo(fileStream);
+                var content = Request.Content;
+                var streamContent = content.ReadAsStreamAsync().Result;
+
+                // var testFile = Path.Combine(
+                //    m_Configuration.Value<string>(WebApiConfigurationKeys.TestDataDirectory),
+                //    string.Format(
+                //        CultureInfo.InvariantCulture,
+                //        "{0}.zip",
+                //        id));
+                var testFile = Path.Combine(
+                    HttpContext.Current.Server.MapPath("~/App_Data"),
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0}.zip",
+                        id));
+                using (var fileStream = new FileStream(testFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    streamContent.CopyTo(fileStream);
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Uploading of test files failed with error. Error was: {0}",
+                        e));
+
+                throw;
             }
         }
 
@@ -141,7 +177,20 @@ namespace Sherlock.Web.Api.Controllers
         [HttpPost]
         public void MarkAsReady(int id)
         {
-            m_Context.TestIsReadyForExecution(id);
+            try
+            {
+                m_Context.TestIsReadyForExecution(id);
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Marking test as ready failed with error. Error was: {0}",
+                        e));
+
+                throw;
+            }
         }
     }
 }

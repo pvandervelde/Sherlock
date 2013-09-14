@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Http;
 using Autofac;
-using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Nuclei.Configuration;
 using Sherlock.Shared.Core;
