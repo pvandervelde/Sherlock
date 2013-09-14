@@ -110,6 +110,7 @@
     <Compile Include="..\..\build\temp\AssemblyInfo.VersionNumber.cs">
       <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
     </Compile>
+    <Compile Include="ApplicationTrackingJob.cs" />
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="Nuclei\ExceptionHandling\EventType.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
@@ -157,6 +158,9 @@
     <Compile Include="ServiceConstants.cs" />
     <Compile Include="ServiceEntryPoint.cs" />
     <Compile Include="Nuclei\NucleiModule.cs" />
+    <Compile Include="UnableToCreateJobException.cs" />
+    <Compile Include="UnableToLinkChildProcessToJobException.cs" />
+    <Compile Include="UnableToSetJobException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

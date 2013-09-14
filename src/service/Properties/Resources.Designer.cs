@@ -61,6 +61,33 @@ namespace Sherlock.Service.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create dataset tracking job..
+        /// </summary>
+        internal static string Exceptions_Messages_UnableToCreateJob {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_UnableToCreateJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to link the given child process to the existing job..
+        /// </summary>
+        internal static string Exceptions_Messages_UnableToLinkChildProcessToJob {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_UnableToLinkChildProcessToJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to set the information for the job..
+        /// </summary>
+        internal static string Exceptions_Messages_UnableToSetJob {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_UnableToSetJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sherlock Service ({0}).
         /// </summary>
         internal static string Header_ApplicationAndVersion {

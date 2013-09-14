@@ -159,4 +159,13 @@
   <data name="Service_Description" xml:space="preserve">
     <value>The service that is used to load any of the Sherlock services and keep track of updates for these services.</value>
   </data>
+  <data name="Exceptions_Messages_UnableToCreateJob" xml:space="preserve">
+    <value>Unable to create dataset tracking job.</value>
+  </data>
+  <data name="Exceptions_Messages_UnableToLinkChildProcessToJob" xml:space="preserve">
+    <value>Unable to link the given child process to the existing job.</value>
+  </data>
+  <data name="Exceptions_Messages_UnableToSetJob" xml:space="preserve">
+    <value>Unable to set the information for the job.</value>
+  </data>
 </root>

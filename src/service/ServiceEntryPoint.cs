@@ -31,6 +31,13 @@ namespace Sherlock.Service
     internal sealed class ServiceEntryPoint : IDisposable
     {
         /// <summary>
+        /// The object that links the application process to the current process so that application will be stopped
+        /// if the current process terminates.
+        /// </summary>
+        private static readonly ApplicationTrackingJob s_TrackingJob
+            = new ApplicationTrackingJob();
+
+        /// <summary>
         /// The object used to lock on.
         /// </summary>
         private readonly object m_Lock = new object();
@@ -109,6 +116,11 @@ namespace Sherlock.Service
         /// A flag that indicates that the running application is being updated.
         /// </summary>
         private volatile bool m_IsUpdating;
+
+        /// <summary>
+        /// A flag that indicates that the application has been stopped.
+        /// </summary>
+        private volatile bool m_HasBeenStopped;
 
         /// <summary>
         /// A flag that indicates if the service has been disposed or not.
@@ -214,6 +226,7 @@ namespace Sherlock.Service
                         };
 
                     m_Application = Process.Start(processArgs);
+                    s_TrackingJob.LinkChildProcessToJob(m_Application);
 
                     m_Diagnostics.Log(
                         LevelToLog.Debug,
@@ -397,19 +410,10 @@ namespace Sherlock.Service
                             return;
                         }
 
-                        var signal = new AutoResetEvent(false);
-
-                        // Fake out the compiler
-                        EventHandler onExited = null;
-                        onExited = (s, e) =>
+                        if (!m_Application.HasExited)
                         {
-                            signal.Set();
-                            m_Application.Exited -= onExited;
-                        };
-                        m_Application.Exited += onExited;
-
-                        m_Application.Kill();
-                        signal.WaitOne();
+                            m_Application.Kill();
+                        }
 
                         m_Diagnostics.Log(
                             LevelToLog.Info,
@@ -514,23 +518,40 @@ namespace Sherlock.Service
         /// </summary>
         public void OnStop()
         {
+            bool hasBeenStopped;
             lock (m_Lock)
             {
+                hasBeenStopped = m_HasBeenStopped;
                 m_IsStopping = true;
             }
 
-            StopTimer();
-            StopApplication();
-
-            m_Diagnostics.Log(
-                LevelToLog.Info,
-                ServiceConstants.LogPrefix,
-                Resources.Log_Messages_ServiceStopped);
-
-            if (m_Container != null)
+            if (hasBeenStopped)
             {
-                m_Container.Dispose();
-                m_Container = null;
+                return;
+            }
+
+            try
+            {
+                StopTimer();
+                StopApplication();
+
+                m_Diagnostics.Log(
+                    LevelToLog.Info,
+                    ServiceConstants.LogPrefix,
+                    Resources.Log_Messages_ServiceStopped);
+
+                if (m_Container != null)
+                {
+                    m_Container.Dispose();
+                    m_Container = null;
+                }
+            }
+            finally
+            {
+                lock (m_Lock)
+                {
+                    m_HasBeenStopped = true;
+                }
             }
         }
 
