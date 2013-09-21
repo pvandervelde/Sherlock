@@ -49,8 +49,25 @@ namespace Sherlock.Service.Master
         /// <param name="report">The report describing the results of the test.</param>
         public override void OnTestCompleted(TestExecutionResult result, IReport report)
         {
-            var transformer = new HtmlReportTransformer();
-            transformer.Transform(report, CopyStream);
+            try
+            {
+                var htmlTransformer = new HtmlReportTransformer();
+                htmlTransformer.Transform(report, CopyStream);
+            }
+            catch (Exception)
+            {
+                // Just continue with processing
+            }
+
+            try
+            {
+                var xmlTransformer = new XmlReportTransformer();
+                xmlTransformer.Transform(report, CopyStream);
+            }
+            catch (Exception)
+            {
+                // Just continue with processing
+            }
         }
 
         private void CopyStream(string fileName, Stream input)
