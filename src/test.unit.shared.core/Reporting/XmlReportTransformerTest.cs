@@ -98,7 +98,8 @@ namespace Sherlock.Shared.Core.Reporting
                 builder.Replace("${TEST_START_TIME}$", start.ToString("o", CultureInfo.CurrentCulture));
                 builder.Replace("${TEST_END_TIME}$", end.ToString("o", CultureInfo.CurrentCulture));
                 builder.Replace("${PRODUCT_NAME}$", productName);
-                builder.Replace("${PRODUCT_VERSION}$", productVersion.ToString());
+                builder.Replace("${PRODUCT_VERSION}$", productVersion);
+                builder.Replace("${TEST_RESULT}$", "Passed");
                 builder.Replace("${REPORT_SECTION_NAME}$", name);
                 builder.Replace("${TEST_SECTION_NAME}$", section.Name);
                 builder.Replace("${TEST_SECTION_START_TIME}$", section.StartTime.ToString("o", CultureInfo.CurrentCulture));

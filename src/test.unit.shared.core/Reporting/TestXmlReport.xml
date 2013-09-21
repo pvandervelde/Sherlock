@@ -1,28 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sherlockreport version="${REPORT_VERSION}$">
-   <header>
-      <sherlock>
-         <host>${HOST_NAME}$</host>
-         <user>${USER_NAME}$</user>
-         <version>${SHERLOCK_VERSION}$</version>
-         <starttime>${TEST_START_TIME}$</starttime>
-         <endtime>${TEST_END_TIME}$</endtime>
-      </sherlock>
-      <product>
-         <name>${PRODUCT_NAME}$</name>
-         <version>${PRODUCT_VERSION}$</version>
-      </product>
-   </header>
-   <tests>
-      <section name="${REPORT_SECTION_NAME}$" >
-         <test text="${TEST_SECTION_NAME}$"
-               start="${TEST_SECTION_START_TIME}$"
-               end="${TEST_SECTION_END_TIME}$"
-               success="${TEST_SECTION_WAS_SUCCESSFUL}$">
-            <info time="${INFO_TIME}$">${INFO_TEXT}$</info>
-            <warning time="${WARNING_TIME}$">${WARNING_TEXT}$</warning>
-            <error time="${ERROR_TIME}$">${ERROR_TEXT}$</error>
-         </test>
-      </section>
-   </tests>
+    <header>
+        <sherlock>
+            <host>${HOST_NAME}$</host>
+            <user>${USER_NAME}$</user>
+            <version>${SHERLOCK_VERSION}$</version>
+            <starttime>${TEST_START_TIME}$</starttime>
+            <endtime>${TEST_END_TIME}$</endtime>
+        </sherlock>
+        <product>
+            <name>${PRODUCT_NAME}$</name>
+            <version>${PRODUCT_VERSION}$</version>
+        </product>
+        <result>
+            ${TEST_RESULT}$
+        </result>
+    </header>
+    <tests>
+        <section name="${REPORT_SECTION_NAME}$" >
+            <test text="${TEST_SECTION_NAME}$"
+                  start="${TEST_SECTION_START_TIME}$"
+                  end="${TEST_SECTION_END_TIME}$"
+                  success="${TEST_SECTION_WAS_SUCCESSFUL}$">
+                <info time="${INFO_TIME}$">${INFO_TEXT}$</info>
+                <warning time="${WARNING_TIME}$">${WARNING_TEXT}$</warning>
+                <error time="${ERROR_TIME}$">${ERROR_TEXT}$</error>
+            </test>
+        </section>
+    </tests>
 </sherlockreport>
