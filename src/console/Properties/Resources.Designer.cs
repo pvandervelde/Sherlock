@@ -214,11 +214,38 @@ namespace Sherlock.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuration file has unknown version [{0}]..
+        /// </summary>
+        internal static string Log_Error_ConfigurationFileVersionUnknown_WithVersion {
+            get {
+                return ResourceManager.GetString("Log_Error_ConfigurationFileVersionUnknown_WithVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to locate the test server..
         /// </summary>
         internal static string Log_Error_CouldNotFindServer {
             get {
                 return ResourceManager.GetString("Log_Error_CouldNotFindServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to create the local storage directory at {0}. Error was {1}..
+        /// </summary>
+        internal static string Log_Error_FailedToCreateStorageDirectory_WithDirectoryAndError {
+            get {
+                return ResourceManager.GetString("Log_Error_FailedToCreateStorageDirectory_WithDirectoryAndError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to read the configuration file. Error was {0}..
+        /// </summary>
+        internal static string Log_Error_FailedToReadConfigurationFile_WithError {
+            get {
+                return ResourceManager.GetString("Log_Error_FailedToReadConfigurationFile_WithError", resourceCulture);
             }
         }
         
@@ -331,11 +358,164 @@ namespace Sherlock.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reading configuration file from: {0}..
+        /// </summary>
+        internal static string Log_Information_ReadingConfigurationFile_WithFile {
+            get {
+                return ResourceManager.GetString("Log_Information_ReadingConfigurationFile_WithFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The test was queued. The test ID is: {0}.
         /// </summary>
         internal static string Log_Information_TestQueued {
             get {
                 return ResourceManager.GetString("Log_Information_TestQueued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marking test as ready..
+        /// </summary>
+        internal static string Log_Trace_MarkingTestAsReady {
+            get {
+                return ResourceManager.GetString("Log_Trace_MarkingTestAsReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test..
+        /// </summary>
+        internal static string Log_Trace_RegisteringTest {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test environment [{0}] with operating system {1}..
+        /// </summary>
+        internal static string Log_Trace_RegisteringTestEnvironment_WithEnvironment {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTestEnvironment_WithEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test environments..
+        /// </summary>
+        internal static string Log_Trace_RegisteringTestEnvironments {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTestEnvironments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test step {0} of Type [{1}].
+        /// </summary>
+        internal static string Log_Trace_RegisteringTestStep_WithTestStep {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTestStep_WithTestStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test step. Key = {0}. Value = {1}..
+        /// </summary>
+        internal static string Log_Trace_RegisteringTestStepParameter_WithParameter {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTestStepParameter_WithParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test step parameters..
+        /// </summary>
+        internal static string Log_Trace_RegisteringTestStepParameters {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTestStepParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering test steps..
+        /// </summary>
+        internal static string Log_Trace_RegisteringTestSteps {
+            get {
+                return ResourceManager.GetString("Log_Trace_RegisteringTestSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test environment registration complete..
+        /// </summary>
+        internal static string Log_Trace_TestEnvironmentsRegistrationComplete {
+            get {
+                return ResourceManager.GetString("Log_Trace_TestEnvironmentsRegistrationComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test files upload completed..
+        /// </summary>
+        internal static string Log_Trace_TestFilesUploadCompleted {
+            get {
+                return ResourceManager.GetString("Log_Trace_TestFilesUploadCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test marked as ready..
+        /// </summary>
+        internal static string Log_Trace_TestMarkedAsReady {
+            get {
+                return ResourceManager.GetString("Log_Trace_TestMarkedAsReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test registration for test {0} complete..
+        /// </summary>
+        internal static string Log_Trace_TestRegistrationComplete_WithTestId {
+            get {
+                return ResourceManager.GetString("Log_Trace_TestRegistrationComplete_WithTestId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test step parameter registration completed..
+        /// </summary>
+        internal static string Log_Trace_TestStepParametersRegistrationCompleted {
+            get {
+                return ResourceManager.GetString("Log_Trace_TestStepParametersRegistrationCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test step registration complete..
+        /// </summary>
+        internal static string Log_Trace_TestStepRegistrationComplete {
+            get {
+                return ResourceManager.GetString("Log_Trace_TestStepRegistrationComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading test file: {0}..
+        /// </summary>
+        internal static string Log_Trace_UploadingTestFile_WithFile {
+            get {
+                return ResourceManager.GetString("Log_Trace_UploadingTestFile_WithFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading test files..
+        /// </summary>
+        internal static string Log_Trace_UploadingTestFiles {
+            get {
+                return ResourceManager.GetString("Log_Trace_UploadingTestFiles", resourceCulture);
             }
         }
         

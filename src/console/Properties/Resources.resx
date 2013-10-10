@@ -276,4 +276,64 @@
   <data name="Output_Error_MissingWebServiceUrlConfiguration" xml:space="preserve">
     <value>The URL of the Sherlock webservice was not provided in the application configuration file. Please update the configuration file.</value>
   </data>
+  <data name="Log_Error_ConfigurationFileVersionUnknown_WithVersion" xml:space="preserve">
+    <value>Configuration file has unknown version [{0}].</value>
+  </data>
+  <data name="Log_Error_FailedToCreateStorageDirectory_WithDirectoryAndError" xml:space="preserve">
+    <value>Failed to create the local storage directory at {0}. Error was {1}.</value>
+  </data>
+  <data name="Log_Error_FailedToReadConfigurationFile_WithError" xml:space="preserve">
+    <value>Failed to read the configuration file. Error was {0}.</value>
+  </data>
+  <data name="Log_Information_ReadingConfigurationFile_WithFile" xml:space="preserve">
+    <value>Reading configuration file from: {0}.</value>
+  </data>
+  <data name="Log_Trace_MarkingTestAsReady" xml:space="preserve">
+    <value>Marking test as ready.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTest" xml:space="preserve">
+    <value>Registering test.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestEnvironments" xml:space="preserve">
+    <value>Registering test environments.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestEnvironment_WithEnvironment" xml:space="preserve">
+    <value>Registering test environment [{0}] with operating system {1}.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestStepParameters" xml:space="preserve">
+    <value>Registering test step parameters.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestStepParameter_WithParameter" xml:space="preserve">
+    <value>Registering test step. Key = {0}. Value = {1}.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestSteps" xml:space="preserve">
+    <value>Registering test steps.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestStep_WithTestStep" xml:space="preserve">
+    <value>Registering test step {0} of Type [{1}]</value>
+  </data>
+  <data name="Log_Trace_TestEnvironmentsRegistrationComplete" xml:space="preserve">
+    <value>Test environment registration complete.</value>
+  </data>
+  <data name="Log_Trace_TestFilesUploadCompleted" xml:space="preserve">
+    <value>Test files upload completed.</value>
+  </data>
+  <data name="Log_Trace_TestMarkedAsReady" xml:space="preserve">
+    <value>Test marked as ready.</value>
+  </data>
+  <data name="Log_Trace_TestRegistrationComplete_WithTestId" xml:space="preserve">
+    <value>Test registration for test {0} complete.</value>
+  </data>
+  <data name="Log_Trace_TestStepParametersRegistrationCompleted" xml:space="preserve">
+    <value>Test step parameter registration completed.</value>
+  </data>
+  <data name="Log_Trace_TestStepRegistrationComplete" xml:space="preserve">
+    <value>Test step registration complete.</value>
+  </data>
+  <data name="Log_Trace_UploadingTestFiles" xml:space="preserve">
+    <value>Uploading test files.</value>
+  </data>
+  <data name="Log_Trace_UploadingTestFile_WithFile" xml:space="preserve">
+    <value>Uploading test file: {0}.</value>
+  </data>
 </root>

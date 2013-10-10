@@ -346,6 +346,14 @@ namespace Sherlock.Console
             try
             {
                 WriteToConsole(Resources.Output_Information_ReadingConfigurationFile);
+                s_Diagnostics.Log(
+                    LevelToLog.Info, 
+                    ConsoleConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Information_ReadingConfigurationFile_WithFile,
+                        s_ConfigurationFile));
+
                 var configurationInfo = LoadTestCaseFromConfiguration(s_ConfigurationFile);
                 if (configurationInfo == null)
                 {
@@ -446,10 +454,33 @@ namespace Sherlock.Console
             var reader = func(configurationVersion);
             if (reader == null)
             {
+                s_Diagnostics.Log(
+                    LevelToLog.Error, 
+                    ConsoleConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Error_ConfigurationFileVersionUnknown_WithVersion,
+                        configurationVersion));
+
                 throw new NonMatchingVersionFoundException();
             }
 
-            return reader.Read(doc);
+            try
+            {
+                return reader.Read(doc);
+            }
+            catch (Exception e)
+            {
+                s_Diagnostics.Log(
+                    LevelToLog.Error, 
+                    ConsoleConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Error_FailedToReadConfigurationFile_WithError,
+                        e));
+
+                throw;
+            }
         }
 
         private static string CreateLocalStorageDirectory()
@@ -470,8 +501,16 @@ namespace Sherlock.Console
                 {
                     Directory.CreateDirectory(path);
                 }
-                catch (IOException)
+                catch (IOException e)
                 {
+                    s_Diagnostics.Log(
+                        LevelToLog.Error,
+                        ConsoleConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Log_Error_FailedToCreateStorageDirectory_WithDirectoryAndError,
+                            path,
+                            e));
                 }
             }
 
@@ -481,6 +520,10 @@ namespace Sherlock.Console
         private static void RegisterTest(HttpClient http, Uri serverUrl, TestDescription test)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTest);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_RegisteringTest);
 
             var registerUrl = string.Format(
                 CultureInfo.InvariantCulture,
@@ -510,6 +553,14 @@ namespace Sherlock.Console
 
             var storeTask = GetIdFromReponse(response);
             test.Id = storeTask.Result;
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    Resources.Log_Trace_TestRegistrationComplete_WithTestId,
+                    test.Id));
         }
 
         private static Task<int> GetIdFromReponse(HttpResponseMessage response)
@@ -531,11 +582,24 @@ namespace Sherlock.Console
         private static void RegisterTestEnvironments(HttpClient http, Uri serverUrl, int testId, IEnumerable<TestEnvironmentDescription> environments)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTestEnvironments);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_RegisteringTestEnvironments);
 
             var tasks = new List<Task>();
             foreach (var environment in environments)
             {
                 var localEnvironment = environment;
+                s_Diagnostics.Log(
+                    LevelToLog.Trace,
+                    ConsoleConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Trace_RegisteringTestEnvironment_WithEnvironment,
+                        localEnvironment.Name,
+                        localEnvironment.OperatingSystem));
+
                 var registerUrl = string.Format(
                     CultureInfo.InvariantCulture,
                     "{0}/api/TestEnvironment/Register?name={1}&test={2}",
@@ -581,6 +645,11 @@ namespace Sherlock.Console
             }
 
             Task.WaitAll(tasks.ToArray());
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_TestEnvironmentsRegistrationComplete);
         }
 
         private static XmlDocument GenerateEnvironmentDataStorage(
@@ -645,11 +714,24 @@ namespace Sherlock.Console
             IDictionary<string, int> environmentToIdMapping)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTestSteps);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_RegisteringTestSteps);
 
             var tasks = new List<Task>();
             foreach (var step in testSteps)
             {
                 var localStep = step;
+                s_Diagnostics.Log(
+                    LevelToLog.Trace,
+                    ConsoleConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Trace_RegisteringTestStep_WithTestStep,
+                        localStep.Order,
+                        localStep.GetType()));
+
                 var registerUrl = CreateTestStepRegisterUrl(serverUrl, localStep, environmentToIdMapping);
                 var response = MakePostRequest(http, new Uri(registerUrl), null);
                 if (!response.IsSuccessStatusCode)
@@ -678,6 +760,11 @@ namespace Sherlock.Console
             }
 
             Task.WaitAll(tasks.ToArray());
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_TestStepRegistrationComplete);
         }
 
         private static string CreateTestStepRegisterUrl(Uri serverUrl, TestStepDescription step, IDictionary<string, int> environmentToIdMapping)
@@ -735,11 +822,24 @@ namespace Sherlock.Console
         private static void RegisterTestStepParameters(HttpClient http, Uri serverUrl, IEnumerable<TestStepDescription> testSteps)
         {
             WriteToConsole(Resources.Output_Information_RegisteringTestStepParameters);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_RegisteringTestStepParameters);
 
             foreach (var step in testSteps)
             {
                 foreach (var parameter in step.Parameters)
                 {
+                    s_Diagnostics.Log(
+                        LevelToLog.Trace,
+                        ConsoleConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Log_Trace_RegisteringTestStepParameter_WithParameter,
+                            parameter.Key,
+                            parameter.Value));
+
                     var registerUrl = string.Format(
                         CultureInfo.InvariantCulture,
                         "{0}/api/TestStepParameter/Register?teststep={1}&key={2}&value={3}",
@@ -764,11 +864,20 @@ namespace Sherlock.Console
                     }
                 }
             }
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_TestStepParametersRegistrationCompleted);
         }
 
         private static void UploadTestFiles(HttpClient http, Uri serverUrl, int testId, string file)
         {
             WriteToConsole(Resources.Output_Information_UploadingTestFiles);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_UploadingTestFiles);
 
             var uploadUrl = string.Format(
                 CultureInfo.InvariantCulture,
@@ -778,6 +887,14 @@ namespace Sherlock.Console
 
             using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.None))
             {
+                s_Diagnostics.Log(
+                    LevelToLog.Trace,
+                    ConsoleConstants.LogPrefix,
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        Resources.Log_Trace_UploadingTestFile_WithFile,
+                        file));
+
                 var content = new StreamContent(fileStream);
                 var response = MakePostRequest(http, new Uri(uploadUrl), content);
                 if (!response.IsSuccessStatusCode)
@@ -795,11 +912,20 @@ namespace Sherlock.Console
                     throw new InvalidServerResponseException();
                 }
             }
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_TestFilesUploadCompleted);
         }
 
         private static void MarkTestAsReady(HttpClient http, Uri serverUrl, int testId)
         {
             WriteToConsole(Resources.Output_Information_MarkingTestAsReady);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_MarkingTestAsReady);
 
             var markAsReadyUrl = string.Format(
                 CultureInfo.InvariantCulture,
@@ -822,6 +948,11 @@ namespace Sherlock.Console
 
                 throw new InvalidServerResponseException();
             }
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_TestMarkedAsReady);
         }
 
         private static HttpResponseMessage MakePostRequest(HttpClient http, Uri url, HttpContent data)
