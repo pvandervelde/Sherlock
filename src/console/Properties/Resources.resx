@@ -336,4 +336,34 @@
   <data name="Log_Trace_UploadingTestFile_WithFile" xml:space="preserve">
     <value>Uploading test file: {0}.</value>
   </data>
+  <data name="Exceptions_Messages_ConfigurationMissingDescriptionElement" xml:space="preserve">
+    <value>The description element is missing from the configuration file.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints" xml:space="preserve">
+    <value>The configuration file does not define any environment constraints.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationMissingProductNameElement" xml:space="preserve">
+    <value>The product name element is missing from the configuration file.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationMissingProductVersionElement" xml:space="preserve">
+    <value>The product version element is missing from the configuration file.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationMissingTestPurposeElement" xml:space="preserve">
+    <value>The test purpose element is missing from the configuration file.</value>
+  </data>
+  <data name="Exceptions_Messages_InvalidConfigurationFile" xml:space="preserve">
+    <value>Invalid configuration file.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationInvalidStepOrder" xml:space="preserve">
+    <value>The configuration file defines an invalid value for the step order of a test step.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationMissingParametersElement" xml:space="preserve">
+    <value>The configuration file is missing a parameters element for a test step.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationNotDefiningAnyTestSteps" xml:space="preserve">
+    <value>The configuration file does not define any test steps.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationTestStepParametersMustBeXData" xml:space="preserve">
+    <value>Test step parameter values in the configuration file must be defined as XDATA elements.</value>
+  </data>
 </root>

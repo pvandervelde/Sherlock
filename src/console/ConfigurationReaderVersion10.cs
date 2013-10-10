@@ -38,7 +38,9 @@ namespace Sherlock.Console
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="fileStorage"/> is <see langword="null" />.
         /// </exception>
-        public ConfigurationReaderVersion10(IFileSystem fileSystem, StoreFileDataForEnvironment fileStorage)
+        public ConfigurationReaderVersion10(
+            IFileSystem fileSystem, 
+            StoreFileDataForEnvironment fileStorage)
             : base(fileSystem, fileStorage)
         {
         }

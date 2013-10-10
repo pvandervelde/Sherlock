@@ -114,6 +114,7 @@
     <Compile Include="ConsoleExecuteTestStepDescription.cs" />
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="IConstructTestSteps.cs" />
+    <Compile Include="InvalidConfigurationFileException.cs" />
     <Compile Include="InvalidServerResponseException.cs" />
     <Compile Include="IReaderVersionMetaData.cs" />
     <Compile Include="IVersionedConfigurationReader.cs" />

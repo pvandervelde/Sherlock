@@ -97,6 +97,96 @@ namespace Sherlock.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The configuration file defines an invalid value for the step order of a test step..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationInvalidStepOrder {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationInvalidStepOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The description element is missing from the configuration file..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationMissingDescriptionElement {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationMissingDescriptionElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration file is missing a parameters element for a test step..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationMissingParametersElement {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationMissingParametersElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The product name element is missing from the configuration file..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationMissingProductNameElement {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationMissingProductNameElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The product version element is missing from the configuration file..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationMissingProductVersionElement {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationMissingProductVersionElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The test purpose element is missing from the configuration file..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationMissingTestPurposeElement {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationMissingTestPurposeElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration file does not define any environment constraints..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration file does not define any test steps..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationNotDefiningAnyTestSteps {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationNotDefiningAnyTestSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test step parameter values in the configuration file must be defined as XDATA elements..
+        /// </summary>
+        internal static string Exceptions_Messages_ConfigurationTestStepParametersMustBeXData {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_ConfigurationTestStepParametersMustBeXData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid configuration file..
+        /// </summary>
+        internal static string Exceptions_Messages_InvalidConfigurationFile {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_InvalidConfigurationFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The input element was not valid for the current process..
         /// </summary>
         internal static string Exceptions_Messages_InvalidInputElement {

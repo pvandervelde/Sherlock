@@ -12,6 +12,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Xml.Linq;
+using Sherlock.Console.Properties;
 
 namespace Sherlock.Console
 {
@@ -27,7 +28,28 @@ namespace Sherlock.Console
         /// <returns>The name of the test step in the overall test step sequence.</returns>
         private static int ExtractStepOrderFromTestStepConfiguration(XElement input)
         {
-            return int.Parse(input.Attribute("steporder").Value, CultureInfo.InvariantCulture);
+            try
+            {
+                return int.Parse(input.Attribute("steporder").Value, CultureInfo.InvariantCulture);
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new InvalidConfigurationFileException(
+                    Resources.Exceptions_Messages_ConfigurationInvalidStepOrder,
+                    e);
+            }
+            catch (FormatException e)
+            {
+                throw new InvalidConfigurationFileException(
+                    Resources.Exceptions_Messages_ConfigurationInvalidStepOrder,
+                    e);
+            }
+            catch (OverflowException e)
+            {
+                throw new InvalidConfigurationFileException(
+                    Resources.Exceptions_Messages_ConfigurationInvalidStepOrder,
+                    e);
+            }
         }
 
         /// <summary>
@@ -51,11 +73,22 @@ namespace Sherlock.Console
         {
             var parameters = new List<TestStepParameterDescription>();
 
-            int index = 0;
-            foreach (var element in input.Element("params").Elements("param"))
+            var parametersNode = input.Element("params");
+            if (parametersNode == null)
             {
-                var value = (element.FirstNode as XCData).Value;
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationMissingParametersElement);
+            }
 
+            int index = 0;
+            foreach (var element in parametersNode.Elements("param"))
+            {
+                var xDataNode = element.FirstNode as XCData;
+                if (xDataNode == null)
+                {
+                    throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationTestStepParametersMustBeXData);
+                }
+
+                var value = xDataNode.Value;
                 parameters.Add(new TestStepParameterDescription(index.ToString(CultureInfo.InvariantCulture), value));
                 index++;
             }
@@ -72,12 +105,23 @@ namespace Sherlock.Console
             Justification = "Users should really be putting in XElement objects.")]
         private static IEnumerable<TestStepParameterDescription> ExtractKeyedParametersFromTestStepConfiguration(XElement input)
         {
-            var parameters = new List<TestStepParameterDescription>();
-            foreach (var element in input.Element("params").Elements("param"))
+            var parametersNode = input.Element("params");
+            if (parametersNode == null)
             {
-                var key = element.Attribute("key").Value;
-                var value = (element.FirstNode as XCData).Value;
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationMissingParametersElement);
+            }
 
+            var parameters = new List<TestStepParameterDescription>();
+            foreach (var element in parametersNode.Elements("param"))
+            {
+                var xDataNode = element.FirstNode as XCData;
+                if (xDataNode == null)
+                {
+                    throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationTestStepParametersMustBeXData);
+                }
+
+                var key = element.Attribute("key").Value;
+                var value = xDataNode.Value;
                 parameters.Add(new TestStepParameterDescription(key, value));
             }
 
@@ -105,7 +149,9 @@ namespace Sherlock.Console
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="fileStorage"/> is <see langword="null" />.
         /// </exception>
-        protected ConfigurationReaderVersion1X(IFileSystem fileSystem, StoreFileDataForEnvironment fileStorage)
+        protected ConfigurationReaderVersion1X(
+            IFileSystem fileSystem, 
+            StoreFileDataForEnvironment fileStorage)
         {
             {
                 Lokad.Enforce.Argument(() => fileSystem);
@@ -144,9 +190,32 @@ namespace Sherlock.Console
             }
 
             var descriptionNode = rootNode.Element("description");
-            var productName = descriptionNode.Element("product").Value;
-            var productVersion = descriptionNode.Element("version").Value;
-            var testPurpose = descriptionNode.Element("testpurpose").Value;
+            if (descriptionNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationMissingDescriptionElement);
+            }
+
+            var productNameNode = descriptionNode.Element("product");
+            if (productNameNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationMissingProductNameElement);
+            }
+
+            var productVersionNode = descriptionNode.Element("version");
+            if (productVersionNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationMissingProductVersionElement);
+            }
+
+            var testPurposeNode = descriptionNode.Element("testpurpose");
+            if (testPurposeNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationMissingTestPurposeElement);
+            }
+
+            var productName = productNameNode.Value;
+            var productVersion = productVersionNode.Value;
+            var testPurpose = testPurposeNode.Value;
             var owner = string.Format(
                 CultureInfo.InvariantCulture,
                 @"{0}\{1}",
@@ -185,15 +254,36 @@ namespace Sherlock.Console
         {
             var result = new List<TestEnvironmentDescription>();
 
-            var environmentConstraintNodes = rootNode.Element("environments").Elements("environment");
+            var environmentConstraintNode = rootNode.Element("environments");
+            if (environmentConstraintNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints);
+            }
+
+            var environmentConstraintNodes = environmentConstraintNode.Elements("environment");
+            if (!environmentConstraintNodes.Any())
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints);
+            }
+
             foreach (var environmentNode in environmentConstraintNodes)
             {
                 var name = environmentNode.Attribute("name").Value;
                 var constraintNodes = environmentNode.Element("constraints");
+                if (constraintNodes == null)
+                {
+                    throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints);
+                }
+
+                var constraintElementNodes = constraintNodes.Elements();
+                if (!constraintElementNodes.Any())
+                {
+                    throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationNotDefiningAnyEnvironmentConstraints);
+                }
 
                 OperatingSystemDescription operatingSystem = null;
                 var applications = new List<ApplicationDescription>();
-                foreach (var constraintNode in constraintNodes.Elements())
+                foreach (var constraintNode in constraintElementNodes)
                 {
                     if (string.Equals("operatingsystem", constraintNode.Name.LocalName, StringComparison.Ordinal))
                     {
@@ -233,9 +323,19 @@ namespace Sherlock.Console
         private IEnumerable<TestStepDescription> ExtractTestSteps(XElement rootNode)
         {
             var testStepsNode = rootNode.Element("teststeps");
+            if (testStepsNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationNotDefiningAnyTestSteps);
+            }
+
+            var testStepsNodes = testStepsNode.Elements();
+            if (!testStepsNodes.Any())
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationNotDefiningAnyTestSteps);
+            }
 
             var result = new List<TestStepDescription>();
-            foreach (var testStepNode in testStepsNode.Elements())
+            foreach (var testStepNode in testStepsNodes)
             {
                 TestStepDescription testStep;
                 switch (testStepNode.Name.LocalName)

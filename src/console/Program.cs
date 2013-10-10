@@ -455,7 +455,7 @@ namespace Sherlock.Console
             if (reader == null)
             {
                 s_Diagnostics.Log(
-                    LevelToLog.Error, 
+                    LevelToLog.Error,
                     ConsoleConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
@@ -469,7 +469,7 @@ namespace Sherlock.Console
             {
                 return reader.Read(doc);
             }
-            catch (Exception e)
+            catch (InvalidConfigurationFileException e)
             {
                 s_Diagnostics.Log(
                     LevelToLog.Error, 
@@ -479,6 +479,7 @@ namespace Sherlock.Console
                         Resources.Log_Error_FailedToReadConfigurationFile_WithError,
                         e));
 
+                WriteErrorToConsole(e.Message);
                 throw;
             }
         }
