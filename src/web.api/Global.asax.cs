@@ -7,10 +7,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Tracing;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Autofac.Integration.Mvc;
+using Autofac;
 using Autofac.Integration.WebApi;
 
 namespace Sherlock.Web.Api
@@ -33,6 +34,9 @@ namespace Sherlock.Web.Api
             var container = DependencyInjection.CreateContainer();
             var resolver = new AutofacWebApiDependencyResolver(container);
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
+            GlobalConfiguration.Configuration.Services.Replace(
+                typeof(ITraceWriter), 
+                container.Resolve<ITraceWriter>());
 
             AreaRegistration.RegisterAllAreas();
 
