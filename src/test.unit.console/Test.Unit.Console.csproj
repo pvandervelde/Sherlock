@@ -18,8 +18,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Lokad.ActionPolicy, Version=1.5.181.0, Culture=neutral, PublicKeyToken=43f0664b2b4db1fc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Lokad.Shared.1.5.181.0\lib\Lokad.ActionPolicy.dll</HintPath>
@@ -52,14 +53,17 @@
     <Reference Include="Mono.Cecil.Rocks, Version=0.9.5.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.1.1309.1617, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei">
-      <HintPath>..\..\packages\Nuclei.0.6.1.0\lib\net45\Nuclei.dll</HintPath>
+    <Reference Include="Nuclei, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Nuclei.0.6.5.0\lib\net45\Nuclei.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei.Build">
-      <HintPath>..\..\packages\Nuclei.Build.0.6.1.0\lib\net45\Nuclei.Build.dll</HintPath>
+    <Reference Include="Nuclei.Build, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Nuclei.Build.0.6.5.0\lib\net45\Nuclei.Build.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
@@ -67,11 +71,13 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.IO.Abstractions, Version=1.4.0.40, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Abstractions.1.4.0.40\lib\net35\System.IO.Abstractions.dll</HintPath>
+    <Reference Include="System.IO.Abstractions, Version=1.4.0.66, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.IO.Abstractions.1.4.0.66\lib\net35\System.IO.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="System.IO.Abstractions.TestingHelpers, Version=1.4.0.40, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Abstractions.TestingHelpers.1.4.0.40\lib\net35\System.IO.Abstractions.TestingHelpers.dll</HintPath>
+    <Reference Include="System.IO.Abstractions.TestingHelpers, Version=1.4.0.66, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.IO.Abstractions.TestingHelpers.1.4.0.66\lib\net35\System.IO.Abstractions.TestingHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.XML" />

@@ -18,3 +18,4 @@ namespace Sherlock.Service.Master.Nuclei.ExceptionHandling
         Exception,
     }
 }
+

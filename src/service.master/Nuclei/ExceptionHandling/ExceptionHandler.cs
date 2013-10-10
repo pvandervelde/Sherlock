@@ -16,25 +16,20 @@ namespace Sherlock.Service.Master.Nuclei.ExceptionHandling
     /// This class must be public because we use it in the AppDomainBuilder.
     /// </design>
     [Serializable]
-    public sealed class ExceptionHandler : IExceptionHandler, IDisposable
+    public sealed class ExceptionHandler
     {
         /// <summary>
         /// The collection of loggers that must be notified if an exception happens.
         /// </summary>
-        private readonly IExceptionProcessor[] m_Loggers;
-
-        /// <summary>
-        /// Indicates if the object has been disposed or not.
-        /// </summary>
-        private volatile bool m_WasDisposed;
+        private readonly ExceptionProcessor[] m_Loggers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionHandler"/> class.
         /// </summary>
         /// <param name="exceptionProcessors">The collection of exception processors that will be used to log any unhandled exception.</param>
-        public ExceptionHandler(params IExceptionProcessor[] exceptionProcessors)
+        public ExceptionHandler(params ExceptionProcessor[] exceptionProcessors)
         {
-            m_Loggers = exceptionProcessors ?? new IExceptionProcessor[0];
+            m_Loggers = exceptionProcessors ?? new ExceptionProcessor[0];
         }
 
         /// <summary>
@@ -46,11 +41,6 @@ namespace Sherlock.Service.Master.Nuclei.ExceptionHandling
             Justification = "We're doing exception handling here, we don't really want anything to escape.")]
         public void OnException(Exception exception, bool isApplicationTerminating)
         {
-            if (m_WasDisposed)
-            {
-                return;
-            }
-
             // Something has gone really wrong here. We need to be very careful
             // when we try to deal with this exception because:
             // - We might be here due to assembly loading issues, so we can't load
@@ -66,7 +56,7 @@ namespace Sherlock.Service.Master.Nuclei.ExceptionHandling
             {
                 try
                 {
-                    logger.Process(exception);
+                    logger(exception);
                 }
                 catch (Exception)
                 {
@@ -74,24 +64,6 @@ namespace Sherlock.Service.Master.Nuclei.ExceptionHandling
                 }
             }
         }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or
-        /// resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (m_WasDisposed)
-            {
-                return;
-            }
-
-            foreach (var logger in m_Loggers)
-            {
-                logger.Dispose();
-            }
-
-            m_WasDisposed = true;
-        }
     }
 }
+

@@ -27,29 +27,27 @@ namespace Sherlock.Service.Nuclei.ExceptionHandling
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Catching an Exception object here because this is the top-level exception handler.")]
-        public static GuardResult RunGuarded(Action actionToExecute, params IExceptionProcessor[] exceptionProcessors)
+        public static GuardResult RunGuarded(Action actionToExecute, params ExceptionProcessor[] exceptionProcessors)
         {
             {
                 Debug.Assert(actionToExecute != null, "The application method should not be null.");
             }
 
-            using (var processor = new ExceptionHandler(exceptionProcessors))
-            {
-                GuardResult result = GuardResult.None;
-                ExceptionFilter.ExecuteWithFilter(
-                    () =>
-                    {
-                        actionToExecute();
-                        result = GuardResult.Success;
-                    },
-                    e =>
-                    {
-                        processor.OnException(e, false);
-                        result = GuardResult.Failure;
-                    });
+            var processor = new ExceptionHandler(exceptionProcessors);
+            var result = GuardResult.None;
+            ExceptionFilter.ExecuteWithFilter(
+                () =>
+                {
+                    actionToExecute();
+                    result = GuardResult.Success;
+                },
+                e =>
+                {
+                    processor.OnException(e, false);
+                    result = GuardResult.Failure;
+                });
 
-                return result;
-            }
+            return result;
         }
     }
 }
