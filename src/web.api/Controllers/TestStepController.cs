@@ -8,6 +8,8 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Web.Http;
+using Nuclei.Diagnostics;
+using Nuclei.Diagnostics.Logging;
 using Sherlock.Shared.DataAccess;
 
 namespace Sherlock.Web.Api.Controllers
@@ -17,22 +19,36 @@ namespace Sherlock.Web.Api.Controllers
     /// </summary>
     public sealed class TestStepController : ApiController
     {
+        /// <summary>
+        /// The database context.
+        /// </summary>
         private readonly IProvideTestingContext m_Context;
+
+        /// <summary>
+        /// The object that provides the diagnostics methods for the application.
+        /// </summary>
+        private readonly SystemDiagnostics m_Diagnostics;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestStepController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
+        /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="context"/> is <see langword="null" />.
         /// </exception>
-        public TestStepController(IProvideTestingContext context)
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
+        /// </exception>
+        public TestStepController(IProvideTestingContext context, SystemDiagnostics diagnostics)
         {
             {
                 Lokad.Enforce.Argument(() => context);
+                Lokad.Enforce.Argument(() => diagnostics);
             }
 
             m_Context = context;
+            m_Diagnostics = diagnostics;
         }
 
         /// <summary>
@@ -63,7 +79,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Registering the console test step failed with error: {0}",
@@ -101,7 +119,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Registering the MSI test step failed with error: {0}",
@@ -141,7 +161,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Registering the script test step failed with error: {0}",
@@ -181,7 +203,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Registering the x-copy test step failed with error: {0}",

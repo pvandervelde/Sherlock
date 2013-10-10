@@ -10,7 +10,8 @@ using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Web.Http;
-using Nuclei.Configuration;
+using Nuclei.Diagnostics;
+using Nuclei.Diagnostics.Logging;
 using Sherlock.Shared.DataAccess;
 
 namespace Sherlock.Web.Api.Controllers
@@ -20,30 +21,36 @@ namespace Sherlock.Web.Api.Controllers
     /// </summary>
     public sealed class TestController : ApiController
     {
-        private readonly IConfiguration m_Configuration;
-
+        /// <summary>
+        /// The database context.
+        /// </summary>
         private readonly IProvideTestingContext m_Context;
+
+        /// <summary>
+        /// The object that provides the diagnostics methods for the application.
+        /// </summary>
+        private readonly SystemDiagnostics m_Diagnostics;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestController"/> class.
         /// </summary>
-        /// <param name="configuration">The configuration.</param>
         /// <param name="context">The context.</param>
-        /// <exception cref="ArgumentNullException">
-        ///     Thrown if <paramref name="configuration"/> is <see langword="null" />.
-        /// </exception>
+        /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="context"/> is <see langword="null" />.
         /// </exception>
-        public TestController(IConfiguration configuration, IProvideTestingContext context)
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
+        /// </exception>
+        public TestController(IProvideTestingContext context, SystemDiagnostics diagnostics)
         {
             {
-                Lokad.Enforce.Argument(() => configuration);
                 Lokad.Enforce.Argument(() => context);
+                Lokad.Enforce.Argument(() => diagnostics);
             }
 
-            m_Configuration = configuration;
             m_Context = context;
+            m_Diagnostics = diagnostics;
         }
 
         /// <summary>
@@ -117,7 +124,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Test registration failed with error. Error was: {0}",
@@ -160,7 +169,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Uploading of test files failed with error. Error was: {0}",
@@ -183,7 +194,9 @@ namespace Sherlock.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                Trace.TraceError(
+                m_Diagnostics.Log(
+                    LevelToLog.Error,
+                    WebApiConstants.LogPrefix,
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Marking test as ready failed with error. Error was: {0}",
