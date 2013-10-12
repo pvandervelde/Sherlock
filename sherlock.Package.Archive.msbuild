@@ -123,7 +123,10 @@
             <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.Configuration.dll" />
             <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.Diagnostics.dll" />
             <MasterServiceFiles Include="$(DirBuildBin)\System.IO.Abstractions.dll" />
-            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.dll" />  
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.Core.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.Interfaces.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.Linq.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.PlatformServices.dll" />
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.pdb" />
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.DataAccess.dll" />
@@ -160,7 +163,10 @@
             <ExecutorServiceFiles Include="$(DirBuildBin)\Nuclei.Diagnostics.dll" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\System.IO.Abstractions.dll" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\System.Management.Automation.dll" />
-            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.dll" />        
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.Core.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.Interfaces.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.Linq.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.PlatformServices.dll" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.pdb" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.DataAccess.dll" />

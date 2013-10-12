@@ -131,6 +131,11 @@ namespace Sherlock.Service.Executor
                             {
                                 CommunicationSubjects.TestTransfer,
                                 CommunicationSubjects.TestExecution,
+                            },
+                        new List<ChannelType>
+                            {
+                                ChannelType.NamedPipe,
+                                ChannelType.TcpIP,
                             }, 
                         true));
 

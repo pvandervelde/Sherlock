@@ -86,10 +86,14 @@ namespace Sherlock.Web.Api
                 if (record.Request != null)
                 {
                     if (record.Request.Method != null)
+                    {
                         message.Append(record.Request.Method);
+                    }
 
                     if (record.Request.RequestUri != null)
+                    {
                         message.Append(" ").Append(record.Request.RequestUri);
+                    }
                 }
 
                 if (!string.IsNullOrWhiteSpace(record.Category))

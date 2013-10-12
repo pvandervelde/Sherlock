@@ -171,6 +171,10 @@ namespace Sherlock.Executor
                         new List<CommunicationSubject>
                             {
                                 CommunicationSubjects.TestExecution,
+                            },
+                        new List<ChannelType>
+                            {
+                                ChannelType.NamedPipe,
                             }, 
                         false));
 

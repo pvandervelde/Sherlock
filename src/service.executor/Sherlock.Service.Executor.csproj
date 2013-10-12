@@ -132,15 +132,31 @@
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="ExecutorServiceConfigurationKeys.cs" />
     <Compile Include="ExecutorServiceConstants.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\EventType.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\EventTypeToEventCategoryMap.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionFilter.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionHandler.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionTypeToEventIdMap.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\GuardResult.cs" />
+    <Compile Include="Nuclei\ExceptionHandling\EventType.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nuclei\ExceptionHandling\EventTypeToEventCategoryMap.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionFilter.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionHandler.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionTypeToEventIdMap.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nuclei\ExceptionHandling\GuardResult.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Nuclei\ExceptionHandling\LogBasedExceptionProcessor.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\TopLevelExceptionGuard.cs" />
+    <Compile Include="Nuclei\ExceptionHandling\TopLevelExceptionGuard.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

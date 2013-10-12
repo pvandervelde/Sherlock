@@ -14,7 +14,7 @@ namespace Sherlock.Service.Master.Nuclei.ExceptionHandling
     /// <summary>
     /// An exception processor that writes the exception out to an <see cref="ILogger"/> object.
     /// </summary>
-    internal sealed class LogBasedExceptionProcessor : IExceptionProcessor
+    internal sealed class LogBasedExceptionProcessor
     {
         /// <summary>
         /// The logger which is used to store the exception message.

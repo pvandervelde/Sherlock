@@ -160,6 +160,10 @@ namespace Sherlock.Service.Master
                                 CommunicationSubjects.TestScheduling,
                                 CommunicationSubjects.TestTransfer,
                             },
+                        new List<ChannelType>
+                            {
+                                ChannelType.TcpIP,
+                            }, 
                         true));
                 RegisterFileSystem(builder);
                 RegisterTestSuitePackage(builder);

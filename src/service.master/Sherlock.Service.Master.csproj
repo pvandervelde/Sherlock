@@ -161,7 +161,9 @@
     <Compile Include="Nuclei\ExceptionHandling\ExceptionHandler.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs" />
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs">
+        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Nuclei\ExceptionHandling\ExceptionTypeToEventIdMap.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
@@ -169,9 +171,6 @@
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\IExceptionHandler.cs">
-      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\IExceptionProcessor.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\LogBasedExceptionProcessor.cs" />
