@@ -313,6 +313,15 @@ namespace Sherlock.Service.Master.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Test activation failed with an exception. Error was: {0}..
+        /// </summary>
+        internal static string Log_Messages_TestActivationFailed_WithError {
+            get {
+                return ResourceManager.GetString("Log_Messages_TestActivationFailed_WithError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Test files transferred successfully.
         /// </summary>
         internal static string Log_Messages_TestFilesStored {

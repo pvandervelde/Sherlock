@@ -151,11 +151,24 @@ namespace Sherlock.Service.Master
                 ThreadPool.QueueUserWorkItem(
                     state =>
                     {
-                        // Check all the queued tests to see if they can be executed or not (depends on the available test environments)
-                        m_TestController.ActivateTests();
+                        try
+                        {
+                            // Check all the queued tests to see if they can be executed or not (depends on the available test environments)
+                            m_TestController.ActivateTests();
 
-                        // Check that all active environments are still active (they respond to a ping on the environment AND on the service)
-                        PingActiveEnvironments();
+                            // Check that all active environments are still active (they respond to a ping on the environment AND on the service)
+                            PingActiveEnvironments();
+                        }
+                        catch (Exception exception)
+                        {
+                            m_Diagnostics.Log(
+                                LevelToLog.Error, 
+                                MasterServiceConstants.LogPrefix,
+                                string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    Resources.Log_Messages_TestActivationFailed_WithError,
+                                    exception));
+                        }
                     });
 
                 // Release control of syncPoint

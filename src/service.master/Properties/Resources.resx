@@ -234,4 +234,7 @@
   <data name="Log_Messages_FailedToShutdownEnvironment_WithError" xml:space="preserve">
     <value>Failed to shut down the machine environment. Error was: {0}</value>
   </data>
+  <data name="Log_Messages_TestActivationFailed_WithError" xml:space="preserve">
+    <value>Test activation failed with an exception. Error was: {0}.</value>
+  </data>
 </root>
