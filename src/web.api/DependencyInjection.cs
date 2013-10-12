@@ -11,10 +11,11 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Tracing;
 using Autofac;
 using Autofac.Integration.WebApi;
-using Newtonsoft.Json.Serialization;
 using NLog;
+using Nuclei;
 using Nuclei.Configuration;
 using Nuclei.Diagnostics;
 using Nuclei.Diagnostics.Logging;
@@ -71,7 +72,7 @@ namespace Sherlock.Web.Api
         private static void RegisterLoggers(ContainerBuilder builder)
         {
             builder.Register(c => LoggerBuilder.ForFile(
-                    Path.Combine(HttpContext.Current.Server.MapPath("~/App_Data"), DefaultInfoFileName),
+                    Path.Combine(Assembly.GetExecutingAssembly().LocalDirectoryPath(), @"..\App_Data", DefaultInfoFileName),
                     new DebugLogTemplate(
                         c.Resolve<IConfiguration>(),
                         () => DateTimeOffset.Now)))
