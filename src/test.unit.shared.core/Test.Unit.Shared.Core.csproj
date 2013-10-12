@@ -70,6 +70,9 @@
     <Reference Include="Nuclei.Build">
       <HintPath>..\..\packages\Nuclei.Build.0.6.6.0\lib\net45\Nuclei.Build.dll</HintPath>
     </Reference>
+    <Reference Include="Nuclei.Communication">
+      <HintPath>..\..\packages\Nuclei.Communication.0.6.6.0\lib\net45\Nuclei.Communication.dll</HintPath>
+    </Reference>
     <Reference Include="Nuclei.Configuration">
       <HintPath>..\..\packages\Nuclei.Configuration.0.6.6.0\lib\net45\Nuclei.Configuration.dll</HintPath>
     </Reference>
