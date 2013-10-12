@@ -91,21 +91,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+    <Reference Include="Nuclei, Version=0.6.6.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.0.6.5.0\lib\net45\Nuclei.dll</HintPath>
+      <HintPath>..\..\packages\Nuclei.0.6.6.0\lib\net45\Nuclei.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei.Build, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+    <Reference Include="Nuclei.Build, Version=0.6.6.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Build.0.6.5.0\lib\net45\Nuclei.Build.dll</HintPath>
+      <HintPath>..\..\packages\Nuclei.Build.0.6.6.0\lib\net45\Nuclei.Build.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei.Configuration, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+    <Reference Include="Nuclei.Configuration, Version=0.6.6.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Configuration.0.6.5.0\lib\net45\Nuclei.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Nuclei.Diagnostics, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Diagnostics.0.6.5.0\lib\net45\Nuclei.Diagnostics.dll</HintPath>
+      <HintPath>..\..\packages\Nuclei.Configuration.0.6.6.0\lib\net45\Nuclei.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -328,7 +324,9 @@
     <Content Include="Scripts\knockout-2.3.0.debug.js" />
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

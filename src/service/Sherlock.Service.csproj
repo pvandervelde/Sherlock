@@ -60,21 +60,14 @@
     <Reference Include="NLog">
       <HintPath>..\..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.0.6.5.0\lib\net45\Nuclei.dll</HintPath>
+    <Reference Include="Nuclei">
+      <HintPath>..\..\packages\Nuclei.0.6.6.0\lib\net45\Nuclei.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei.Build, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Build.0.6.5.0\lib\net45\Nuclei.Build.dll</HintPath>
+    <Reference Include="Nuclei.Build">
+      <HintPath>..\..\packages\Nuclei.Build.0.6.6.0\lib\net45\Nuclei.Build.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei.Configuration, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Configuration.0.6.5.0\lib\net45\Nuclei.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Nuclei.Diagnostics, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Diagnostics.0.6.5.0\lib\net45\Nuclei.Diagnostics.dll</HintPath>
+    <Reference Include="Nuclei.Configuration">
+      <HintPath>..\..\packages\Nuclei.Configuration.0.6.6.0\lib\net45\Nuclei.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph">
       <HintPath>..\..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
@@ -120,29 +113,29 @@
     <Compile Include="ApplicationTrackingJob.cs" />
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="Nuclei\ExceptionHandling\EventType.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\EventTypeToEventCategoryMap.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\ExceptionFilter.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\ExceptionHandler.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\ExceptionTypeToEventIdMap.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\GuardResult.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\LogBasedExceptionProcessor.cs"/>
+    <Compile Include="Nuclei\ExceptionHandling\LogBasedExceptionProcessor.cs" />
     <Compile Include="Nuclei\ExceptionHandling\TopLevelExceptionGuard.cs">
-        <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

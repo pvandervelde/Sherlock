@@ -57,13 +57,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.0.6.5.0\lib\net45\Nuclei.dll</HintPath>
-    </Reference>
-    <Reference Include="Nuclei.Build, Version=0.6.5.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Build.0.6.5.0\lib\net45\Nuclei.Build.dll</HintPath>
+    <Reference Include="Nuclei">
+      <HintPath>..\..\packages\Nuclei.0.6.6.0\lib\net45\Nuclei.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
