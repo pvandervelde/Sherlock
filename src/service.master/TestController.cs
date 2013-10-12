@@ -114,6 +114,11 @@ namespace Sherlock.Service.Master
         private readonly string m_UnpackDirectory = CreateLocalStorageDirectory();
 
         /// <summary>
+        /// A flag that indicates if the controller is in the process of activating one or more tests.
+        /// </summary>
+        private volatile bool m_IsActivatingTests;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TestController"/> class.
         /// </summary>
         /// <param name="configuration">The object that stores the configuration for the application.</param>
@@ -268,52 +273,65 @@ namespace Sherlock.Service.Master
             Justification = "Realistically we don't care what happens we want it to complete normally.")]
         public void ActivateTests()
         {
+            if (m_IsActivatingTests)
+            {
+                return;
+            }
+
             lock (m_Lock)
             {
-                var currentContext = m_TestContextFactory();
-                foreach (var test in currentContext.InactiveTests())
+                m_IsActivatingTests = true;
+                try
                 {
-                    var environments = test.Environments;
-                    if (!environments.Any())
+                    var currentContext = m_TestContextFactory();
+                    foreach (var test in currentContext.InactiveTests())
                     {
-                        m_Diagnostics.Log(
-                            LevelToLog.Info,
-                            MasterServiceConstants.LogPrefix,
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                Resources.Log_Messages_NoEnvironmentForTestCase,
-                                test.Id));
-                        continue;
-                    }
+                        var environments = test.Environments;
+                        if (!environments.Any())
+                        {
+                            m_Diagnostics.Log(
+                                LevelToLog.Info,
+                                MasterServiceConstants.LogPrefix,
+                                string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    Resources.Log_Messages_NoEnvironmentForTestCase,
+                                    test.Id));
+                            continue;
+                        }
 
-                    var matchingEnvironments = SelectEnvironments(environments);
-                    if ((matchingEnvironments == null) || (matchingEnvironments.Count < environments.Count()))
-                    {
-                        m_Diagnostics.Log(
-                            LevelToLog.Info,
-                            MasterServiceConstants.LogPrefix,
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                Resources.Log_Messages_NoEnvironmentForTestCase,
-                                test.Id));
-                        continue;
-                    }
+                        var matchingEnvironments = SelectEnvironments(environments);
+                        if ((matchingEnvironments == null) || (matchingEnvironments.Count < environments.Count()))
+                        {
+                            m_Diagnostics.Log(
+                                LevelToLog.Info,
+                                MasterServiceConstants.LogPrefix,
+                                string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    Resources.Log_Messages_NoEnvironmentForTestCase,
+                                    test.Id));
+                            continue;
+                        }
 
-                    var builder = m_ReportBuilders();
-                    builder.InitializeNewReport(
-                        test.ProductName,
-                        test.ProductVersion);
+                        var builder = m_ReportBuilders();
+                        builder.InitializeNewReport(
+                            test.ProductName,
+                            test.ProductVersion);
                     
-                    // @todo: Should really do the creation of the CompletedNotification via the IOC container
-                    m_ExecutingTests.Add(
-                        test.Id, 
-                        builder,
-                        new List<TestCompletedNotification>
-                            {
-                                new FileBasedTestCompletedNotification(test.ReportPath),
-                            });
+                        // @todo: Should really do the creation of the CompletedNotification via the IOC container
+                        m_ExecutingTests.Add(
+                            test.Id, 
+                            builder,
+                            new List<TestCompletedNotification>
+                                {
+                                    new FileBasedTestCompletedNotification(test.ReportPath),
+                                });
 
-                    LoadEnvironmentsAndStartTest(currentContext, test, matchingEnvironments, builder);
+                        LoadEnvironmentsAndStartTest(currentContext, test, matchingEnvironments, builder);
+                    }
+                }
+                finally
+                {
+                    m_IsActivatingTests = false;
                 }
             }
         }
