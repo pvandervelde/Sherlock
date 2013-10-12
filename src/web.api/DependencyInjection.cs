@@ -71,11 +71,14 @@ namespace Sherlock.Web.Api
 
         private static void RegisterLoggers(ContainerBuilder builder)
         {
+            var assemblyInfo = Assembly.GetExecutingAssembly().GetName();
             builder.Register(c => LoggerBuilder.ForFile(
                     Path.Combine(Assembly.GetExecutingAssembly().LocalDirectoryPath(), @"..\App_Data", DefaultInfoFileName),
                     new DebugLogTemplate(
                         c.Resolve<IConfiguration>(),
-                        () => DateTimeOffset.Now)))
+                        () => DateTimeOffset.Now),
+                    assemblyInfo.Name,
+                    assemblyInfo.Version))
                 .As<ILogger>()
                 .SingleInstance();
         }
@@ -104,7 +107,9 @@ namespace Sherlock.Web.Api
                 builder.RegisterModule(new DataAccessModule());
 
                 builder.Register(c => new XmlConfiguration(
-                        WebApiConfigurationKeys.ToCollection().ToList(),
+                        WebApiConfigurationKeys.ToCollection()
+                            .Append(DiagnosticsConfigurationKeys.ToCollection())
+                            .ToList(),
                         WebApiConstants.ConfigurationSectionApplicationSettings))
                     .As<IConfiguration>()
                     .SingleInstance();
