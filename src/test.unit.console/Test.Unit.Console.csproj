@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="ConfigurationReaderVersion10Test.cs" />
     <Compile Include="ConfigurationReaderVersion11Test.cs" />
+    <Compile Include="ConfigurationReaderVersion12Test.cs" />
     <Compile Include="InvalidConfigurationFileExceptionTest.cs" />
     <Compile Include="InvalidServerResponseExceptionTest.cs" />
     <Compile Include="MissingNotificationConfigurationExceptionTest.cs" />
@@ -140,6 +141,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\samples\Sherlock.Configuration.v11.xml">
       <Link>Sherlock.Configuration.v11.xml</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\samples\Sherlock.Configuration.v12.xml">
+      <Link>Sherlock.Configuration.v12.xml</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

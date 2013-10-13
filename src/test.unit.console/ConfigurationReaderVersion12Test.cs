@@ -24,7 +24,7 @@ namespace Sherlock.Console
     [TestFixture]
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented",
                 Justification = "Unit tests do not need documentation.")]
-    public sealed class ConfigurationReaderVersion11Test
+    public sealed class ConfigurationReaderVersion12Test
     {
         private delegate void BuildStep(StringBuilder builder);
 
@@ -38,6 +38,9 @@ namespace Sherlock.Console
             const string failureAction = "Console_Failure_Action";
             const string path = @"c:\c\o\nsole.exe";
             const string parameterValue = "Parameter_Value";
+            const bool copySystemLog = false;
+            const string transferFile = @"d:\t\r\ansf.er";
+            const string transferDirectory = @"e:\t\r\ans\fer";
 
             BuildStep buildAction =
                 builder =>
@@ -47,6 +50,9 @@ namespace Sherlock.Console
                     builder.Replace("${CONSOLE_FAILURE_ACTION}$", failureAction);
                     builder.Replace("${CONSOLE_EXECUTABLE_FULL_PATH_GOES_HERE}$", path);
                     builder.Replace("${CONSOLE_PARAMETER_VALUE}$", parameterValue);
+                    builder.Replace("${CONSOLE_COPY_SYSTEM_LOG_FLAG_VALUE}$", copySystemLog.ToString());
+                    builder.Replace("${CONSOLE_TRANSFER_FILE_FULL_PATH_GOES_HERE}$", transferFile);
+                    builder.Replace("${CONSOLE_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$", transferDirectory);
                 };
 
             filePathAndContent.Add(path, "consoleContent");
@@ -73,7 +79,14 @@ namespace Sherlock.Console
                     Assert.AreEqual(parameterValue, description.Parameters.First().Value);
 
                     Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.That(
+                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        Is.EquivalentTo(
+                            new List<string>
+                                {
+                                    transferFile,
+                                    transferDirectory,
+                                }));
                 };
 
             return new Tuple<BuildStep, FileStep, Action<ConsoleExecuteTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -88,6 +101,9 @@ namespace Sherlock.Console
             const string path = @"c:\m\s\i.msi";
             const string parameterKey = "Parameter_Key";
             const string parameterValue = "Parameter_Value";
+            const bool copySystemLog = true;
+            const string transferFile = @"d:\t\r\ansf.er";
+            const string transferDirectory = @"e:\t\r\ans\fer";
 
             BuildStep buildAction =
                 builder =>
@@ -98,6 +114,9 @@ namespace Sherlock.Console
                     builder.Replace("${MSI_INSTALLER_FULL_PATH_GOES_HERE}$", path);
                     builder.Replace("${MSI_PARAMETER_KEY}$", parameterKey);
                     builder.Replace("${MSI_PARAMETER_VALUE}$", parameterValue);
+                    builder.Replace("${MSI_COPY_SYSTEM_LOG_FLAG_VALUE}$", copySystemLog.ToString());
+                    builder.Replace("${MSI_TRANSFER_FILE_FULL_PATH_GOES_HERE}$", transferFile);
+                    builder.Replace("${MSI_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$", transferDirectory);
                 };
 
             filePathAndContent.Add(path, "msiContent");
@@ -122,8 +141,15 @@ namespace Sherlock.Console
                     Assert.AreEqual(parameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(parameterValue, description.Parameters.First().Value);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.IsTrue(description.TransferLogFileOnStepComplete);
+                    Assert.That(
+                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        Is.EquivalentTo(
+                            new List<string>
+                                {
+                                    transferFile,
+                                    transferDirectory,
+                                }));
                 };
 
             return new Tuple<BuildStep, FileStep, Action<MsiInstallTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -139,6 +165,9 @@ namespace Sherlock.Console
             const string scriptPath = @"c:\s\c\ript.ps1";
             const string scriptParameterKey = "Script_Parameter_Key";
             const string scriptParameterValue = "Script_Parameter_Value";
+            const bool copySystemLog = true;
+            const string transferFile = @"d:\t\r\ansf.er";
+            const string transferDirectory = @"e:\t\r\ans\fer";
 
             BuildStep buildAction =
                 builder =>
@@ -150,6 +179,9 @@ namespace Sherlock.Console
                     builder.Replace("${SCRIPT_FULL_PATH_GOES_HERE}$", scriptPath);
                     builder.Replace("${SCRIPT_PARAMETER_KEY}$", scriptParameterKey);
                     builder.Replace("${SCRIPT_PARAMETER_VALUE}$", scriptParameterValue);
+                    builder.Replace("${SCRIPT_COPY_SYSTEM_LOG_FLAG_VALUE}$", copySystemLog.ToString());
+                    builder.Replace("${SCRIPT_TRANSFER_FILE_FULL_PATH_GOES_HERE}$", transferFile);
+                    builder.Replace("${SCRIPT_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$", transferDirectory);
                 };
 
             filePathAndContent.Add(scriptPath, "scriptContent");
@@ -175,8 +207,15 @@ namespace Sherlock.Console
                     Assert.AreEqual(scriptParameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(scriptParameterValue, description.Parameters.First().Value);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.IsTrue(description.TransferLogFileOnStepComplete);
+                    Assert.That(
+                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        Is.EquivalentTo(
+                            new List<string>
+                                {
+                                    transferFile,
+                                    transferDirectory,
+                                }));
                 };
 
             return new Tuple<BuildStep, FileStep, Action<ScriptExecuteTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -192,6 +231,9 @@ namespace Sherlock.Console
             const string basePath = @"c:\d\e\f";
             const string installFile = @"c:\d\e\f\g\h.ijk";
             const string installDirectory = @"c:\d\e\f\g\l";
+            const bool copySystemLog = true;
+            const string transferFile = @"d:\t\r\ansf.er";
+            const string transferDirectory = @"e:\t\r\ans\fer";
 
             BuildStep buildAction =
                 builder =>
@@ -203,6 +245,9 @@ namespace Sherlock.Console
                     builder.Replace("${XCOPY_BASE_PATH}$", basePath);
                     builder.Replace("${XCOPY_FILE_FULL_PATH_GOES_HERE}$", installFile);
                     builder.Replace("${XCOPY_DIRECTORY_FULL_PATH_GOES_HERE}$", installDirectory);
+                    builder.Replace("${XCOPY_COPY_SYSTEM_LOG_FLAG_VALUE}$", copySystemLog.ToString());
+                    builder.Replace("${XCOPY_TRANSFER_FILE_FULL_PATH_GOES_HERE}$", transferFile);
+                    builder.Replace("${XCOPY_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$", transferDirectory);
                 };
 
             filePathAndContent.Add(installFile, "h.ijk");
@@ -232,8 +277,15 @@ namespace Sherlock.Console
                     Assert.AreEqual(failureAction, description.FailureMode);
                     Assert.AreEqual(destination, description.Destination);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.IsTrue(description.TransferLogFileOnStepComplete);
+                    Assert.That(
+                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        Is.EquivalentTo(
+                            new List<string>
+                                {
+                                    transferFile,
+                                    transferDirectory,
+                                }));
                 };
 
             return new Tuple<BuildStep, FileStep, Action<XCopyTestStepDescription>, string[]>(
@@ -253,7 +305,7 @@ namespace Sherlock.Console
             // Load the config file string
             var configText = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v12.xml");
+               "Sherlock.Console.Sherlock.Configuration.v11.xml");
 
             // Replace the version place holder
             configText = configText.Replace("${VERSION}$", new Version(2, 1).ToString());
@@ -262,7 +314,7 @@ namespace Sherlock.Console
             var fileSystem = new Mock<IFileSystem>();
             StoreFileDataForEnvironment storage = (environment, step, name, data) => { };
 
-            var reader = new ConfigurationReaderVersion11(fileSystem.Object, storage);
+            var reader = new ConfigurationReaderVersion12(fileSystem.Object, storage);
             Assert.Throws<NonMatchingVersionFoundException>(() => reader.Read(doc));
         }
 
@@ -295,7 +347,7 @@ namespace Sherlock.Console
             // Load the config file string
             var text = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v11.xml");
+               "Sherlock.Console.Sherlock.Configuration.v12.xml");
             string configText;
             {
                 var builder = new StringBuilder(text);
@@ -356,7 +408,7 @@ namespace Sherlock.Console
                     }
                 };
 
-            var reader = new ConfigurationReaderVersion11(fileSystem.Object, storage);
+            var reader = new ConfigurationReaderVersion12(fileSystem.Object, storage);
             var config = reader.Read(doc);
             Assert.IsNotNull(config);
 

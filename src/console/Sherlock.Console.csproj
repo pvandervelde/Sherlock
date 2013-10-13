@@ -110,6 +110,7 @@
     <Compile Include="ConfigurationInfo.cs" />
     <Compile Include="ConfigurationReaderVersion10.cs" />
     <Compile Include="ConfigurationReaderVersion11.cs" />
+    <Compile Include="ConfigurationReaderVersion12.cs" />
     <Compile Include="ConfigurationReaderVersion1X.cs" />
     <Compile Include="ConsoleConfigurationKeys.cs" />
     <Compile Include="ConsoleConstants.cs" />

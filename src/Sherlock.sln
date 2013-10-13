@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 	ProjectSection(SolutionItems) = preProject
 		..\samples\Sherlock.Configuration.v10.xml = ..\samples\Sherlock.Configuration.v10.xml
 		..\samples\Sherlock.Configuration.v11.xml = ..\samples\Sherlock.Configuration.v11.xml
+		..\samples\Sherlock.Configuration.v12.xml = ..\samples\Sherlock.Configuration.v12.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Executor", "executor\Sherlock.Executor.csproj", "{1E5DD365-A070-4674-847D-DDC05DB7EB3C}"

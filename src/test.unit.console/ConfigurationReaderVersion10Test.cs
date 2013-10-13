@@ -70,6 +70,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(1, description.Parameters.Count());
                     Assert.AreEqual(parameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(parameterValue, description.Parameters.First().Value);
+
+                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
+                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
                 };
 
             return new Tuple<BuildStep, FileStep, Action<MsiInstallTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -118,6 +121,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(1, description.Parameters.Count());
                     Assert.AreEqual(scriptParameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(scriptParameterValue, description.Parameters.First().Value);
+
+                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
+                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
                 };
 
             return new Tuple<BuildStep, FileStep, Action<ScriptExecuteTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -170,6 +176,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(index, description.Order);
                     Assert.AreEqual("Stop", description.FailureMode);
                     Assert.AreEqual(destination, description.Destination);
+
+                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
+                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
                 };
 
             return new Tuple<BuildStep, FileStep, Action<XCopyTestStepDescription>, string[]>(
@@ -189,7 +198,7 @@ namespace Sherlock.Console
             // Load the config file string
             var configText = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
                Assembly.GetExecutingAssembly(),
-               "Sherlock.Console.Sherlock.Configuration.v10.xml");
+               "Sherlock.Console.Sherlock.Configuration.v11.xml");
 
             // Replace the version place holder
             configText = configText.Replace("${VERSION}$", new Version(2, 1).ToString());
@@ -205,7 +214,6 @@ namespace Sherlock.Console
         [Test]
         public void Read()
         {
-            const string configVersion = "1.0";
             const string serverUrl = @"http:\\www.myawesomesite\sherlock";
             const string product = "product";
             const string productVersion = "2.0";
@@ -236,7 +244,6 @@ namespace Sherlock.Console
             string configText;
             {
                 var builder = new StringBuilder(text);
-                builder.Replace("${VERSION}$", configVersion);
                 builder.Replace("${SERVER_URL}$", serverUrl);
 
                 builder.Replace("${NAME_OF_PRODUCT_UNDER_TEST}$", product);

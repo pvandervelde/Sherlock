@@ -5,9 +5,13 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Xml.Linq;
+using Sherlock.Console.Properties;
 
 namespace Sherlock.Console
 {
@@ -81,6 +85,35 @@ namespace Sherlock.Console
         protected override string ExtractFailureModeFromTestStepConfiguration(XElement node)
         {
             return "Stop";
+        }
+
+        /// <summary>
+        /// Extracts the files and directories that should be transferred back to the host after the 
+        /// test step has completed.
+        /// </summary>
+        /// <param name="node">The node that contains the files and directories that should be transferred.</param>
+        /// <returns>A value that indicates if the system log file should be transferred back to the host.</returns>
+        protected override bool ExtractLogFileTransferFlagFromTestStepConfiguration(XElement node)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Extracts the files and directories that should be transferred back to the host after the 
+        /// test step has completed.
+        /// </summary>
+        /// <param name="node">The node that contains the files and directories that should be transferred.</param>
+        /// <returns>A collection containing the paths of all the files and directories that need to be copied back to the host.</returns>
+        protected override IEnumerable<FileSystemInfo> ExtractFileElementsToCopyFromTestStepConfiguration(XElement node)
+        {
+            var transferElement = node.Element("transferoncomplete");
+            if (transferElement != null)
+            {
+                throw new InvalidConfigurationFileException(
+                    Resources.Exceptions_Messages_TransferTestStepElementNotValidInCurrentConfigurationVersion);
+            }
+
+            return Enumerable.Empty<FileSystemInfo>();
         }
     }
 }

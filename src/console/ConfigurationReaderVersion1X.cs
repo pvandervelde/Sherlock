@@ -373,16 +373,105 @@ namespace Sherlock.Console
             return node.Attribute("onfailure").Value;
         }
 
+        /// <summary>
+        /// Extracts the files and directories that should be transferred back to the host after the 
+        /// test step has completed.
+        /// </summary>
+        /// <param name="node">The node that contains the files and directories that should be transferred.</param>
+        /// <returns>A value that indicates if the system log file should be transferred back to the host.</returns>
+        protected virtual bool ExtractLogFileTransferFlagFromTestStepConfiguration(XElement node)
+        {
+            var transferNode = node.Element("transferoncomplete");
+            if (transferNode != null)
+            {
+                var transferAttribute = transferNode.Attribute("includesystemlog");
+                if (transferAttribute != null)
+                {
+                    try
+                    {
+                        return bool.Parse(transferAttribute.Value);
+                    }
+                    catch (ArgumentNullException e)
+                    {
+                        throw new InvalidConfigurationFileException(
+                            Resources.Exceptions_Messages_ConfigurationSystemLogTransferFlagShouldBeBoolean,
+                            e);
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new InvalidConfigurationFileException(
+                            Resources.Exceptions_Messages_ConfigurationSystemLogTransferFlagShouldBeBoolean,
+                            e);
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Extracts the files and directories that should be transferred back to the host after the 
+        /// test step has completed.
+        /// </summary>
+        /// <param name="node">The node that contains the files and directories that should be transferred.</param>
+        /// <returns>A collection containing the paths of all the files and directories that need to be copied back to the host.</returns>
+        protected virtual IEnumerable<FileSystemInfo> ExtractFileElementsToCopyFromTestStepConfiguration(XElement node)
+        {
+            var fileSystemElements = new List<FileSystemInfo>();
+            var transferNode = node.Element("transferoncomplete");
+            if (transferNode != null)
+            {
+                foreach (var element in transferNode.Elements())
+                {
+                    var xNode = element.FirstNode as XCData;
+                    if (xNode == null)
+                    {
+                        throw new InvalidConfigurationFileException(
+                            Resources.Exceptions_Messages_ConfigurationTestStepFilesAndDirectoriesMustBeXData);
+                    }
+
+                    var path = xNode.Value;
+                    if (string.Equals("file", element.Name.LocalName, StringComparison.Ordinal))
+                    {
+                        fileSystemElements.Add(new FileInfo(path));
+                    }
+
+                    if (string.Equals("directory", element.Name.LocalName, StringComparison.Ordinal))
+                    {
+                        fileSystemElements.Add(new DirectoryInfo(path));
+                    }
+                }
+            }
+
+            return fileSystemElements;
+        }
+
         private ConsoleExecuteTestStepDescription ExtractConsoleExecuteTestStep(XElement node)
         {
             var stepOrder = ExtractStepOrderFromTestStepConfiguration(node);
             var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
             var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
-            var file = (node.Element("exe").FirstNode as XCData).Value;
+            var xNode = node.Element("exe").FirstNode as XCData;
+            if (xNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationTestStepFilesAndDirectoriesMustBeXData);
+            }
+
+            var file = xNode.Value;
             var parameters = ExtractKeylessParametersFromTestStepConfiguration(node);
 
-            return new ConsoleExecuteTestStepDescription(environment, stepOrder, failureMode, parameters, file);
+            var shouldTransferSystemLog = ExtractLogFileTransferFlagFromTestStepConfiguration(node);
+            var fileElementsToTransfer = ExtractFileElementsToCopyFromTestStepConfiguration(node);
+
+            return new ConsoleExecuteTestStepDescription(
+                environment, 
+                stepOrder, 
+                failureMode, 
+                parameters, 
+                shouldTransferSystemLog,
+                fileElementsToTransfer,
+                file);
         }
 
         private MsiInstallTestStepDescription ExtractMsiDeployTestStep(XElement node)
@@ -391,12 +480,27 @@ namespace Sherlock.Console
             var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
             var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
-            var file = (node.Element("file").FirstNode as XCData).Value;
+            var xNode = node.Element("file").FirstNode as XCData;
+            if (xNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationTestStepFilesAndDirectoriesMustBeXData);
+            }
+
+            var file = xNode.Value;
             var parameters = ExtractKeyedParametersFromTestStepConfiguration(node);
+
+            var shouldTransferSystemLog = ExtractLogFileTransferFlagFromTestStepConfiguration(node);
+            var fileElementsToTransfer = ExtractFileElementsToCopyFromTestStepConfiguration(node);
 
             AddFileToEnvironmentPackage(environment, stepOrder, Path.GetFileName(file), file);
 
-            return new MsiInstallTestStepDescription(environment, stepOrder, failureMode, parameters);
+            return new MsiInstallTestStepDescription(
+                environment, 
+                stepOrder, 
+                failureMode,
+                parameters,
+                shouldTransferSystemLog,
+                fileElementsToTransfer);
         }
 
         private ScriptExecuteTestStepDescription ExtractScriptExecuteTestStep(XElement node)
@@ -407,12 +511,29 @@ namespace Sherlock.Console
 
             var fileNode = node.Element("file");
             var language = fileNode.Attribute("language").Value;
-            var file = (fileNode.FirstNode as XCData).Value;
+
+            var xNode = fileNode.FirstNode as XCData;
+            if (xNode == null)
+            {
+                throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationTestStepFilesAndDirectoriesMustBeXData);
+            }
+
+            var file = xNode.Value;
             var parameters = ExtractKeyedParametersFromTestStepConfiguration(node);
+
+            var shouldTransferSystemLog = ExtractLogFileTransferFlagFromTestStepConfiguration(node);
+            var fileElementsToTransfer = ExtractFileElementsToCopyFromTestStepConfiguration(node);
 
             AddFileToEnvironmentPackage(environment, stepOrder, Path.GetFileName(file), file);
 
-            return new ScriptExecuteTestStepDescription(environment, stepOrder, failureMode, parameters, language);
+            return new ScriptExecuteTestStepDescription(
+                environment, 
+                stepOrder, 
+                failureMode, 
+                parameters,
+                shouldTransferSystemLog,
+                fileElementsToTransfer,
+                language);
         }
 
         private XCopyTestStepDescription ExtractXCopyDeployTestStep(XElement node)
@@ -421,12 +542,21 @@ namespace Sherlock.Console
             var environment = ExtractEnvironmentNameFromTestStepConfiguration(node);
             var failureMode = ExtractFailureModeFromTestStepConfiguration(node);
 
+            var shouldTransferSystemLog = ExtractLogFileTransferFlagFromTestStepConfiguration(node);
+            var fileElementsToTransfer = ExtractFileElementsToCopyFromTestStepConfiguration(node);
+
             var remoteBasePath = (node.Element("destination").FirstNode as XCData).Value;
             var basePath = (node.Element("base").FirstNode as XCData).Value;
 
             foreach (var element in node.Element("paths").Elements())
             {
-                var path = (element.FirstNode as XCData).Value;
+                var xNode = element.FirstNode as XCData;
+                if (xNode == null)
+                {
+                    throw new InvalidConfigurationFileException(Resources.Exceptions_Messages_ConfigurationTestStepFilesAndDirectoriesMustBeXData);
+                }
+
+                var path = xNode.Value;
                 if (string.Equals("file", element.Name.LocalName, StringComparison.Ordinal))
                 {
                     var relativePath = path.Substring(basePath.Length).TrimStart(Path.DirectorySeparatorChar);
@@ -443,7 +573,13 @@ namespace Sherlock.Console
                 }
             }
 
-            return new XCopyTestStepDescription(environment, stepOrder, failureMode, remoteBasePath);
+            return new XCopyTestStepDescription(
+                environment, 
+                stepOrder, 
+                failureMode, 
+                shouldTransferSystemLog,
+                fileElementsToTransfer,
+                remoteBasePath);
         }
 
         private string ExtractCompletedNotification(XElement rootNode)

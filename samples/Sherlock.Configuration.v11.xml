@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sherlock configurationVersion="${VERSION}$">
+<sherlock configurationVersion="1.1">
     <!--
         Provide some human readable information for the test. This information
         is used in the reports.

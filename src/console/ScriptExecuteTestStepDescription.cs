@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace Sherlock.Console
 {
@@ -21,14 +22,24 @@ namespace Sherlock.Console
         /// <param name="order">The index of the test step in the test sequence.</param>
         /// <param name="failureMode">The failure mode that describes what action should be taken if the current test step fails.</param>
         /// <param name="parameters">The collection containing the parameters for the current test step.</param>
+        /// <param name="transferLogFileOnStepComplete">
+        ///     A flag that indicates whether the system log file should be transferred back to the host once the current
+        ///     test step is completed.
+        /// </param>
+        /// <param name="elementsToTransferOnTestStepComplete">
+        ///     The collection containing the file and directory paths that should be transferred back to the host once the current
+        ///     test step is completed.
+        /// </param>
         /// <param name="scriptLanguage">The name of the script language used to write the script that should be executed.</param>
         public ScriptExecuteTestStepDescription(
             string environment, 
             int order,
             string failureMode,
             IEnumerable<TestStepParameterDescription> parameters, 
+            bool transferLogFileOnStepComplete,
+            IEnumerable<FileSystemInfo> elementsToTransferOnTestStepComplete,
             string scriptLanguage) 
-            : base(environment, order, failureMode, parameters)
+            : base(environment, order, failureMode, parameters, transferLogFileOnStepComplete, elementsToTransferOnTestStepComplete)
         {
             {
                 Debug.Assert(!string.IsNullOrEmpty(scriptLanguage), "The script language name should not be an empty string.");

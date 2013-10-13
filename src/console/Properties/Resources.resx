@@ -366,4 +366,13 @@
   <data name="Exceptions_Messages_ConfigurationTestStepParametersMustBeXData" xml:space="preserve">
     <value>Test step parameter values in the configuration file must be defined as XDATA elements.</value>
   </data>
+  <data name="Exceptions_Messages_ConfigurationTestStepFilesAndDirectoriesMustBeXData" xml:space="preserve">
+    <value>Test step file and directories values in the configuration file must be defined as XDATA elements.</value>
+  </data>
+  <data name="Exceptions_Messages_TransferTestStepElementNotValidInCurrentConfigurationVersion" xml:space="preserve">
+    <value>The test step transfer element is not valid in the current version of the configuration. Please update to version 1.2 or higher.</value>
+  </data>
+  <data name="Exceptions_Messages_ConfigurationSystemLogTransferFlagShouldBeBoolean" xml:space="preserve">
+    <value>The value for the 'includesystemlog' attribute on a test step 'transfercomplete' element should have a boolean value.</value>
+  </data>
 </root>

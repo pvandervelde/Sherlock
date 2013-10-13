@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sherlock configurationVersion="1.0">
-    <server>
-        <url>${SERVER_URL}$</url>
-    </server>
-    
+<sherlock configurationVersion="1.2">
     <!--
         Provide some human readable information for the test. This information
         is used in the reports.
@@ -60,28 +56,55 @@
         The test steps that need to be taken for the test to be completed 
     -->
     <teststeps>
+        <console steporder="${CONSOLE_STEP_ORDER_INDEX}$"
+                 environment="${CONSOLE_ENVIRONMENT_NAME}$"
+                 onfailure="${CONSOLE_FAILURE_ACTION}$">
+            <exe><![CDATA[${CONSOLE_EXECUTABLE_FULL_PATH_GOES_HERE}$]]></exe>
+            <params>
+                <param><![CDATA[${CONSOLE_PARAMETER_VALUE}$]]></param>
+            </params>
+            <transferoncomplete includesystemlog="${CONSOLE_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+                <file><![CDATA[${CONSOLE_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
+                <directory><![CDATA[${CONSOLE_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
+            </transferoncomplete>
+        </console>
         <msi steporder="${MSI_STEP_ORDER_INDEX}$"
-             environment="${MSI_ENVIRONMENT_NAME}$">
+             environment="${MSI_ENVIRONMENT_NAME}$"
+             onfailure="${MSI_FAILURE_ACTION}$">
             <file><![CDATA[${MSI_INSTALLER_FULL_PATH_GOES_HERE}$]]></file>
             <params>
                 <param key="${MSI_PARAMETER_KEY}$"><![CDATA[${MSI_PARAMETER_VALUE}$]]></param>
             </params>
+            <transferoncomplete includesystemlog="${MSI_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+                <file><![CDATA[${MSI_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
+                <directory><![CDATA[${MSI_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
+            </transferoncomplete>
         </msi>
         <script steporder="${SCRIPT_STEP_ORDER_INDEX}$"
-                        environment="${SCRIPT_ENVIRONMENT_NAME}$">
+                environment="${SCRIPT_ENVIRONMENT_NAME}$"
+                onfailure="${SCRIPT_FAILURE_ACTION}$">
             <file language="${SCRIPT_LANGUAGE_GOES_HERE}$"><![CDATA[${SCRIPT_FULL_PATH_GOES_HERE}$]]></file>
             <params>
                 <param key="${SCRIPT_PARAMETER_KEY}$"><![CDATA[${SCRIPT_PARAMETER_VALUE}$]]></param>
             </params>
+            <transferoncomplete includesystemlog="${SCRIPT_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+                <file><![CDATA[${SCRIPT_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
+                <directory><![CDATA[${SCRIPT_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
+            </transferoncomplete>
         </script>
         <xcopy steporder="${XCOPY_STEP_ORDER_INDEX}$" 
-               environment="${XCOPY_ENVIRONMENT_NAME}$">
+               environment="${XCOPY_ENVIRONMENT_NAME}$"
+               onfailure="${XCOPY_FAILURE_ACTION}$">
             <destination><![CDATA[${XCOPY_DESTINATION_PATH}$]]></destination>
             <base><![CDATA[${XCOPY_BASE_PATH}$]]></base>
             <paths>
                 <file><![CDATA[${XCOPY_FILE_FULL_PATH_GOES_HERE}$]]></file>
                 <directory><![CDATA[${XCOPY_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
             </paths>
+            <transferoncomplete includesystemlog="${XCOPY_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+                <file><![CDATA[${XCOPY_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
+                <directory><![CDATA[${XCOPY_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
+            </transferoncomplete>
         </xcopy>
     </teststeps>
 
