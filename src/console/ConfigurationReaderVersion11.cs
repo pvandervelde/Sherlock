@@ -95,7 +95,7 @@ namespace Sherlock.Console
         /// <returns>A collection containing the paths of all the files and directories that need to be copied back to the host.</returns>
         protected override IEnumerable<FileSystemInfo> ExtractFileElementsToCopyFromTestStepConfiguration(XElement node)
         {
-            var transferElement = node.Element("transferoncomplete");
+            var transferElement = node.Element("includeinreport");
             if (transferElement != null)
             {
                 throw new InvalidConfigurationFileException(

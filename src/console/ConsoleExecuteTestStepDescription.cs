@@ -22,13 +22,13 @@ namespace Sherlock.Console
         /// <param name="order">The index of the test step in the test sequence.</param>
         /// <param name="failureMode">The failure mode that describes what action should be taken if the current test step fails.</param>
         /// <param name="parameters">The collection containing the parameters for the current test step.</param>
-        /// <param name="transferLogFileOnStepComplete">
-        ///     A flag that indicates whether the system log file should be transferred back to the host once the current
+        /// <param name="includeSystemLogFileInReport">
+        ///     A flag that indicates whether the system log file should be included in the report once the current
         ///     test step is completed.
         /// </param>
-        /// <param name="elementsToTransferOnTestStepComplete">
-        ///     The collection containing the file and directory paths that should be transferred back to the host once the current
-        ///     test step is completed.
+        /// <param name="fileElementsToIncludeInReport">
+        ///     The collection containing the file and directory paths that should be included in the report once the
+        ///     current test step is completed.
         /// </param>
         /// <param name="executablePath">The full path to the executable that needs to be run during the current test step.</param>
         public ConsoleExecuteTestStepDescription(
@@ -36,10 +36,10 @@ namespace Sherlock.Console
             int order, 
             string failureMode, 
             IEnumerable<TestStepParameterDescription> parameters,
-            bool transferLogFileOnStepComplete,
-            IEnumerable<FileSystemInfo> elementsToTransferOnTestStepComplete,
+            bool includeSystemLogFileInReport,
+            IEnumerable<FileSystemInfo> fileElementsToIncludeInReport,
             string executablePath) 
-            : base(environment, order, failureMode, parameters, transferLogFileOnStepComplete, elementsToTransferOnTestStepComplete)
+            : base(environment, order, failureMode, parameters, includeSystemLogFileInReport, fileElementsToIncludeInReport)
         {
             {
                 Debug.Assert(!string.IsNullOrEmpty(executablePath), "The executable path should not be an empty string.");

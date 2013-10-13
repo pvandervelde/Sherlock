@@ -381,7 +381,7 @@ namespace Sherlock.Console
         /// <returns>A value that indicates if the system log file should be transferred back to the host.</returns>
         protected virtual bool ExtractLogFileTransferFlagFromTestStepConfiguration(XElement node)
         {
-            var transferNode = node.Element("transferoncomplete");
+            var transferNode = node.Element("includeinreport");
             if (transferNode != null)
             {
                 var transferAttribute = transferNode.Attribute("includesystemlog");
@@ -418,7 +418,7 @@ namespace Sherlock.Console
         protected virtual IEnumerable<FileSystemInfo> ExtractFileElementsToCopyFromTestStepConfiguration(XElement node)
         {
             var fileSystemElements = new List<FileSystemInfo>();
-            var transferNode = node.Element("transferoncomplete");
+            var transferNode = node.Element("includeinreport");
             if (transferNode != null)
             {
                 foreach (var element in transferNode.Elements())

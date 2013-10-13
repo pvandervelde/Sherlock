@@ -63,10 +63,10 @@
             <params>
                 <param><![CDATA[${CONSOLE_PARAMETER_VALUE}$]]></param>
             </params>
-            <transferoncomplete includesystemlog="${CONSOLE_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+            <includeinreport includesystemlog="${CONSOLE_COPY_SYSTEM_LOG_FLAG_VALUE}$">
                 <file><![CDATA[${CONSOLE_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
                 <directory><![CDATA[${CONSOLE_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
-            </transferoncomplete>
+            </includeinreport>
         </console>
         <msi steporder="${MSI_STEP_ORDER_INDEX}$"
              environment="${MSI_ENVIRONMENT_NAME}$"
@@ -75,10 +75,10 @@
             <params>
                 <param key="${MSI_PARAMETER_KEY}$"><![CDATA[${MSI_PARAMETER_VALUE}$]]></param>
             </params>
-            <transferoncomplete includesystemlog="${MSI_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+            <includeinreport includesystemlog="${MSI_COPY_SYSTEM_LOG_FLAG_VALUE}$">
                 <file><![CDATA[${MSI_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
                 <directory><![CDATA[${MSI_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
-            </transferoncomplete>
+            </includeinreport>
         </msi>
         <script steporder="${SCRIPT_STEP_ORDER_INDEX}$"
                 environment="${SCRIPT_ENVIRONMENT_NAME}$"
@@ -87,10 +87,10 @@
             <params>
                 <param key="${SCRIPT_PARAMETER_KEY}$"><![CDATA[${SCRIPT_PARAMETER_VALUE}$]]></param>
             </params>
-            <transferoncomplete includesystemlog="${SCRIPT_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+            <includeinreport includesystemlog="${SCRIPT_COPY_SYSTEM_LOG_FLAG_VALUE}$">
                 <file><![CDATA[${SCRIPT_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
                 <directory><![CDATA[${SCRIPT_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
-            </transferoncomplete>
+            </includeinreport>
         </script>
         <xcopy steporder="${XCOPY_STEP_ORDER_INDEX}$" 
                environment="${XCOPY_ENVIRONMENT_NAME}$"
@@ -101,10 +101,10 @@
                 <file><![CDATA[${XCOPY_FILE_FULL_PATH_GOES_HERE}$]]></file>
                 <directory><![CDATA[${XCOPY_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
             </paths>
-            <transferoncomplete includesystemlog="${XCOPY_COPY_SYSTEM_LOG_FLAG_VALUE}$">
+            <includeinreport includesystemlog="${XCOPY_COPY_SYSTEM_LOG_FLAG_VALUE}$">
                 <file><![CDATA[${XCOPY_TRANSFER_FILE_FULL_PATH_GOES_HERE}$]]></file>
                 <directory><![CDATA[${XCOPY_TRANSFER_DIRECTORY_FULL_PATH_GOES_HERE}$]]></directory>
-            </transferoncomplete>
+            </includeinreport>
         </xcopy>
     </teststeps>
 

@@ -71,8 +71,8 @@ namespace Sherlock.Console
                     Assert.AreEqual(parameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(parameterValue, description.Parameters.First().Value);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.IsFalse(description.IncludeSystemLogFileInReport);
+                    Assert.IsFalse(description.FileElementsToIncludeInReport.Any());
                 };
 
             return new Tuple<BuildStep, FileStep, Action<MsiInstallTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -122,8 +122,8 @@ namespace Sherlock.Console
                     Assert.AreEqual(scriptParameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(scriptParameterValue, description.Parameters.First().Value);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.IsFalse(description.IncludeSystemLogFileInReport);
+                    Assert.IsFalse(description.FileElementsToIncludeInReport.Any());
                 };
 
             return new Tuple<BuildStep, FileStep, Action<ScriptExecuteTestStepDescription>>(buildAction, fileAction, verifyAction);
@@ -177,8 +177,8 @@ namespace Sherlock.Console
                     Assert.AreEqual("Stop", description.FailureMode);
                     Assert.AreEqual(destination, description.Destination);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
-                    Assert.IsFalse(description.ElementsToTransferOnTestStepComplete.Any());
+                    Assert.IsFalse(description.IncludeSystemLogFileInReport);
+                    Assert.IsFalse(description.FileElementsToIncludeInReport.Any());
                 };
 
             return new Tuple<BuildStep, FileStep, Action<XCopyTestStepDescription>, string[]>(

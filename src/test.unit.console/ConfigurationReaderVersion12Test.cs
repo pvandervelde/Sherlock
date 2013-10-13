@@ -78,9 +78,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(0.ToString(CultureInfo.InvariantCulture), description.Parameters.First().Key);
                     Assert.AreEqual(parameterValue, description.Parameters.First().Value);
 
-                    Assert.IsFalse(description.TransferLogFileOnStepComplete);
+                    Assert.IsFalse(description.IncludeSystemLogFileInReport);
                     Assert.That(
-                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        description.FileElementsToIncludeInReport.Select(e => e.FullName),
                         Is.EquivalentTo(
                             new List<string>
                                 {
@@ -141,9 +141,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(parameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(parameterValue, description.Parameters.First().Value);
 
-                    Assert.IsTrue(description.TransferLogFileOnStepComplete);
+                    Assert.IsTrue(description.IncludeSystemLogFileInReport);
                     Assert.That(
-                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        description.FileElementsToIncludeInReport.Select(e => e.FullName),
                         Is.EquivalentTo(
                             new List<string>
                                 {
@@ -207,9 +207,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(scriptParameterKey, description.Parameters.First().Key);
                     Assert.AreEqual(scriptParameterValue, description.Parameters.First().Value);
 
-                    Assert.IsTrue(description.TransferLogFileOnStepComplete);
+                    Assert.IsTrue(description.IncludeSystemLogFileInReport);
                     Assert.That(
-                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        description.FileElementsToIncludeInReport.Select(e => e.FullName),
                         Is.EquivalentTo(
                             new List<string>
                                 {
@@ -277,9 +277,9 @@ namespace Sherlock.Console
                     Assert.AreEqual(failureAction, description.FailureMode);
                     Assert.AreEqual(destination, description.Destination);
 
-                    Assert.IsTrue(description.TransferLogFileOnStepComplete);
+                    Assert.IsTrue(description.IncludeSystemLogFileInReport);
                     Assert.That(
-                        description.ElementsToTransferOnTestStepComplete.Select(e => e.FullName),
+                        description.FileElementsToIncludeInReport.Select(e => e.FullName),
                         Is.EquivalentTo(
                             new List<string>
                                 {
