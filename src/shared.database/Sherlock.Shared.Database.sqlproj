@@ -140,6 +140,18 @@
     <Build Include="Test\Programmability\Stored Procedures\DeleteConsoleExecuteTestStepById.sql" />
     <Build Include="Test\Programmability\Stored Procedures\GetConsoleExecuteTestStepsById.sql" />
     <Build Include="Test\Programmability\Stored Procedures\UpdateConsoleExecuteTestStep.sql" />
+    <Build Include="Test\Tables\TestStepReportFile.sql" />
+    <Build Include="Test\Tables\TestStepReportDirectory.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddTestStepReportFile.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\AddTestStepReportDirectory.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteTestStepReportFileById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\DeleteTestStepReportDirectoryById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateTestStepReportFile.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\UpdateTestStepReportDirectory.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepReportFilesById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepReportDirectoriesById.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepReportFilesByTestStepId.sql" />
+    <Build Include="Test\Programmability\Stored Procedures\GetTestStepReportDirectoriesByTestStepId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Sherlock.Shared.Database.refactorlog" />
