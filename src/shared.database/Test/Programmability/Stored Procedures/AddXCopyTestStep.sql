@@ -8,6 +8,7 @@ CREATE PROCEDURE [Tests].[AddXCopyTestStep]
     @testEnvironmentId INT,
     @order INT,
     @onFailure NVARCHAR(50),
+    @reportIncludesSystemLog BIT,
     @destination NVARCHAR(MAX)
 AS
     BEGIN TRANSACTION
@@ -16,13 +17,15 @@ AS
             (
                 [fk_TestEnvironmentId],
                 [Order],
-                [OnFailure]
+                [OnFailure],
+                [ReportIncludesSystemLog]
             )
         VALUES
             (
                 @testEnvironmentId,
                 @order,
-                @onFailure
+                @onFailure,
+                @reportIncludesSystemLog
             )
 
         DECLARE @id INT

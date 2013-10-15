@@ -11,7 +11,8 @@ AS
         [Tests].[TestStep].[pk_TestStepId],
         [Tests].[TestStep].[fk_TestEnvironmentId],
         [Tests].[TestStep].[Order],
-        [Tests].[TestStep].[OnFailure]
+        [Tests].[TestStep].[OnFailure],
+        [Tests].[TestStep].[ReportIncludesSystemLog]
     FROM [Tests].[MsiInstallTestStep]
     JOIN [Tests].[TestStep]
     ON [Tests].[MsiInstallTestStep].[pk_MsiInstallTestStepId] = [Tests].[TestStep].[pk_TestStepId]

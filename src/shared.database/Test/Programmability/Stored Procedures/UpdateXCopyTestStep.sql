@@ -9,6 +9,7 @@ CREATE PROCEDURE [Tests].[UpdateXCopyTestStep]
     @testEnvironmentId INT,
     @order INT,
     @onFailure NVARCHAR(50),
+    @reportIncludesSystemLog BIT,
     @destination NVARCHAR(MAX)
 AS
     IF NOT EXISTS (
@@ -32,7 +33,8 @@ AS
         SET
             [fk_TestEnvironmentId] = @testEnvironmentId,
             [Order] = @order,
-            [OnFailure] = @onFailure
+            [OnFailure] = @onFailure,
+            [ReportIncludesSystemLog] = @reportIncludesSystemLog
         WHERE [pk_TestStepId] = @id
 
         UPDATE [Tests].[XCopyTestStep]

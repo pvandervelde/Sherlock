@@ -8,7 +8,8 @@ CREATE PROCEDURE [Tests].[UpdateMsiInstallTestStep]
     @id INT,
     @testEnvironmentId INT,
     @order INT,
-    @onFailure NVARCHAR(50)
+    @onFailure NVARCHAR(50),
+    @reportIncludesSystemLog BIT
 AS
     IF NOT EXISTS (
         SELECT * 
@@ -31,7 +32,8 @@ AS
         SET
             [fk_TestEnvironmentId] = @testEnvironmentId,
             [Order] = @order,
-            [OnFailure] = @onFailure
+            [OnFailure] = @onFailure,
+            [ReportIncludesSystemLog] = @reportIncludesSystemLog
         WHERE [pk_TestStepId] = @id
 
         IF @@ERROR <> 0
