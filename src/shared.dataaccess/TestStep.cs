@@ -54,6 +54,11 @@ namespace Sherlock.Shared.DataAccess
         internal string OnFailure { get; set; }
     
         /// <summary>
+        /// Gets or sets a value indicating if the system log should be included in the report.
+        /// </summary>
+        public bool ReportIncludesSystemLog { get; set; }
+    
+        /// <summary>
         /// Gets or sets the test environment on which the current step should be executed.
         /// </summary>
         internal TestEnvironment TestEnvironment { get; set; }
