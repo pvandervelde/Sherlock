@@ -70,6 +70,8 @@ namespace Sherlock.Shared.DataAccess
         private DbSet<TestEnvironment> StoredTestEnvironments { get; set; }
         private DbSet<TestStep> StoredTestSteps { get; set; }
         private DbSet<TestStepParameter> StoredTestStepParameters { get; set; }
+        private DbSet<TestStepReportDirectory> StoredTestStepReportDirectories { get; set; }
+        private DbSet<TestStepReportFile> StoredTestStepReportFiles { get; set; }
     
         private int AddApplication(string name, Nullable<int> major, Nullable<int> minor, Nullable<int> patch, Nullable<int> build)
         {
@@ -1367,6 +1369,138 @@ namespace Sherlock.Shared.DataAccess
                 new ObjectParameter("executableFilePath", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateConsoleExecuteTestStep", idParameter, testEnvironmentIdParameter, orderParameter, onFailureParameter, executableFilePathParameter);
+        }
+    
+        private ObjectResult<int?> AddTestStepReportDirectory(Nullable<int> testStepId, string path)
+        {
+            var testStepIdParameter = testStepId.HasValue ?
+                new ObjectParameter("testStepId", testStepId) :
+                new ObjectParameter("testStepId", typeof(int));
+    
+            var pathParameter = path != null ?
+                new ObjectParameter("path", path) :
+                new ObjectParameter("path", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddTestStepReportDirectory", testStepIdParameter, pathParameter);
+        }
+    
+        private ObjectResult<int?> AddTestStepReportFile(Nullable<int> testStepId, string path)
+        {
+            var testStepIdParameter = testStepId.HasValue ?
+                new ObjectParameter("testStepId", testStepId) :
+                new ObjectParameter("testStepId", typeof(int));
+    
+            var pathParameter = path != null ?
+                new ObjectParameter("path", path) :
+                new ObjectParameter("path", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("AddTestStepReportFile", testStepIdParameter, pathParameter);
+        }
+    
+        private int DeleteTestStepReportDirectoryById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteTestStepReportDirectoryById", idParameter);
+        }
+    
+        private int DeleteTestStepReportFileById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteTestStepReportFileById", idParameter);
+        }
+    
+        private ObjectResult<TestStepReportDirectory> GetTestStepReportDirectoriesById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TestStepReportDirectory>("GetTestStepReportDirectoriesById", idParameter);
+        }
+    
+        private ObjectResult<TestStepReportDirectory> GetTestStepReportDirectoriesById(Nullable<int> id, MergeOption mergeOption)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TestStepReportDirectory>("GetTestStepReportDirectoriesById", mergeOption, idParameter);
+        }
+    
+        private ObjectResult<int?> GetTestStepReportDirectoriesByTestStepId(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("GetTestStepReportDirectoriesByTestStepId", idParameter);
+        }
+    
+        private ObjectResult<TestStepReportFile> GetTestStepReportFilesById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TestStepReportFile>("GetTestStepReportFilesById", idParameter);
+        }
+    
+        private ObjectResult<TestStepReportFile> GetTestStepReportFilesById(Nullable<int> id, MergeOption mergeOption)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TestStepReportFile>("GetTestStepReportFilesById", mergeOption, idParameter);
+        }
+    
+        private ObjectResult<int?> GetTestStepReportFilesByTestStepId(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<int?>("GetTestStepReportFilesByTestStepId", idParameter);
+        }
+    
+        private int UpdateTestStepReportDirectory(Nullable<int> id, Nullable<int> testStepId, string path)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var testStepIdParameter = testStepId.HasValue ?
+                new ObjectParameter("testStepId", testStepId) :
+                new ObjectParameter("testStepId", typeof(int));
+    
+            var pathParameter = path != null ?
+                new ObjectParameter("path", path) :
+                new ObjectParameter("path", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTestStepReportDirectory", idParameter, testStepIdParameter, pathParameter);
+        }
+    
+        private int UpdateTestStepReportFile(Nullable<int> id, Nullable<int> testStepId, string path)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var testStepIdParameter = testStepId.HasValue ?
+                new ObjectParameter("testStepId", testStepId) :
+                new ObjectParameter("testStepId", typeof(int));
+    
+            var pathParameter = path != null ?
+                new ObjectParameter("path", path) :
+                new ObjectParameter("path", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTestStepReportFile", idParameter, testStepIdParameter, pathParameter);
         }
     }
 }

@@ -138,6 +138,7 @@
     <Compile Include="MachineDescription.Public.cs" />
     <Compile Include="MsiInstallTestStep.cs">
       <DependentUpon>SherlockModel.tt</DependentUpon>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="MsiInstallTestStep.Public.cs" />
     <Compile Include="OperatingSystemDescription.cs">
@@ -211,6 +212,16 @@
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="TestStepParameter.Public.cs" />
+    <Compile Include="TestStepReportDirectory.cs">
+      <DependentUpon>SherlockModel.tt</DependentUpon>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="TestStepReportDirectory.Public.cs" />
+    <Compile Include="TestStepReportFile.cs">
+      <DependentUpon>SherlockModel.tt</DependentUpon>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="TestStepReportFile.Public.cs" />
     <Compile Include="UnknownApplicationException.cs" />
     <Compile Include="UnknownMachineTypeException.cs" />
     <Compile Include="UnknownOperatingSystemException.cs" />

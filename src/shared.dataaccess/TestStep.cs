@@ -29,6 +29,8 @@ namespace Sherlock.Shared.DataAccess
         public TestStep()
         {
             this.TestStepParameters = new HashSet<TestStepParameter>();
+            this.TestStepReportDirectories = new HashSet<TestStepReportDirectory>();
+            this.TestStepReportFiles = new HashSet<TestStepReportFile>();
         }
     
         /// <summary>
@@ -60,6 +62,16 @@ namespace Sherlock.Shared.DataAccess
         /// Gets or sets the parameters for the current test step.
         /// </summary>
         internal ICollection<TestStepParameter> TestStepParameters { get; set; }
+    
+        /// <summary>
+        /// Gets or sets the directories that should be added to the report for the current test step.
+        /// </summary>
+        internal ICollection<TestStepReportDirectory> TestStepReportDirectories { get; set; }
+    
+        /// <summary>
+        /// Gets or sets the files that should be added to the report for the current test step.
+        /// </summary>
+        internal ICollection<TestStepReportFile> TestStepReportFiles { get; set; }
     
     }
 }

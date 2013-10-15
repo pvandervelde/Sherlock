@@ -20,6 +20,8 @@
           <EntitySet Name="TestEnvironment" EntityType="Sherlock.Shared.DataAccess.Store.TestEnvironment" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="TestStep" EntityType="Sherlock.Shared.DataAccess.Store.TestStep" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="TestStepParameter" EntityType="Sherlock.Shared.DataAccess.Store.TestStepParameter" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="TestStepReportDirectory" EntityType="Sherlock.Shared.DataAccess.Store.TestStepReportDirectory" store:Type="Tables" Schema="Tests" />
+          <EntitySet Name="TestStepReportFile" EntityType="Sherlock.Shared.DataAccess.Store.TestStepReportFile" store:Type="Tables" Schema="Tests" />
           <EntitySet Name="XCopyTestStep" EntityType="Sherlock.Shared.DataAccess.Store.XCopyTestStep" store:Type="Tables" Schema="Tests" />
           <AssociationSet Name="FK_ConsoleExecuteTestStep_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_ConsoleExecuteTestStep_ToTestStep">
             <End Role="TestStep" EntitySet="TestStep" />
@@ -84,6 +86,14 @@
           <AssociationSet Name="FK_TestStepParameter_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_TestStepParameter_ToTestStep">
             <End Role="TestStep" EntitySet="TestStep" />
             <End Role="TestStepParameter" EntitySet="TestStepParameter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepReportDirectory_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_TestStepReportDirectory_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="TestStepReportDirectory" EntitySet="TestStepReportDirectory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepReportFile_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_TestStepReportFile_ToTestStep">
+            <End Role="TestStep" EntitySet="TestStep" />
+            <End Role="TestStepReportFile" EntitySet="TestStepReportFile" />
           </AssociationSet>
           <AssociationSet Name="FK_XCopyTestStep_ToTestStep" Association="Sherlock.Shared.DataAccess.Store.FK_XCopyTestStep_ToTestStep">
             <End Role="TestStep" EntitySet="TestStep" />
@@ -218,6 +228,22 @@
           <Property Name="fk_TestStepId" Type="int" Nullable="false" />
           <Property Name="Key" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestStepReportDirectory">
+          <Key>
+            <PropertyRef Name="pk_TestStepReportDirectoryId" />
+          </Key>
+          <Property Name="pk_TestStepReportDirectoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_TestStepId" Type="int" Nullable="false" />
+          <Property Name="Path" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestStepReportFile">
+          <Key>
+            <PropertyRef Name="pk_TestStepReportFileId" />
+          </Key>
+          <Property Name="pk_TestStepReportFileId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fk_TestStepId" Type="int" Nullable="false" />
+          <Property Name="Path" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="XCopyTestStep">
           <Key>
@@ -438,6 +464,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TestStepReportDirectory_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestStepReportDirectory" Type="Sherlock.Shared.DataAccess.Store.TestStepReportDirectory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="TestStepReportDirectory">
+              <PropertyRef Name="fk_TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepReportFile_ToTestStep">
+          <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestStepReportFile" Type="Sherlock.Shared.DataAccess.Store.TestStepReportFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="TestStepReportFile">
+              <PropertyRef Name="fk_TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_XCopyTestStep_ToTestStep">
           <End Role="TestStep" Type="Sherlock.Shared.DataAccess.Store.TestStep" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -643,6 +697,14 @@
           <Parameter Name="key" Type="nvarchar" Mode="In" />
           <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
         </Function>
+        <Function Name="AddTestStepReportDirectory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testStepId" Type="int" Mode="In" />
+          <Parameter Name="path" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddTestStepReportFile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="testStepId" Type="int" Mode="In" />
+          <Parameter Name="path" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="AddXCopyTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="testEnvironmentId" Type="int" Mode="In" />
           <Parameter Name="order" Type="int" Mode="In" />
@@ -673,6 +735,12 @@
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteTestStepParameterById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteTestStepReportDirectoryById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteTestStepReportFileById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteXCopyTestStepById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
@@ -716,6 +784,18 @@
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="GetTestStepParametersByTestStepId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepReportDirectoriesById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepReportDirectoriesByTestStepId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepReportFilesById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTestStepReportFilesByTestStepId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="GetTestStepsByTestEnvironmentId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
@@ -772,6 +852,16 @@
           <Parameter Name="testStepId" Type="int" Mode="In" />
           <Parameter Name="key" Type="nvarchar" Mode="In" />
           <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdateTestStepReportDirectory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testStepId" Type="int" Mode="In" />
+          <Parameter Name="path" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdateTestStepReportFile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="testStepId" Type="int" Mode="In" />
+          <Parameter Name="path" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="UpdateXCopyTestStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Tests">
           <Parameter Name="id" Type="int" Mode="In" />
@@ -1168,6 +1258,52 @@
             <Parameter Name="order" Mode="In" Type="Int32" />
             <Parameter Name="onFailure" Mode="In" Type="String" />
             <Parameter Name="executableFilePath" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="TestStepReportDirectories" EntityType="Sherlock.Shared.DataAccess.TestStepReportDirectory" a:GetterAccess="Private" />
+          <EntitySet Name="TestStepReportFiles" EntityType="Sherlock.Shared.DataAccess.TestStepReportFile" a:GetterAccess="Private" />
+          <AssociationSet Name="FK_TestStepReportDirectory_ToTestStep" Association="Sherlock.Shared.DataAccess.FK_TestStepReportDirectory_ToTestStep">
+            <End Role="TestStep" EntitySet="TestSteps" />
+            <End Role="TestStepReportDirectory" EntitySet="TestStepReportDirectories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepReportFile_ToTestStep" Association="Sherlock.Shared.DataAccess.FK_TestStepReportFile_ToTestStep">
+            <End Role="TestStep" EntitySet="TestSteps" />
+            <End Role="TestStepReportFile" EntitySet="TestStepReportFiles" />
+          </AssociationSet>
+          <FunctionImport Name="AddTestStepReportDirectory" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testStepId" Mode="In" Type="Int32" />
+            <Parameter Name="path" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddTestStepReportFile" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="testStepId" Mode="In" Type="Int32" />
+            <Parameter Name="path" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteTestStepReportDirectoryById" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteTestStepReportFileById" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepReportDirectoriesById" a:MethodAccess="Private" EntitySet="TestStepReportDirectories" ReturnType="Collection(Sherlock.Shared.DataAccess.TestStepReportDirectory)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepReportDirectoriesByTestStepId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepReportFilesById" a:MethodAccess="Private" EntitySet="TestStepReportFiles" ReturnType="Collection(Sherlock.Shared.DataAccess.TestStepReportFile)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTestStepReportFilesByTestStepId" ReturnType="Collection(Int32)" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateTestStepReportDirectory" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testStepId" Mode="In" Type="Int32" />
+            <Parameter Name="path" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateTestStepReportFile" a:MethodAccess="Private">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="testStepId" Mode="In" Type="Int32" />
+            <Parameter Name="path" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="ApplicationDescription">
@@ -1665,6 +1801,16 @@
               <Summary>Gets or sets the failure mode for the current test step.</Summary>
             </Documentation>
           </Property>
+          <NavigationProperty Name="TestStepReportDirectories" Relationship="Sherlock.Shared.DataAccess.FK_TestStepReportDirectory_ToTestStep" FromRole="TestStep" ToRole="TestStepReportDirectory" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the directories that should be added to the report for the current test step.</Summary>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="TestStepReportFiles" Relationship="Sherlock.Shared.DataAccess.FK_TestStepReportFile_ToTestStep" FromRole="TestStep" ToRole="TestStepReportFile" a:SetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the files that should be added to the report for the current test step.</Summary>
+            </Documentation>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="TestStepParameter">
           <Documentation>
@@ -1811,6 +1957,90 @@
             </Documentation>
           </Property>
         </EntityType>
+        <EntityType Name="TestStepReportDirectory">
+          <Documentation>
+            <Summary>Stores the directories for each test step that should be included in the final report.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestStepReportDirectoryId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestStepReportDirectoryId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the report directory.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_TestStepId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test step associated with the current report directory.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Path" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+            <Documentation>
+              <Summary>Gets or sets the full path to the report directory.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="TestStep" Relationship="Sherlock.Shared.DataAccess.FK_TestStepReportDirectory_ToTestStep" FromRole="TestStepReportDirectory" ToRole="TestStep" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the test step associated with the current report directory.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="TestStepReportFile">
+          <Documentation>
+            <Summary>Stores the files for each test step that should be included in the final report.</Summary>
+          </Documentation>
+          <Key>
+            <PropertyRef Name="pk_TestStepReportFileId" />
+          </Key>
+          <Property Type="Int32" Name="pk_TestStepReportFileId" Nullable="false" annotation:StoreGeneratedPattern="Identity" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the current report file.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="Int32" Name="fk_TestStepId" Nullable="false" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the ID of the test step associated with the current report file.</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Path" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>Gets or sets the full path to the report file.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="TestStep" Relationship="Sherlock.Shared.DataAccess.FK_TestStepReportFile_ToTestStep" FromRole="TestStepReportFile" ToRole="TestStep" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" >
+            <Documentation>
+              <Summary>Gets or sets the test step associated with the current report file.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="FK_TestStepReportDirectory_ToTestStep">
+          <End Type="Sherlock.Shared.DataAccess.TestStep" Role="TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.TestStepReportDirectory" Role="TestStepReportDirectory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="TestStepReportDirectory">
+              <PropertyRef Name="fk_TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepReportFile_ToTestStep">
+          <End Type="Sherlock.Shared.DataAccess.TestStep" Role="TestStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Sherlock.Shared.DataAccess.TestStepReportFile" Role="TestStepReportFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="pk_TestStepId" />
+            </Principal>
+            <Dependent Role="TestStepReportFile">
+              <PropertyRef Name="fk_TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2376,6 +2606,70 @@
           <FunctionImportMapping FunctionImportName="GetConsoleExecuteTestStepsById" FunctionName="Sherlock.Shared.DataAccess.Store.GetConsoleExecuteTestStepsById">
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateConsoleExecuteTestStep" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateConsoleExecuteTestStep" />
+          <EntitySetMapping Name="TestStepReportDirectories">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepReportDirectory">
+              <MappingFragment StoreEntitySet="TestStepReportDirectory">
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="fk_TestStepId" ColumnName="fk_TestStepId" />
+                <ScalarProperty Name="pk_TestStepReportDirectoryId" ColumnName="pk_TestStepReportDirectoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepReportDirectory">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestStepReportDirectoryById" >
+                  <ScalarProperty Name="pk_TestStepReportDirectoryId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestStepReportDirectory" >
+                  <ScalarProperty Name="Path" ParameterName="path" Version="Current" />
+                  <ScalarProperty Name="fk_TestStepId" ParameterName="testStepId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepReportDirectoryId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddTestStepReportDirectory" >
+                  <ScalarProperty Name="Path" ParameterName="path" />
+                  <ScalarProperty Name="fk_TestStepId" ParameterName="testStepId" />
+                  <ResultBinding Name="pk_TestStepReportDirectoryId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestStepReportFiles">
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepReportFile">
+              <MappingFragment StoreEntitySet="TestStepReportFile">
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="fk_TestStepId" ColumnName="fk_TestStepId" />
+                <ScalarProperty Name="pk_TestStepReportFileId" ColumnName="pk_TestStepReportFileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Sherlock.Shared.DataAccess.TestStepReportFile">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestStepReportFileById" >
+                  <ScalarProperty Name="pk_TestStepReportFileId" ParameterName="id" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestStepReportFile" >
+                  <ScalarProperty Name="Path" ParameterName="path" Version="Current" />
+                  <ScalarProperty Name="fk_TestStepId" ParameterName="testStepId" Version="Current" />
+                  <ScalarProperty Name="pk_TestStepReportFileId" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="Sherlock.Shared.DataAccess.Store.AddTestStepReportFile" >
+                  <ScalarProperty Name="Path" ParameterName="path" />
+                  <ScalarProperty Name="fk_TestStepId" ParameterName="testStepId" />
+                  <ResultBinding Name="pk_TestStepReportFileId" ColumnName="Id" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddTestStepReportDirectory" FunctionName="Sherlock.Shared.DataAccess.Store.AddTestStepReportDirectory" />
+          <FunctionImportMapping FunctionImportName="AddTestStepReportFile" FunctionName="Sherlock.Shared.DataAccess.Store.AddTestStepReportFile" />
+          <FunctionImportMapping FunctionImportName="DeleteTestStepReportDirectoryById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestStepReportDirectoryById" />
+          <FunctionImportMapping FunctionImportName="DeleteTestStepReportFileById" FunctionName="Sherlock.Shared.DataAccess.Store.DeleteTestStepReportFileById" />
+          <FunctionImportMapping FunctionImportName="GetTestStepReportDirectoriesById" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepReportDirectoriesById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTestStepReportDirectoriesByTestStepId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepReportDirectoriesByTestStepId" />
+          <FunctionImportMapping FunctionImportName="GetTestStepReportFilesById" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepReportFilesById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTestStepReportFilesByTestStepId" FunctionName="Sherlock.Shared.DataAccess.Store.GetTestStepReportFilesByTestStepId" />
+          <FunctionImportMapping FunctionImportName="UpdateTestStepReportDirectory" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestStepReportDirectory" />
+          <FunctionImportMapping FunctionImportName="UpdateTestStepReportFile" FunctionName="Sherlock.Shared.DataAccess.Store.UpdateTestStepReportFile" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

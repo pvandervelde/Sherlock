@@ -51,6 +51,18 @@ namespace Sherlock.Shared.DataAccess
                 Patch(testStepParameter);
             }
 
+            var testStepReportDirectories = GetTestStepReportDirectoriesById(null).ToList();
+            foreach (var testStepReportDirectory in testStepReportDirectories)
+            {
+                Patch(testStepReportDirectory);
+            }
+
+            var testStepReportFiles = GetTestStepReportFilesById(null).ToList();
+            foreach (var testStepReportFile in testStepReportFiles)
+            {
+                Patch(testStepReportFile);
+            }
+
             var consoleTestSteps = GetConsoleExecuteTestStepsById(null).ToList();
             foreach (var consoleTestStep in consoleTestSteps)
             {
@@ -178,6 +190,51 @@ namespace Sherlock.Shared.DataAccess
             return result;
         }
 
+        private TestStepReportDirectory Patch(TestStepReportDirectory testStepReportDirectory)
+        {
+            var result = StoredTestStepReportDirectories.Find(testStepReportDirectory.Id) 
+                ?? StoredTestStepReportDirectories.Add(testStepReportDirectory);
+            if (!result.IsPatched && !result.IsPatching)
+            {
+                result.IsPatching = true;
+                try
+                {
+                    var selectedTestStep = TestStep(result.fk_TestStepId);
+                    result.TestStep = selectedTestStep;
+
+                    result.IsPatched = true;
+                }
+                finally
+                {
+                    result.IsPatching = false;
+                }
+            }
+
+            return result;
+        }
+
+        private TestStepReportFile Patch(TestStepReportFile testStepReportFile)
+        {
+            var result = StoredTestStepReportFiles.Find(testStepReportFile.Id) ?? StoredTestStepReportFiles.Add(testStepReportFile);
+            if (!result.IsPatched && !result.IsPatching)
+            {
+                result.IsPatching = true;
+                try
+                {
+                    var selectedTestStep = TestStep(result.fk_TestStepId);
+                    result.TestStep = selectedTestStep;
+
+                    result.IsPatched = true;
+                }
+                finally
+                {
+                    result.IsPatching = false;
+                }
+            }
+
+            return result;
+        }
+
         private TestStep Patch(TestStep testStep)
         {
             var result = StoredTestSteps.Find(testStep.Id) ?? StoredTestSteps.Add(testStep);
@@ -277,6 +334,28 @@ namespace Sherlock.Shared.DataAccess
         private TestStepParameter TestStepParameter(int id)
         {
             var parameter = StoredTestStepParameters.Find(id);
+            if (parameter != null)
+            {
+                Patch(parameter);
+            }
+
+            return parameter;
+        }
+
+        private TestStepReportDirectory TestStepReportDirectory(int id)
+        {
+            var parameter = StoredTestStepReportDirectories.Find(id);
+            if (parameter != null)
+            {
+                Patch(parameter);
+            }
+
+            return parameter;
+        }
+
+        private TestStepReportFile TestStepReportFile(int id)
+        {
+            var parameter = StoredTestStepReportFiles.Find(id);
             if (parameter != null)
             {
                 Patch(parameter);
@@ -793,6 +872,116 @@ namespace Sherlock.Shared.DataAccess
             if (parameter != null)
             {
                 StoredTestStepParameters.Remove(parameter);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new test step report directory.
+        /// </summary>
+        /// <param name="reportDirectory">The new report directory.</param>
+        public void Add(TestStepReportDirectory reportDirectory)
+        {
+            VerifySchemaVersion();
+
+            var result = StoredTestStepReportDirectories.Add(reportDirectory);
+            Patch(result);
+        }
+
+        /// <summary>
+        /// Updates the given report directory.
+        /// </summary>
+        /// <param name="reportDirectory">The report directory that should be updated.</param>
+        public void Update(TestStepReportDirectory reportDirectory)
+        {
+            VerifySchemaVersion();
+
+            var storedReportDirectory = TestStepReportDirectory(reportDirectory.Id);
+            if (storedReportDirectory != null)
+            {
+                if (!ReferenceEquals(storedReportDirectory, reportDirectory))
+                {
+                    storedReportDirectory.Path = reportDirectory.Path;
+
+                    if (storedReportDirectory.fk_TestStepId != reportDirectory.fk_TestStepId)
+                    {
+                        storedReportDirectory.fk_TestStepId = reportDirectory.fk_TestStepId;
+                        storedReportDirectory.TestStep = null;
+                        Patch(storedReportDirectory);
+                    }
+                }
+
+                var entry = Entry(storedReportDirectory);
+                entry.State = EntityState.Modified;
+            }
+        }
+
+        /// <summary>
+        /// Deletes an existing test step report directory.
+        /// </summary>
+        /// <param name="id">The ID of the report directory.</param>
+        public void DeleteTestStepReportDirectory(int id)
+        {
+            VerifySchemaVersion();
+
+            var reportDirectory = TestStepReportDirectory(id);
+            if (reportDirectory != null)
+            {
+                StoredTestStepReportDirectories.Remove(reportDirectory);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new test step report file.
+        /// </summary>
+        /// <param name="reportFile">The new report file.</param>
+        public void Add(TestStepReportFile reportFile)
+        {
+            VerifySchemaVersion();
+
+            var result = StoredTestStepReportFiles.Add(reportFile);
+            Patch(result);
+        }
+
+        /// <summary>
+        /// Updates the given report file.
+        /// </summary>
+        /// <param name="reportFile">The report file that should be updated.</param>
+        public void Update(TestStepReportFile reportFile)
+        {
+            VerifySchemaVersion();
+
+            var storedReportFile = TestStepReportFile(reportFile.Id);
+            if (storedReportFile != null)
+            {
+                if (!ReferenceEquals(storedReportFile, reportFile))
+                {
+                    storedReportFile.Path = reportFile.Path;
+
+                    if (storedReportFile.fk_TestStepId != reportFile.fk_TestStepId)
+                    {
+                        storedReportFile.fk_TestStepId = reportFile.fk_TestStepId;
+                        storedReportFile.TestStep = null;
+                        Patch(storedReportFile);
+                    }
+                }
+
+                var entry = Entry(storedReportFile);
+                entry.State = EntityState.Modified;
+            }
+        }
+
+        /// <summary>
+        /// Deletes an existing test step report file.
+        /// </summary>
+        /// <param name="id">The ID of the report file.</param>
+        public void DeleteTestStepReportFile(int id)
+        {
+            VerifySchemaVersion();
+
+            var reportFile = TestStepReportFile(id);
+            if (reportFile != null)
+            {
+                StoredTestStepReportFiles.Remove(reportFile);
             }
         }
 

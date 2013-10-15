@@ -181,6 +181,42 @@ namespace Sherlock.Shared.DataAccess
         void DeleteTestStepParameter(int id);
 
         /// <summary>
+        /// Adds a new test step report directory.
+        /// </summary>
+        /// <param name="reportDirectory">The new report directory.</param>
+        void Add(TestStepReportDirectory reportDirectory);
+
+        /// <summary>
+        /// Updates the given report directory.
+        /// </summary>
+        /// <param name="reportDirectory">The report directory that should be updated.</param>
+        void Update(TestStepReportDirectory reportDirectory);
+
+        /// <summary>
+        /// Deletes an existing test step report directory.
+        /// </summary>
+        /// <param name="id">The ID of the report directory.</param>
+        void DeleteTestStepReportDirectory(int id);
+
+        /// <summary>
+        /// Adds a new test step report file.
+        /// </summary>
+        /// <param name="reportFile">The new report file.</param>
+        void Add(TestStepReportFile reportFile);
+
+        /// <summary>
+        /// Updates the given report file.
+        /// </summary>
+        /// <param name="reportFile">The report file that should be updated.</param>
+        void Update(TestStepReportFile reportFile);
+
+        /// <summary>
+        /// Deletes an existing test step report file.
+        /// </summary>
+        /// <param name="id">The ID of the report file.</param>
+        void DeleteTestStepReportFile(int id);
+
+        /// <summary>
         /// Adds a new test application.
         /// </summary>
         /// <param name="application">The new test application.</param>
