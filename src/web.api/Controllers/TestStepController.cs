@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Web.Http;
 using Nuclei.Diagnostics;
@@ -59,16 +58,26 @@ namespace Sherlock.Web.Api.Controllers
         /// <param name="failureMode">
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
+        /// <param name="shouldincludesystemlog">
+        ///     A flag that indicates if the system log should be included in the report upon completion
+        ///     of the current test step.
+        /// </param>
         /// <param name="executablePath">The full path of the application that should be executed.</param>
         /// <returns>The ID of the test step.</returns>
         [HttpPost]
-        public int RegisterConsole(int environment, int order, string failureMode, string executablePath)
+        public int RegisterConsole(
+            int environment, 
+            int order, 
+            string failureMode,
+            bool shouldincludesystemlog,
+            string executablePath)
         {
             var testStep = new ConsoleExecuteTestStep
             {
                 Order = order,
                 TestEnvironmentId = environment,
                 FailureMode = (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), failureMode),
+                ReportIncludesSystemLog = shouldincludesystemlog,
                 ExecutableFilePath = executablePath,
             };
 
@@ -101,15 +110,20 @@ namespace Sherlock.Web.Api.Controllers
         /// <param name="failureMode">
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
+        /// <param name="shouldincludesystemlog">
+        ///     A flag that indicates if the system log should be included in the report upon completion
+        ///     of the current test step.
+        /// </param>
         /// <returns>The ID of the test step.</returns>
         [HttpPost]
-        public int RegisterMsi(int environment, int order, string failureMode)
+        public int RegisterMsi(int environment, int order, string failureMode, bool shouldincludesystemlog)
         {
             var testStep = new MsiInstallTestStep
                 {
                     Order = order,
                     TestEnvironmentId = environment,
                     FailureMode = (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), failureMode),
+                    ReportIncludesSystemLog = shouldincludesystemlog,
                 };
 
             try
@@ -141,16 +155,21 @@ namespace Sherlock.Web.Api.Controllers
         /// <param name="failureMode">
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
+        /// <param name="shouldincludesystemlog">
+        ///     A flag that indicates if the system log should be included in the report upon completion
+        ///     of the current test step.
+        /// </param>
         /// <param name="language">The language of the script that should be executed.</param>
         /// <returns>The ID of the test step.</returns>
         [HttpPost]
-        public int RegisterScript(int environment, int order, string failureMode, string language)
+        public int RegisterScript(int environment, int order, string failureMode, bool shouldincludesystemlog, string language)
         {
             var testStep = new ScriptExecuteTestStep
                 {
                     Order = order,
                     TestEnvironmentId = environment,
                     FailureMode = (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), failureMode),
+                    ReportIncludesSystemLog = shouldincludesystemlog,
                     ScriptLanguage = (ScriptLanguage)Enum.Parse(typeof(ScriptLanguage), language),
                 };
 
@@ -183,16 +202,21 @@ namespace Sherlock.Web.Api.Controllers
         /// <param name="failureMode">
         ///     The failure mode which indicates if a test sequence should be stopped or continued if the current test step fails.
         /// </param>
+        /// <param name="shouldincludesystemlog">
+        ///     A flag that indicates if the system log should be included in the report upon completion
+        ///     of the current test step.
+        /// </param>
         /// <param name="destination">The full path to the destination folder where the files should be copied to.</param>
         /// <returns>The ID of the test step.</returns>
         [HttpPost]
-        public int RegisterXCopy(int environment, int order, string failureMode, string destination)
+        public int RegisterXCopy(int environment, int order, string failureMode, bool shouldincludesystemlog, string destination)
         {
             var testStep = new XCopyTestStep
             {
                 Order = order,
                 TestEnvironmentId = environment,
                 FailureMode = (TestStepFailureMode)Enum.Parse(typeof(TestStepFailureMode), failureMode),
+                ReportIncludesSystemLog = shouldincludesystemlog,
                 Destination = destination,
             };
 

@@ -224,6 +224,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TestEnvironmentController.cs" />
+    <Compile Include="Controllers\TestStepAdditionalReportFilesController.cs" />
     <Compile Include="Controllers\TestStepController.cs" />
     <Compile Include="Controllers\TestStepParameterController.cs" />
     <Compile Include="DependencyInjection.cs" />
