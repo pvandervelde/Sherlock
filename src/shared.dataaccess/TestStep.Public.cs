@@ -100,5 +100,53 @@ namespace Sherlock.Shared.DataAccess
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the collection containing the directories that should be added to the 
+        /// report upon completion of the current test step.
+        /// </summary>
+        public IEnumerable<TestStepReportDirectory> ReportDirectories
+        {
+            get
+            {
+                return TestStepReportDirectories;
+            }
+
+            set
+            {
+                TestStepReportDirectories.Clear();
+                if (value != null)
+                {
+                    foreach (var directory in value)
+                    {
+                        TestStepReportDirectories.Add(directory);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the collection containing the files that should be added to the 
+        /// report upon completion of the current test step.
+        /// </summary>
+        public IEnumerable<TestStepReportFile> ReportFiles
+        {
+            get
+            {
+                return TestStepReportFiles;
+            }
+
+            set
+            {
+                TestStepReportFiles.Clear();
+                if (value != null)
+                {
+                    foreach (var file in value)
+                    {
+                        TestStepReportFiles.Add(file);
+                    }
+                }
+            }
+        }
     }
 }
