@@ -54,6 +54,101 @@ namespace Sherlock.Service.Master
             return path;
         }
 
+        private static TestStep CopyStepAndStripNonEssentialInformation(TestStep step)
+        {
+            var parameters = new List<TestStepParameter>();
+            foreach (var parameter in step.Parameters)
+            {
+                parameters.Add(
+                    new TestStepParameter
+                    {
+                        Key = parameter.Key,
+                        Value = parameter.Value,
+                    });
+            }
+
+            var reportDirectories = new List<TestStepReportDirectory>();
+            foreach (var directory in step.ReportDirectories)
+            {
+                reportDirectories.Add(
+                    new TestStepReportDirectory
+                    {
+                        Path = directory.Path,
+                    });
+            }
+
+            var reportFiles = new List<TestStepReportFile>();
+            foreach (var file in step.ReportFiles)
+            {
+                reportFiles.Add(
+                    new TestStepReportFile
+                    {
+                        Path = file.Path,
+                    });
+            }
+
+            TestStep result = null;
+            var consoleStep = step as ConsoleExecuteTestStep;
+            if (consoleStep != null)
+            {
+                var newStep = new ConsoleExecuteTestStep
+                {
+                    Order = step.Order,
+                    FailureMode = step.FailureMode,
+                    ReportIncludesSystemLog = step.ReportIncludesSystemLog,
+                    ExecutableFilePath = consoleStep.ExecutableFilePath,
+                };
+
+                result = newStep;
+            }
+
+            var msiStep = step as MsiInstallTestStep;
+            if (msiStep != null)
+            {
+                var newStep = new MsiInstallTestStep
+                {
+                    Order = step.Order,
+                    FailureMode = step.FailureMode,
+                    ReportIncludesSystemLog = step.ReportIncludesSystemLog,
+                };
+
+                result = newStep;
+            }
+
+            var scriptStep = step as ScriptExecuteTestStep;
+            if (scriptStep != null)
+            {
+                var newStep = new ScriptExecuteTestStep
+                {
+                    Order = step.Order,
+                    FailureMode = step.FailureMode,
+                    ReportIncludesSystemLog = step.ReportIncludesSystemLog,
+                    ScriptLanguage = scriptStep.ScriptLanguage,
+                };
+
+                result = newStep;
+            }
+
+            var xcopyStep = step as XCopyTestStep;
+            if (xcopyStep != null)
+            {
+                var newStep = new XCopyTestStep
+                {
+                    Order = step.Order,
+                    FailureMode = step.FailureMode,
+                    ReportIncludesSystemLog = step.ReportIncludesSystemLog,
+                    Destination = xcopyStep.Destination,
+                };
+
+                result = newStep;
+            }
+
+            result.Parameters = parameters;
+            result.ReportDirectories = reportDirectories;
+            result.ReportFiles = reportFiles;
+            return result;
+        }
+
         /// <summary>
         /// The object used to lock on.
         /// </summary>
@@ -385,7 +480,7 @@ namespace Sherlock.Service.Master
                                 pair.Item2));
 
                         var suite = m_TestSuitePackageFactory();
-                        suite.LoadAndUnpack(testFile, Path.Combine(m_UnpackDirectory, test.Id.ToString(), pair.Item2.Name));
+                        suite.LoadAndUnpack(testFile, Path.Combine(m_UnpackDirectory, test.Id.ToString(CultureInfo.InvariantCulture), pair.Item2.Name));
                         var environmentFile = suite.Environment(pair.Item2.Name);
 
                         m_Diagnostics.Log(
@@ -551,76 +646,6 @@ namespace Sherlock.Service.Master
             {
                 m_TestContextFactory().MarkMachineAsInactive(id);
             }
-        }
-
-        private TestStep CopyStepAndStripNonEssentialInformation(TestStep step)
-        {
-            var parameters = new List<TestStepParameter>();
-            foreach (var parameter in step.Parameters)
-            {
-                parameters.Add(
-                    new TestStepParameter
-                    {
-                        Key = parameter.Key,
-                        Value = parameter.Value,
-                    });
-            }
-
-            TestStep result = null;
-
-            var consoleStep = step as ConsoleExecuteTestStep;
-            if (consoleStep != null)
-            {
-                var newStep = new ConsoleExecuteTestStep
-                    {
-                        Order = step.Order,
-                        FailureMode = step.FailureMode,
-                        ExecutableFilePath = consoleStep.ExecutableFilePath,
-                    };
-
-                result = newStep;
-            }
-
-            var msiStep = step as MsiInstallTestStep;
-            if (msiStep != null)
-            {
-                var newStep = new MsiInstallTestStep
-                    {
-                        Order = step.Order,
-                        FailureMode = step.FailureMode,
-                    };
-
-                result = newStep;
-            }
-
-            var scriptStep = step as ScriptExecuteTestStep;
-            if (scriptStep != null)
-            {
-                var newStep = new ScriptExecuteTestStep
-                    {
-                        Order = step.Order,
-                        FailureMode = step.FailureMode,
-                        ScriptLanguage = scriptStep.ScriptLanguage,
-                    };
-
-                result = newStep;
-            }
-
-            var xcopyStep = step as XCopyTestStep;
-            if (xcopyStep != null)
-            {
-                var newStep = new XCopyTestStep
-                    {
-                        Order = step.Order,
-                        FailureMode = step.FailureMode,
-                        Destination = xcopyStep.Destination,
-                    };
-
-                result = newStep;
-            }
-
-            result.Parameters = parameters;
-            return result;
         }
     }
 }
