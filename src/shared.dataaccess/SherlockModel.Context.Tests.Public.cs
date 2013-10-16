@@ -253,6 +253,16 @@ namespace Sherlock.Shared.DataAccess
                         .ToList();
                     result.TestStepParameters = selectedParameters;
 
+                    var selectedReportDirectories = GetTestStepReportDirectoriesByTestStepId(result.Id)
+                        .Select(id => TestStepReportDirectory(id.Value))
+                        .ToList();
+                    result.TestStepReportDirectories = selectedReportDirectories;
+
+                    var selectedReportFiles = GetTestStepReportFilesByTestStepId(result.Id)
+                        .Select(id => TestStepReportFile(id.Value))
+                        .ToList();
+                    result.TestStepReportFiles = selectedReportFiles;
+
                     result.IsPatched = true;
                 }
                 finally
@@ -344,24 +354,24 @@ namespace Sherlock.Shared.DataAccess
 
         private TestStepReportDirectory TestStepReportDirectory(int id)
         {
-            var parameter = StoredTestStepReportDirectories.Find(id);
-            if (parameter != null)
+            var directory = StoredTestStepReportDirectories.Find(id);
+            if (directory != null)
             {
-                Patch(parameter);
+                Patch(directory);
             }
 
-            return parameter;
+            return directory;
         }
 
         private TestStepReportFile TestStepReportFile(int id)
         {
-            var parameter = StoredTestStepReportFiles.Find(id);
-            if (parameter != null)
+            var file = StoredTestStepReportFiles.Find(id);
+            if (file != null)
             {
-                Patch(parameter);
+                Patch(file);
             }
 
-            return parameter;
+            return file;
         }
 
         /// <summary>
