@@ -36,7 +36,7 @@ namespace Sherlock.Shared.DataAccess
         /// <summary>
         /// Gets or sets the full path to the report directory.
         /// </summary>
-        public string Path { internal get; set; }
+        public string Path { get; set; }
     
         /// <summary>
         /// Gets or sets the test step associated with the current report directory.

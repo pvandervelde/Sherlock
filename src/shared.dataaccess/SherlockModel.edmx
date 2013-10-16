@@ -1996,7 +1996,7 @@
               <Summary>Gets or sets the ID of the test step associated with the current report directory.</Summary>
             </Documentation>
           </Property>
-          <Property Type="String" Name="Path" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
+          <Property Type="String" Name="Path" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" >
             <Documentation>
               <Summary>Gets or sets the full path to the report directory.</Summary>
             </Documentation>
