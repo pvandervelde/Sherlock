@@ -375,4 +375,16 @@
   <data name="Exceptions_Messages_ConfigurationSystemLogTransferFlagShouldBeBoolean" xml:space="preserve">
     <value>The value for the 'includesystemlog' attribute on a test step 'transfercomplete' element should have a boolean value.</value>
   </data>
+  <data name="Log_Trace_RegisteringTestStepAdditionalReportFiles" xml:space="preserve">
+    <value>Registering additional report files.</value>
+  </data>
+  <data name="Log_Trace_RegisteringTestStepAdditionalReportFiles_WithPath" xml:space="preserve">
+    <value>Registering additional report file at path: {0}</value>
+  </data>
+  <data name="Log_Trace_TestStepAdditionalReportFilesRegistrationCompleted" xml:space="preserve">
+    <value>Registration of additional report files completed.</value>
+  </data>
+  <data name="Output_Information_RegisteringTestStepAdditionalReportFiles" xml:space="preserve">
+    <value>Registering additional test step report files ...</value>
+  </data>
 </root>

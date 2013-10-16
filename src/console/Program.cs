@@ -121,7 +121,7 @@ namespace Sherlock.Console
                 () => functionReturnResult = RunApplication(args),
                 new ExceptionProcessor[]
                     {
-                        processor.Process,
+                        processor.Process
                     });
 
             return (result == GuardResult.Failure) ? UnhandledExceptionApplicationExitCode : functionReturnResult;
@@ -382,6 +382,7 @@ namespace Sherlock.Console
 
                     RegisterTestSteps(http, serverUrl, configurationInfo.Test.TestSteps, environmentMapping);
                     RegisterTestStepParameters(http, serverUrl, configurationInfo.Test.TestSteps);
+                    RegisterTestStepFilesToTransferBack(http, serverUrl, configurationInfo.Test.TestSteps);
                     UploadTestFiles(http, serverUrl, configurationInfo.Test.Id, zipFile);
                     MarkTestAsReady(http, serverUrl, configurationInfo.Test.Id);
 
@@ -811,12 +812,13 @@ namespace Sherlock.Console
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/api/TestStep/Register{1}?environment={2}&order={3}&failuremode={4}{5}",
+                "{0}/api/TestStep/Register{1}?environment={2}&order={3}&failuremode={4}&shouldincludesystemlog={5}{6}",
                 serverUrl.AbsoluteUri,
                 stepType,
                 environmentToIdMapping[step.Environment],
                 step.Order,
                 step.FailureMode,
+                step.IncludeSystemLogFileInReport,
                 parameters);
         }
 
@@ -870,6 +872,82 @@ namespace Sherlock.Console
                 LevelToLog.Trace,
                 ConsoleConstants.LogPrefix,
                 Resources.Log_Trace_TestStepParametersRegistrationCompleted);
+        }
+
+        private static void RegisterTestStepFilesToTransferBack(
+            HttpClient http, 
+            Uri serverUrl, 
+            IEnumerable<TestStepDescription> testSteps)
+        {
+            WriteToConsole(Resources.Output_Information_RegisteringTestStepAdditionalReportFiles);
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_RegisteringTestStepAdditionalReportFiles);
+
+            foreach (var step in testSteps)
+            {
+                foreach (var fileElement in step.FileElementsToIncludeInReport)
+                {
+                    s_Diagnostics.Log(
+                        LevelToLog.Trace,
+                        ConsoleConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Log_Trace_RegisteringTestStepAdditionalReportFiles_WithPath,
+                            fileElement.FullName));
+
+                    string registerUrl = null;
+
+                    var file = fileElement as FileInfo;
+                    if (file != null)
+                    {
+                        registerUrl = string.Format(
+                            CultureInfo.InvariantCulture,
+                            "{0}/api/TestStepAdditionalReportFiles/ForFile?teststep={1}&path={2}",
+                            serverUrl.AbsoluteUri,
+                            step.Id,
+                            Uri.EscapeDataString(file.FullName));
+                    }
+
+                    var directory = fileElement as DirectoryInfo;
+                    if (directory != null)
+                    {
+                        registerUrl = string.Format(
+                            CultureInfo.InvariantCulture,
+                            "{0}/api/TestStepAdditionalReportFiles/ForDirectory?teststep={1}&path={2}",
+                            serverUrl.AbsoluteUri,
+                            step.Id,
+                            Uri.EscapeDataString(directory.FullName));
+                    }
+
+                    if (string.IsNullOrWhiteSpace(registerUrl))
+                    {
+                        continue;
+                    }
+
+                    var response = MakePostRequest(http, new Uri(registerUrl), null);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        s_Diagnostics.Log(
+                            LevelToLog.Error,
+                            ConsoleConstants.LogPrefix,
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                Resources.Log_Error_TestStepParameterRegistrationFailed_WithStatusCodeAndReason,
+                                response.StatusCode,
+                                response.ReasonPhrase));
+                        WriteErrorToConsole(Resources.Output_Error_TestStepParameterRegistrationFailed);
+
+                        throw new InvalidServerResponseException();
+                    }
+                }
+            }
+
+            s_Diagnostics.Log(
+                LevelToLog.Trace,
+                ConsoleConstants.LogPrefix,
+                Resources.Log_Trace_TestStepAdditionalReportFilesRegistrationCompleted);
         }
 
         private static void UploadTestFiles(HttpClient http, Uri serverUrl, int testId, string file)
