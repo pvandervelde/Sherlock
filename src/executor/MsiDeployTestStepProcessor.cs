@@ -96,12 +96,18 @@ namespace Sherlock.Executor
         /// The function that takes the name of the test step and returns the full path to the directory containing the files for the 
         /// given test step.
         /// </param>
+        /// <param name="reportFileUploader">
+        /// The function that is used to upload the report files for the current test step.
+        /// </param>
         /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <param name="runner">The object that is used to execute console applications.</param>
         /// <param name="fileSystem">The object that provides access to the file system.</param>
         /// <param name="sectionBuilder">The section builder.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="testFileLocation"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="reportFileUploader"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
@@ -117,11 +123,12 @@ namespace Sherlock.Executor
         /// </exception>
         public MsiDeployTestStepProcessor(
             RetrieveFileDataForTestStep testFileLocation,
+            UploadReportFilesForTestStep reportFileUploader,
             SystemDiagnostics diagnostics,
             IRunConsoleApplications runner,
             IFileSystem fileSystem,
             ITestSectionBuilder sectionBuilder)
-            : base(testFileLocation, diagnostics)
+            : base(testFileLocation, reportFileUploader, diagnostics)
         {
             {
                 Lokad.Enforce.Argument(() => runner);
@@ -174,76 +181,86 @@ namespace Sherlock.Executor
             m_SectionBuilder.Initialize("MSI install");
             try
             {
-                var installerFiles = m_FileSystem.Directory.GetFiles(directory, "*.msi", SearchOption.TopDirectoryOnly);
-                if (!installerFiles.Any())
+                var logFiles = new List<string>();
+                try
                 {
-                    var noFilesFoundMessage = "No installer files found.";
-                    Diagnostics.Log(LevelToLog.Error, ScriptExecuteConstants.LogPrefix, noFilesFoundMessage);
-                    m_SectionBuilder.AddErrorMessage(noFilesFoundMessage);
-                    m_CurrentState = TestExecutionState.Failed;
-                }
-
-                foreach (var installerFile in installerFiles)
-                {
-                    // Log everything to the default log file.
-                    var logFile = Path.Combine(
-                       tempPath,
-                       Path.GetFileNameWithoutExtension(installerFile) + ".log");
-                    var arguments = new List<string> 
-                    { 
-                        QuietSwitch,
-                        string.Format(CultureInfo.InvariantCulture, LogSwitch, logFile),
-                        string.Format(CultureInfo.InvariantCulture, InstallSwitch, installerFile),
-                    };
-
-                    var environmentTestStepParameters = environmentParameters.Select(
-                        e => new TestStepParameter
-                            {
-                                Key = e.Key, 
-                                Value = e.Value
-                            });
-
-                    foreach (var parameterSet in testStep.Parameters.Concat(environmentTestStepParameters))
+                    var installerFiles = m_FileSystem.Directory.GetFiles(directory, "*.msi", SearchOption.TopDirectoryOnly);
+                    if (!installerFiles.Any())
                     {
-                        var parameterInfo = string.Format(
-                            CultureInfo.InvariantCulture,
-                            "Adding installer parameter {0} with value {1}",
-                            parameterSet.Key,
-                            parameterSet.Value);
-                        Diagnostics.Log(LevelToLog.Debug, MsiDeployConstants.LogPrefix, parameterInfo);
-                        m_SectionBuilder.AddInformationMessage(parameterInfo);
-
-                        arguments.Add(
-                           string.Format(
-                              CultureInfo.InvariantCulture,
-                              ParameterSwitch,
-                              parameterSet.Key,
-                              parameterSet.Value));
-                    }
-
-                    int returnCode = RunInstaller(arguments, installerFile);
-                    if (returnCode != 0)
-                    {
-                        var errorMessage = string.Format(
-                            CultureInfo.CurrentCulture,
-                            "Failed to install {0}.",
-                            installerFile);
-                        Diagnostics.Log(LevelToLog.Error, MsiDeployConstants.LogPrefix, errorMessage);
-                        m_SectionBuilder.AddErrorMessage(errorMessage);
-
+                        const string noFilesFoundMessage = "No installer files found.";
+                        Diagnostics.Log(LevelToLog.Error, ScriptExecuteConstants.LogPrefix, noFilesFoundMessage);
+                        m_SectionBuilder.AddErrorMessage(noFilesFoundMessage);
                         m_CurrentState = TestExecutionState.Failed;
                     }
-                    else
-                    {
-                        var informationMessage = string.Format(
-                            CultureInfo.CurrentCulture,
-                            "Installed: {0}.",
-                            installerFile);
-                        Diagnostics.Log(LevelToLog.Info, MsiDeployConstants.LogPrefix, informationMessage);
-                        m_SectionBuilder.AddInformationMessage(informationMessage);
 
-                        m_CurrentState = TestExecutionState.Passed;
+                    foreach (var installerFile in installerFiles)
+                    {
+                        // Log everything to the default log file.
+                        var logFile = Path.Combine(tempPath, Path.GetFileNameWithoutExtension(installerFile) + ".log");
+                        logFiles.Add(logFile);
+                        var arguments = new List<string> 
+                            { 
+                                QuietSwitch,
+                                string.Format(CultureInfo.InvariantCulture, LogSwitch, logFile),
+                                string.Format(CultureInfo.InvariantCulture, InstallSwitch, installerFile),
+                            };
+
+                        var environmentTestStepParameters = environmentParameters.Select(
+                            e => new TestStepParameter
+                                {
+                                    Key = e.Key, 
+                                    Value = e.Value
+                                });
+
+                        foreach (var parameterSet in testStep.Parameters.Concat(environmentTestStepParameters))
+                        {
+                            var parameterInfo = string.Format(
+                                CultureInfo.InvariantCulture,
+                                "Adding installer parameter {0} with value {1}",
+                                parameterSet.Key,
+                                parameterSet.Value);
+                            Diagnostics.Log(LevelToLog.Debug, MsiDeployConstants.LogPrefix, parameterInfo);
+                            m_SectionBuilder.AddInformationMessage(parameterInfo);
+
+                            arguments.Add(
+                                string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    ParameterSwitch,
+                                    parameterSet.Key,
+                                    parameterSet.Value));
+                        }
+
+                        int returnCode = RunInstaller(arguments, installerFile);
+                        if (returnCode != 0)
+                        {
+                            var errorMessage = string.Format(
+                                CultureInfo.CurrentCulture,
+                                "Failed to install {0}.",
+                                installerFile);
+                            Diagnostics.Log(LevelToLog.Error, MsiDeployConstants.LogPrefix, errorMessage);
+                            m_SectionBuilder.AddErrorMessage(errorMessage);
+
+                            m_CurrentState = TestExecutionState.Failed;
+                        }
+                        else
+                        {
+                            var informationMessage = string.Format(
+                                CultureInfo.CurrentCulture,
+                                "Installed: {0}.",
+                                installerFile);
+                            Diagnostics.Log(LevelToLog.Info, MsiDeployConstants.LogPrefix, informationMessage);
+                            m_SectionBuilder.AddInformationMessage(informationMessage);
+
+                            m_CurrentState = TestExecutionState.Passed;
+                        }
                     }
+                }
+                finally
+                {
+                    TransferReportFiles(
+                        m_SectionBuilder, 
+                        testStep, 
+                        testStep.ReportIncludesSystemLog ? logFiles : null);
                 }
             }
             finally

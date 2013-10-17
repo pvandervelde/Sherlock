@@ -47,11 +47,17 @@ namespace Sherlock.Executor
         /// The function that takes the name of the test step and returns the full path to the directory containing the files for the 
         /// given test step.
         /// </param>
+        /// <param name="reportFileUploader">
+        /// The function that is used to upload the report files for the current test step.
+        /// </param>
         /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <param name="fileSystem">The object that provides access to the file system.</param>
         /// <param name="sectionBuilder">The section builder.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="testFileLocation"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="reportFileUploader"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
@@ -64,10 +70,11 @@ namespace Sherlock.Executor
         /// </exception>
         public XCopyDeployTestStepProcessor(
             RetrieveFileDataForTestStep testFileLocation,
+            UploadReportFilesForTestStep reportFileUploader,
             SystemDiagnostics diagnostics,
             IFileSystem fileSystem,
             ITestSectionBuilder sectionBuilder) 
-            : base(testFileLocation, diagnostics)
+            : base(testFileLocation, reportFileUploader, diagnostics)
         {
             {
                 Lokad.Enforce.Argument(() => fileSystem);
@@ -137,50 +144,57 @@ namespace Sherlock.Executor
             m_SectionBuilder.Initialize("X-copy installer.");
             try
             {
-                var installerFiles = m_FileSystem.Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories);
-                foreach (var installerFile in installerFiles)
+                try
                 {
-                    var relativePath = installerFile.Substring(directory.Length).TrimStart(Path.DirectorySeparatorChar);
-                    var destination = Path.Combine(testStep.Destination, relativePath);
-                    try
+                    var installerFiles = m_FileSystem.Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories);
+                    foreach (var installerFile in installerFiles)
                     {
-                        var copyInformation = string.Format(
-                            CultureInfo.InvariantCulture,
-                            "Copying from: {0}; To: {1}",
-                            installerFile,
-                            destination);
-                        Diagnostics.Log(
-                            LevelToLog.Debug,
-                            XCopyDeployConstants.LogPrefix,
-                            copyInformation);
-                        m_SectionBuilder.AddInformationMessage(copyInformation);
+                        var relativePath = installerFile.Substring(directory.Length).TrimStart(Path.DirectorySeparatorChar);
+                        var destination = Path.Combine(testStep.Destination, relativePath);
+                        try
+                        {
+                            var copyInformation = string.Format(
+                                CultureInfo.InvariantCulture,
+                                "Copying from: {0}; To: {1}",
+                                installerFile,
+                                destination);
+                            Diagnostics.Log(
+                                LevelToLog.Debug,
+                                XCopyDeployConstants.LogPrefix,
+                                copyInformation);
+                            m_SectionBuilder.AddInformationMessage(copyInformation);
 
-                        m_FileSystem.File.Copy(installerFile, destination);
+                            m_FileSystem.File.Copy(installerFile, destination);
+                        }
+                        catch (IOException e)
+                        {
+                            var errorMessage = string.Format(
+                                CultureInfo.CurrentCulture,
+                                "Failed to install {0}. Error: {1}",
+                                installerFile,
+                                e);
+
+                            Diagnostics.Log(LevelToLog.Error, XCopyDeployConstants.LogPrefix, errorMessage);
+                            m_SectionBuilder.AddErrorMessage(errorMessage);
+
+                            m_CurrentState = TestExecutionState.Failed;
+                            break;
+                        }
+
+                        var informationMessage = string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Installed: {0}.",
+                            installerFile);
+                        Diagnostics.Log(LevelToLog.Info, XCopyDeployConstants.LogPrefix, informationMessage);
+                        m_SectionBuilder.AddInformationMessage(informationMessage);
                     }
-                    catch (IOException e)
-                    {
-                        var errorMessage = string.Format(
-                           CultureInfo.CurrentCulture,
-                           "Failed to install {0}. Error: {1}",
-                           installerFile,
-                           e);
 
-                        Diagnostics.Log(LevelToLog.Error, XCopyDeployConstants.LogPrefix, errorMessage);
-                        m_SectionBuilder.AddErrorMessage(errorMessage);
-
-                        m_CurrentState = TestExecutionState.Failed;
-                        break;
-                    }
-
-                    var informationMessage = string.Format(
-                             CultureInfo.CurrentCulture,
-                             "Installed: {0}.",
-                             installerFile);
-                    Diagnostics.Log(LevelToLog.Info, XCopyDeployConstants.LogPrefix, informationMessage);
-                    m_SectionBuilder.AddInformationMessage(informationMessage);
+                    m_CurrentState = TestExecutionState.Passed;
                 }
-
-                m_CurrentState = TestExecutionState.Passed;
+                finally
+                {
+                    TransferReportFiles(m_SectionBuilder, testStep);
+                }
             }
             finally
             {

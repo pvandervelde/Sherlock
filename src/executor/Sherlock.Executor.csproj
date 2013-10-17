@@ -178,6 +178,7 @@
     <Compile Include="ScriptExecuteConstants.cs" />
     <Compile Include="ScriptExecuteTestStepProcessor.cs" />
     <Compile Include="TestStepProcessor.cs" />
+    <Compile Include="UploadReportFilesForTestStep.cs" />
     <Compile Include="XCopyDeployConstants.cs" />
     <Compile Include="XCopyDeployTestStepProcessor.cs" />
   </ItemGroup>

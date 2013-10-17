@@ -27,6 +27,7 @@ namespace Sherlock.Executor
         public void CreateWithEmptyInstallDirectory()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var fileSystem = new System.IO.Abstractions.TestingHelpers.MockFileSystem(
                 new Dictionary<string, System.IO.Abstractions.TestingHelpers.MockFileData>
@@ -38,6 +39,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var installer = new XCopyDeployTestStepProcessor(
                testFileLocation,
+               uploader,
                diagnostics,
                fileSystem,
                sectionBuilder.Object);
@@ -57,6 +59,7 @@ namespace Sherlock.Executor
         public void InstallWithNonExistingDestination()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var fileSystem = new System.IO.Abstractions.TestingHelpers.MockFileSystem(
                 new Dictionary<string, System.IO.Abstractions.TestingHelpers.MockFileData>
@@ -68,6 +71,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var installer = new XCopyDeployTestStepProcessor(
                testFileLocation,
+               uploader,
                diagnostics,
                fileSystem,
                sectionBuilder.Object);
@@ -87,6 +91,7 @@ namespace Sherlock.Executor
         public void Install()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var files = new Dictionary<string, string>
                 {
@@ -124,6 +129,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var installer = new XCopyDeployTestStepProcessor(
                testFileLocation,
+               uploader,
                diagnostics,
                fileSystem.Object,
                sectionBuilder.Object);

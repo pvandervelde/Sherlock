@@ -27,11 +27,6 @@ namespace Sherlock.Executor.Nuclei
     internal sealed class UtilitiesModule : Autofac.Module
     {
         /// <summary>
-        /// The default name for the error log.
-        /// </summary>
-        private const string DefaultInfoFileName = "executor.info.log";
-
-        /// <summary>
         /// The default name for the profiler log.
         /// </summary>
         private const string DefaultProfilerFileName = "executor.profile";
@@ -73,7 +68,7 @@ namespace Sherlock.Executor.Nuclei
         private static void RegisterLoggers(ContainerBuilder builder)
         {
             builder.Register(c => LoggerBuilder.ForFile(
-                    Path.Combine(c.Resolve<FileConstants>().LogPath(), DefaultInfoFileName),
+                    ConsoleExecuteConstants.LogPath(),
                     new DebugLogTemplate(
                         c.Resolve<IConfiguration>(),
                         () => DateTimeOffset.Now)))

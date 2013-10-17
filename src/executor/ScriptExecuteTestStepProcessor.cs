@@ -49,11 +49,17 @@ namespace Sherlock.Executor
         /// The function that takes the name of the test step and returns the full path to the directory containing the files for the 
         /// given test step.
         /// </param>
+        /// <param name="reportFileUploader">
+        /// The function that is used to upload the report files for the current test step.
+        /// </param>
         /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <param name="fileSystem">The object that provides access to the file system.</param>
         /// <param name="sectionBuilder">The section builder.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="testFileLocation"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="reportFileUploader"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
@@ -66,10 +72,11 @@ namespace Sherlock.Executor
         /// </exception>
         public ScriptExecuteTestStepProcessor(
             RetrieveFileDataForTestStep testFileLocation,
+            UploadReportFilesForTestStep reportFileUploader,
             SystemDiagnostics diagnostics,
             IFileSystem fileSystem,
             ITestSectionBuilder sectionBuilder)
-            : base(testFileLocation, diagnostics)
+            : base(testFileLocation, reportFileUploader, diagnostics)
         {
             {
                 Lokad.Enforce.Argument(() => fileSystem);
@@ -119,33 +126,40 @@ namespace Sherlock.Executor
             m_SectionBuilder.Initialize("Script execution");
             try
             {
-                var logText = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Executing script of type: {0}",
-                    testStep.ScriptLanguage);
-                Diagnostics.Log(
-                    LevelToLog.Debug,
-                    ScriptExecuteConstants.LogPrefix,
-                    logText);
-                m_SectionBuilder.AddInformationMessage(logText);
-
-                switch (testStep.ScriptLanguage)
+                try
                 {
-                    case ScriptLanguage.Powershell:
-                        m_CurrentState = ProcessPowershellScript(testStep, environmentParameters, directory);
-                        break;
-                    default:
-                        Diagnostics.Log(
-                            LevelToLog.Error,
-                            ScriptExecuteConstants.LogPrefix,
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                "Unknown script language: {0}",
-                                testStep.ScriptLanguage));
+                    var logText = string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Executing script of type: {0}",
+                        testStep.ScriptLanguage);
+                    Diagnostics.Log(
+                        LevelToLog.Debug,
+                        ScriptExecuteConstants.LogPrefix,
+                        logText);
+                    m_SectionBuilder.AddInformationMessage(logText);
 
-                        m_SectionBuilder.AddErrorMessage("Unknown test script language.");
-                        m_CurrentState = TestExecutionState.Failed;
-                        break;
+                    switch (testStep.ScriptLanguage)
+                    {
+                        case ScriptLanguage.Powershell:
+                            m_CurrentState = ProcessPowershellScript(testStep, environmentParameters, directory);
+                            break;
+                        default:
+                            Diagnostics.Log(
+                                LevelToLog.Error,
+                                ScriptExecuteConstants.LogPrefix,
+                                string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    "Unknown script language: {0}",
+                                    testStep.ScriptLanguage));
+
+                            m_SectionBuilder.AddErrorMessage("Unknown test script language.");
+                            m_CurrentState = TestExecutionState.Failed;
+                            break;
+                    }
+                }
+                finally
+                {
+                    TransferReportFiles(m_SectionBuilder, testStep);
                 }
             }
             catch (Exception e)

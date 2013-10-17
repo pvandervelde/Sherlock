@@ -26,6 +26,7 @@ namespace Sherlock.Executor
         public void InstallWithExceptionInConsoleRunner()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var runner = new Mock<IRunConsoleApplications>();
             {
@@ -46,6 +47,7 @@ namespace Sherlock.Executor
 
             var installer = new MsiDeployTestStepProcessor(
                 testFileLocation,
+                uploader,
                 diagnostics,
                 runner.Object,
                 fileSystem,
@@ -65,6 +67,7 @@ namespace Sherlock.Executor
         public void InstallWithNonZeroErrorCode()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var runner = new Mock<IRunConsoleApplications>();
             {
@@ -85,6 +88,7 @@ namespace Sherlock.Executor
 
             var installer = new MsiDeployTestStepProcessor(
                 testFileLocation,
+                uploader,
                 diagnostics,
                 runner.Object,
                 fileSystem,
@@ -104,6 +108,7 @@ namespace Sherlock.Executor
         public void Install()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var runner = new Mock<IRunConsoleApplications>();
             {
@@ -124,6 +129,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var installer = new MsiDeployTestStepProcessor(
                 testFileLocation,
+                uploader,
                 diagnostics,
                 runner.Object,
                 fileSystem,

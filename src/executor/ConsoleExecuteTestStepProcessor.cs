@@ -51,12 +51,18 @@ namespace Sherlock.Executor
         /// The function that takes the name of the test step and returns the full path to the directory containing the files for the 
         /// given test step.
         /// </param>
+        /// <param name="reportFileUploader">
+        /// The function that is used to upload the report files for the current test step.
+        /// </param>
         /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <param name="runner">The object that is used to execute console applications.</param>
         /// <param name="fileSystem">The object that provides access to the file system.</param>
         /// <param name="sectionBuilder">The section builder.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="testFileLocation"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="reportFileUploader"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
@@ -71,12 +77,13 @@ namespace Sherlock.Executor
         ///     Thrown if <paramref name="sectionBuilder"/> is <see langword="null" />.
         /// </exception>
         public ConsoleExecuteTestStepProcessor(
-            RetrieveFileDataForTestStep testFileLocation, 
+            RetrieveFileDataForTestStep testFileLocation,
+            UploadReportFilesForTestStep reportFileUploader,
             SystemDiagnostics diagnostics,
             IRunConsoleApplications runner,
             IFileSystem fileSystem,
             ITestSectionBuilder sectionBuilder) 
-            : base(testFileLocation, diagnostics)
+            : base(testFileLocation, reportFileUploader, diagnostics)
         {
             {
                 Lokad.Enforce.Argument(() => runner);
@@ -127,34 +134,41 @@ namespace Sherlock.Executor
             m_SectionBuilder.Initialize("Application execution");
             try
             {
-                var parameters = testStep.Parameters
-                    .OrderBy(p => int.Parse(p.Key, CultureInfo.InvariantCulture))
-                    .Select(p => p.Value)
-                    .ToList();
-                int returnCode = RunApplication(testStep.ExecutableFilePath, parameters);
-                if (returnCode != 0)
+                try
                 {
-                    var errorMessage = string.Format(
-                        CultureInfo.CurrentCulture,
-                        "Failed to execute {0} {1}.",
-                        m_FileSystem.Path.GetFileName(testStep.ExecutableFilePath),
-                        string.Join(" ", parameters));
-                    Diagnostics.Log(LevelToLog.Error, ConsoleExecuteConstants.LogPrefix, errorMessage);
-                    m_SectionBuilder.AddErrorMessage(errorMessage);
+                    var parameters = testStep.Parameters
+                        .OrderBy(p => int.Parse(p.Key, CultureInfo.InvariantCulture))
+                        .Select(p => p.Value)
+                        .ToList();
+                    int returnCode = RunApplication(testStep.ExecutableFilePath, parameters);
+                    if (returnCode != 0)
+                    {
+                        var errorMessage = string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Failed to execute {0} {1}.",
+                            m_FileSystem.Path.GetFileName(testStep.ExecutableFilePath),
+                            string.Join(" ", parameters));
+                        Diagnostics.Log(LevelToLog.Error, ConsoleExecuteConstants.LogPrefix, errorMessage);
+                        m_SectionBuilder.AddErrorMessage(errorMessage);
 
-                    m_CurrentState = TestExecutionState.Failed;
+                        m_CurrentState = TestExecutionState.Failed;
+                    }
+                    else
+                    {
+                        var informationMessage = string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Executed: {0} {1}.",
+                            m_FileSystem.Path.GetFileName(testStep.ExecutableFilePath),
+                            string.Join(" ", parameters));
+                        Diagnostics.Log(LevelToLog.Info, ConsoleExecuteConstants.LogPrefix, informationMessage);
+                        m_SectionBuilder.AddInformationMessage(informationMessage);
+
+                        m_CurrentState = TestExecutionState.Passed;
+                    }
                 }
-                else
+                finally
                 {
-                    var informationMessage = string.Format(
-                        CultureInfo.CurrentCulture,
-                        "Executed: {0} {1}.",
-                        m_FileSystem.Path.GetFileName(testStep.ExecutableFilePath),
-                        string.Join(" ", parameters));
-                    Diagnostics.Log(LevelToLog.Info, ConsoleExecuteConstants.LogPrefix, informationMessage);
-                    m_SectionBuilder.AddInformationMessage(informationMessage);
-
-                    m_CurrentState = TestExecutionState.Passed;
+                    TransferReportFiles(m_SectionBuilder, testStep);
                 }
             }
             finally

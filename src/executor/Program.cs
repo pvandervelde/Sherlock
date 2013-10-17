@@ -111,10 +111,10 @@ namespace Sherlock.Executor
                 var storageDirectory = Path.Combine(
                     Path.GetTempPath(),
                     Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture));
-                container = DependencyInjection.CreateContainer(storageDirectory);
-
                 var hostId = EndpointIdExtensions.Deserialize(hostIdText);
                 var channelType = (ChannelType)Enum.Parse(typeof(ChannelType), channelTypeText);
+                
+                container = DependencyInjection.CreateContainer(storageDirectory, hostId);
 
                 var diagnostics = container.Resolve<SystemDiagnostics>();
                 diagnostics.Log(
@@ -266,7 +266,7 @@ namespace Sherlock.Executor
         {
             var diagnostics = container.Resolve<SystemDiagnostics>();
             var commandHub = container.Resolve<ISendCommandsToRemoteEndpoints>();
-            var layer = container.Resolve<DownloadDataFromRemoteEndpoints>();
+            var downloader = container.Resolve<DownloadDataFromRemoteEndpoints>();
             var fileSystem = container.Resolve<IFileSystem>();
             var packer = container.Resolve<ITestEnvironmentPackage>();
 
@@ -292,7 +292,7 @@ namespace Sherlock.Executor
                 {
                     var file = Path.Combine(storageDirectory, fileSystem.Path.GetRandomFileName());
 
-                    var streamTask = layer(hostId, t.Result, file);
+                    var streamTask = downloader(hostId, t.Result, file);
                     streamTask.Wait();
 
                     diagnostics.Log(

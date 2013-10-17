@@ -27,6 +27,7 @@ namespace Sherlock.Executor
         public void ExecuteWithExceptionInConsoleRunner()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var runner = new Mock<IRunConsoleApplications>();
             {
@@ -40,6 +41,7 @@ namespace Sherlock.Executor
 
             var executor = new ConsoleExecuteTestStepProcessor(
                 testFileLocation,
+                uploader,
                 diagnostics,
                 runner.Object,
                 fileSystem,
@@ -60,6 +62,7 @@ namespace Sherlock.Executor
         public void ExecuteWithNonZeroErrorCode()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var runner = new Mock<IRunConsoleApplications>();
             {
@@ -73,6 +76,7 @@ namespace Sherlock.Executor
 
             var executor = new ConsoleExecuteTestStepProcessor(
                 testFileLocation,
+                uploader,
                 diagnostics,
                 runner.Object,
                 fileSystem,
@@ -93,6 +97,7 @@ namespace Sherlock.Executor
         public void Execute()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var runner = new Mock<IRunConsoleApplications>();
             {
@@ -106,6 +111,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var executor = new ConsoleExecuteTestStepProcessor(
                 testFileLocation,
+                uploader,
                 diagnostics,
                 runner.Object,
                 fileSystem,

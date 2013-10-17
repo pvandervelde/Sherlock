@@ -25,6 +25,7 @@ namespace Sherlock.Executor
         public void InstallWithFailingPowershellFile()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var fileSystem = new MockFileSystem(
                 new Dictionary<string, MockFileData>
@@ -36,6 +37,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var installer = new ScriptExecuteTestStepProcessor(
                testFileLocation,
+               uploader,
                diagnostics,
                fileSystem,
                sectionBuilder.Object);
@@ -56,6 +58,7 @@ namespace Sherlock.Executor
         public void InstallWithPowershellFile()
         {
             RetrieveFileDataForTestStep testFileLocation = index => @"c:\a\b";
+            UploadReportFilesForTestStep uploader = (index, upload) => { };
 
             var fileSystem = new MockFileSystem(
                 new Dictionary<string, MockFileData>
@@ -67,6 +70,7 @@ namespace Sherlock.Executor
             var diagnostics = new SystemDiagnostics((p, s) => { }, null);
             var installer = new ScriptExecuteTestStepProcessor(
                testFileLocation,
+               uploader,
                diagnostics,
                fileSystem,
                sectionBuilder.Object);

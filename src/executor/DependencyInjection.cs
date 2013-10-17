@@ -20,6 +20,46 @@ namespace Sherlock.Executor
 {
     internal static class DependencyInjection
     {
+        private static UploadReportFilesForTestStep BuildReportFileUploader(IComponentContext context, string storageDirectory, EndpointId hostId)
+        {
+            UploadReportFilesForTestStep uploader =
+                (stepIndex, filesToUpload) =>
+                {
+                    var path = Path.Combine(
+                        storageDirectory,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            "TestStepReport-{0}.zip",
+                            stepIndex));
+                    var package = context.Resolve<ITestStepPackage>();
+                    foreach (var pair in filesToUpload)
+                    {
+                        var filePath = pair.Key.FullName;
+                        var baseDirectory = pair.Value.FullName;
+
+                        var relativePath = filePath.Substring(baseDirectory.Length).TrimStart(Path.DirectorySeparatorChar);
+                        package.Add(filePath, relativePath);
+                    }
+
+                    package.PackTo(path);
+
+                    var uploads = context.Resolve<IStoreUploads>();
+                    var token = uploads.Register(path);
+
+                    var hub = context.Resolve<ISendCommandsToRemoteEndpoints>();
+                    if (!hub.HasCommandFor(hostId, typeof(ITransferTestReportDataCommand)))
+                    {
+                        throw new MissingCommandSetException();
+                    }
+
+                    var command = hub.CommandsFor<ITransferTestReportDataCommand>(hostId);
+                    var task = command.PrepareReportFilesForTransfer(stepIndex, token);
+                    task.Wait();
+                };
+
+            return uploader;
+        }
+
         private static void RegisterFileSystem(ContainerBuilder builder)
         {
             builder.Register(c => new FileSystem())
@@ -84,6 +124,7 @@ namespace Sherlock.Executor
                         Action<string, TestSection> action = notifications.RaiseOnExecutionProgress;
                         return new ConsoleExecuteTestStepProcessor(
                             c.Resolve<RetrieveFileDataForTestStep>(),
+                            c.Resolve<UploadReportFilesForTestStep>(),
                             c.Resolve<SystemDiagnostics>(),
                             c.Resolve<IRunConsoleApplications>(),
                             c.Resolve<IFileSystem>(),
@@ -104,6 +145,7 @@ namespace Sherlock.Executor
                         Action<string, TestSection> action = notifications.RaiseOnExecutionProgress;
                         return new MsiDeployTestStepProcessor(
                             c.Resolve<RetrieveFileDataForTestStep>(),
+                            c.Resolve<UploadReportFilesForTestStep>(),
                             c.Resolve<SystemDiagnostics>(),
                             c.Resolve<IRunConsoleApplications>(),
                             c.Resolve<IFileSystem>(),
@@ -124,6 +166,7 @@ namespace Sherlock.Executor
                     Action<string, TestSection> action = notifications.RaiseOnExecutionProgress;
                     return new ScriptExecuteTestStepProcessor(
                         c.Resolve<RetrieveFileDataForTestStep>(),
+                        c.Resolve<UploadReportFilesForTestStep>(),
                         c.Resolve<SystemDiagnostics>(),
                         c.Resolve<IFileSystem>(),
                         c.Resolve<ITestSectionBuilder>(
@@ -143,6 +186,7 @@ namespace Sherlock.Executor
                     Action<string, TestSection> action = notifications.RaiseOnExecutionProgress;
                     return new XCopyDeployTestStepProcessor(
                         c.Resolve<RetrieveFileDataForTestStep>(),
+                        c.Resolve<UploadReportFilesForTestStep>(),
                         c.Resolve<SystemDiagnostics>(),
                         c.Resolve<IFileSystem>(),
                         c.Resolve<ITestSectionBuilder>(
@@ -160,8 +204,9 @@ namespace Sherlock.Executor
         /// Creates the DI container for the application.
         /// </summary>
         /// <param name="storageDirectory">The directory that will contain the files for the current set of tests.</param>
+        /// <param name="hostId">The endpoint ID of the host application.</param>
         /// <returns>The DI container.</returns>
-        public static IContainer CreateContainer(string storageDirectory)
+        public static IContainer CreateContainer(string storageDirectory, EndpointId hostId)
         {
             var builder = new ContainerBuilder();
             {
@@ -177,6 +222,14 @@ namespace Sherlock.Executor
                                 ChannelType.NamedPipe,
                             }, 
                         false));
+
+                builder.Register(
+                        c =>
+                        {
+                            var ctx = c.Resolve<IComponentContext>();
+                            return BuildReportFileUploader(ctx, storageDirectory, hostId);
+                        })
+                    .SingleInstance();
 
                 RegisterFileSystem(builder);
                 RegisterCore(builder, storageDirectory);
