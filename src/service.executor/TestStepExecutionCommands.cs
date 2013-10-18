@@ -194,23 +194,26 @@ namespace Sherlock.Service.Executor
         /// <summary>
         /// Starts the execution of the given test steps.
         /// </summary>
+        /// <param name="testId">The ID of the test that is being executed.</param>
         /// <param name="testSteps">The collection of test steps that should be executed.</param>
         /// <param name="environmentParameters">The collection that contains the parameters related to the test environment.</param>
         /// <param name="callingEndpoint">The ID of the endpoint that called the method.</param>
         /// <param name="token">The upload token that can be used to upload the file.</param>
         /// <returns>A task which completes when the execution has started successfully.</returns>
         public Task Execute(
+            int testId,
             List<TestStep> testSteps,
             List<InputParameter> environmentParameters,
             EndpointId callingEndpoint,
             UploadToken token)
         {
-            return Task.Factory.StartNew(() => StartNewTestExecution(testSteps, environmentParameters, callingEndpoint, token));
+            return Task.Factory.StartNew(() => StartNewTestExecution(testId, testSteps, environmentParameters, callingEndpoint, token));
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Catching to send back a failure message and then exit the test.")]
         private void StartNewTestExecution(
+            int testId,
             List<TestStep> testSteps,
             List<InputParameter> environmentParameters,
             EndpointId callingEndpoint, 
@@ -227,6 +230,7 @@ namespace Sherlock.Service.Executor
                 return;
             }
 
+            m_TestInformation.TestId = testId;
             m_TestInformation.TestSteps = testSteps;
             m_TestInformation.TestPackage = testFile;
             m_TestInformation.EnvironmentParameters = environmentParameters;

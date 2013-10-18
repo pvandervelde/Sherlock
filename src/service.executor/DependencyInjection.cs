@@ -119,6 +119,7 @@ namespace Sherlock.Service.Executor
                     c.Resolve<DownloadDataFromRemoteEndpoints>(),
                     c.Resolve<ISendCommandsToRemoteEndpoints>(),
                     c.Resolve<IStoreUploads>(),
+                    c.Resolve<ActiveTestInformation>(),
                     c.Resolve<HostInformationStorage>(),
                     storageDirectory,
                     c.Resolve<SystemDiagnostics>()))

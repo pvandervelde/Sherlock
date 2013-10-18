@@ -20,6 +20,7 @@ namespace Sherlock.Shared.Core
         /// <summary>
         /// Starts the execution of the given test steps.
         /// </summary>
+        /// <param name="testId">The ID of the test that is being executed.</param>
         /// <param name="testSteps">The collection of test steps that should be executed.</param>
         /// <param name="environmentParameters">The collection that contains the parameters related to the test environment.</param>
         /// <param name="callingEndpoint">The ID of the endpoint that called the method.</param>
@@ -28,6 +29,7 @@ namespace Sherlock.Shared.Core
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists",
             Justification = "Really want this to be a 'list' because that stops lazy evaluation.")]
         Task Execute(
+            int testId,
             List<TestStep> testSteps,
             List<InputParameter> environmentParameters, 
             EndpointId callingEndpoint, 

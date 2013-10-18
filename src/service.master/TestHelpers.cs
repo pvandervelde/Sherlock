@@ -33,5 +33,27 @@ namespace Sherlock.Service.Master
 
             return testFile;
         }
+
+        /// <summary>
+        /// Returns the full path to the directory in which all the test report files are placed.
+        /// </summary>
+        /// <param name="test">The ID of the test.</param>
+        /// <param name="configuration">The object that stores the configuration for the current application.</param>
+        /// <param name="fileSystem">The object that provides access to the file system.</param>
+        /// <returns>The full path to the package file that contains all the input file data for the given test.</returns>
+        public static string StoragePathForReportFiles(int test, IConfiguration configuration, IFileSystem fileSystem)
+        {
+            var reportFileDirectory = 
+                fileSystem.Path.Combine(
+                    fileSystem.Path.Combine(
+                        configuration.Value<string>(MasterServiceConfigurationKeys.TestDataDirectory),
+                        "reportfiles"),
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0}",
+                        test));
+
+            return reportFileDirectory;
+        }
     }
 }

@@ -42,6 +42,11 @@ namespace Sherlock.Service.Executor
         private readonly IStoreUploads m_Uploads;
 
         /// <summary>
+        /// The object that stores information about the currently active test.
+        /// </summary>
+        private readonly ActiveTestInformation m_TestInformation;
+
+        /// <summary>
         /// The object that stores information about the host.
         /// </summary>
         private readonly HostInformationStorage m_HostInformation;
@@ -63,6 +68,7 @@ namespace Sherlock.Service.Executor
         /// <param name="dataDownload">The function that handles the download of data from a remote endpoint.</param>
         /// <param name="remoteCommands">The object that sends commands to remote endpoints.</param>
         /// <param name="uploads">The object that stores links to all the files that should be uploaded.</param>
+        /// <param name="testInformation">The object that stores information about the currently active test.</param>
         /// <param name="hostInformation">The object that stores information about the host.</param>
         /// <param name="storageDirectory">The directory in which all the report files are stored.</param>
         /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
@@ -79,6 +85,9 @@ namespace Sherlock.Service.Executor
         ///     Thrown if <paramref name="uploads"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="testInformation"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="hostInformation"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
@@ -92,6 +101,7 @@ namespace Sherlock.Service.Executor
             DownloadDataFromRemoteEndpoints dataDownload, 
             ISendCommandsToRemoteEndpoints remoteCommands, 
             IStoreUploads uploads, 
+            ActiveTestInformation testInformation,
             HostInformationStorage hostInformation, 
             string storageDirectory, 
             SystemDiagnostics diagnostics)
@@ -101,6 +111,7 @@ namespace Sherlock.Service.Executor
                 Lokad.Enforce.Argument(() => dataDownload);
                 Lokad.Enforce.Argument(() => remoteCommands);
                 Lokad.Enforce.Argument(() => uploads);
+                Lokad.Enforce.Argument(() => testInformation);
                 Lokad.Enforce.Argument(() => hostInformation);
                 Lokad.Enforce.Argument(() => storageDirectory);
                 Lokad.Enforce.Argument(() => diagnostics);
@@ -110,6 +121,7 @@ namespace Sherlock.Service.Executor
             m_DataDownload = dataDownload;
             m_RemoteCommands = remoteCommands;
             m_Uploads = uploads;
+            m_TestInformation = testInformation;
             m_HostInformation = hostInformation;
             m_StorageDirectory = storageDirectory;
             m_Diagnostics = diagnostics;
@@ -144,14 +156,14 @@ namespace Sherlock.Service.Executor
                 {
                     // Upload to the host here
                     var hostToken = m_Uploads.Register(file.Result.FullName);
-                    if (!m_RemoteCommands.HasCommandFor(m_HostInformation.Id, typeof(ITransferTestReportDataCommands)))
+                    if (!m_RemoteCommands.HasCommandFor(m_HostInformation.Id, typeof(IStoreTestReportDataCommands)))
                     {
                         throw new MissingCommandSetException();
                     }
 
                     var id = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
-                    var command = m_RemoteCommands.CommandsFor<ITransferTestReportDataCommands>(m_HostInformation.Id);
-                    var task = command.PrepareReportFilesForTransfer(testStepIndex, id, hostToken);
+                    var command = m_RemoteCommands.CommandsFor<IStoreTestReportDataCommands>(m_HostInformation.Id);
+                    var task = command.PrepareReportFilesForTransfer(m_TestInformation.TestId, testStepIndex, id, hostToken);
                     task.Wait();
                 });
 

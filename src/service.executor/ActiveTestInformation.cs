@@ -16,6 +16,15 @@ namespace Sherlock.Service.Executor
     internal sealed class ActiveTestInformation
     {
         /// <summary>
+        /// Gets or sets the ID of the test that is currently being executed.
+        /// </summary>
+        public int TestId
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the collection of test steps that should be executed.
         /// </summary>
         public List<TestStep> TestSteps

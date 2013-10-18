@@ -185,6 +185,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="StoreTestReportDataCommands.cs" />
     <Compile Include="TestCompletedNotification.cs" />
     <Compile Include="TestController.cs" />
     <Compile Include="TestCycle.cs" />

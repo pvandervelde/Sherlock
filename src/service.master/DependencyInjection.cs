@@ -44,6 +44,25 @@ namespace Sherlock.Service.Master
                 .SingleInstance();
         }
 
+        private static void RegisterCommands(ContainerBuilder builder)
+        {
+            builder.Register(c => new StoreTestReportDataCommands(
+                    c.Resolve<IFileSystem>(),
+                    c.Resolve<IConfiguration>(),
+                    c.Resolve<IStoreActiveTests>(),
+                    c.Resolve<DownloadDataFromRemoteEndpoints>(),
+                    c.Resolve<SystemDiagnostics>()))
+                .OnActivated(
+                    a =>
+                    {
+                        var collection = a.Context.Resolve<ICommandCollection>();
+                        collection.Register(typeof(IStoreTestReportDataCommands), a.Instance);
+                    })
+                .As<IStoreTestReportDataCommands>()
+                .As<ICommandSet>()
+                .SingleInstance();
+        }
+
         private static void RegisterTestController(ContainerBuilder builder)
         {
             builder.Register(
@@ -109,7 +128,7 @@ namespace Sherlock.Service.Master
                .As<IReportTransformer>();
         }
 
-        private static void RegisterPlugins(ContainerBuilder builder)
+        private static void RegisterEnvironmentActivators(ContainerBuilder builder)
         {
             builder.Register(
                     c =>
@@ -168,10 +187,11 @@ namespace Sherlock.Service.Master
                 RegisterFileSystem(builder);
                 RegisterTestSuitePackage(builder);
                 RegisterStorage(builder);
+                RegisterCommands(builder);
                 RegisterTestController(builder);
                 RegisterTestCycle(builder);
                 RegisterReports(builder);
-                RegisterPlugins(builder);
+                RegisterEnvironmentActivators(builder);
             }
 
             return builder.Build();

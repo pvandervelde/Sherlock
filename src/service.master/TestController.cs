@@ -480,7 +480,9 @@ namespace Sherlock.Service.Master
                                 pair.Item2));
 
                         var suite = m_TestSuitePackageFactory();
-                        suite.LoadAndUnpack(testFile, Path.Combine(m_UnpackDirectory, test.Id.ToString(CultureInfo.InvariantCulture), pair.Item2.Name));
+                        suite.LoadAndUnpack(
+                            testFile, 
+                            Path.Combine(m_UnpackDirectory, test.Id.ToString(CultureInfo.InvariantCulture), pair.Item2.Name));
                         var environmentFile = suite.Environment(pair.Item2.Name);
 
                         m_Diagnostics.Log(

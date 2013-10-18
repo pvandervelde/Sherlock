@@ -125,6 +125,7 @@
     <Compile Include="CommunicationSubjects.cs" />
     <Compile Include="ConsoleApplicationRunner.cs" />
     <Compile Include="CouldNotLoadEnvironmentException.cs" />
+    <Compile Include="IStoreTestReportDataCommands.cs" />
     <Compile Include="ITransferTestReportDataCommands.cs" />
     <Compile Include="NeedPackagePathException.cs" />
     <Compile Include="TestEnvironmentPackage.cs" />

@@ -17,6 +17,13 @@ namespace Sherlock.Service.Master
     internal abstract class TestCompletedNotification
     {
         /// <summary>
+        /// Stores the given file in the location where the test report will be stored.
+        /// </summary>
+        /// <param name="filePath">The full path to the file that should be included in the report.</param>
+        /// <param name="relativeReportPath">The relative 'path' which should be used to store the file data.</param>
+        public abstract void StoreReportFile(string filePath, string relativeReportPath);
+
+        /// <summary>
         /// Sends out a notification indicating that the test has completed.
         /// </summary>
         /// <param name="result">The test result.</param>

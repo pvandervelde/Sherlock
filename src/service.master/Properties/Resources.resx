@@ -237,4 +237,7 @@
   <data name="Log_Messages_TestActivationFailed_WithError" xml:space="preserve">
     <value>Test activation failed with an exception. Error was: {0}.</value>
   </data>
+  <data name="Log_Messages_TransferingTestStepReportFiles_WithTestAndTestStep" xml:space="preserve">
+    <value>Storing report file for test {0} step {1} in report directory.</value>
+  </data>
 </root>
