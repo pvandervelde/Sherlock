@@ -21,12 +21,6 @@ namespace Sherlock.Service.Executor
             = new ConfigurationKey("KeepAliveCycleTimeInMilliSeconds", typeof(int));
 
         /// <summary>
-        /// The configuration key that is used to retrieve the directory path to the directory that contains the test files.
-        /// </summary>
-        public static readonly ConfigurationKey TestDataDirectory
-            = new ConfigurationKey("TestDataDirectory", typeof(string));
-
-        /// <summary>
         /// The configuration key that is used to retrieve the amount of time that the service waits for the executor application
         /// to start (int).
         /// </summary>
@@ -42,7 +36,6 @@ namespace Sherlock.Service.Executor
             return new List<ConfigurationKey>
                 {
                     KeepAliveCycleTimeInMilliSeconds,
-                    TestDataDirectory,
                     ExecutorStartupTimeoutInMilliSeconds,
                 };
         }

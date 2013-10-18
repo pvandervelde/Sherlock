@@ -47,13 +47,15 @@ namespace Sherlock.Executor
                     var token = uploads.Register(path);
 
                     var hub = context.Resolve<ISendCommandsToRemoteEndpoints>();
-                    if (!hub.HasCommandFor(hostId, typeof(ITransferTestReportDataCommand)))
+                    if (!hub.HasCommandFor(hostId, typeof(ITransferTestReportDataCommands)))
                     {
                         throw new MissingCommandSetException();
                     }
 
-                    var command = hub.CommandsFor<ITransferTestReportDataCommand>(hostId);
-                    var task = command.PrepareReportFilesForTransfer(stepIndex, token);
+                    var command = hub.CommandsFor<ITransferTestReportDataCommands>(hostId);
+
+                    var id = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
+                    var task = command.PrepareReportFilesForTransfer(stepIndex, id, token);
                     task.Wait();
                 };
 

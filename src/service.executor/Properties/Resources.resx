@@ -135,6 +135,9 @@
   <data name="Log_Messages_StartedTestApplication" xml:space="preserve">
     <value>Started test application</value>
   </data>
+  <data name="Log_Messages_TransferingTestStepReportFiles_WithTestStep" xml:space="preserve">
+    <value>Transfering test step report files for test step: {0}.</value>
+  </data>
   <data name="ReportSection_Error_FailedToConnectToTestingApplication" xml:space="preserve">
     <value>Failed to connect to the test application.</value>
   </data>

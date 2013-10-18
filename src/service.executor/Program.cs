@@ -63,7 +63,8 @@ namespace Sherlock.Service.Executor
         private static int RunApplication()
         {
             var context = new ApplicationContext();
-            s_Container = DependencyInjection.CreateContainer(context);
+            var storageDirectory = CreateStorageDirectory();
+            s_Container = DependencyInjection.CreateContainer(context, storageDirectory);
             var objectResolvedToStartCommunicationLayer = s_Container.Resolve<ActiveTestInformation>();
             Debug.Assert(objectResolvedToStartCommunicationLayer != null, "Container resolve error occurred.");
 
@@ -73,6 +74,29 @@ namespace Sherlock.Service.Executor
 
             // We probably won't get here given that the application has no real way of shutting down.
             return NormalApplicationExitCode;
+        }
+
+        private static string CreateStorageDirectory()
+        {
+            try
+            {
+                var storageDirectory = StorageDirectoryPath();
+                if (!Directory.Exists(storageDirectory))
+                {
+                    Directory.CreateDirectory(storageDirectory);
+                }
+
+                return storageDirectory;
+            }
+            catch (IOException)
+            {
+                return string.Empty;
+            }
+        }
+
+        private static string StorageDirectoryPath()
+        {
+            return Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("D"));
         }
     }
 }

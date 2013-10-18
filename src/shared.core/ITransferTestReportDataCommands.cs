@@ -12,14 +12,15 @@ namespace Sherlock.Shared.Core
     /// <summary>
     /// Defines the commands used to upload the report files for a specific test.
     /// </summary>
-    public interface ITransferTestReportDataCommand : ICommandSet
+    public interface ITransferTestReportDataCommands : ICommandSet
     {
         /// <summary>
         /// Prepares the report files for upload.
         /// </summary>
         /// <param name="testStepIndex">The index of the test step for which the report files are being uploaded.</param>
+        /// <param name="callingEndpoint">The ID of the endpoint that called the method.</param>
         /// <param name="token">The upload token used to register the report files that need to be uploaded.</param>
         /// <returns>An upload token that can be used to download the desired files.</returns>
-        Task PrepareReportFilesForTransfer(int testStepIndex, UploadToken token);
+        Task PrepareReportFilesForTransfer(int testStepIndex, EndpointId callingEndpoint, UploadToken token);
     }
 }

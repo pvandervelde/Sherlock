@@ -29,9 +29,12 @@ namespace Sherlock.Service.Executor
                 .As<IFileSystem>();
         }
 
-        private static void RegisterTestInformation(ContainerBuilder builder)
+        private static void RegisterInformation(ContainerBuilder builder)
         {
             builder.Register(c => new ActiveTestInformation())
+                .SingleInstance();
+
+            builder.Register(c => new HostInformationStorage())
                 .SingleInstance();
         }
 
@@ -58,7 +61,7 @@ namespace Sherlock.Service.Executor
                 .SingleInstance();
         }
 
-        private static void RegisterCommands(ContainerBuilder builder)
+        private static void RegisterCommands(ContainerBuilder builder, string storageDirectory)
         {
             builder.Register(
                 c =>
@@ -84,6 +87,8 @@ namespace Sherlock.Service.Executor
                         func,
                         c.Resolve<IConfiguration>(),
                         c.Resolve<ActiveTestInformation>(),
+                        c.Resolve<HostInformationStorage>(),
+                        storageDirectory,
                         c.Resolve<SystemDiagnostics>());
                 })
                 .OnActivated(
@@ -108,14 +113,33 @@ namespace Sherlock.Service.Executor
                 .As<ITransferTestDataCommands>()
                 .As<ICommandSet>()
                 .SingleInstance();
+
+            builder.Register(c => new TransferTestReportDataCommands(
+                    c.Resolve<IFileSystem>(),
+                    c.Resolve<DownloadDataFromRemoteEndpoints>(),
+                    c.Resolve<ISendCommandsToRemoteEndpoints>(),
+                    c.Resolve<IStoreUploads>(),
+                    c.Resolve<HostInformationStorage>(),
+                    storageDirectory,
+                    c.Resolve<SystemDiagnostics>()))
+                .OnActivated(
+                    a =>
+                    {
+                        var collection = a.Context.Resolve<ICommandCollection>();
+                        collection.Register(typeof(ITransferTestReportDataCommands), a.Instance);
+                    })
+                .As<ITransferTestReportDataCommands>()
+                .As<ICommandSet>()
+                .SingleInstance();
         }
 
         /// <summary>
         /// Creates the DI container for the application.
         /// </summary>
         /// <param name="context">The application context that controls when the application will terminate.</param>
+        /// <param name="storageDirectory">The directory in which all the uploaded files are stored.</param>
         /// <returns>The DI container.</returns>
-        public static IContainer CreateContainer(ApplicationContext context)
+        public static IContainer CreateContainer(ApplicationContext context, string storageDirectory)
         {
             var builder = new ContainerBuilder();
             {
@@ -141,9 +165,9 @@ namespace Sherlock.Service.Executor
 
                 RegisterFileSystem(builder);
                 RegisterReports(builder);
-                RegisterTestInformation(builder);
+                RegisterInformation(builder);
                 RegisterNotifications(builder);
-                RegisterCommands(builder);
+                RegisterCommands(builder, storageDirectory);
             }
 
             return builder.Build();

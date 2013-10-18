@@ -127,6 +127,7 @@
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="ExecutorServiceConfigurationKeys.cs" />
     <Compile Include="ExecutorServiceConstants.cs" />
+    <Compile Include="HostInformationStorage.cs" />
     <Compile Include="Nuclei\ExceptionHandling\EventType.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
@@ -162,6 +163,7 @@
     <Compile Include="TestStepExecutionCommands.cs" />
     <Compile Include="TransferTestDataCommands.cs" />
     <Compile Include="Nuclei\NucleiModule.cs" />
+    <Compile Include="TransferTestReportDataCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

@@ -32,11 +32,6 @@ namespace Sherlock.Service.Executor
     /// </summary>
     internal sealed class TestStepExecutionCommands : IExecuteTestStepsCommands
     {
-        private static string StorageDirectoryPath(IFileSystem fileSystem)
-        {
-            return fileSystem.Path.Combine(fileSystem.Path.GetTempPath(), Guid.NewGuid().ToString("D"));
-        }
-
         /// <summary>
         /// The object that provides access to the file system.
         /// </summary>
@@ -83,6 +78,16 @@ namespace Sherlock.Service.Executor
         private readonly IConfiguration m_Configuration;
 
         /// <summary>
+        /// The object that stores information about the host.
+        /// </summary>
+        private readonly HostInformationStorage m_HostInformation;
+
+        /// <summary>
+        /// The directory in which all data files are stored.
+        /// </summary>
+        private readonly string m_StorageDirectory;
+
+        /// <summary>
         /// The object that provides the diagnostics methods for the application.
         /// </summary>
         private readonly SystemDiagnostics m_Diagnostics;
@@ -104,6 +109,8 @@ namespace Sherlock.Service.Executor
         /// <param name="sectionBuilders">The function that returns a new test section builder.</param>
         /// <param name="configuration">The configuration object.</param>
         /// <param name="testInformation">The object that stores information about the currently active test.</param>
+        /// <param name="hostInformation">The object that stores information about the host.</param>
+        /// <param name="storageDirectory">The directory in which all the report files are stored.</param>
         /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
         /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="fileSystem"/> is <see langword="null" />.
@@ -133,6 +140,12 @@ namespace Sherlock.Service.Executor
         ///     Thrown if <paramref name="testInformation"/> is <see langword="null" />.
         /// </exception>
         /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="hostInformation"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="storageDirectory"/> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
         ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
         /// </exception>
         public TestStepExecutionCommands(
@@ -145,6 +158,8 @@ namespace Sherlock.Service.Executor
             Func<string, ITestSectionBuilder> sectionBuilders,
             IConfiguration configuration,
             ActiveTestInformation testInformation,
+            HostInformationStorage hostInformation,
+            string storageDirectory,
             SystemDiagnostics diagnostics)
         {
             {
@@ -157,6 +172,8 @@ namespace Sherlock.Service.Executor
                 Lokad.Enforce.Argument(() => sectionBuilders);
                 Lokad.Enforce.Argument(() => configuration);
                 Lokad.Enforce.Argument(() => testInformation);
+                Lokad.Enforce.Argument(() => hostInformation);
+                Lokad.Enforce.Argument(() => storageDirectory);
                 Lokad.Enforce.Argument(() => diagnostics);
             }
 
@@ -169,6 +186,8 @@ namespace Sherlock.Service.Executor
             m_SectionBuilders = sectionBuilders;
             m_Configuration = configuration;
             m_TestInformation = testInformation;
+            m_HostInformation = hostInformation;
+            m_StorageDirectory = storageDirectory;
             m_Diagnostics = diagnostics;
         }
 
@@ -200,14 +219,10 @@ namespace Sherlock.Service.Executor
             var builder = m_SectionBuilders(Resources.ReportSection_Group_Name_Initialization);
             builder.Initialize(Resources.ReportSection_Name_Initialization);
 
-            string storageDirectory;
-            if (!CreateStorageDirectory(builder, out storageDirectory))
-            {
-                return;
-            }
+            m_HostInformation.Id = callingEndpoint;
 
             string testFile;
-            if (!DownloadTestData(callingEndpoint, token, storageDirectory, builder, out testFile))
+            if (!DownloadTestData(callingEndpoint, token, m_StorageDirectory, builder, out testFile))
             {
                 return;
             }
@@ -272,47 +287,6 @@ namespace Sherlock.Service.Executor
 
             ConnectEvents(m_CurrentEndpoint);
             builder.FinalizeAndStore(true);
-        }
-
-        private bool CreateStorageDirectory(ITestSectionBuilder builder, out string storageDirectory)
-        {
-            storageDirectory = string.Empty;
-            try
-            {
-                storageDirectory = m_Configuration.HasValueFor(ExecutorServiceConfigurationKeys.TestDataDirectory)
-                    ? m_Configuration.Value<string>(ExecutorServiceConfigurationKeys.TestDataDirectory)
-                    : StorageDirectoryPath(m_FileSystem);
-                if (!m_FileSystem.Directory.Exists(storageDirectory))
-                {
-                    m_FileSystem.Directory.CreateDirectory(storageDirectory);
-                }
-
-                m_Diagnostics.Log(
-                    LevelToLog.Debug,
-                    ExecutorServiceConstants.LogPrefix,
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        Resources.Log_Messages_CreatedStorageDirectory_WithDirectory,
-                        storageDirectory));
-            }
-            catch (IOException e)
-            {
-                m_Diagnostics.Log(
-                    LevelToLog.Error,
-                    ExecutorServiceConstants.LogPrefix,
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        Resources.Log_Messages_FailedToCreateDirectory_WithError,
-                        e));
-
-                builder.AddErrorMessage(Resources.ReportSection_Error_FailedToCreateStorageDirectory);
-                builder.FinalizeAndStore(false);
-                m_TestExecutionEvents.RaiseOnTestCompletion(TestExecutionResult.Failed);
-                
-                return false;
-            }
-
-            return true;
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
