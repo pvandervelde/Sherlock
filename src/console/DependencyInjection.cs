@@ -76,6 +76,13 @@ namespace Sherlock.Console
                 .As<IVersionedConfigurationReader>()
                 .WithMetadata<IReaderVersionMetaData>(
                     m => m.For(reader => reader.ReaderVersion, ConfigurationReaderVersion11.VersionToRead));
+            
+            builder.Register(c => new ConfigurationReaderVersion12(
+                    c.Resolve<IFileSystem>(),
+                    c.Resolve<StoreFileDataForEnvironment>()))
+                .As<IVersionedConfigurationReader>()
+                .WithMetadata<IReaderVersionMetaData>(
+                    m => m.For(reader => reader.ReaderVersion, ConfigurationReaderVersion12.VersionToRead));
         }
 
         private static void RegisterFileSystem(ContainerBuilder builder)
