@@ -48,7 +48,7 @@ namespace Sherlock.Service.Master
         private readonly SystemDiagnostics m_Diagnostics;
 
         /// <summary>
-        /// Inititalizes a new instance of the <see cref="StoreTestReportDataCommands"/> class.
+        /// Initializes a new instance of the <see cref="StoreTestReportDataCommands"/> class.
         /// </summary>
         /// <param name="fileSystem">The object that provides access to the file system.</param>
         /// <param name="configuration">The object that provides access to the application configuration.</param>
