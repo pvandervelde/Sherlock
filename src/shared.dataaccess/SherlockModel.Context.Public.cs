@@ -38,6 +38,8 @@ namespace Sherlock.Shared.DataAccess
 
             StoredTestApplications = Set<TestApplication>();
             StoredTestEnvironments = Set<TestEnvironment>();
+            StoredTestStepReportDirectories = Set<TestStepReportDirectory>();
+            StoredTestStepReportFiles = Set<TestStepReportFile>();
             StoredTestStepParameters = Set<TestStepParameter>();
             StoredTestSteps = Set<TestStep>();
             StoredTests = Set<Test>();
