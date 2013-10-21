@@ -25,13 +25,18 @@ namespace Sherlock.Executor
             UploadReportFilesForTestStep uploader =
                 (stepIndex, filesToUpload) =>
                 {
+                    if (filesToUpload.Count == 0)
+                    {
+                        return;
+                    }
+
                     var path = Path.Combine(
                         storageDirectory,
                         string.Format(
                             CultureInfo.InvariantCulture,
                             "TestStepReport-{0}.zip",
                             stepIndex));
-                    var package = context.Resolve<ITestStepPackage>();
+                    var package = new TestStepPackage(stepIndex);
                     foreach (var pair in filesToUpload)
                     {
                         var filePath = pair.Key.FullName;
