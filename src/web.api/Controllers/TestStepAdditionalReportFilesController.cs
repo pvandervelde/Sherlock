@@ -6,7 +6,7 @@
 
 using System;
 using System.Globalization;
-using System.Web.Mvc;
+using System.Web.Http;
 using Nuclei.Diagnostics;
 using Nuclei.Diagnostics.Logging;
 using Sherlock.Shared.DataAccess;
@@ -16,7 +16,7 @@ namespace Sherlock.Web.Api.Controllers
     /// <summary>
     /// A controller that takes care of the test step additional report files API calls.
     /// </summary>
-    public sealed class TestStepAdditionalReportFilesController : Controller
+    public sealed class TestStepAdditionalReportFilesController : ApiController
     {
         /// <summary>
         /// The database context.
@@ -55,7 +55,7 @@ namespace Sherlock.Web.Api.Controllers
         /// </summary>
         /// <param name="testStep">The ID of the test step which generates the file.</param>
         /// <param name="path">The full path of the file that should be included in the report.</param>
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public void ForFile(int testStep, string path)
         {
             var testStepReportFile = new TestStepReportFile
@@ -88,7 +88,7 @@ namespace Sherlock.Web.Api.Controllers
         /// </summary>
         /// <param name="testStep">The ID of the test step which generates the files in the directory.</param>
         /// <param name="path">The full path of the directory that should be included in the report.</param>
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public void ForDirectory(int testStep, string path)
         {
             var testStepReportDirectory = new TestStepReportDirectory
