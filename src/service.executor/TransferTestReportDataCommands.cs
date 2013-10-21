@@ -154,17 +154,32 @@ namespace Sherlock.Service.Executor
             var uploadTask = fileStream.ContinueWith(
                 file =>
                 {
-                    // Upload to the host here
-                    var hostToken = m_Uploads.Register(file.Result.FullName);
-                    if (!m_RemoteCommands.HasCommandFor(m_HostInformation.Id, typeof(IStoreTestReportDataCommands)))
+                    try
                     {
-                        throw new MissingCommandSetException();
-                    }
+                        // Upload to the host here
+                        var hostToken = m_Uploads.Register(file.Result.FullName);
+                        if (!m_RemoteCommands.HasCommandFor(m_HostInformation.Id, typeof(IStoreTestReportDataCommands)))
+                        {
+                            throw new MissingCommandSetException();
+                        }
 
-                    var id = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
-                    var command = m_RemoteCommands.CommandsFor<IStoreTestReportDataCommands>(m_HostInformation.Id);
-                    var task = command.PrepareReportFilesForTransfer(m_TestInformation.TestId, testStepIndex, id, hostToken);
-                    task.Wait();
+                        var id = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
+                        var command = m_RemoteCommands.CommandsFor<IStoreTestReportDataCommands>(m_HostInformation.Id);
+                        var task = command.PrepareReportFilesForTransfer(m_TestInformation.TestId, testStepIndex, id, hostToken);
+                        task.Wait();
+                    }
+                    catch (Exception e)
+                    {
+                        m_Diagnostics.Log(
+                            LevelToLog.Error,
+                            ExecutorServiceConstants.LogPrefix,
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                Resources.Log_Messages_TransferingTestStepReportFilesFailed_WithException,
+                                e));
+
+                        throw;
+                    }
                 });
 
             return uploadTask;

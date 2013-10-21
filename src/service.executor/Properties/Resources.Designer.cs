@@ -124,6 +124,15 @@ namespace Sherlock.Service.Executor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transfering test step report files failed. Error was: {0}..
+        /// </summary>
+        internal static string Log_Messages_TransferingTestStepReportFilesFailed_WithException {
+            get {
+                return ResourceManager.GetString("Log_Messages_TransferingTestStepReportFilesFailed_WithException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to connect to the test application..
         /// </summary>
         internal static string ReportSection_Error_FailedToConnectToTestingApplication {
