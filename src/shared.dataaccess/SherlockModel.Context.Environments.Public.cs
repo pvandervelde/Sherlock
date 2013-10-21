@@ -384,6 +384,7 @@ namespace Sherlock.Shared.DataAccess
 
             return selectedMachines
                 .Select(Machine)
+                .Where(m => m.IsAvailableForTesting && !m.IsActive)
                 .ToList();
         }
 
