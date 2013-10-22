@@ -13,6 +13,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Nuclei.Configuration;
 using Nuclei.Diagnostics;
 using Nuclei.Diagnostics.Logging;
@@ -209,11 +210,6 @@ namespace Sherlock.Service.Master
         private readonly string m_UnpackDirectory = CreateLocalStorageDirectory();
 
         /// <summary>
-        /// A flag that indicates if the controller is in the process of activating one or more tests.
-        /// </summary>
-        private volatile bool m_IsActivatingTests;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TestController"/> class.
         /// </summary>
         /// <param name="configuration">The object that stores the configuration for the application.</param>
@@ -368,14 +364,8 @@ namespace Sherlock.Service.Master
             Justification = "Realistically we don't care what happens we want it to complete normally.")]
         public void ActivateTests()
         {
-            if (m_IsActivatingTests)
+            if (Monitor.TryEnter(m_Lock))
             {
-                return;
-            }
-
-            lock (m_Lock)
-            {
-                m_IsActivatingTests = true;
                 try
                 {
                     var currentContext = m_TestContextFactory();
@@ -411,22 +401,22 @@ namespace Sherlock.Service.Master
                         builder.InitializeNewReport(
                             test.ProductName,
                             test.ProductVersion);
-                    
+
                         // @todo: Should really do the creation of the CompletedNotification via the IOC container
                         m_ExecutingTests.Add(
-                            test.Id, 
+                            test.Id,
                             builder,
                             new List<TestCompletedNotification>
-                                {
-                                    new FileBasedTestCompletedNotification(test.ReportPath),
-                                });
+                            {
+                                new FileBasedTestCompletedNotification(test.ReportPath),
+                            });
 
                         LoadEnvironmentsAndStartTest(currentContext, test, matchingEnvironments, builder);
                     }
                 }
                 finally
                 {
-                    m_IsActivatingTests = false;
+                    Monitor.Exit(m_Lock);
                 }
             }
         }
