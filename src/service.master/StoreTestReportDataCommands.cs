@@ -103,6 +103,7 @@ namespace Sherlock.Service.Master
             {
                  m_FileSystem.Directory.CreateDirectory(downloadDirectory);
             }
+
             var fileStream = m_DataDownload(callingEndpoint, token, downloadDirectory);
             var uploadTask = fileStream.ContinueWith(
                 file =>
