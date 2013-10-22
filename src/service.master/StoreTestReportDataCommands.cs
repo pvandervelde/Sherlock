@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
@@ -97,21 +98,41 @@ namespace Sherlock.Service.Master
                     testStepIndex));
 
             var downloadDirectory = TestHelpers.StoragePathForReportFiles(testId, m_Configuration, m_FileSystem);
+            
+            if (!m_FileSystem.Directory.Exists(downloadDirectory))
+            {
+                 m_FileSystem.Directory.CreateDirectory(downloadDirectory);
+            }
             var fileStream = m_DataDownload(callingEndpoint, token, downloadDirectory);
             var uploadTask = fileStream.ContinueWith(
                 file =>
                 {
-                    var testPackage = new TestStepPackage(testStepIndex);
-                    testPackage.LoadAndUnpack(file.Result.FullName, downloadDirectory);
-
-                    var notifications = m_ActiveTests.NotificationsFor(testId);
-                    foreach (var notification in notifications)
+                    try
                     {
-                        foreach (var storedFile in testPackage.StoredFiles())
+                        var testPackage = new TestStepPackage(testStepIndex);
+                        testPackage.LoadAndUnpack(file.Result.FullName, downloadDirectory);
+
+                        var notifications = m_ActiveTests.NotificationsFor(testId);
+                        foreach (var notification in notifications)
                         {
-                            var relativePath = storedFile.FullName.Substring(downloadDirectory.Length).TrimStart(Path.DirectorySeparatorChar);
-                            notification.StoreReportFile(storedFile.FullName, relativePath);
+                            foreach (var storedFile in testPackage.StoredFiles())
+                            {
+                                var relativePath = storedFile.FullName.Substring(downloadDirectory.Length).TrimStart(Path.DirectorySeparatorChar);
+                                notification.StoreReportFile(storedFile.FullName, relativePath);
+                            }
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        m_Diagnostics.Log(
+                            LevelToLog.Error,
+                            MasterServiceConstants.LogPrefix,
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                Resources.Log_Messages_TransferingTestStepReportFilesFailed_WithTestAndTestStepAndError,
+                                testId,
+                                testStepIndex,
+                                e));
                     }
                 });
 

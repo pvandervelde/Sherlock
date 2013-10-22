@@ -240,4 +240,7 @@
   <data name="Log_Messages_TransferingTestStepReportFiles_WithTestAndTestStep" xml:space="preserve">
     <value>Storing report file for test {0} step {1} in report directory.</value>
   </data>
+  <data name="Log_Messages_TransferingTestStepReportFilesFailed_WithTestAndTestStepAndError" xml:space="preserve">
+    <value>Storing test step report files for test {0} step {1} failed. Error was {2}.</value>
+  </data>
 </root>
