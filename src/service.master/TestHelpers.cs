@@ -46,7 +46,7 @@ namespace Sherlock.Service.Master
             var reportFileDirectory = 
                 fileSystem.Path.Combine(
                     fileSystem.Path.Combine(
-                        configuration.Value<string>(MasterServiceConfigurationKeys.TestDataDirectory),
+                        configuration.Value<string>(MasterServiceConfigurationKeys.TestReportFilesDirectory),
                         "reportfiles"),
                     string.Format(
                         CultureInfo.InvariantCulture,

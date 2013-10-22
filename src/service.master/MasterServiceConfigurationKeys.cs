@@ -27,6 +27,12 @@ namespace Sherlock.Service.Master
             = new ConfigurationKey("TestDataDirectory", typeof(string));
 
         /// <summary>
+        /// The configuration key that is used to retrieve the directory path to the directory that contains the report files.
+        /// </summary>
+        public static readonly ConfigurationKey TestReportFilesDirectory
+            = new ConfigurationKey("TestReportFilesDirectory", typeof(string));
+
+        /// <summary>
         /// The configuration key that is used to retrieve the maximum number of times an environment can miss a ping cycle.
         /// </summary>
         public static readonly ConfigurationKey MaximumNumberOfCycleFailures
