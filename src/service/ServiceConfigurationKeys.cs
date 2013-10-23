@@ -45,6 +45,12 @@ namespace Sherlock.Service
             = new ConfigurationKey("ApplicationDirectory", typeof(string));
 
         /// <summary>
+        /// The configuration key that is used to retrieve the directory in which the application is placed.
+        /// </summary>
+        public static readonly ConfigurationKey ManifestPublicKeyFile
+            = new ConfigurationKey("ManifestPublicKeyFile", typeof(string));
+
+        /// <summary>
         /// Returns a collection containing all the configuration keys for the application.
         /// </summary>
         /// <returns>A collection containing all the configuration keys for the application.</returns>
@@ -57,6 +63,7 @@ namespace Sherlock.Service
                     UpdateManifestUri,
                     ApplicationName,
                     ApplicationDirectory,
+                    ManifestPublicKeyFile,
                 };
         }
     }

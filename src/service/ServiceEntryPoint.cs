@@ -500,9 +500,13 @@ namespace Sherlock.Service
 
             m_ApplicationVersion = GetApplicationVersion();
             m_ManifestUri = new Uri(configuration.Value<string>(ServiceConfigurationKeys.UpdateManifestUri));
-            m_PublicKeyXml = EmbeddedResourceExtracter.LoadEmbeddedTextFile(
-                Assembly.GetExecutingAssembly(),
-                "Sherlock.Service.Properties.ManifestSigningPublicKey.xml");
+
+            var keyFile = configuration.Value<string>(ServiceConfigurationKeys.ManifestPublicKeyFile);
+            using (var reader = new StreamReader(keyFile))
+            {
+                m_PublicKeyXml = reader.ReadToEnd();
+            }
+            
             m_Updater = m_Container.Resolve<Updater>();
 
             m_Timer.AutoReset = true;
