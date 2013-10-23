@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Nuclei.Core.Testing;
+using System.Linq;
+using Nuclei.Nunit.Extensions;
 using NUnit.Framework;
 
 namespace Sherlock.Shared.Core.Reporting
@@ -16,10 +17,54 @@ namespace Sherlock.Shared.Core.Reporting
    [TestFixture]
    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented",
             Justification = "Unit tests do not need documentation.")]
-   public sealed class DateBasedTestInformationTest : EqualityContractVerifier<DateBasedTestInformation>
+   public sealed class DateBasedTestInformationTest : EqualityContractVerifierTest
    {
-       private readonly IEnumerable<DateBasedTestInformation> m_DistinctInstances
-            = new List<DateBasedTestInformation> 
+       private sealed class DateBasedTestInformationEqualityContractVerifier : EqualityContractVerifier<DateBasedTestInformation>
+       {
+           private readonly DateBasedTestInformation m_First
+           = new DateBasedTestInformation(
+                new DateTimeOffset(1, 2, 3, 4, 5, 6, 7, CultureInfo.CurrentCulture.Calendar, new TimeSpan()),
+                "a");
+
+           private readonly DateBasedTestInformation m_Second
+                = new DateBasedTestInformation(
+                    new DateTimeOffset(1, 2, 3, 4, 5, 6, 8, CultureInfo.CurrentCulture.Calendar, new TimeSpan()),
+                    "b");
+
+           protected override DateBasedTestInformation Copy(DateBasedTestInformation original)
+           {
+               return new DateBasedTestInformation(original.Time, original.Information);
+           }
+
+           protected override DateBasedTestInformation FirstInstance
+           {
+               get
+               {
+                   return m_First;
+               }
+           }
+
+           protected override DateBasedTestInformation SecondInstance
+           {
+               get
+               {
+                   return m_Second;
+               }
+           }
+
+           protected override bool HasOperatorOverloads
+           {
+               get
+               {
+                   return true;
+               }
+           }
+       }
+
+       private sealed class DateBasedTestInformationHashcodeContractVerfier : HashcodeContractVerifier
+       {
+           private readonly IEnumerable<DateBasedTestInformation> m_DistinctInstances
+               = new List<DateBasedTestInformation> 
                      {
                         new DateBasedTestInformation(
                             new DateTimeOffset(1, 2, 3, 4, 5, 6, 7, CultureInfo.CurrentCulture.Calendar, new TimeSpan()),
@@ -53,66 +98,31 @@ namespace Sherlock.Shared.Core.Reporting
                             "j"),
                      };
 
-       private readonly DateBasedTestInformation m_First
-           = new DateBasedTestInformation(
-                new DateTimeOffset(1, 2, 3, 4, 5, 6, 7, CultureInfo.CurrentCulture.Calendar, new TimeSpan()),
-                "a");
-
-       private readonly DateBasedTestInformation m_Second
-            = new DateBasedTestInformation(
-                new DateTimeOffset(1, 2, 3, 4, 5, 6, 8, CultureInfo.CurrentCulture.Calendar, new TimeSpan()),
-                "b");
-
-       public override IEnumerable<DateBasedTestInformation> DistinctInstances
-       {
-           get
+           protected override IEnumerable<int> GetHashcodes()
            {
-               return m_DistinctInstances;
+               return m_DistinctInstances.Select(i => i.GetHashCode());
            }
        }
 
-       public override double UniformDistributionQualityLimit
+       private readonly DateBasedTestInformationHashcodeContractVerfier m_HashcodeVerifier 
+           = new DateBasedTestInformationHashcodeContractVerfier();
+
+       private readonly DateBasedTestInformationEqualityContractVerifier m_EqualityVerifier
+           = new DateBasedTestInformationEqualityContractVerifier();
+
+       protected override HashcodeContractVerifier HashContract
        {
            get
            {
-               return UniformDistributionQuality.Excellent;
+               return m_HashcodeVerifier;
            }
        }
 
-       public override double CollisionProbabilityLimit
+       protected override IEqualityContractVerifier EqualityContract
        {
            get
            {
-               return CollisionProbability.VeryLow;
-           }
-       }
-
-       public override DateBasedTestInformation Copy(DateBasedTestInformation original)
-       {
-           return new DateBasedTestInformation(original.Time, original.Information);
-       }
-
-       public override DateBasedTestInformation FirstInstance
-       {
-           get
-           {
-               return m_First;
-           }
-       }
-
-       public override DateBasedTestInformation SecondInstance
-       {
-           get
-           {
-               return m_Second;
-           }
-       }
-
-       public override bool HasOperatorOverloads
-       {
-           get
-           {
-               return true;
+               return m_EqualityVerifier;
            }
        }
 

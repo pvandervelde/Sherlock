@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
-using Nuclei.Core.Testing;
+using Nuclei.Nunit.Extensions;
 using NUnit.Framework;
 
 namespace Sherlock.Console

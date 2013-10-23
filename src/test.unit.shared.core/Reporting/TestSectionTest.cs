@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Nuclei.Core.Testing;
+using Nuclei.Nunit.Extensions;
 using NUnit.Framework;
 
 namespace Sherlock.Shared.Core.Reporting
