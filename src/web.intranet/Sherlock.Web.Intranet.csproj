@@ -84,13 +84,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei, Version=0.6.6.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+    <Reference Include="Nuclei, Version=0.6.7.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.0.6.6.0\lib\net45\Nuclei.dll</HintPath>
+      <HintPath>..\..\packages\Nuclei.0.6.7.0\lib\net45\Nuclei.dll</HintPath>
     </Reference>
-    <Reference Include="Nuclei.Build, Version=0.6.6.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+    <Reference Include="Nuclei.Build, Version=0.6.7.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nuclei.Build.0.6.6.0\lib\net45\Nuclei.Build.dll</HintPath>
+      <HintPath>..\..\packages\Nuclei.Build.0.6.7.0\lib\net45\Nuclei.Build.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
