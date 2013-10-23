@@ -98,20 +98,35 @@ namespace Sherlock.Service.Master
                     testStepIndex));
 
             var downloadDirectory = TestHelpers.StoragePathForReportFiles(testId, m_Configuration, m_FileSystem);
-            
             if (!m_FileSystem.Directory.Exists(downloadDirectory))
             {
                  m_FileSystem.Directory.CreateDirectory(downloadDirectory);
             }
 
-            var fileStream = m_DataDownload(callingEndpoint, token, downloadDirectory);
+            var fileName = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}_{1}.reportfiles",
+                testId,
+                testStepIndex);
+            var filePath = m_FileSystem.Path.Combine(
+                downloadDirectory,
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}.zip",
+                    fileName));
+            var fileStream = m_DataDownload(
+                callingEndpoint, 
+                token, 
+                filePath);
             var uploadTask = fileStream.ContinueWith(
                 file =>
                 {
                     try
                     {
                         var testPackage = new TestStepPackage(testStepIndex);
-                        testPackage.LoadAndUnpack(file.Result.FullName, downloadDirectory);
+
+                        var unpackDirectory = Path.Combine(downloadDirectory, fileName);
+                        testPackage.LoadAndUnpack(file.Result.FullName, unpackDirectory);
 
                         var notifications = m_ActiveTests.NotificationsFor(testId);
                         foreach (var notification in notifications)

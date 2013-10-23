@@ -54,6 +54,12 @@ namespace Sherlock.Service.Master
                 if (File.Exists(filePath))
                 {
                     var destinationPath = Path.Combine(m_OutputPath, relativeReportPath);
+                    var destinationDirectory = Path.GetDirectoryName(destinationPath);
+                    if ((destinationDirectory != null) && !Directory.Exists(destinationDirectory))
+                    {
+                        Directory.CreateDirectory(destinationDirectory);
+                    }
+
                     File.Copy(filePath, destinationPath);
                 }
             }

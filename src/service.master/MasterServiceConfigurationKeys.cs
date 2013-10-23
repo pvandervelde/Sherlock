@@ -55,6 +55,7 @@ namespace Sherlock.Service.Master
                 {
                     KeepAliveCycleTimeInMilliSeconds,
                     TestDataDirectory,
+                    TestReportFilesDirectory,
                     MaximumNumberOfCycleFailures,
                     ShouldTerminateEnvironmentOnFailedTest
                 };
