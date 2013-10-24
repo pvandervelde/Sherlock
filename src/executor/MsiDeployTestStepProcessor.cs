@@ -173,11 +173,16 @@ namespace Sherlock.Executor
                     Resources.Exceptions_Messages_InvalidTestStep);
             }
 
+            m_CurrentState = TestExecutionState.Running;
+
             var testStep = test as MsiInstallTestStep;
             var directory = TestFileLocationFor(testStep.Order);
-            var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var tempPath = CreateLogPath();
+            if (m_CurrentState != TestExecutionState.Running)
+            {
+                return m_CurrentState;
+            }
 
-            m_CurrentState = TestExecutionState.Running;
             m_SectionBuilder.Initialize("MSI install");
             try
             {
@@ -269,6 +274,32 @@ namespace Sherlock.Executor
             }
 
             return m_CurrentState;
+        }
+
+        private string CreateLogPath()
+        {
+            var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            if (!Directory.Exists(tempPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(tempPath);
+                }
+                catch (IOException)
+                {
+                    Diagnostics.Log(
+                        LevelToLog.Error,
+                        XCopyDeployConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            "Failed to create MSI log directory at location: {0}",
+                            tempPath));
+
+                    m_CurrentState = TestExecutionState.Failed;
+                }
+            }
+
+            return tempPath;
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
