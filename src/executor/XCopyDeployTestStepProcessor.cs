@@ -126,13 +126,13 @@ namespace Sherlock.Executor
                 }
                 catch (IOException)
                 {
-                    Diagnostics.Log(
-                        LevelToLog.Error,
-                        XCopyDeployConstants.LogPrefix,
-                        string.Format(
-                            CultureInfo.InvariantCulture,
-                            "Failed to create test directory at location: {0}",
-                            testStep.Destination));
+                    var errorMessage = string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Failed to create test directory at location: {0}",
+                        testStep.Destination);
+
+                    Diagnostics.Log(LevelToLog.Error, XCopyDeployConstants.LogPrefix, errorMessage);
+                    m_SectionBuilder.AddErrorMessage(errorMessage);
 
                     return TestExecutionState.Failed;
                 }
@@ -151,6 +151,29 @@ namespace Sherlock.Executor
                     {
                         var relativePath = installerFile.Substring(directory.Length).TrimStart(Path.DirectorySeparatorChar);
                         var destination = Path.Combine(testStep.Destination, relativePath);
+                        try
+                        {
+                            var destinationDirectory = Path.GetDirectoryName(destination);
+                            if (!m_FileSystem.Directory.Exists(destinationDirectory))
+                            {
+                                m_FileSystem.Directory.CreateDirectory(destinationDirectory);
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                            var errorMessage = string.Format(
+                                CultureInfo.CurrentCulture,
+                                "Failed to install {0}. Error while creating directory: {1}",
+                                installerFile,
+                                e);
+
+                            Diagnostics.Log(LevelToLog.Error, XCopyDeployConstants.LogPrefix, errorMessage);
+                            m_SectionBuilder.AddErrorMessage(errorMessage);
+
+                            m_CurrentState = TestExecutionState.Failed;
+                            break;
+                        }
+
                         try
                         {
                             var copyInformation = string.Format(
