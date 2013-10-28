@@ -21,21 +21,7 @@ namespace Sherlock.Service
     {
         private enum JobObjectInfoType
         {
-            AssociateCompletionPortInformation = 7,
-            BasicLimitInformation = 2,
-            BasicUiRestrictions = 4,
-            EndOfJobTimeInformation = 6,
-            ExtendedLimitInformation = 9,
-            SecurityLimitInformation = 5,
-            GroupInformation = 11
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct SecurityAttributes
-        {
-            public int Length;
-            public IntPtr SecurityDescriptor;
-            public int InheritHandle;
+            ExtendedLimitInformation = 9
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -73,6 +59,12 @@ namespace Sherlock.Service
             public UIntPtr PeakProcessMemoryUsed;
             public UIntPtr PeakJobMemoryUsed;
         }
+
+        /// <summary>
+        /// Defines the constant that indicates that child processes of child
+        /// processes will be broken away from the job.
+        /// </summary>
+        private const short JobObjectLimitSilentBreakawayOk = 0x00001000;
 
         /// <summary>
         /// Defines the constant that indicates that child processes need to be killed
@@ -131,11 +123,15 @@ namespace Sherlock.Service
                 throw new UnableToCreateJobException();
             }
 
-            var info = new JobObjectBasicLimitInformation();
-            info.LimitFlags = JobObjectLimitKillOnJobClose;
+            var info = new JobObjectBasicLimitInformation
+                {
+                    LimitFlags = JobObjectLimitSilentBreakawayOk | JobObjectLimitKillOnJobClose
+                };
 
-            var extendedInfo = new JobObjectExtendedLimitInformation();
-            extendedInfo.BasicLimitInformation = info;
+            var extendedInfo = new JobObjectExtendedLimitInformation
+                {
+                    BasicLimitInformation = info
+                };
 
             int length = Marshal.SizeOf(typeof(JobObjectExtendedLimitInformation));
             var extendedInfoPtr = Marshal.AllocHGlobal(length);
