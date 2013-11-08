@@ -154,7 +154,7 @@
     <value>No builder was found for the given test step configuration.</value>
   </data>
   <data name="Header_ApplicationAndVersion" xml:space="preserve">
-    <value>Sherlock ({0})</value>
+    <value>Sherlock console ({0})</value>
   </data>
   <data name="Header_OtherPackages_IdAndLicense" xml:space="preserve">
     <value>        {0} (version: {1}). For more information see: {2}</value>
@@ -163,7 +163,7 @@
     <value>This application makes use of the following open source software:</value>
   </data>
   <data name="Help_Usage_Intro" xml:space="preserve">
-    <value>Usage: apollo.UI.console.exe [OPTIONS]</value>
+    <value>Usage: sherlock.console.exe [OPTIONS]</value>
   </data>
   <data name="Log_Error_ConfigurationFileDoesNotExist" xml:space="preserve">
     <value>The provided configuration file does not exist. File should be at: {0}</value>
