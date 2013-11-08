@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionLevel", "solutionlevel\SolutionLevel.csproj", "{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Console", "console\Sherlock.Console.csproj", "{E80D994B-A230-49F7-86A3-E5EA72246D96}"
@@ -53,6 +55,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Web.Intranet", "web.intranet\Sherlock.Web.Intranet.csproj", "{CB2ED336-0D82-4A89-B8C7-FE25B15B621F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Executor", "test.unit.executor\Test.Unit.Executor.csproj", "{E128246D-06C8-4362-B147-670413F23428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Verification.Console", "verification.console\Sherlock.Verification.Console.csproj", "{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +159,12 @@ Global
 		{E128246D-06C8-4362-B147-670413F23428}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
 		{E128246D-06C8-4362-B147-670413F23428}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E128246D-06C8-4362-B147-670413F23428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
+		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
+		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
