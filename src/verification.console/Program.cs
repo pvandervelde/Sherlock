@@ -29,7 +29,7 @@ namespace Sherlock.Verification.Console
     /// <para>
     /// In order to achieve this the application will output several lines of information in the console
     /// and then either exit with a zero exit code (success) or a non-zero exit code (fail). The user
-    /// can specify which of the senario's is desired through the command line options.
+    /// can specify which of the scenario's is desired through the command line options.
     /// </para>
     /// </remarks>
     [SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1400:AccessModifierMustBeDeclared",
@@ -129,7 +129,7 @@ namespace Sherlock.Verification.Console
         {
             var licenseXml = EmbeddedResourceExtracter.LoadEmbeddedStream(
                 Assembly.GetExecutingAssembly(),
-                @"Sherlock.Console.Properties.licenses.xml");
+                @"Sherlock.Verification.Console.Properties.licenses.xml");
             var doc = XDocument.Load(licenseXml);
             var licenses = from element in doc.Descendants("package")
                            select new
