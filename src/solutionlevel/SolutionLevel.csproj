@@ -145,12 +145,15 @@
     <GetFrameworkSdkPath>
       <Output TaskParameter="Path" PropertyName="WindowsSdkPath" />
     </GetFrameworkSdkPath>
+    <Message Text="Framework SDK path: $(WindowsSdkPath)" />
     <PropertyGroup>
       <FileSNExe>$(WindowsSdkPath)bin\sn.exe</FileSNExe>
     </PropertyGroup>
-    <!-- Sometimes theres nothing in the WindowsSdkPath dir and there's stuff in a deeper folder called 'NETFX 4.0 Tools'. -->
+    <!-- For .NET 4.5 there is nothing WindowsSdkPath dir but there is in the deeper folder called 'NETFX 4.0 Tools'. -->
+    <!-- For .NET 4.5.1 there is nothing WindowsSdkPath dir but there is in the deeper folder called 'NETFX 4.5.1 Tools'. -->
     <PropertyGroup>
-      <FileSNExe Condition="!Exists($(FileSNExe))">$(WindowsSdkPath)bin\NETFX 4.0 Tools\sn.exe</FileSNExe>
+      <FileSNExe Condition="!Exists($(FileSNExe)) AND Exists('$(WindowsSdkPath)bin\NETFX 4.0 Tools\sn.exe')">$(WindowsSdkPath)bin\NETFX 4.0 Tools\sn.exe</FileSNExe>
+      <FileSNExe Condition="!Exists($(FileSNExe)) AND Exists('$(WindowsSdkPath)bin\NETFX 4.5.1 Tools\sn.exe')">$(WindowsSdkPath)bin\NETFX 4.5.1 Tools\sn.exe</FileSNExe>
     </PropertyGroup>
     <Message Text="sn.exe at: $(FileSNExe)" />
   </Target>

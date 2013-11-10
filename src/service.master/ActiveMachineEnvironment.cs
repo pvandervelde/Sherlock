@@ -155,17 +155,28 @@ namespace Sherlock.Service.Master
             var result = Task<EnvironmentState>.Factory.StartNew(
                 () =>
                     {
-                        var task = m_Commands.State();
+                        var state = TestExecutionState.Unknown;
 
-                        TestExecutionState state;
+                        Task<TestExecutionState> task;
                         try
                         {
-                            task.Wait(token);
-                            state = task.Result;
+                            task = m_Commands.State();
                         }
-                        catch (AggregateException)
+                        catch (CommandInvocationFailedException)
                         {
-                            state = TestExecutionState.Unknown;
+                            task = null;
+                        }
+
+                        if (task != null)
+                        {
+                            try
+                            {
+                                task.Wait(token);
+                                state = task.Result;
+                            }
+                            catch (AggregateException)
+                            {
+                            }
                         }
 
                         return new EnvironmentState(state);
