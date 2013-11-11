@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- Define the values for an x86 build-->
+    <?if $(var.Platform)=x86 ?>
+        <?define PlatformProgramFilesFolder="ProgramFilesFolder" ?>
+        <?define UpgradeCode="{F47A0F60-3AEF-4247-AD6F-0A6AB2C8D79E}"?>
+    <?endif ?>
+
+    <!-- The product name as you want it to appear in the installer -->
+    <?define ProductName="Sherlock" ?>
+
+    <!-- The product name as you want it to appear in the installer -->
+    <?define Description="Sherlock" ?>
+
+    <!-- Define the default install folder -->
+    <?define ProductInstallFolder="Sherlock" ?>
+</Include>

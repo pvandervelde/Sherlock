@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+
+    <!-- 
+        Include the dependencies file. This contains links to file paths and the 
+        client WiX files.
+   -->
+    <?include $(var.SolutionDir)..\build\temp\Dependencies.wxi ?>
+
+    <!--
+        Include the version number file. This contains the current version number
+        and the version number of the oldest version of Apollo that we allow 
+        upgrading from.
+   -->
+    <?include $(var.SolutionDir)..\build\temp\VersionNumber.wxi ?>
+
+    <!--
+        Include the company include file. This contains some general information
+        regarding the manufacturer that is needed for the installer.
+   -->
+    <?include $(var.SolutionDir)..\templates\CompanyIncludes.wxi ?>
+
+    <!--
+        Include the include file. This contains some general information
+        regarding Apollo that is needed for the installer.
+   -->
+    <?include Includes.wxi ?>
+
+    <!--
+        Define the product information.
+        - We always force a major upgrade, so we set the productCode to 
+          '*' for automatic generation each time. 
+        - The installer language is US english (1033)
+        - The upgrade code is fixed and defined in dependencies.wxi
+   -->
+    <Product Id="*"
+             Name="$(var.ProductName)"
+             Language="1033"
+             Version="$(var.InstallVersion)"
+             Manufacturer="$(var.CompanyName)"
+             UpgradeCode="$(var.UpgradeCode)">
+
+        <!--
+            Define the package information.
+            - We demand version 3.0 of the installer (i.e. InstallerVersion=300)
+            - We demand an elevated install
+            - We always install per machine (not per user)
+            - we do not specify a Platform attribute, in which case it should use whatever the current configuration is.
+              (to specify it explicitly, we would have to set it to $(var.Platform) which produces spurious warnings when
+               VS fails to validate that against the schema)
+        -->
+        <Package InstallerVersion="300"
+                 Compressed="yes"
+                 InstallPrivileges="elevated"
+                 InstallScope="perMachine"
+                 Manufacturer="$(var.CompanyName)"
+                 Description="$(var.Description)" />
+
+        <!-- 
+            Define the upgrade conditions. The upgrade code must be retained
+            as long as we want to be able to replace an older version with a
+            newer version.
+            
+            We currently only use Major upgrades (i.e. uninstall the old version
+            and install the new version). 
+            
+            Upgrades are done for a version as long as the upgrade code is the 
+            same.
+        -->
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+                      AllowDowngrades="no"
+                      AllowSameVersionUpgrades="yes"/>
+
+        <!-- Pack all the media in a single CAB file and stuff that in the MSI. -->
+        <MediaTemplate EmbedCab="yes" />
+
+        <!-- 
+            Define the install directory. By default this will be in the program files 
+            folder. However we do allow the user to change this.
+            By default the install location for a 32-bit binary on a 
+            64-bit Windows version will look like:
+            <PROGRAM_FILES_X86>\<CompanyName>\Apollo
+        -->
+        <Directory Id="TARGETDIR"
+                   Name="SourceDir">
+            <Directory Id="$(var.PlatformProgramFilesFolder)">
+                <Directory Id="Dir.Install.Company"
+                           Name="$(var.CompanyInstallFolder)">
+                    <Directory Id="Dir.Install.Sherlock"
+                               Name="$(var.ProductInstallFolder)">
+                        <Directory Id="INSTALLLOCATION"
+                                   Name="$(var.ProductVersionFolder)">
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="F.Complete"
+                 Title="$(var.ProductName)"
+                 Description="The complete install of the $(var.ProductName) suite."
+                 ConfigurableDirectory="INSTALLLOCATION"
+                 Display="1"
+                 Level="1">
+            <ComponentGroupRef Id="CGroup.Verification.Console" />
+        </Feature>
+
+        <!-- Properties -->
+        <!-- This information is used in the install / uninstall dialog -->
+        <!-- Contact information -->
+        <Property Id='ARPCONTACT'>$(var.CompanyName)</Property>
+        <!-- URL for technical support -->
+        <Property Id='ARPHELPLINK'>$(var.CompanyHelpUrl)</Property>
+        <!-- URL for general information about the product -->
+        <Property Id='ARPURLINFOABOUT'>$(var.CompanyHelpUrl)</Property>
+        <!-- Icon -->
+        <Property Id='ARPPRODUCTICON'>Icon.Sherlock.ico</Property>
+
+        <!-- Define where the value of the install directory should be written to -->
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+
+        <PropertyRef Id="NETFRAMEWORK45"/>
+        <Condition Message="Version 4.5 of the .NET framework is required for the setup to continue.">
+            <![CDATA[Installed OR NETFRAMEWORK45]]>
+        </Condition>
+
+        <!-- 
+            Indicate that we need the UI that allows the user to select the 
+            install directory only.
+        -->
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+
+            <!-- Skip license dialog -->
+            <Publish Dialog="WelcomeDlg"
+                     Control="Next"
+                     Event="NewDialog"
+                     Value="InstallDirDlg"
+                     Order="2">1</Publish>
+            <Publish Dialog="InstallDirDlg"
+                     Control="Back"
+                     Event="NewDialog"
+                     Value="WelcomeDlg"
+                     Order="2">1</Publish>
+        </UI>
+    </Product>
+</Wix>

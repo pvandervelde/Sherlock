@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Executor", "test.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Verification.Console", "verification.console\Sherlock.Verification.Console.csproj", "{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sherlock.Verification.Installer", "verification.installer\Sherlock.Verification.Installer.wixproj", "{B372ED92-63CB-4996-91B9-9DCBE4919CE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,12 @@ Global
 		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
 		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Debug|Any CPU.Build.0 = Debug|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Deploy|Any CPU.ActiveCfg = Debug|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Deploy|Any CPU.Build.0 = Debug|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Release|Any CPU.ActiveCfg = Release|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

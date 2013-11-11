@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <!-- 
+        Include the dependencies file. This contains links to file paths and the 
+        client WiX files.
+   -->
+    <?include $(var.SolutionDir)..\build\temp\Dependencies.wxi ?>
+    
+    <Fragment>
+        <DirectoryRef Id="INSTALLLOCATION">
+            <Component Id="C.Lokad.Shared.dll"
+                       Guid="FCCBF2A6-72B1-4BCB-BF5B-78556947BBC1">
+                <File Id="F.Lokad.Shared.dll"
+                      Name="Lokad.Shared.dll"
+                      KeyPath="yes"
+                      Source="$(var.BinFolder)\Lokad.Shared.dll" />
+            </Component>
+            
+            <Component Id="C.Nuclei.dll"
+                       Guid="C239D266-47D4-4150-B55F-4A1B8B60B9D2">
+                <File Id="F.Nuclei.dll"
+                      Name="Nuclei.dll"
+                      KeyPath="yes"
+                      Source="$(var.BinFolder)\Nuclei.dll" />
+            </Component>
+
+            <Component Id="C.Nuclei.Build.dll"
+                       Guid="16AC8B75-EB1D-4772-AED2-BBD27001C4A9">
+                <File Id="F.Nuclei.Build.dll"
+                      Name="Nuclei.Build.dll"
+                      KeyPath="yes"
+                      Source="$(var.BinFolder)\Nuclei.Build.dll" />
+            </Component>
+
+            <Component Id="C.Sherlock.Verification.Console.exe"
+                       Guid="01271FBB-697B-4E4B-AB3B-C5FB757BAAA4">
+                <File Id="F.Sherlock.Verification.Console.exe"
+                      Name="Sherlock.Verification.Console.exe"
+                      KeyPath="yes"
+                      Source="$(var.BinFolder)\Sherlock.Verification.Console.exe" />
+            </Component>
+
+            <Component Id="C.Sherlock.Verification.Console.exe.config"
+                       Guid="E7AE05FF-F257-4C2B-B951-9D02E08194B1">
+                <File Id="F.Sherlock.Verification.Console.exe.config"
+                      Name="Sherlock.Verification.Console.exe.config"
+                      KeyPath="yes"
+                      Source="$(var.BinFolder)\Sherlock.Verification.Console.exe.config" />
+            </Component>
+        </DirectoryRef>
+
+        <!-- 
+            Define where we get the icon from. This is used for the start-menu and
+            desktop items. We could point to the Apollo exe but then the icon won't 
+            show up until the first time we run the application. This is because we 
+            advertise the shortcuts. 
+            Un-advertised shortcuts are advised against by the powers-that-be.
+        -->
+        <Icon Id="Icon.Sherlock.ico"
+              SourceFile="$(var.ResourceFolder)\icons\sherlock.ico" />
+
+        <ComponentGroup Id="CGroup.Verification.Console">
+            <ComponentRef Id="C.Lokad.Shared.dll" />
+            <ComponentRef Id="C.Nuclei.dll" />
+            <ComponentRef Id="C.Nuclei.Build.dll" />
+            <ComponentRef Id="C.Sherlock.Verification.Console.exe" />
+            <ComponentRef Id="C.Sherlock.Verification.Console.exe.config" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>
