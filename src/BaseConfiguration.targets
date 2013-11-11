@@ -11,9 +11,9 @@
 
         <!-- Project directories -->
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <OutputPath Condition=" '$(OutputPath)' == ''">$(SolutionDir)\..\build\bin\$(Platform)\$(Configuration)\</OutputPath>
-        <IntermediateOutputPath>$(SolutionDir)\..\build\temp\bin\obj\$(AssemblyName)\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-        <_PackageTempDir>$(SolutionDir)\..\build\temp\publish\$(Configuration)\$(AssemblyName)</_PackageTempDir>
+        <OutputPath Condition=" '$(OutputPath)' == ''">$([System.IO.Path]::GetFullPath('$(SolutionDir)\..\build\bin\$(Platform)\$(Configuration)\'))</OutputPath>
+        <IntermediateOutputPath>$([System.IO.Path]::GetFullPath('$(SolutionDir)\..\build\temp\bin\obj\$(AssemblyName)\$(Platform)\$(Configuration)\'))</IntermediateOutputPath>
+        <_PackageTempDir>$([System.IO.Path]::GetFullPath('$(SolutionDir)\..\build\temp\publish\$(Configuration)\$(AssemblyName)'))</_PackageTempDir>
 
         <!-- Build configuration -->
         <ErrorReport>prompt</ErrorReport>
