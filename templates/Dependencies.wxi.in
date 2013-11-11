@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<!--
+      This is a generated file.
+      Do NOT make changes to this file.
+      They will be undone next time the file is generated.
+   -->
+
+    <!-- Bin folder for roads -->
+    <?define BinFolder="${DirBin}"?>
+
+    <!-- Define the folder that holds the resources -->
+    <?define ResourceFolder="${DirResource}"?>
+</Include>

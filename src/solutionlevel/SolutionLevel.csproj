@@ -34,7 +34,8 @@
     </Target>
     -->
   <PropertyGroup>
-    <DirWorkspace>$(SolutionDir)\..</DirWorkspace>
+    <DirWorkspace>$([System.IO.Path]::GetFullPath('$(SolutionDir)\..'))</DirWorkspace>
+    <DirResource>$(DirWorkspace)\resource</DirResource>
     <DirTemplates>$(DirWorkspace)\templates</DirTemplates>
     <DirTools>$(DirWorkspace)\tools</DirTools>
     <DirPackages>$(DirWorkspace)\packages</DirPackages>
@@ -44,10 +45,14 @@
     <FileTemplateAssemblyVersion>$(DirTemplates)\AssemblyInfo.VersionNumber.cs.in</FileTemplateAssemblyVersion>
     <FileTemplateAssemblyBuildInfo>$(DirTemplates)\AssemblyInfo.BuildInformation.cs.in</FileTemplateAssemblyBuildInfo>
     <FileTemplateInternalsVisibleTo>$(DirTemplates)\AssemblyInfo.InternalsVisibleTo.cs.in</FileTemplateInternalsVisibleTo>
+    <FileTemplateWixVersion>$(DirTemplates)\VersionNumber.wxi.in</FileTemplateWixVersion>
+    <FileTemplateWixDependencies>$(DirTemplates)\Dependencies.wxi.in</FileTemplateWixDependencies>
     <!-- Generated files -->
     <FileGeneratedAssemblyVersion>$(DirBuildTemp)\AssemblyInfo.VersionNumber.cs</FileGeneratedAssemblyVersion>
     <FileGeneratedAssemblyBuildInfo>$(DirBuildTemp)\AssemblyInfo.BuildInformation.cs</FileGeneratedAssemblyBuildInfo>
     <FileGeneratedInternalsVisibleTo>$(DirBuildTemp)\AssemblyInfo.InternalsVisibleTo.cs</FileGeneratedInternalsVisibleTo>
+    <FileGeneratedWixVersion>$(DirBuildTemp)\VersionNumber.wxi</FileGeneratedWixVersion>
+    <FileGeneratedWixDependencies>$(DirBuildTemp)\Dependencies.wxi</FileGeneratedWixDependencies>
     <FileGeneratedLicenses>$(DirBuildTemp)\licenses.xml</FileGeneratedLicenses>
     <!-- Version number -->
     <VersionMajor>0</VersionMajor>
@@ -85,6 +90,8 @@
       <GeneratedFiles Include="$(FileGeneratedAssemblyBuildInfo)" />
       <GeneratedFiles Include="$(FileGeneratedLicenses)" />
       <GeneratedFiles Include="$(FileGeneratedInternalsVisibleTo)" />
+      <GeneratedFiles Include="$(FileGeneratedWixVersion)" />
+      <GeneratedFiles Include="$(FileGeneratedWixDependencies)" />
     </ItemGroup>
     <Delete Files="@(GeneratedFiles)" />
   </Target>
@@ -94,6 +101,8 @@
             GenerateAssemblyInfoVersionNumber;
             GenerateAssemblyInfoBuildInfo;
             GenerateAssemblyInternalsVisbibleTo;
+            GenerateWixVersionNumber;
+            GenerateWixDependencies;
             $(BuildDependsOn);
         </BuildDependsOn>
   </PropertyGroup>
@@ -185,6 +194,39 @@
       </InternalsVisibleToTokens>
     </ItemGroup>
     <TemplateFile Template="$(FileTemplateInternalsVisibleTo)" OutputFileName="$(FileGeneratedInternalsVisibleTo)" Tokens="@(InternalsVisibleToTokens)" />
+  </Target>
+  <Target Name="GenerateWixVersionNumber">
+    <!-- Generate the version number file -->
+    <ItemGroup>
+      <WixVersionTokens Include="Major">
+        <ReplacementValue>$(VersionMajor)</ReplacementValue>
+      </WixVersionTokens>
+      <WixVersionTokens Include="Minor">
+        <ReplacementValue>$(VersionMinor)</ReplacementValue>
+      </WixVersionTokens>
+      <WixVersionTokens Include="Build">
+        <ReplacementValue>$(VersionBuild)</ReplacementValue>
+      </WixVersionTokens>
+      <WixVersionTokens Include="Revision">
+        <ReplacementValue>$(VersionRevision)</ReplacementValue>
+      </WixVersionTokens>
+    </ItemGroup>
+    <TemplateFile Template="$(FileTemplateWixVersion)" OutputFileName="$(FileGeneratedWixVersion)" Tokens="@(WixVersionTokens)" />
+    <Message Text="File $(FileTemplateWixVersion)" Condition="Exists('$(FileTemplateWixVersion)')" />
+    <Message Text="File $(FileGeneratedWixVersion)" Condition="Exists('$(FileGeneratedWixVersion)')" />
+  </Target>
+  <Target Name="GenerateWixDependencies">
+    <ItemGroup>
+      <WixBuildInfoTokens Include="DirBin">
+        <ReplacementValue>$(OutputPath)</ReplacementValue>
+      </WixBuildInfoTokens>
+      <WixBuildInfoTokens Include="DirResource">
+        <ReplacementValue>$(DirResource)</ReplacementValue>
+      </WixBuildInfoTokens>
+    </ItemGroup>
+    <TemplateFile Template="$(FileTemplateWixDependencies)" OutputFileName="$(FileGeneratedWixDependencies)" Tokens="@(WixBuildInfoTokens)" />
+    <Message Text="File $(FileTemplateWixDependencies)" Condition="Exists('$(FileTemplateWixDependencies)')" />
+    <Message Text="File $(FileGeneratedWixDependencies)" Condition="Exists('$(FileGeneratedWixDependencies)')" />
   </Target>
   <PropertyGroup>
     <FileNTrevaExe>ntreva.exe</FileNTrevaExe>

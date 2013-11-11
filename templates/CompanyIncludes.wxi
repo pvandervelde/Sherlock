@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- Define the name for the install folder-->
+    <?define CompanyInstallFolder="Sherlock" ?>
+
+    <!-- Define the corporation information -->
+    <?define CompanyName="Sherlock" ?>
+
+    <!-- Define the URL of the website -->
+    <?define CompanyHelpUrl="https://github.com/pvandervelde/Sherlock" ?>
+</Include>
