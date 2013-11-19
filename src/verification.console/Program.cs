@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -61,6 +62,11 @@ namespace Sherlock.Verification.Console
         /// </summary>
         private static bool s_ShouldFail;
 
+        /// <summary>
+        /// A flag indicating if the application should crash or not.
+        /// </summary>
+        private static bool s_ShouldCrash;
+
         static int Main(string[] args)
         {
             ShowHeader();
@@ -82,12 +88,19 @@ namespace Sherlock.Verification.Console
                 return HelpShownExitCode;
             }
 
+            if (s_ShouldCrash)
+            {
+                WriteErrorToConsole(Resources.Output_Error_AboutToExitApplicationWithCrash);
+                throw new Exception();
+            }
+
             if (s_ShouldFail)
             {
                 WriteErrorToConsole(Resources.Output_Error_AboutToExitApplicationWithError);
+                return FailApplicationExitCode;
             }
 
-            return !s_ShouldFail ? NormalApplicationExitCode : FailApplicationExitCode;
+            return NormalApplicationExitCode;
         }
 
         private static void ShowHeader()
@@ -169,6 +182,11 @@ namespace Sherlock.Verification.Console
                         Resources.CommandLine_Param_ShouldFail_Key,
                         Resources.CommandLine_Param_ShouldFail_Description,
                         v => s_ShouldFail = v != null
+                    },
+                    {
+                        Resources.CommandLine_Param_ShouldCrash_Key,
+                        Resources.CommandLine_Param_ShouldCrash_Description,
+                        v => s_ShouldCrash = v != null
                     },
                 };
             return options;

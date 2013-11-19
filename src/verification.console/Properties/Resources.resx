@@ -123,6 +123,12 @@
   <data name="CommandLine_Options_Help_Key" xml:space="preserve">
     <value>?|h|help</value>
   </data>
+  <data name="CommandLine_Param_ShouldCrash_Description" xml:space="preserve">
+    <value>Indicates that the application should exit with a crash.</value>
+  </data>
+  <data name="CommandLine_Param_ShouldCrash_Key" xml:space="preserve">
+    <value>c|ShouldCrash</value>
+  </data>
   <data name="CommandLine_Param_ShouldFail_Description" xml:space="preserve">
     <value>Indicates that the application should exit with a failure code.</value>
   </data>
@@ -140,6 +146,9 @@
   </data>
   <data name="Help_Usage_Intro" xml:space="preserve">
     <value>Usage: sherlock.verification.console.exe [OPTIONS]</value>
+  </data>
+  <data name="Output_Error_AboutToExitApplicationWithCrash" xml:space="preserve">
+    <value>About to exit application with a crash.</value>
   </data>
   <data name="Output_Error_AboutToExitApplicationWithError" xml:space="preserve">
     <value>About to exit the application with an error code.</value>

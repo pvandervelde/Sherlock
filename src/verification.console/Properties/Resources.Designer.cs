@@ -79,6 +79,24 @@ namespace Sherlock.Verification.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates that the application should exit with a crash..
+        /// </summary>
+        internal static string CommandLine_Param_ShouldCrash_Description {
+            get {
+                return ResourceManager.GetString("CommandLine_Param_ShouldCrash_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to c|ShouldCrash.
+        /// </summary>
+        internal static string CommandLine_Param_ShouldCrash_Key {
+            get {
+                return ResourceManager.GetString("CommandLine_Param_ShouldCrash_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indicates that the application should exit with a failure code..
         /// </summary>
         internal static string CommandLine_Param_ShouldFail_Description {
@@ -129,6 +147,15 @@ namespace Sherlock.Verification.Console.Properties {
         internal static string Help_Usage_Intro {
             get {
                 return ResourceManager.GetString("Help_Usage_Intro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About to exit application with a crash..
+        /// </summary>
+        internal static string Output_Error_AboutToExitApplicationWithCrash {
+            get {
+                return ResourceManager.GetString("Output_Error_AboutToExitApplicationWithCrash", resourceCulture);
             }
         }
         
