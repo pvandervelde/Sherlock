@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirTemp>$(DirWorkspace)\temp</DirTemp>
+        <DirResults>$(DirWorkspace)\results</DirResults>
+    </PropertyGroup>
+    
+    <Import Project="$(DirWorkspace)\TemplateFile.msbuild"
+            Condition="Exists('$(DirWorkspace)\TemplateFile.msbuild')"/>
+    <Import Project="$(DirWorkspace)\SherlockRegisterTest.msbuild"
+            Condition="Exists('$(DirWorkspace)\SherlockRegisterTest.msbuild')"/>
+    <Import Project="$(DirWorkspace)\WaitForFiles.msbuild"
+            Condition="Exists('$(DirWorkspace)\WaitForFiles.msbuild')"/>
+    <Import Project="$(DirWorkspace)\SherlockHasTestPassed.msbuild"
+            Condition="Exists('$(DirWorkspace)\SherlockHasTestPassed.msbuild')"/>
+            
+    <Import Project="$(DirWorkspace)\Sherlock.VerificationConfiguration.xml"
+            Condition="Exists('$(DirWorkspace)\Sherlock.VerificationConfiguration.xml')"/>
+
+    <Target Name="Run" DependsOnTargets="_ExecuteRegressionTestV10;_ExecuteRegressionTestV11;_ExecuteRegressionTestV12;_WaitForResults;_CopyReports;_ProcessReport">
+        <!-- Do nothing here -->
+    </Target>
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Running verification tests  ..." />
+    </Target>
+
+    <PropertyGroup>
+        <DirTestReports>$(ConfigurationReportDirectory)</DirTestReports>
+    </PropertyGroup>
+    <PropertyGroup>
+        <FileTemplateSherlockConfigurationV10>$(DirWorkspace)\Sherlock.Verification.v10.xml</FileTemplateSherlockConfigurationV10>
+        <FileSherlockConfigurationV10>$(DirTemp)\Sherlock.Verification.v10.xml</FileSherlockConfigurationV10>
+        <DirNotificationPathV10>$(DirTestReports)\sherlock\configV10</DirNotificationPathV10>
+    </PropertyGroup>
+    <Target Name="_ExecuteRegressionTestV10" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirTestReports)" Condition="!Exists('$(DirTestReports)')" />
+        <MakeDir Directories="$(DirTemp)" Condition="!Exists('$(DirTemp)')" />
+        <MakeDir Directories="$(DirResults)" Condition="!Exists('$(DirResults)')" />
+        <MakeDir Directories="$(DirNotificationPathV10)" Condition="!Exists('$(DirNotificationPathV10)')" />
+        
+        <ItemGroup>
+            <V10Tokens Include="serverurl">
+                <ReplacementValue>$(ConfigurationServerUrl)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="operatingsystemname">
+                <ReplacementValue>$(ConfigurationOperatingSystem)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="operatingsystemsp">
+                <ReplacementValue>$(ConfigurationOperatingSystemServicePack)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="operatingsystemculture">
+                <ReplacementValue>$(ConfigurationOperatingSystemCulture)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="operatingsystempointersize">
+                <ReplacementValue>$(ConfigurationOperatingSystemPointerSize)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="scriptpath">
+                <ReplacementValue>$(DirWorkspace)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="destinationpath">
+                <ReplacementValue>$(ConfigurationRemotePcWorkingPath)</ReplacementValue>
+            </V10Tokens>
+            <V10Tokens Include="notificationpath">
+                <ReplacementValue>$(DirNotificationPathV10)</ReplacementValue>
+            </V10Tokens>
+        </ItemGroup>
+       
+        <TemplateFile Template="$(FileTemplateSherlockConfigurationV10)" OutputFileName="$(FileSherlockConfigurationV10)" Tokens="@(V10Tokens)" />
+        <SherlockRegisterTest InstallDir="$(ConfigurationSherlockConsoleDirectory)" Configuration="$(FileSherlockConfigurationV10)" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileTemplateSherlockConfigurationV11>$(DirWorkspace)\Sherlock.Verification.v11.xml</FileTemplateSherlockConfigurationV11>
+        <FileSherlockConfigurationV11>$(DirTemp)\Sherlock.Verification.v11.xml</FileSherlockConfigurationV11>
+        <DirNotificationPathV11>$(DirTestReports)\sherlock\configV11</DirNotificationPathV11>
+    </PropertyGroup>
+    <Target Name="_ExecuteRegressionTestV11" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirTestReports)" Condition="!Exists('$(DirTestReports)')" />
+        <MakeDir Directories="$(DirTemp)" Condition="!Exists('$(DirTemp)')" />
+        <MakeDir Directories="$(DirResults)" Condition="!Exists('$(DirResults)')" />
+        <MakeDir Directories="$(DirNotificationPathV11)" Condition="!Exists('$(DirNotificationPathV11)')" />
+        
+        <ItemGroup>
+            <V11Tokens Include="operatingsystemname">
+                <ReplacementValue>$(ConfigurationOperatingSystem)</ReplacementValue>
+            </V11Tokens>
+            <V11Tokens Include="operatingsystemsp">
+                <ReplacementValue>$(ConfigurationOperatingSystemServicePack)</ReplacementValue>
+            </V11Tokens>
+            <V11Tokens Include="operatingsystemculture">
+                <ReplacementValue>$(ConfigurationOperatingSystemCulture)</ReplacementValue>
+            </V11Tokens>
+            <V11Tokens Include="operatingsystempointersize">
+                <ReplacementValue>$(ConfigurationOperatingSystemPointerSize)</ReplacementValue>
+            </V11Tokens>
+            <V11Tokens Include="scriptpath">
+                <ReplacementValue>$(DirWorkspace)</ReplacementValue>
+            </V11Tokens>
+            <V11Tokens Include="destinationpath">
+                <ReplacementValue>$(ConfigurationRemotePcWorkingPath)</ReplacementValue>
+            </V11Tokens>
+            <V11Tokens Include="notificationpath">
+                <ReplacementValue>$(DirNotificationPathV11)</ReplacementValue>
+            </V11Tokens>
+        </ItemGroup>
+        
+        <TemplateFile Template="$(FileTemplateSherlockConfigurationV11)" OutputFileName="$(FileSherlockConfigurationV11)" Tokens="@(V11Tokens)" />
+        <SherlockRegisterTest InstallDir="$(ConfigurationSherlockConsoleDirectory)" Configuration="$(FileSherlockConfigurationV11)" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileTemplateSherlockConfigurationV12>$(DirWorkspace)\Sherlock.Verification.v12.xml</FileTemplateSherlockConfigurationV12>
+        <FileSherlockConfigurationV12>$(DirTemp)\Sherlock.Verification.v12.xml</FileSherlockConfigurationV12>
+        <DirNotificationPathV12>$(DirTestReports)\sherlock\configV12</DirNotificationPathV12>
+    </PropertyGroup>
+    <Target Name="_ExecuteRegressionTestV12" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirTestReports)" Condition="!Exists('$(DirTestReports)')" />
+        <MakeDir Directories="$(DirTemp)" Condition="!Exists('$(DirTemp)')" />
+        <MakeDir Directories="$(DirResults)" Condition="!Exists('$(DirResults)')" />
+        <MakeDir Directories="$(DirNotificationPathV12)" Condition="!Exists('$(DirNotificationPathV12)')" />
+        
+        <!-- Generate the Sherlock files -->
+        <ItemGroup>
+            <V12Tokens Include="operatingsystemname">
+                <ReplacementValue>$(ConfigurationOperatingSystem)</ReplacementValue>
+            </V12Tokens>
+            <V12Tokens Include="operatingsystemsp">
+                <ReplacementValue>$(ConfigurationOperatingSystemServicePack)</ReplacementValue>
+            </V12Tokens>
+            <V12Tokens Include="operatingsystemculture">
+                <ReplacementValue>$(ConfigurationOperatingSystemCulture)</ReplacementValue>
+            </V12Tokens>
+            <V12Tokens Include="operatingsystempointersize">
+                <ReplacementValue>$(ConfigurationOperatingSystemPointerSize)</ReplacementValue>
+            </V12Tokens>
+            <V12Tokens Include="scriptpath">
+                <ReplacementValue>$(DirWorkspace)</ReplacementValue>
+            </V12Tokens>
+            <V12Tokens Include="destinationpath">
+                <ReplacementValue>$(ConfigurationRemotePcWorkingPath)</ReplacementValue>
+            </V12Tokens>
+            <V12Tokens Include="notificationpath">
+                <ReplacementValue>$(DirNotificationPathV12)</ReplacementValue>
+            </V12Tokens>
+        </ItemGroup>
+        
+        <TemplateFile Template="$(FileTemplateSherlockConfigurationV12)" OutputFileName="$(FileSherlockConfigurationV12)" Tokens="@(V12Tokens)" />
+        <SherlockRegisterTest InstallDir="$(ConfigurationSherlockConsoleDirectory)" Configuration="$(FileSherlockConfigurationV12)" />
+    </Target>
+    
+    <Target Name="_WaitForResults" DependsOnTargets="_DisplayInfo">
+        <Message Text="Waiting for test reports to become available ..." />
+        
+        <ItemGroup>
+            <SherlockXmlReportFiles Include="$(DirNotificationPathV10)\sherlock.report.xml" />
+            <SherlockXmlReportFiles Include="$(DirNotificationPathV11)\sherlock.report.xml" />
+            <SherlockXmlReportFiles Include="$(DirNotificationPathV12)\sherlock.report.xml" />
+        </ItemGroup>
+        
+        <!-- Wait for the report files to be produced. Wait for a maximum of an hour. -->
+        <WaitForFiles Files="@(SherlockXmlReportFiles)" MaximumWaitTimeInSeconds="3600" />
+    </Target>
+    
+    <Target Name="_CopyReports">
+        <ItemGroup>
+            <SherlockReportFiles Include="$(DirTestReports)\sherlock\**\*.*" />
+        </ItemGroup>
+        
+        <Copy SourceFiles="@(SherlockReportFiles)" DestinationFolder="$(DirResults)\%(RecursiveDir)" />
+    </Target>
+    
+    <Target Name="_ProcessReport" DependsOnTargets="_DisplayInfo;_WaitForResults">
+        <SherlockHasTestPassed ReportFile="%(SherlockXmlReportFiles.Identity)" />
+    </Target>
+ </Project>

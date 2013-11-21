@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5"
+         DefaultTargets="Build"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ConfigurationReportDirectory>REPORT_DIRECTORY_ACCESSIBLE_TO_SERVER</ConfigurationReportDirectory>
+        <ConfigurationServerUrl>SERVER_URL</ConfigurationServerUrl>
+        <ConfigurationOperatingSystem>OPERATING_SYSTEM_NAME</ConfigurationOperatingSystem>
+        <ConfigurationOperatingSystemServicePack>OPERATING_SYSTEM_SERVICE_PACK_NAME</ConfigurationOperatingSystemServicePack>
+        <ConfigurationOperatingSystemCulture>OPERATING_SYSTEM_CULTURE_IN_IETF_LANGUAGE_TAG_FORMAT</ConfigurationOperatingSystemCulture>
+        <ConfigurationOperatingSystemPointerSize>OPERATING_SYSTEM_POINTER_SIZE_IN_BITS</ConfigurationOperatingSystemPointerSize>
+        <ConfigurationRemotePcWorkingPath>REMOTE_PC_WORKING_PATH</ConfigurationRemotePcWorkingPath>
+        <ConfigurationSherlockConsoleDirectory>PATH_TO_SHERLOCK_CONSOLE_DIRECTORY</ConfigurationSherlockConsoleDirectory>
+    </PropertyGroup>
+</Project>

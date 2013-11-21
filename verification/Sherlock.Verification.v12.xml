@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sherlock configurationVersion="1.2">
+    <!--
+        Provide some human readable information for the test. This information
+        is used in the reports.
+    -->
+    <description>
+        <product>Sherlock</product>
+        <version>${version}</version>
+        <testpurpose>To verify that Sherlock is correctly installed and can process a version 1.2 configuration file.</testpurpose>
+    </description>
+
+    <!--
+        Define the environments that are required for the test. Environments are selected by limiting the
+        selection through constraints.
+    -->
+    <environments>
+        <environment name="client">
+            <constraints>
+                <!-- 
+                    Indicates on which operating systems the tests have to be run.
+                    Note that you can specify what ever you want, however the tests
+                    will not be run if the operating system is not recognised 
+
+                    Service pack names are designated with SP and a number, e.g. SP1
+
+                    Operating system cultures follow the RFC 4646 specification: 
+                    The name is a combination of and ISO 639 two-letter lowercase
+                    culture code associated with a language and an ISO 3166 two-
+                    letter uppercase subculture code associated with a country or 
+                    region. Examples are: en-US (US english), jp-JP (japanese) etc.
+                    see here: 
+                    http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx
+                    for more information.
+                -->
+                <operatingsystem name="${operatingsystemname}"
+                                 servicepack="${operatingsystemsp}"
+                                 culture="${operatingsystemculture}"
+                                 architecturepointersize="${operatingsystempointersize}"/>
+            </constraints>
+        </environment>
+    </environments>
+
+    <!-- 
+        The test steps that need to be taken for the test to be completed 
+    -->
+    <teststeps>
+        <msi steporder="0"
+             environment="client"
+             onfailure="Stop">
+            <file><![CDATA[${scriptpath}\Sherlock.Verification.Installer.msi]]></file>
+            <params>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </msi>
+        
+        <xcopy steporder="1" 
+               environment="client"
+               onfailure="Continue">
+            <destination><![CDATA[${destinationpath}]]></destination>
+            <base><![CDATA[${scriptpath}]]></base>
+            <paths>
+                <file><![CDATA[${scriptpath}\Lokad.Shared.dll]]></file>
+                <file><![CDATA[${scriptpath}\Nuclei.dll]]></file>
+                <file><![CDATA[${scriptpath}\Nuclei.Build.dll]]></file>
+                <file><![CDATA[${scriptpath}\Sherlock.Verification.Console.exe]]></file>
+                <file><![CDATA[${scriptpath}\Sherlock.Verification.Console.exe.config]]></file>
+            </paths>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </xcopy>
+        
+        <script steporder="2"
+                environment="client"
+                onfailure="Continue">
+            <file language="Powershell"><![CDATA[${scriptpath}\verify.ps1]]></file>
+            <params>
+                <param key="installPath"><![CDATA[${destinationpath}\Sherlock.Verification.Console.exe]]></param>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </script>
+        
+        <script steporder="3"
+                environment="client"
+                onfailure="Continue">
+            <file language="Powershell"><![CDATA[${scriptpath}\verify.ps1]]></file>
+            <params>
+                <param key="installPath"><![CDATA[${destinationpath}\Sherlock.Verification.Console.exe]]></param>
+                <param key="arguments"><![CDATA[-f]]></param>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </script>
+        
+        <script steporder="4"
+                environment="client"
+                onfailure="Continue">
+            <file language="Powershell"><![CDATA[${scriptpath}\verify.ps1]]></file>
+            <params>
+                <param key="installPath"><![CDATA[${destinationpath}\Sherlock.Verification.Console.exe]]></param>
+                <param key="arguments"><![CDATA[-c]]></param>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </script>
+        
+        <console steporder="5"
+                 environment="client"
+                 onfailure="Continue">
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></exe>
+            <params>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </console>
+        
+        <console steporder="6"
+                 environment="client"
+                 onfailure="Continue">
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></exe>
+            <params>
+                <param><![CDATA[-f]]></param>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </console>
+        
+        <console steporder="7"
+                 environment="client"
+                 onfailure="Continue">
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></exe>
+            <params>
+                <param><![CDATA[-c]]></param>
+            </params>
+            <includeinreport includesystemlog="true">
+            </includeinreport>
+        </console>
+    </teststeps>
+
+    <completednotification>
+        <file>
+            <path><![CDATA[${notificationpath}]]></path>
+        </file>
+    </completednotification>
+</sherlock>

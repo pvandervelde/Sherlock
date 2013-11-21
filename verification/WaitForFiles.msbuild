@@ -1,0 +1,89 @@
+<Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003' 
+         ToolsVersion="4.0">
+    <UsingTask TaskName="WaitForFiles" 
+               TaskFactory="CodeTaskFactory" 
+               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+            <MaximumWaitTimeInSeconds ParameterType="System.Int32" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Code Type="Method" Language="cs">
+                <![CDATA[
+                    public override bool Execute()
+                    {
+                        var lockObject = new object();
+                        var resetEvent = new System.Threading.AutoResetEvent(false);
+
+                        var filesToWatch = new System.Collections.Generic.List<System.Tuple<string, System.IO.FileSystemWatcher>>();
+                        foreach (var file in Files)
+                        {
+                            var filePath = file.ToString();
+                            var watcher = new System.IO.FileSystemWatcher
+                            {
+                                Path = System.IO.Path.GetDirectoryName(filePath),
+                                Filter = System.IO.Path.GetFileName(filePath),
+                                EnableRaisingEvents = false,
+                                NotifyFilter = System.IO.NotifyFilters.FileName | System.IO.NotifyFilters.CreationTime | System.IO.NotifyFilters.LastWrite,
+                            };
+
+                            System.IO.FileSystemEventHandler handler = null;
+                            handler = (s, e) =>
+                            {
+                                lock(lockObject)
+                                {
+                                    Log.LogMessage("File newly created at: {0}", filePath);
+
+                                    var count = filesToWatch.RemoveAll(t => ReferenceEquals(t.Item2, watcher));
+                                    if ((count > 0) && (filesToWatch.Count == 0))
+                                    {
+                                        resetEvent.Set();
+                                    }
+                                }
+
+                                watcher.Created -= handler;
+                            };
+                            watcher.Created += handler;
+                            watcher.EnableRaisingEvents = true;
+
+                            if (!System.IO.File.Exists(filePath))
+                            {
+                                filesToWatch.Add(new System.Tuple<string, System.IO.FileSystemWatcher>(filePath, watcher));
+                                Log.LogMessage("Waiting for file: {0}", filePath);
+                            }
+                        }
+
+                        int numberOfFilesToWaitFor;
+                        lock(lockObject)
+                        {
+                            numberOfFilesToWaitFor = filesToWatch.Count;
+                        }
+
+                        bool hasReceivedSignal = true;
+                        if (numberOfFilesToWaitFor > 0)
+                        {
+                            hasReceivedSignal = resetEvent.WaitOne(new System.TimeSpan(0, 0, MaximumWaitTimeInSeconds));
+                        }
+                        
+                        if (!hasReceivedSignal)
+                        {
+                            lock(lockObject)
+                            {
+                                Log.LogError("Maximum test time exceeded.");
+                                foreach(var pair in filesToWatch)
+                                {
+                                    Log.LogError("Maximum test time exceeded for report file {0}.", pair.Item1);
+                                }
+                            }
+                        }                        
+                        
+                        // Log.HasLoggedErrors is true if the task logged any errors -- even if they were logged 
+                        // from a task's constructor or property setter. As long as this task is written to always log an error
+                        // when it fails, we can reliably return HasLoggedErrors.
+                        return !Log.HasLoggedErrors;
+                    }
+                ]]>  
+            </Code>
+        </Task>
+    </UsingTask>
+</Project>

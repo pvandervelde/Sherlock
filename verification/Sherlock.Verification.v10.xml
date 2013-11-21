@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sherlock configurationVersion="1.0">
+    <server>
+        <url>${serverurl}</url>
+    </server>
+    
+    <!--
+        Provide some human readable information for the test. This information
+        is used in the reports.
+    -->
+    <description>
+        <product>Sherlock</product>
+        <version>${version}</version>
+        <testpurpose>To verify that Sherlock is correctly installed and can process a version 1.0 configuration file.</testpurpose>
+    </description>
+
+    <!--
+        Define the environments that are required for the test. Environments are selected by limiting the
+        selection through constraints.
+    -->
+    <environments>
+        <environment name="client">
+            <constraints>
+                <!-- 
+                    Indicates on which operating systems the tests have to be run.
+                    Note that you can specify what ever you want, however the tests
+                    will not be run if the operating system is not recognised 
+
+                    Service pack names are designated with SP and a number, e.g. SP1
+
+                    Operating system cultures follow the RFC 4646 specification: 
+                    The name is a combination of and ISO 639 two-letter lowercase
+                    culture code associated with a language and an ISO 3166 two-
+                    letter uppercase subculture code associated with a country or 
+                    region. Examples are: en-US (US english), jp-JP (japanese) etc.
+                    see here: 
+                    http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx
+                    for more information.
+                -->
+                <operatingsystem name="${operatingsystemname}"
+                                 servicepack="${operatingsystemsp}"
+                                 culture="${operatingsystemculture}"
+                                 architecturepointersize="${operatingsystempointersize}"/>
+            </constraints>
+        </environment>
+    </environments>
+
+    <!-- 
+        The test steps that need to be taken for the test to be completed 
+    -->
+    <teststeps>
+        <msi steporder="0"
+             environment="client">
+            <file><![CDATA[${scriptpath}\Sherlock.Verification.Installer.msi]]></file>
+            <params>
+            </params>
+        </msi>
+        
+        <xcopy steporder="1" 
+               environment="client">
+            <destination><![CDATA[${destinationpath}]]></destination>
+            <base><![CDATA[${binpath}]]></base>
+            <paths>
+                <file><![CDATA[${scriptpath}\Lokad.Shared.dll]]></file>
+                <file><![CDATA[${scriptpath}\Nuclei.dll]]></file>
+                <file><![CDATA[${scriptpath}\Nuclei.Build.dll]]></file>
+                <file><![CDATA[${scriptpath}\Sherlock.Verification.Console.exe]]></file>
+                <file><![CDATA[${scriptpath}\Sherlock.Verification.Console.exe.config]]></file>
+            </paths>
+        </xcopy>
+        
+        <script steporder="2"
+                environment="client">
+            <file language="Powershell"><![CDATA[${scriptpath}\verify.ps1]]></file>
+            <params>
+                <param key="installPath"><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></param>
+            </params>
+        </script>
+        
+        <!-- 
+            NOTE: This step should terminate the test execution because a failing test step fails the test and halts it. Hence why
+            this step will be the last one in the series. Also not testing crashes for this version of the configuration file
+            because we can't continue after that.
+        -->
+        <script steporder="3"
+                environment="client">
+            <file language="Powershell"><![CDATA[${scriptpath}\verify.ps1]]></file>
+            <params>
+                <param key="installPath"><![CDATA[${destinationpath}\Sherlock.Verification.Console.exe]]></param>
+                <param key="arguments"><![CDATA[-f]]></param>
+            </params>
+        </script>
+    </teststeps>
+
+    <completednotification>
+        <file>
+            <path><![CDATA[${notificationpath}]]></path>
+        </file>
+    </completednotification>
+</sherlock>
