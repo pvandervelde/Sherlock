@@ -21,7 +21,7 @@
     <Import Project="$(DirWorkspace)\Sherlock.VerificationConfiguration.xml"
             Condition="Exists('$(DirWorkspace)\Sherlock.VerificationConfiguration.xml')"/>
 
-    <Target Name="Run" DependsOnTargets="_ExecuteRegressionTestV10;_ExecuteRegressionTestV11;_ExecuteRegressionTestV12;_WaitForResults;_CopyReports;_ProcessReport">
+    <Target Name="Run" DependsOnTargets="_Clean;_ExecuteRegressionTestV10;_ExecuteRegressionTestV11;_ExecuteRegressionTestV12;_WaitForResults;_CopyReports;_ProcessReport">
         <!-- Do nothing here -->
     </Target>
     
@@ -32,11 +32,44 @@
 
     <PropertyGroup>
         <DirTestReports>$(ConfigurationReportDirectory)</DirTestReports>
+        <DirNotificationPathV10>$(DirTestReports)\sherlock\configV10</DirNotificationPathV10>
+        <DirNotificationPathV11>$(DirTestReports)\sherlock\configV11</DirNotificationPathV11>
+        <DirNotificationPathV12>$(DirTestReports)\sherlock\configV12</DirNotificationPathV12>
     </PropertyGroup>
+    <Target Name="_Clean" DependsOnTargets="_DisplayInfo">
+        <!-- 
+            Don't try to delete the directory because that fails randomly because
+            some file is being locked. This then leads to a failing task, but ..
+            the next task is run and then the delete command still executes (delayed 
+            by the OS). Unfortunately the next task is the task that puts the directories
+            back ...
+        -->
+        <ItemGroup>
+            <BuildFilesToDelete Include="$(DirTemp)\**\*.*"/>
+            <BuildFilesToDelete Include="$(DirResults)\**\*.*"/>
+        </ItemGroup>
+        <Delete Files="@(BuildFilesToDelete)" />
+        <RemoveDir Directories="$(DirTemp)" />
+        <RemoveDir Directories="$(DirResults)" />
+        
+        <ItemGroup>
+            <ReportFilesToDelete Include="$(DirNotificationPathV10)\**\*.*"/>
+            <ReportFilesToDelete Include="$(DirNotificationPathV11)\**\*.*"/>
+            <ReportFilesToDelete Include="$(DirNotificationPathV12)\**\*.*"/>
+        </ItemGroup>
+        <Delete Files="@(ReportFilesToDelete)" />
+        
+        <ItemGroup>
+            <ReportDirectoriesToDelete Include="$(DirNotificationPathV10)"/>
+            <ReportDirectoriesToDelete Include="$(DirNotificationPathV11)"/>
+            <ReportDirectoriesToDelete Include="$(DirNotificationPathV12)"/>
+        </ItemGroup>
+        <RemoveDir Directories="@(ReportDirectoriesToDelete)" />
+    </Target>
+    
     <PropertyGroup>
         <FileTemplateSherlockConfigurationV10>$(DirWorkspace)\Sherlock.Verification.v10.xml</FileTemplateSherlockConfigurationV10>
         <FileSherlockConfigurationV10>$(DirTemp)\Sherlock.Verification.v10.xml</FileSherlockConfigurationV10>
-        <DirNotificationPathV10>$(DirTestReports)\sherlock\configV10</DirNotificationPathV10>
     </PropertyGroup>
     <Target Name="_ExecuteRegressionTestV10" DependsOnTargets="_DisplayInfo">
         <MakeDir Directories="$(DirTestReports)" Condition="!Exists('$(DirTestReports)')" />
@@ -78,7 +111,6 @@
     <PropertyGroup>
         <FileTemplateSherlockConfigurationV11>$(DirWorkspace)\Sherlock.Verification.v11.xml</FileTemplateSherlockConfigurationV11>
         <FileSherlockConfigurationV11>$(DirTemp)\Sherlock.Verification.v11.xml</FileSherlockConfigurationV11>
-        <DirNotificationPathV11>$(DirTestReports)\sherlock\configV11</DirNotificationPathV11>
     </PropertyGroup>
     <Target Name="_ExecuteRegressionTestV11" DependsOnTargets="_DisplayInfo">
         <MakeDir Directories="$(DirTestReports)" Condition="!Exists('$(DirTestReports)')" />
@@ -117,7 +149,6 @@
     <PropertyGroup>
         <FileTemplateSherlockConfigurationV12>$(DirWorkspace)\Sherlock.Verification.v12.xml</FileTemplateSherlockConfigurationV12>
         <FileSherlockConfigurationV12>$(DirTemp)\Sherlock.Verification.v12.xml</FileSherlockConfigurationV12>
-        <DirNotificationPathV12>$(DirTestReports)\sherlock\configV12</DirNotificationPathV12>
     </PropertyGroup>
     <Target Name="_ExecuteRegressionTestV12" DependsOnTargets="_DisplayInfo">
         <MakeDir Directories="$(DirTestReports)" Condition="!Exists('$(DirTestReports)')" />
