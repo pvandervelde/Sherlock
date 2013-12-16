@@ -186,7 +186,7 @@ namespace Sherlock.Executor
                 (s, e) =>
                     Diagnostics.Log(
                         LevelToLog.Trace,
-                        MsiDeployConstants.LogPrefix,
+                        ConsoleExecuteConstants.LogPrefix,
                         string.Format(
                             CultureInfo.InvariantCulture,
                             "{0} output: {1}",
