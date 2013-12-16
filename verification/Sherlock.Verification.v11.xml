@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sherlock configurationVersion="1.1">
     <!--
         Provide some human readable information for the test. This information
@@ -99,7 +99,7 @@
         <console steporder="5"
                  environment="client"
                  onfailure="Continue">
-            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></exe>
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></exe>
             <params>
             </params>
         </console>
@@ -107,7 +107,7 @@
         <console steporder="6"
                  environment="client"
                  onfailure="Continue">
-            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></exe>
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></exe>
             <params>
                 <param><![CDATA[-f]]></param>
             </params>
@@ -116,7 +116,7 @@
         <console steporder="7"
                  environment="client"
                  onfailure="Continue">
-            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></exe>
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\Sherlock.Verification.Console.exe]]></exe>
             <params>
                 <param><![CDATA[-c]]></param>
             </params>
