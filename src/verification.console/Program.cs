@@ -58,6 +58,11 @@ namespace Sherlock.Verification.Console
         private static bool s_ShouldDisplayHelp;
 
         /// <summary>
+        /// A flag indicating if the license information should be displayed.
+        /// </summary>
+        private static bool s_ShouldDisplayLicenses;
+
+        /// <summary>
         /// A flag indicating if the application should exit with a failure code or not.
         /// </summary>
         private static bool s_ShouldFail;
@@ -67,6 +72,11 @@ namespace Sherlock.Verification.Console
         /// </summary>
         private static bool s_ShouldCrash;
 
+        /// <summary>
+        /// The application entry point.
+        /// </summary>
+        /// <param name="args">The application input arguments.</param>
+        /// <returns>An exit code indicating if the application executed successfully or not.</returns>
         static int Main(string[] args)
         {
             ShowHeader();
@@ -80,6 +90,11 @@ namespace Sherlock.Verification.Console
             catch (OptionException)
             {
                 return FailApplicationExitCode;
+            }
+
+            if (s_ShouldDisplayLicenses)
+            {
+                ShowLicenses();
             }
 
             if (s_ShouldDisplayHelp)
@@ -107,6 +122,10 @@ namespace Sherlock.Verification.Console
         {
             System.Console.WriteLine(Resources.Header_ApplicationAndVersion, GetVersion());
             System.Console.WriteLine(GetCopyright());
+        }
+
+        private static void ShowLicenses()
+        {
             System.Console.WriteLine(GetLibraryLicenses());
         }
 
@@ -177,6 +196,11 @@ namespace Sherlock.Verification.Console
                         Resources.CommandLine_Options_Help_Key, 
                         Resources.CommandLine_Options_Help_Description, 
                         v => s_ShouldDisplayHelp = v != null
+                    },
+                    {
+                        Resources.CommandLine_Param_DisplayLicenses_Key,
+                        Resources.CommandLine_Param_DisplayLicenses_Description,
+                        v => s_ShouldDisplayLicenses = v != null
                     },
                     {
                         Resources.CommandLine_Param_ShouldFail_Key,

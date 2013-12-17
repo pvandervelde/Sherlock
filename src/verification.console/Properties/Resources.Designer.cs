@@ -79,6 +79,24 @@ namespace Sherlock.Verification.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates if the application should display the licenses for all the libraries used by the application..
+        /// </summary>
+        internal static string CommandLine_Param_DisplayLicenses_Description {
+            get {
+                return ResourceManager.GetString("CommandLine_Param_DisplayLicenses_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to l|DisplayLicenses.
+        /// </summary>
+        internal static string CommandLine_Param_DisplayLicenses_Key {
+            get {
+                return ResourceManager.GetString("CommandLine_Param_DisplayLicenses_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indicates that the application should exit with a crash..
         /// </summary>
         internal static string CommandLine_Param_ShouldCrash_Description {

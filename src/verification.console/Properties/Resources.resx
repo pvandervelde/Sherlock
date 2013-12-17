@@ -123,6 +123,12 @@
   <data name="CommandLine_Options_Help_Key" xml:space="preserve">
     <value>?|h|help</value>
   </data>
+  <data name="CommandLine_Param_DisplayLicenses_Description" xml:space="preserve">
+    <value>Indicates if the application should display the licenses for all the libraries used by the application.</value>
+  </data>
+  <data name="CommandLine_Param_DisplayLicenses_Key" xml:space="preserve">
+    <value>l|DisplayLicenses</value>
+  </data>
   <data name="CommandLine_Param_ShouldCrash_Description" xml:space="preserve">
     <value>Indicates that the application should exit with a crash.</value>
   </data>
