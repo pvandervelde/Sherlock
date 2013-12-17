@@ -63,6 +63,9 @@
             <VersionTokens Include="version">
                 <ReplacementValue>$(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)</ReplacementValue>
             </VersionTokens>
+            <VersionTokens Include="versionsmall">
+                <ReplacementValue>$(VersionMajor).$(VersionMinor)</ReplacementValue>
+            </VersionTokens>
         </ItemGroup>
         <TemplateFile Template="$(FileTemplateConfig10)" OutputFileName="$(FileGeneratedConfig10)" Tokens="@(VersionTokens)" />
         <TemplateFile Template="$(FileTemplateConfig11)" OutputFileName="$(FileGeneratedConfig11)" Tokens="@(VersionTokens)" />
@@ -86,7 +89,6 @@
             <VerificationFiles Include="$(DirBuildBin)\Sherlock.Verification.Console.exe.config" />
             <VerificationFiles Include="$(DirVerification)\Sherlock.ExecuteVerificationTests.msbuild" />
             <VerificationFiles Include="$(DirVerification)\Sherlock.VerificationConfiguration.xml" />
-            <VerificationFiles Include="$(DirVerification)\SherlockHasTestPassed.msbuild" />
             <VerificationFiles Include="$(DirVerification)\SherlockRegisterTest.msbuild" />
             <VerificationFiles Include="$(DirVerification)\WaitForFiles.msbuild" />
             <VerificationFiles Include="$(DirVerification)\verify.ps1" />
