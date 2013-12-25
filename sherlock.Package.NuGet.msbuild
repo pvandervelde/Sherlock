@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Build configuration -->
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Platform Condition=" '$(Platform)' == ''">Any CPU</Platform>
+        <PlatformTranslated>$(Platform.Replace(" ",""))</PlatformTranslated>
+    
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirSrc>$(DirWorkspace)\src</DirSrc>
+        <DirTemplates>$(DirWorkspace)\templates</DirTemplates>
+        <DirTools>$(DirWorkspace)\tools</DirTools>
+        <DirBuild>$(DirWorkspace)\build</DirBuild>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
+        <DirBuildBin>$(DirBuild)\bin\$(PlatformTranslated)\$(Configuration)</DirBuildBin>
+        <DirBuildBinWebApi>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Api\bin</DirBuildBinWebApi>
+        <DirBuildBinWebIntranet>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Intranet\bin</DirBuildBinWebIntranet>
+        <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
+        
+        <!-- Version number -->
+        <VersionMajor>0</VersionMajor>
+        <VersionMinor>0</VersionMinor>
+        <VersionBuild>0</VersionBuild>
+        <VersionRevision>0</VersionRevision>
+        
+        <!-- Tools -->
+        <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
+    </PropertyGroup>
+    
+    <Import Project="$(MsBuildExtensionsPath)\FindAndReplaceInFile.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\FindAndReplaceInFile.msbuild')"/>
+    <Import Project="$(MsBuildExtensionsPath)\NugetGatherDependencies.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\NugetGatherDependencies.msbuild')"/>
+    <Import Project="$(MsBuildExtensionsPath)\NugetPack.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\NugetPack.msbuild')"/>
+    <Import Project="$(MsBuildExtensionsPath)\TemplateFile.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\TemplateFile.msbuild')"/>
+            
+    <Import Project="$(DirWorkspace)\version.xml"
+            Condition="Exists('$(DirWorkspace)\version.xml')"/>
+    
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_BuildNugetPackage" />
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Creating NuGet package..." />
+        <Message Text="Version: $(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileReleaseNotes>$(DirWorkspace)\releasenotes.txt</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_GatherReleaseNotes">
+        <CreateProperty Condition="Exists('$(FileReleaseNotes)')" Value="$([System.IO.File]::ReadAllText('$(FileReleaseNotes)'))">
+            <Output TaskParameter="Value" PropertyName="ReleaseNotes" />
+        </CreateProperty>
+    </Target>
+    
+    <PropertyGroup>
+        <FileNuGetExe>$(DirSrc)\.nuget\NuGet.exe</FileNuGetExe>
+    </PropertyGroup>
+    <PropertyGroup>
+        <FileTemplateNuSpec>$(DirTemplates)\nuget.nuspec.in</FileTemplateNuSpec>
+        <FileNuSpec>$(DirBuildTemp)\nuget.nuspec</FileNuSpec>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.txt</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_BuildNugetPackage" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
+        <MakeDir Directories="$(DirBuildTemp)" Condition="!Exists('$(DirBuildTemp)')" />
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+
+        <ItemGroup>
+            <NuSpecTokens Include="Version">
+                <ReplacementValue>$(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)</ReplacementValue>
+            </NuSpecTokens>
+            <NuSpecTokens Include="DirBin">
+                <ReplacementValue>$(DirBuildBin)</ReplacementValue>
+            </NuSpecTokens>
+            <NuSpecTokens Include="DirBinWebApi">
+                <ReplacementValue>$(DirBuildBinWebApi)</ReplacementValue>
+            </NuSpecTokens>
+            <NuSpecTokens Include="DirBinWebIntranet">
+                <ReplacementValue>$(DirBuildBinWebIntranet)</ReplacementValue>
+            </NuSpecTokens>
+            <NuSpecTokens Include="DirSrc">
+                <ReplacementValue>$(DirSrc)</ReplacementValue>
+            </NuSpecTokens>
+            <NuSpecTokens Include="ReleaseNotes">
+                <ReplacementValue>$(ReleaseNotes)</ReplacementValue>
+            </NuSpecTokens>
+        </ItemGroup>
+        <TemplateFile Template="$(FileTemplateNuSpec)" OutputFileName="$(FileNuSpec)" Tokens="@(NuSpecTokens)" />
+        
+        <NuGetPack NugetPath="$(FileNuGetExe)" File="$(FileNuSpec)" OutputDirectory="$(DirBuildDeploy)" ShouldBuildSymbols="true" />
+    </Target>
+ </Project>

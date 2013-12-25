@@ -15,7 +15,7 @@
         <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
     </PropertyGroup>
     
-    <Target Name="Run" DependsOnTargets="_PrepareWorkspace;_BuildBinaries;_ExecuteUnitTests;_PackageSQL;_PackageArchive;_PackageWeb;_PackageVerification">
+    <Target Name="Run" DependsOnTargets="_PrepareWorkspace;_BuildBinaries;_ExecuteUnitTests;_PackageSQL;_PackageArchive;_PackageWeb;_PackageVerification;_PackageNuget">
         <!-- Do nothing here -->
     </Target>
     
@@ -79,5 +79,13 @@
     </PropertyGroup>
     <Target Name="_PackageVerification" DependsOnTargets="_BuildBinaries">
         <MSBuild Projects="$(MsBuildPackageVerification)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+    
+    <!-- Package nuget files -->
+    <PropertyGroup>
+        <MsBuildPackageNuget>$(DirWorkspace)\sherlock.Package.NuGet.msbuild</MsBuildPackageNuget>
+    </PropertyGroup>
+    <Target Name="_PackageNuget" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageNuget)" Properties="Configuration=Deploy;Platform=$(Platform)" />
     </Target>
 </Project>
