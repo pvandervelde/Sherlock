@@ -63,11 +63,12 @@
             <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
             <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Console.exe" />
             <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Console.exe.config" />
+            <ConsoleFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <ConsoleFiles Include="$(DirWorkspace)\README.md" />
         </ItemGroup>
     
         <Message Text="Compressing console files" />
         <Zip InputFileNames="@(ConsoleFiles)"
-             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileConsolePackage)"
              OverwriteExistingFile="true" />
     </Target>
@@ -94,11 +95,12 @@
             <ServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
             <ServiceFiles Include="$(DirBuildBin)\Sherlock.Service.exe" />
             <ServiceFiles Include="$(DirBuildBin)\Sherlock.Service.exe.config" />
+            <ServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <ServiceFiles Include="$(DirWorkspace)\README.md" />
         </ItemGroup>
     
         <Message Text="Compressing service files" />
         <Zip InputFileNames="@(ServiceFiles)"
-             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileServicePackage)"
              OverwriteExistingFile="true" />
     </Target>
@@ -134,11 +136,12 @@
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.exe" />
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.exe.config" />
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.pdb" />
+            <MasterServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <MasterServiceFiles Include="$(DirWorkspace)\README.md" />
         </ItemGroup>
     
         <Message Text="Compressing master service files" />
         <Zip InputFileNames="@(MasterServiceFiles)"
-             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileMasterServicePackage)"
              OverwriteExistingFile="true" />
     </Target>
@@ -177,11 +180,12 @@
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.exe" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.exe.config" />
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.pdb" />
+            <ExecutorServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <ExecutorServiceFiles Include="$(DirWorkspace)\README.md" />
         </ItemGroup>
         
         <Message Text="Compressing executor service files" />
         <Zip InputFileNames="@(ExecutorServiceFiles)"
-             BaseDirectory="$(DirBuildBin)"
              OutputFileName="$(FileExecutorServicePackage)"
              OverwriteExistingFile="true" />
     </Target>

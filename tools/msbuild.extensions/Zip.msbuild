@@ -9,7 +9,7 @@
   <UsingTask TaskName="Zip" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
       <InputFileNames ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-      <BaseDirectory ParameterType="System.String" Required="true" />
+      <BaseDirectory ParameterType="System.String" Required="false" />
       <OutputFileName ParameterType="System.String" Required="true" />
       <OverwriteExistingFile ParameterType="System.Boolean" Required="false" />
     </ParameterGroup>
@@ -30,7 +30,9 @@
             foreach (var inputFileName in InputFileNames.Select(f => f.ItemSpec))
             {
               var path = Path.GetFullPath(inputFileName);
-              var relativePath = path.Substring(BaseDirectory.Length).TrimStart(Path.DirectorySeparatorChar);
+              var relativePath = !string.IsNullOrEmpty(BaseDirectory) 
+                ? path.Substring(BaseDirectory.Length).TrimStart(Path.DirectorySeparatorChar)
+                : Path.GetFileName(path);
               var archiveEntry = archive.CreateEntry(relativePath);
 
               using (var fs = new FileStream(inputFileName, FileMode.Open))

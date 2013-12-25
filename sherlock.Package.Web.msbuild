@@ -53,6 +53,13 @@
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup>
+            <WebApiLicenseAndReadmeFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <WebApiLicenseAndReadmeFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+        <Copy SourceFiles="@(WebApiLicenseAndReadmeFiles)" 
+              DestinationFolder="$(DirBuildTempWebApi)" />
+        
+        <ItemGroup>
             <WebApiFiles Include="$(DirBuildTempWebApi)\**\*.*" />
         </ItemGroup>
     
@@ -70,6 +77,13 @@
     </PropertyGroup>
     <Target Name="_PackageWebIntranet" DependsOnTargets="_DisplayInfo">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup>
+            <WebIntranetLicenseAndReadmeFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <WebIntranetLicenseAndReadmeFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+        <Copy SourceFiles="@(WebIntranetLicenseAndReadmeFiles)" 
+              DestinationFolder="$(DirBuildTempWebIntranet)" />
         
         <ItemGroup>
             <WebIntranetFiles Include="$(DirBuildTempWebIntranet)\**\*.*" />

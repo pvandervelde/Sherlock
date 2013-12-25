@@ -52,11 +52,12 @@
         
         <ItemGroup Condition="'$(DirScripts)' != ''">
             <SqlFiles Include="$(DirScripts)\*.sql" />
+            <SqlFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <SqlFiles Include="$(DirWorkspace)\README.md" />
         </ItemGroup>
     
         <Message Text="Compressing SQL files" />
         <Zip InputFileNames="@(SqlFiles)"
-             BaseDirectory="$(DirScripts)"
              OutputFileName="$(FileSqlPackage)"
              OverwriteExistingFile="true" />
     </Target>

@@ -93,6 +93,8 @@
             <VerificationFiles Include="$(DirVerification)\WaitForFiles.msbuild" />
             <VerificationFiles Include="$(DirVerification)\verify.ps1" />
             <VerificationFiles Include="$(MsBuildExtensionsPath)\TemplateFile.msbuild" />
+            <VerificationFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <VerificationFiles Include="$(DirWorkspace)\README.md" />
         </ItemGroup>
         
         <Copy SourceFiles="@(VerificationFiles)" 
@@ -104,7 +106,6 @@
     
         <Message Text="Compressing verification files" />
         <Zip InputFileNames="@(FilesToZip)"
-             BaseDirectory="$(DirBuildTempVerification)"
              OutputFileName="$(FileVerificationPackage)"
              OverwriteExistingFile="true" />
     </Target>
