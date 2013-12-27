@@ -14,6 +14,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Autofac.Features.OwnedInstances;
 using Nuclei.Configuration;
 using Nuclei.Diagnostics;
 using Nuclei.Diagnostics.Logging;
@@ -177,7 +178,7 @@ namespace Sherlock.Service.Master
         /// <summary>
         /// The object that stores all the known test information.
         /// </summary>
-        private readonly Func<IProvideTestingContext> m_TestContextFactory;
+        private readonly Func<Owned<IProvideTestingContext>> m_TestContextFactory;
 
         /// <summary>
         /// The object provides test suite packages.
@@ -251,7 +252,7 @@ namespace Sherlock.Service.Master
         public TestController(
             IConfiguration configuration,
             IStoreActiveTests executingTests,
-            Func<IProvideTestingContext> testContextFactory,
+            Func<Owned<IProvideTestingContext>> testContextFactory,
             IEnumerable<IEnvironmentActivator> activators,
             Func<ITestSuitePackage> testSuitePackageFactory,
             IFileSystem fileSystem,
@@ -289,71 +290,75 @@ namespace Sherlock.Service.Master
         {
             lock (m_Lock)
             {
-                var currentContext = m_TestContextFactory();
-
-                var shouldTerminateEnvironment = m_Configuration.HasValueFor(MasterServiceConfigurationKeys.ShouldTerminateEnvironmentOnFailedTest)
-                    ? m_Configuration.Value<bool>(MasterServiceConfigurationKeys.ShouldTerminateEnvironmentOnFailedTest)
-                    : MasterServiceConstants.DefaultShouldTerminateEnvironmentOnFailedTest;
-
-                if (shouldTerminateEnvironment || (eventArgs.Result == TestExecutionResult.Passed))
+                using (var ownedContext = m_TestContextFactory())
                 {
-                    foreach (var environment in m_ExecutingTests.EnvironmentsForTest(eventArgs.Id))
+                    var currentContext = ownedContext.Value;
+
+                    var shouldTerminateEnvironment = m_Configuration.HasValueFor(
+                        MasterServiceConfigurationKeys.ShouldTerminateEnvironmentOnFailedTest)
+                        ? m_Configuration.Value<bool>(MasterServiceConfigurationKeys.ShouldTerminateEnvironmentOnFailedTest)
+                        : MasterServiceConstants.DefaultShouldTerminateEnvironmentOnFailedTest;
+
+                    if (shouldTerminateEnvironment || (eventArgs.Result == TestExecutionResult.Passed))
                     {
-                        try
+                        foreach (var environment in m_ExecutingTests.EnvironmentsForTest(eventArgs.Id))
                         {
-                            environment.Shutdown();
-                            currentContext.MarkMachineAsInactive(environment.Environment);
-                        }
-                        catch (Exception e)
-                        {
-                            m_Diagnostics.Log(
-                                LevelToLog.Error,
-                                MasterServiceConstants.LogPrefix,
-                                string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    "Failed to shut down the machine {0}. Error was: {1}",
-                                    environment.Environment,
-                                    e));
+                            try
+                            {
+                                environment.Shutdown();
+                                currentContext.MarkMachineAsInactive(environment.Environment);
+                            }
+                            catch (Exception e)
+                            {
+                                m_Diagnostics.Log(
+                                    LevelToLog.Error,
+                                    MasterServiceConstants.LogPrefix,
+                                    string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        "Failed to shut down the machine {0}. Error was: {1}",
+                                        environment.Environment,
+                                        e));
+                            }
                         }
                     }
-                }
 
-                var report = m_ExecutingTests.ReportFor(eventArgs.Id);
-                var notifications = m_ExecutingTests.NotificationsFor(eventArgs.Id);
-                foreach (var notification in notifications)
-                {
-                    notification.OnTestCompleted(eventArgs.Result, report);
-                }
-
-                m_ExecutingTests.Remove(eventArgs.Id);
-                currentContext.StopTest(eventArgs.Id);
-                try
-                {
-                    var testFile = TestHelpers.StoragePathForTestFiles(eventArgs.Id, m_Configuration, m_FileSystem);
-                    if (m_FileSystem.File.Exists(testFile))
+                    var report = m_ExecutingTests.ReportFor(eventArgs.Id);
+                    var notifications = m_ExecutingTests.NotificationsFor(eventArgs.Id);
+                    foreach (var notification in notifications)
                     {
-                        m_FileSystem.File.Delete(testFile);
+                        notification.OnTestCompleted(eventArgs.Result, report);
                     }
-                }
-                catch (IOException e)
-                {
+
+                    m_ExecutingTests.Remove(eventArgs.Id);
+                    currentContext.StopTest(eventArgs.Id);
+                    try
+                    {
+                        var testFile = TestHelpers.StoragePathForTestFiles(eventArgs.Id, m_Configuration, m_FileSystem);
+                        if (m_FileSystem.File.Exists(testFile))
+                        {
+                            m_FileSystem.File.Delete(testFile);
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        m_Diagnostics.Log(
+                            LevelToLog.Error,
+                            MasterServiceConstants.LogPrefix,
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                Resources.Log_Messages_FailedToDeleteTestFiles_WithFileAndError,
+                                eventArgs.Id,
+                                e));
+                    }
+
                     m_Diagnostics.Log(
-                        LevelToLog.Error,
+                        LevelToLog.Info,
                         MasterServiceConstants.LogPrefix,
                         string.Format(
                             CultureInfo.InvariantCulture,
-                            Resources.Log_Messages_FailedToDeleteTestFiles_WithFileAndError,
-                            eventArgs.Id,
-                            e));
+                            Resources.Log_Messages_CompletedTest_WithId,
+                            eventArgs.Id));
                 }
-
-                m_Diagnostics.Log(
-                    LevelToLog.Info,
-                    MasterServiceConstants.LogPrefix,
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        Resources.Log_Messages_CompletedTest_WithId,
-                        eventArgs.Id));
             }
         }
 
@@ -368,52 +373,55 @@ namespace Sherlock.Service.Master
             {
                 try
                 {
-                    var currentContext = m_TestContextFactory();
-                    foreach (var test in currentContext.InactiveTests())
+                    using (var ownedContext = m_TestContextFactory())
                     {
-                        var environments = test.Environments;
-                        if (!environments.Any())
+                        var currentContext = ownedContext.Value;
+                        foreach (var test in currentContext.InactiveTests())
                         {
-                            m_Diagnostics.Log(
-                                LevelToLog.Info,
-                                MasterServiceConstants.LogPrefix,
-                                string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    Resources.Log_Messages_NoEnvironmentForTestCase,
-                                    test.Id));
-                            continue;
-                        }
+                            var environments = test.Environments;
+                            if (!environments.Any())
+                            {
+                                m_Diagnostics.Log(
+                                    LevelToLog.Info,
+                                    MasterServiceConstants.LogPrefix,
+                                    string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        Resources.Log_Messages_NoEnvironmentForTestCase,
+                                        test.Id));
+                                continue;
+                            }
 
-                        var matchingEnvironments = SelectEnvironments(environments);
-                        if ((matchingEnvironments == null) || (matchingEnvironments.Count < environments.Count()))
-                        {
-                            m_Diagnostics.Log(
-                                LevelToLog.Info,
-                                MasterServiceConstants.LogPrefix,
-                                string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    Resources.Log_Messages_NoEnvironmentForTestCase,
-                                    test.Id));
-                            continue;
-                        }
+                            var matchingEnvironments = SelectEnvironments(environments);
+                            if ((matchingEnvironments == null) || (matchingEnvironments.Count < environments.Count()))
+                            {
+                                m_Diagnostics.Log(
+                                    LevelToLog.Info,
+                                    MasterServiceConstants.LogPrefix,
+                                    string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        Resources.Log_Messages_NoEnvironmentForTestCase,
+                                        test.Id));
+                                continue;
+                            }
 
-                        var builder = m_ReportBuilders();
-                        builder.InitializeNewReport(
-                            test.ProductName,
-                            test.ProductVersion,
-                            test.Owner,
-                            test.TestDescription);
+                            var builder = m_ReportBuilders();
+                            builder.InitializeNewReport(
+                                test.ProductName,
+                                test.ProductVersion,
+                                test.Owner,
+                                test.TestDescription);
 
-                        // @todo: Should really do the creation of the CompletedNotification via the IOC container
-                        m_ExecutingTests.Add(
-                            test.Id,
-                            builder,
-                            new List<TestCompletedNotification>
+                            // @todo: Should really do the creation of the CompletedNotification via the IOC container
+                            m_ExecutingTests.Add(
+                                test.Id,
+                                builder,
+                                new List<TestCompletedNotification>
                             {
                                 new FileBasedTestCompletedNotification(test.ReportPath),
                             });
 
-                        LoadEnvironmentsAndStartTest(currentContext, test, matchingEnvironments, builder);
+                            LoadEnvironmentsAndStartTest(currentContext, test, matchingEnvironments, builder);
+                        }
                     }
                 }
                 finally
@@ -555,45 +563,48 @@ namespace Sherlock.Service.Master
         {
             var result = new List<Tuple<MachineDescription, TestEnvironment>>();
 
-            var context = m_TestContextFactory();
-            foreach (var environment in environments)
+            using (var ownedContext = m_TestContextFactory())
             {
-                var suitableEnvironments = context.InactiveMachinesWith(
-                    environment.OperatingSystem,
-                    environment.Applications);
-
-                // Select the most suitable machine. Ideally we would base that on:
-                // * The given test will load the machine nearly to the maximum, but doesn't overload it to
-                //   provide optimal usage of resources
-                //   * The indication of busy should should probably be based on:
-                //     * If the total usage of memory, disk or CPU is close to the maximum (be it through
-                //       one process or multiple processes) then the machine is busy.
-                //     * In case of hosted machines (i.e. virtual machines) if the host machine is busy
-                //       then all the hosted machine(s) attached to this host machine should be considered
-                //       busy (because a new VM won't be able to get enough CPU / RAM).
-                // * Depending on the type of test we want to run it may also matter if an interactive
-                //   user is logged on to the machine. For instance for GUI tests we can't have a user
-                //   interactively using the machine.
-                // * Minimal set of applications available. Again for optimal use of resources
-                //
-                // The general idea should be to leave the more specialistic machines for the more demanding
-                // tests.
-                //
-                // It is probably a better idea to pass on a list of suitable machines and then 
-                // check for busy-ness when we are about to connect to a machine. That way we 
-                // minimize the window between selection and usage.
-                // Also there may be times were we want to wait for a machine to become available
-                // instead of grabbing a machine that is 'over-qualified'.
-                //
-                // For now we just select the first machine
-                var selectedEnvironment = suitableEnvironments.FirstOrDefault();
-                if (selectedEnvironment != null)
+                var currentContext = ownedContext.Value;
+                foreach (var environment in environments)
                 {
-                    result.Add(new Tuple<MachineDescription, TestEnvironment>(selectedEnvironment, environment));
-                }
-            }
+                    var suitableEnvironments = currentContext.InactiveMachinesWith(
+                        environment.OperatingSystem,
+                        environment.Applications);
 
-            return result;
+                    // Select the most suitable machine. Ideally we would base that on:
+                    // * The given test will load the machine nearly to the maximum, but doesn't overload it to
+                    //   provide optimal usage of resources
+                    //   * The indication of busy should should probably be based on:
+                    //     * If the total usage of memory, disk or CPU is close to the maximum (be it through
+                    //       one process or multiple processes) then the machine is busy.
+                    //     * In case of hosted machines (i.e. virtual machines) if the host machine is busy
+                    //       then all the hosted machine(s) attached to this host machine should be considered
+                    //       busy (because a new VM won't be able to get enough CPU / RAM).
+                    // * Depending on the type of test we want to run it may also matter if an interactive
+                    //   user is logged on to the machine. For instance for GUI tests we can't have a user
+                    //   interactively using the machine.
+                    // * Minimal set of applications available. Again for optimal use of resources
+                    //
+                    // The general idea should be to leave the more specialistic machines for the more demanding
+                    // tests.
+                    //
+                    // It is probably a better idea to pass on a list of suitable machines and then 
+                    // check for busy-ness when we are about to connect to a machine. That way we 
+                    // minimize the window between selection and usage.
+                    // Also there may be times were we want to wait for a machine to become available
+                    // instead of grabbing a machine that is 'over-qualified'.
+                    //
+                    // For now we just select the first machine
+                    var selectedEnvironment = suitableEnvironments.FirstOrDefault();
+                    if (selectedEnvironment != null)
+                    {
+                        result.Add(new Tuple<MachineDescription, TestEnvironment>(selectedEnvironment, environment));
+                    }
+                }
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -638,7 +649,11 @@ namespace Sherlock.Service.Master
         {
             lock (m_Lock)
             {
-                m_TestContextFactory().MarkMachineAsInactive(id);
+                using (var ownedContext = m_TestContextFactory())
+                {
+                    var currentContext = ownedContext.Value;
+                    currentContext.MarkMachineAsInactive(id);
+                }
             }
         }
     }

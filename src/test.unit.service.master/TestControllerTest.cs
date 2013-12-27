@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 using System.Linq;
+using Autofac.Features.OwnedInstances;
 using Moq;
 using Nuclei.Configuration;
 using Nuclei.Diagnostics;
@@ -25,6 +26,17 @@ namespace Sherlock.Service.Master
             Justification = "Unit tests do not need documentation.")]
     public sealed class TestControllerTest
     {
+        private sealed class MockDisposable : IDisposable
+        {
+            /// <summary>
+            /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            /// </summary>
+            public void Dispose()
+            {
+                // Do nothing
+            }
+        }
+
         private static Mock<IConfiguration> CreateConfiguration()
         {
             var configuration = new Mock<IConfiguration>();
@@ -171,7 +183,7 @@ namespace Sherlock.Service.Master
             var controller = new TestController(
                 configuration.Object,
                 activeTests,
-                () => environmentContext.Object,
+                () => new Owned<IProvideTestingContext>(environmentContext.Object, new MockDisposable()),
                 activators,
                 packageFunc,
                 fileSystem.Object,
@@ -252,7 +264,7 @@ namespace Sherlock.Service.Master
             var controller = new TestController(
                 configuration.Object,
                 activeTests,
-                () => environmentContext.Object,
+                () => new Owned<IProvideTestingContext>(environmentContext.Object, new MockDisposable()),
                 activators,
                 packageFunc,
                 fileSystem.Object,
@@ -356,7 +368,7 @@ namespace Sherlock.Service.Master
             var controller = new TestController(
                 configuration.Object,
                 activeTests,
-                () => environmentContext.Object,
+                () => new Owned<IProvideTestingContext>(environmentContext.Object, new MockDisposable()),
                 activators,
                 packageFunc,
                 fileSystem.Object,

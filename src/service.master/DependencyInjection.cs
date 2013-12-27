@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Windows.Forms;
 using Autofac;
+using Autofac.Features.OwnedInstances;
 using Nuclei.Communication;
 using Nuclei.Configuration;
 using Nuclei.Diagnostics;
@@ -88,11 +89,11 @@ namespace Sherlock.Service.Master
                         return new TestController(
                             c.Resolve<IConfiguration>(),
                             c.Resolve<IStoreActiveTests>(),
-                            ctx.Resolve<IProvideTestingContext>,
+                            c.Resolve<Func<Owned<IProvideTestingContext>>>(),
                             c.Resolve<IEnumerable<IEnvironmentActivator>>(),
-                            ctx.Resolve<ITestSuitePackage>,
+                            c.Resolve<Func<ITestSuitePackage>>(),
                             c.Resolve<IFileSystem>(),
-                            ctx.Resolve<IReportBuilder>,
+                            c.Resolve<Func<IReportBuilder>>(),
                             func,
                             c.Resolve<SystemDiagnostics>());
                     })
@@ -141,7 +142,14 @@ namespace Sherlock.Service.Master
                             c.Resolve<ManualEndpointDisconnection>(),
                             c.Resolve<IStoreUploads>(),
                             c.Resolve<SystemDiagnostics>(),
-                            id => ctx.Resolve<IProvideEnvironmentContext>().Machine(id));
+                            id =>
+                            {
+                                using (var ownedContext = ctx.Resolve<Owned<IProvideEnvironmentContext>>())
+                                {
+                                    var context = ownedContext.Value;
+                                    return context.Machine(id);
+                                }
+                            });
                     })
                 .As<IEnvironmentActivator>();
 
