@@ -97,6 +97,24 @@ namespace Sherlock.Service.Master.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to start the Hyper-V virtual machine. The error code was: {0}..
+        /// </summary>
+        internal static string Exceptions_Messages_HypervVirtualMachine_FailedToStartMachine_WithErrorCode {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_HypervVirtualMachine_FailedToStartMachine_WithErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to terminate the Hyper-V virtual machine. The error code was: {0}..
+        /// </summary>
+        internal static string Exceptions_Messages_HypervVirtualMachine_FailedToTerminateMachine_WithErrorCode {
+            get {
+                return ResourceManager.GetString("Exceptions_Messages_HypervVirtualMachine_FailedToTerminateMachine_WithErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restoring snapshot failed because WMI job failed to complete successfully..
         /// </summary>
         internal static string Exceptions_Messages_HypervVirtualMachine_JobFailedToComplete {

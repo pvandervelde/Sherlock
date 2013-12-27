@@ -140,6 +140,7 @@
     <Compile Include="HypervVirtualMachine.cs" />
     <Compile Include="HypervVirtualMachineState.cs" />
     <Compile Include="HypervVirtualMachineStateChange.cs" />
+    <Compile Include="HypervVirtualMachineStateChangeResult.cs" />
     <Compile Include="IControlTests.cs" />
     <Compile Include="IStoreActiveTests.cs" />
     <Compile Include="MachineConstants.cs" />

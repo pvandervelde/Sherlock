@@ -243,4 +243,10 @@
   <data name="Log_Messages_TransferingTestStepReportFilesFailed_WithTestAndTestStepAndError" xml:space="preserve">
     <value>Storing test step report files for test {0} step {1} failed. Error was {2}.</value>
   </data>
+  <data name="Exceptions_Messages_HypervVirtualMachine_FailedToStartMachine_WithErrorCode" xml:space="preserve">
+    <value>Failed to start the Hyper-V virtual machine. The error code was: {0}.</value>
+  </data>
+  <data name="Exceptions_Messages_HypervVirtualMachine_FailedToTerminateMachine_WithErrorCode" xml:space="preserve">
+    <value>Failed to terminate the Hyper-V virtual machine. The error code was: {0}.</value>
+  </data>
 </root>
