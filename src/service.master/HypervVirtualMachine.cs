@@ -74,7 +74,15 @@ namespace Sherlock.Service.Master
         {
             try
             {
-                ChangeMachineState(HypervVirtualMachineStateChange.Start);
+                var result = ChangeMachineState(HypervVirtualMachineStateChange.Start);
+                if ((result != HypervVirtualMachineStateChangeResult.None) && (result != HypervVirtualMachineStateChangeResult.TransitionStarted))
+                {
+                    throw new CouldNotLoadEnvironmentException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Exceptions_Messages_HypervVirtualMachine_FailedToStartMachine_WithErrorCode,
+                            result));
+                }
             }
             catch (ManagementException)
             {
@@ -82,12 +90,15 @@ namespace Sherlock.Service.Master
             }
         }
 
-        private void ChangeMachineState(HypervVirtualMachineStateChange newState)
+        private HypervVirtualMachineStateChangeResult ChangeMachineState(HypervVirtualMachineStateChange newState)
         {
             var virtualMachine = GetWmiObject(m_VirtualMachineId);
             var inputParameters = virtualMachine.GetMethodParameters("RequestStateChange");
             inputParameters["RequestedState"] = (ushort)newState;
-            virtualMachine.InvokeMethod("RequestStateChange", inputParameters, null);
+            var resultObj = virtualMachine.InvokeMethod("RequestStateChange", inputParameters, null);
+
+            var returnCode = (uint)resultObj["returnValue"];
+            return (HypervVirtualMachineStateChangeResult)Enum.ToObject(typeof(HypervVirtualMachineStateChangeResult), returnCode);
         }
 
         /// <summary>
@@ -97,7 +108,15 @@ namespace Sherlock.Service.Master
         {
             try
             {
-                ChangeMachineState(HypervVirtualMachineStateChange.Terminate);
+                var result = ChangeMachineState(HypervVirtualMachineStateChange.Terminate);
+                if ((result != HypervVirtualMachineStateChangeResult.None) && (result != HypervVirtualMachineStateChangeResult.TransitionStarted))
+                {
+                    throw new CouldNotLoadEnvironmentException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Exceptions_Messages_HypervVirtualMachine_FailedToTerminateMachine_WithErrorCode,
+                            result));
+                }
             }
             catch (ManagementException)
             {

@@ -37,7 +37,7 @@ namespace Sherlock.Service.Master
         Paused = 32768,
 
         /// <summary>
-        /// Pauses the VM.
+        /// Suspends the VM.
         /// </summary>
         Suspended = 32769,
     }
