@@ -326,16 +326,11 @@ namespace Sherlock.Shared.Core.Reporting
 
             var builder = new StringBuilder(reportTemplate);
             {
-                builder.Replace(
-                   @"${REPORT_TITLE}$",
-                   string.Format(
-                      CultureInfo.CurrentCulture,
-                      "Regression test report for {0} [{1}]",
-                      report.Header.ProductName,
-                      report.Header.ProductVersion));
+                builder.Replace(@"${PRODUCT_NAME}$", report.Header.ProductName);
+                builder.Replace(@"${PRODUCT_VERSION}$", report.Header.ProductVersion.ToString(CultureInfo.CurrentCulture));
 
                 builder.Replace(@"${PRODUCT_NAME}$", report.Header.ProductName);
-                builder.Replace(@"${PRODUCT_VERSION}$", report.Header.ProductVersion.ToString());
+                builder.Replace(@"${PRODUCT_VERSION}$", report.Header.ProductVersion.ToString(CultureInfo.CurrentCulture));
 
                 // Write the time in the general date long time format
                 builder.Replace(@"${TEST_START_DATE}$", report.Header.StartTime.ToString("d", CultureInfo.CurrentCulture));
@@ -346,7 +341,8 @@ namespace Sherlock.Shared.Core.Reporting
 
                 builder.Replace(@"${SHERLOCK_VERSION}$", report.Header.SherlockVersion.ToString());
                 builder.Replace(@"${HOST}$", report.Header.HostName);
-                builder.Replace(@"${USERNAME}$", report.Header.UserName);
+                builder.Replace(@"${USER_NAME}$", report.Header.UserName);
+                builder.Replace(@"${DESCRIPTION}$", report.Header.Description);
 
                 builder.Replace(@"${REPORT_RESULT_TEXT}$", testResult);
                 builder.Replace(@"${TEST_SECTIONS}$", reportSection);

@@ -9,7 +9,7 @@
 <body>
     <div id="header" class="container">
         <div id="header-text">
-            <h1>Regression test for ${PRODUCT_NAME}$ [${PRODUCT_VERSION}$]</h1>
+            <h1>${DESCRIPTION}$</h1>
         </div>
     </div>
     <div id="content" class="container">
@@ -40,11 +40,21 @@
             <table>
                 <tr>
                     <td class="table-header">Started by</td>
-                    <td>${USERNAME}$</td>
+                    <td>${USER_NAME}$</td>
                 </tr>
                 <tr>
                     <td class="table-header">On</td>
                     <td>${HOST}$</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td class="table-header">For product</td>
+                    <td>${PRODUCT_NAME}$</td>
+                </tr>
+                <tr>
+                    <td class="table-header">With version</td>
+                    <td>${PRODUCT_VERSION}$</td>
                 </tr>
             </table>
         </div>

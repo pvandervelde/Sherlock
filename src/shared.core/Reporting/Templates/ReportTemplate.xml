@@ -4,6 +4,7 @@
         <sherlock>
             <host>${HOST_NAME}$</host>
             <user>${USER_NAME}$</user>
+            <description>${DESCRIPTION}$</description>
             <version>${SHERLOCK_VERSION}$</version>
             <starttime>${TEST_START_TIME}$</starttime>
             <endtime>${TEST_END_TIME}$</endtime>

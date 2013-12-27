@@ -15,12 +15,14 @@ namespace Sherlock.Shared.Core.Reporting
    /// </summary>
    public interface IReportBuilder
    {
-      /// <summary>
-      /// Initializes a new report.
-      /// </summary>
-      /// <param name="productName">Name of the product.</param>
-      /// <param name="productVersion">The version of the product.</param>
-      void InitializeNewReport(string productName, string productVersion);
+       /// <summary>
+       /// Initializes a new report.
+       /// </summary>
+       /// <param name="productName">Name of the product.</param>
+       /// <param name="productVersion">The version of the product.</param>
+       /// <param name="owner">The name of the user that started the test.</param>
+       /// <param name="description">The description for the test.</param>
+       void InitializeNewReport(string productName, string productVersion, string owner, string description);
 
       /// <summary>
       /// Adds new test information to the <see cref="ReportSection"/> of the given name.

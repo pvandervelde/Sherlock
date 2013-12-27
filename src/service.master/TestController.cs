@@ -400,7 +400,9 @@ namespace Sherlock.Service.Master
                         var builder = m_ReportBuilders();
                         builder.InitializeNewReport(
                             test.ProductName,
-                            test.ProductVersion);
+                            test.ProductVersion,
+                            test.Owner,
+                            test.TestDescription);
 
                         // @todo: Should really do the creation of the CompletedNotification via the IOC container
                         m_ExecutingTests.Add(

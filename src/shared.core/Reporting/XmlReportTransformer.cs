@@ -278,20 +278,15 @@ namespace Sherlock.Shared.Core.Reporting
                 builder.Replace(@"${REPORT_VERSION}$", "1.0");
                 builder.Replace(@"${HOST_NAME}$", EscapeTextForUseInXml(report.Header.HostName));
                 builder.Replace(@"${USER_NAME}$", EscapeTextForUseInXml(report.Header.UserName));
-                builder.Replace(
-                    @"${SHERLOCK_VERSION}$",
-                    EscapeTextForUseInXml(report.Header.SherlockVersion.ToString()));
+                builder.Replace(@"${SHERLOCK_VERSION}$", EscapeTextForUseInXml(report.Header.SherlockVersion.ToString()));
 
                 // Write the time in a round-trip fashion. Specify the 'o' formatter for this
-                builder.Replace(
-                    @"${TEST_START_TIME}$",
-                    EscapeTextForUseInXml(report.Header.StartTime.ToString("o", CultureInfo.CurrentCulture)));
-                builder.Replace(
-                    @"${TEST_END_TIME}$",
-                    EscapeTextForUseInXml(report.Header.EndTime.ToString("o", CultureInfo.CurrentCulture)));
+                builder.Replace(@"${TEST_START_TIME}$", EscapeTextForUseInXml(report.Header.StartTime.ToString("o", CultureInfo.CurrentCulture)));
+                builder.Replace(@"${TEST_END_TIME}$", EscapeTextForUseInXml(report.Header.EndTime.ToString("o", CultureInfo.CurrentCulture)));
 
                 builder.Replace(@"${PRODUCT_NAME}$", EscapeTextForUseInXml(report.Header.ProductName));
-                builder.Replace(@"${PRODUCT_VERSION}$", EscapeTextForUseInXml(report.Header.ProductVersion.ToString()));
+                builder.Replace(@"${PRODUCT_VERSION}$", EscapeTextForUseInXml(report.Header.ProductVersion.ToString(CultureInfo.CurrentCulture)));
+                builder.Replace(@"${DESCRIPTION}$", EscapeTextForUseInXml(report.Header.Description));
 
                 builder.Replace(@"${TEST_RESULT}$", DetermineTestPassOrFail(report));
 
