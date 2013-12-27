@@ -15,8 +15,6 @@
             Condition="Exists('$(DirWorkspace)\SherlockRegisterTest.msbuild')"/>
     <Import Project="$(DirWorkspace)\WaitForFiles.msbuild"
             Condition="Exists('$(DirWorkspace)\WaitForFiles.msbuild')"/>
-    <Import Project="$(DirWorkspace)\SherlockHasTestPassed.msbuild"
-            Condition="Exists('$(DirWorkspace)\SherlockHasTestPassed.msbuild')"/>
             
     <Import Project="$(DirWorkspace)\Sherlock.VerificationConfiguration.xml"
             Condition="Exists('$(DirWorkspace)\Sherlock.VerificationConfiguration.xml')"/>
@@ -204,9 +202,5 @@
         </ItemGroup>
         
         <Copy SourceFiles="@(SherlockReportFiles)" DestinationFolder="$(DirResults)\%(RecursiveDir)" />
-    </Target>
-    
-    <Target Name="_ProcessReport" DependsOnTargets="_DisplayInfo;_WaitForResults">
-        <SherlockHasTestPassed ReportFile="%(SherlockXmlReportFiles.Identity)" />
     </Target>
  </Project>
