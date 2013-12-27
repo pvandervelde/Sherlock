@@ -25,6 +25,19 @@ namespace Sherlock.Service.Master
         Justification = "Hyper-V isn't legal either. This is the least silly version.")]
     internal sealed class HypervEnvironmentActivator : MachineEnvironmentActivator
     {
+        private static void KillAndResetVirtualMachine(HypervVirtualMachine virtualMachine, HypervMachineDescription specification)
+        {
+            virtualMachine.Terminate();
+
+            DateTimeOffset killTime = DateTimeOffset.Now + TimeSpan.FromMilliseconds(GlobalConstants.DefaultMaximumMachineShutdownTime);
+            while ((virtualMachine.State != HypervVirtualMachineState.TurnedOff) && (DateTimeOffset.Now <= killTime))
+            {
+                Thread.Sleep(10);
+            }
+
+            virtualMachine.RestoreToSnapshot(specification.SnapshotToReturnTo);
+        }
+
         /// <summary>
         /// The function that retrieves environment specifications based on their ID.
         /// </summary>
@@ -156,16 +169,18 @@ namespace Sherlock.Service.Master
             var virtualMachine = new HypervVirtualMachine(specification.Image);
             if (virtualMachine.State == HypervVirtualMachineState.Paused || virtualMachine.State == HypervVirtualMachineState.Running)
             {
-                sectionBuilder.AddErrorMessage(
+                sectionBuilder.AddWarningMessage(
                     string.Format(
                         CultureInfo.InvariantCulture,
-                        "Virtual machine already in use: {0}",
+                        "Virtual machine running unexpectedly: {0}",
                         specification.NetworkName));
-                sectionBuilder.FinalizeAndStore(false);
+                sectionBuilder.AddWarningMessage(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Resetting virtual machine: {0}",
+                        specification.NetworkName));
 
-                // Throw an error, because we don't know what state the snapshots are in, we can't reset the machine
-                // so the only way out is to error
-                throw new EnvironmentAlreadyInUseException();
+                KillAndResetVirtualMachine(virtualMachine, specification);
             }
 
             virtualMachine.Start();
@@ -198,15 +213,7 @@ namespace Sherlock.Service.Master
                         specification.Image,
                         hostSpecification.Name));
 
-                virtualMachine.Terminate();
-
-                DateTimeOffset killTime = DateTimeOffset.Now + TimeSpan.FromMilliseconds(GlobalConstants.DefaultMaximumMachineShutdownTime);
-                while ((virtualMachine.State != HypervVirtualMachineState.TurnedOff) && (DateTimeOffset.Now <= killTime))
-                {
-                    Thread.Sleep(10);
-                }
-
-                virtualMachine.RestoreToSnapshot(specification.SnapshotToReturnTo);
+                KillAndResetVirtualMachine(virtualMachine, specification);
 
                 sectionBuilder.AddErrorMessage(
                     string.Format(
