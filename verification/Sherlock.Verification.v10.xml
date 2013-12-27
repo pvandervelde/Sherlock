@@ -11,7 +11,7 @@
     <description>
         <product>Sherlock</product>
         <version>${version}</version>
-        <testpurpose>To verify that Sherlock is correctly installed and can process a version 1.0 configuration file.</testpurpose>
+        <testpurpose>Verify that Sherlock can process a version 1.0 configuration file.</testpurpose>
     </description>
 
     <!--
