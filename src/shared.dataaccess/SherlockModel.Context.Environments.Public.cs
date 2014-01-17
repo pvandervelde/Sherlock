@@ -371,11 +371,11 @@ namespace Sherlock.Shared.DataAccess
                 storedApplications.Add(storedApp);
             }
 
-            var selectedMachines = (IEnumerable<string>)GetMachinesByOperatingSystemId(storedOs.Id);
+            var selectedMachines = GetMachinesByOperatingSystemId(storedOs.Id).ToList();
             foreach (var app in storedApplications)
             {
-                var machinesWithApp = GetMachinesByApplicationId(app.Id);
-                selectedMachines = selectedMachines.Intersect(machinesWithApp);
+                var machinesWithApp = GetMachinesByApplicationId(app.Id).ToList();
+                selectedMachines = selectedMachines.Intersect(machinesWithApp).ToList();
                 if (!selectedMachines.Any())
                 {
                     throw new FailedToLocateEnvironmentException();
