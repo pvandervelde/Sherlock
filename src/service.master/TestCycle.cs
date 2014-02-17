@@ -194,6 +194,14 @@ namespace Sherlock.Service.Master
 
             foreach (var environment in activeEnvironments)
             {
+                if (environment.HasBeenTerminated)
+                {
+                    // Only check those environments that haven't been marked as terminated.
+                    // Environments that are terminated should either be shut down or in the
+                    // process of shutting down.
+                    continue;
+                }
+
                 var local = environment;
                 var tokenSource = new CancellationTokenSource(m_CycleTimeInMilliSeconds);
                 local.State(tokenSource.Token)

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Nuclei.Diagnostics;
+using Nuclei.Diagnostics.Logging;
 using Sherlock.Service.Master.Properties;
 using Sherlock.Shared.Core;
 using Sherlock.Shared.Core.Reporting;
@@ -137,6 +139,27 @@ namespace Sherlock.Service.Master
         /// </summary>
         private readonly IDictionary<int, TestMap> m_Tests
             = new Dictionary<int, TestMap>();
+
+        /// <summary>
+        /// The object that provides the diagnostics methods for the application.
+        /// </summary>
+        private readonly SystemDiagnostics m_Diagnostics;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActiveTestStorage"/> class.
+        /// </summary>
+        /// <param name="diagnostics">The object that provides the diagnostics methods for the application.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="diagnostics"/> is <see langword="null" />.
+        /// </exception>
+        public ActiveTestStorage(SystemDiagnostics diagnostics)
+        {
+            {
+                Lokad.Enforce.Argument(() => diagnostics);
+            }
+
+            m_Diagnostics = diagnostics;
+        }
 
         /// <summary>
         /// Adds a test to the collection and associates it with a report builder.
@@ -282,7 +305,22 @@ namespace Sherlock.Service.Master
             // Stop all the environments
             foreach (var environment in map.Environments)
             {
-                environment.Item1.Terminate();
+                try
+                {
+                    environment.Item1.Terminate();
+                }
+                catch (Exception e)
+                {
+                    m_Diagnostics.Log(
+                        LevelToLog.Error, 
+                        MasterServiceConstants.LogPrefix,
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.Log_Messages_FailedToTerminateEnvironmentOnFailure_WithFailedEnvironmentAndError,
+                            environment.Item1.Environment,
+                            environmentId,
+                            e));
+                }
             }
 
             map.Reports.AddToSection(

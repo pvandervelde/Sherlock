@@ -45,6 +45,14 @@ namespace Sherlock.Shared.Core
         }
 
         /// <summary>
+        /// Gets a value indicating whether the current environment has been terminated.
+        /// </summary>
+        bool HasBeenTerminated
+        {
+            get;
+        }
+
+        /// <summary>
         /// Returns the current state of the environment.
         /// </summary>
         /// <param name="token">The cancellation token that can be used to cancel the gathering of the state.</param>

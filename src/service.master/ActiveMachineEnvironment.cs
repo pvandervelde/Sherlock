@@ -47,6 +47,11 @@ namespace Sherlock.Service.Master
         private readonly Action m_TerminateEnvironment;
 
         /// <summary>
+        /// A flag that indicates whether the current environment has been terminated or not.
+        /// </summary>
+        private volatile bool m_HasBeenTerminated;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ActiveMachineEnvironment"/> class.
         /// </summary>
         /// <param name="id">The ID of the environment.</param>
@@ -146,6 +151,17 @@ namespace Sherlock.Service.Master
         }
 
         /// <summary>
+        /// Gets a value indicating whether the current environment has been terminated.
+        /// </summary>
+        public bool HasBeenTerminated
+        {
+            get
+            {
+                return m_HasBeenTerminated;
+            }
+        }
+
+        /// <summary>
         /// Returns the current state of the environment.
         /// </summary>
         /// <param name="token">The cancellation token that can be used to cancel the gathering of the state.</param>
@@ -226,14 +242,22 @@ namespace Sherlock.Service.Master
         /// </summary>
         public void Terminate()
         {
-            var result = m_Commands.Terminate();
             try
             {
+                var result = m_Commands.Terminate();
                 result.Wait();
             }
             catch (AggregateException)
             {
                 // Just ignore it for now
+            }
+            catch (CommandInvocationFailedException)
+            {
+                // Failed to send the command
+            }
+            finally
+            {
+                m_HasBeenTerminated = true;
             }
         }
 

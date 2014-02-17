@@ -249,4 +249,7 @@
   <data name="Exceptions_Messages_HypervVirtualMachine_FailedToTerminateMachine_WithErrorCode" xml:space="preserve">
     <value>Failed to terminate the Hyper-V virtual machine. The error code was: {0}.</value>
   </data>
+  <data name="Log_Messages_FailedToTerminateEnvironmentOnFailure_WithFailedEnvironmentAndError" xml:space="preserve">
+    <value>Failed to terminate environment [{0}] during environment connection failure of environment [{1}]. Error was {2}.</value>
+  </data>
 </root>

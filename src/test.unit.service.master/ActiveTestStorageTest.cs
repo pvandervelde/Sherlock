@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Moq;
+using Nuclei.Diagnostics;
 using NUnit.Framework;
 using Sherlock.Shared.Core;
 using Sherlock.Shared.Core.Reporting;
@@ -34,8 +35,9 @@ namespace Sherlock.Service.Master
                 builder.Setup(b => b.Build())
                     .Returns(report.Object);
             }
-            
-            var storage = new ActiveTestStorage();
+
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var storage = new ActiveTestStorage(diagnostics);
 
             var testId = 10;
             storage.Add(testId, builder.Object, notifications);
@@ -51,7 +53,8 @@ namespace Sherlock.Service.Master
         {
             var notifications = new List<TestCompletedNotification>();
             var builder = new Mock<IReportBuilder>();
-            var storage = new ActiveTestStorage();
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var storage = new ActiveTestStorage(diagnostics);
 
             var testId = 10;
             storage.Add(testId, builder.Object, notifications);
@@ -82,8 +85,9 @@ namespace Sherlock.Service.Master
                 builder.Setup(b => b.AddToSection(It.IsAny<string>(), It.IsAny<IEnumerable<TestSection>>()))
                     .Verifiable();
             }
-            
-            var storage = new ActiveTestStorage();
+
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var storage = new ActiveTestStorage(diagnostics);
 
             var testId = 10;
             storage.Add(testId, builder.Object, notifications);
@@ -122,7 +126,8 @@ namespace Sherlock.Service.Master
                     .Verifiable();
             }
 
-            var storage = new ActiveTestStorage();
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var storage = new ActiveTestStorage(diagnostics);
 
             var testCompleted = false;
             storage.OnTestCompletion += (s, e) => testCompleted = true;
@@ -152,7 +157,8 @@ namespace Sherlock.Service.Master
                     .Verifiable();
             }
 
-            var storage = new ActiveTestStorage();
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var storage = new ActiveTestStorage(diagnostics);
 
             var testId = 10;
             storage.Add(testId, builder.Object, notifications);
@@ -178,7 +184,8 @@ namespace Sherlock.Service.Master
                     .Verifiable();
             }
 
-            var storage = new ActiveTestStorage();
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var storage = new ActiveTestStorage(diagnostics);
 
             var testCompleted = false;
             var testResult = TestExecutionResult.None;

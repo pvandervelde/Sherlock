@@ -40,7 +40,8 @@ namespace Sherlock.Service.Master
 
         private static void RegisterStorage(ContainerBuilder builder)
         {
-            builder.Register(c => new ActiveTestStorage())
+            builder.Register(c => new ActiveTestStorage(
+                    c.Resolve<SystemDiagnostics>()))
                 .As<IStoreActiveTests>()
                 .SingleInstance();
         }

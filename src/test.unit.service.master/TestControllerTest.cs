@@ -116,7 +116,8 @@ namespace Sherlock.Service.Master
         public void ActivateTestsWithoutTests()
         {
             var configuration = CreateConfiguration();
-            var activeTests = new ActiveTestStorage();
+            var diagnostics = new SystemDiagnostics((p, s) => { }, null);
+            var activeTests = new ActiveTestStorage(diagnostics);
 
             var environmentPackage = new Mock<ITestEnvironmentPackage>();
             {
@@ -176,9 +177,6 @@ namespace Sherlock.Service.Master
 
             Func<IReportBuilder> reportBuilders = () => new Mock<IReportBuilder>().Object;
             Func<string, IReportBuilder, ITestSectionBuilder> sectionBuilders = (s, b) => new Mock<ITestSectionBuilder>().Object;
-            var diagnostics = new SystemDiagnostics(
-                (l, s) => { },
-                null);
 
             var controller = new TestController(
                 configuration.Object,
@@ -212,7 +210,8 @@ namespace Sherlock.Service.Master
 
             Func<ITestSuitePackage> packageFunc = () => suitePackage.Object;
 
-            var activeTests = new ActiveTestStorage();
+            var diagnostics = new SystemDiagnostics((l, s) => { }, null);
+            var activeTests = new ActiveTestStorage(diagnostics);
             var environmentContext = new Mock<IProvideTestingContext>();
             {
                 environmentContext.Setup(
@@ -257,9 +256,6 @@ namespace Sherlock.Service.Master
 
             Func<IReportBuilder> reportBuilders = () => new Mock<IReportBuilder>().Object;
             Func<string, IReportBuilder, ITestSectionBuilder> sectionBuilders = (s, b) => new Mock<ITestSectionBuilder>().Object;
-            var diagnostics = new SystemDiagnostics(
-                (l, s) => { },
-                null);
 
             var controller = new TestController(
                 configuration.Object,
@@ -290,7 +286,9 @@ namespace Sherlock.Service.Master
                         FailureMode = TestStepFailureMode.Continue,
                     } 
             };
-            var activeTests = new ActiveTestStorage();
+
+            var diagnostics = new SystemDiagnostics((l, s) => { }, null);
+            var activeTests = new ActiveTestStorage(diagnostics);
             var machineDescription = new PhysicalMachineDescription
                 {
                     Id = "a-b",
@@ -364,7 +362,6 @@ namespace Sherlock.Service.Master
 
             Func<IReportBuilder> reportBuilders = () => new Mock<IReportBuilder>().Object;
             Func<string, IReportBuilder, ITestSectionBuilder> sectionBuilders = (s, b) => new Mock<ITestSectionBuilder>().Object;
-            var diagnostics = new SystemDiagnostics((l, s) => { }, null);
             var controller = new TestController(
                 configuration.Object,
                 activeTests,

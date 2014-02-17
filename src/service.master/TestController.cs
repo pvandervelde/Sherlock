@@ -378,7 +378,7 @@ namespace Sherlock.Service.Master
                         var currentContext = ownedContext.Value;
                         foreach (var test in currentContext.InactiveTests())
                         {
-                            var environments = test.Environments;
+                            var environments = test.Environments.ToList();
                             if (!environments.Any())
                             {
                                 m_Diagnostics.Log(
