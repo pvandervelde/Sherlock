@@ -389,24 +389,28 @@ namespace Sherlock.Service.Executor
                     StartInfo = startInfo
                 };
 
-            EventHandler handler = null;
-            handler =
-                (s, e) =>
-                {
-                    if ((m_TestInformation.CurrentState == TestExecutionState.Running)
-                        || m_TestInformation.CurrentState == TestExecutionState.Unknown)
-                    {
-                        // The process must have crashed
-                        m_TestExecutionEvents.RaiseOnTestCompletion(TestExecutionResult.Failed);
-                    }
-
-                    m_TestInformation.CurrentState = TestExecutionState.None;
-                    exec.Exited -= handler;
-                };
-            exec.Exited += handler;
+            exec.Exited += HandleOnExecutorApplicationExit;
 
             exec.Start();
             return exec.CreateEndpointIdForProcess();
+        }
+
+        private void HandleOnExecutorApplicationExit(object sender, EventArgs e)
+        {
+            var exec = sender as Process;
+            if (exec != null)
+            {
+                exec.Exited -= HandleOnExecutorApplicationExit;
+            }
+
+            if ((m_TestInformation.CurrentState == TestExecutionState.Running)
+                        || m_TestInformation.CurrentState == TestExecutionState.Unknown)
+            {
+                // The process must have crashed
+                m_TestExecutionEvents.RaiseOnTestCompletion(TestExecutionResult.Failed);
+            }
+
+            m_TestInformation.CurrentState = TestExecutionState.None;
         }
 
         private void WaitForExecutorConnection(EndpointId endpoint)
