@@ -462,9 +462,6 @@ namespace Sherlock.Service.Executor
             completionHandle =
                 (s, e) =>
                 {
-                    notifications.OnExecutionProgress -= progressHandle;
-                    notifications.OnTestCompletion -= completionHandle;
-
                     m_TestInformation.CurrentState = TestExecutionState.None;
                     m_TestExecutionEvents.RaiseOnTestCompletion(e.Result);
                     m_CurrentEndpoint = null;
