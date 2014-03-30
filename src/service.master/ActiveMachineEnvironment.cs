@@ -214,7 +214,13 @@ namespace Sherlock.Service.Master
 
             var token = m_Uploads.Register(testPackageFile);
             var endpoint = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
-            var result = m_Commands.Execute(testId, testSteps.ToList(), environmentParameters.ToList(), endpoint, token);
+            var result = CommandSetGuard.GuardAgainstCommunicationFailure(
+                m_Commands.Execute,
+                testId, 
+                testSteps.ToList(), 
+                environmentParameters.ToList(), 
+                endpoint, 
+                token);
             try
             {
                 result.Wait();

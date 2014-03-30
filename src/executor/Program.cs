@@ -286,7 +286,7 @@ namespace Sherlock.Executor
                 throw new MissingCommandSetException();
             }
 
-            var tokenTask = transferCommands.PrepareTestFilesForTransfer();
+            var tokenTask = CommandSetGuard.GuardAgainstCommunicationFailure(transferCommands.PrepareTestFilesForTransfer);
             var unzipTask = tokenTask.ContinueWith(
                 t =>
                 {

@@ -165,7 +165,12 @@ namespace Sherlock.Service.Executor
 
                         var id = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
                         var command = m_RemoteCommands.CommandsFor<IStoreTestReportDataCommands>(m_HostInformation.Id);
-                        var task = command.PrepareReportFilesForTransfer(m_TestInformation.TestId, testStepIndex, id, hostToken);
+                        var task = CommandSetGuard.GuardAgainstCommunicationFailure(
+                            command.PrepareReportFilesForTransfer,
+                            m_TestInformation.TestId, 
+                            testStepIndex, 
+                            id, 
+                            hostToken);
                         task.Wait();
                     }
                     catch (Exception e)

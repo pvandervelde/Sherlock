@@ -127,6 +127,7 @@
       <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
     </Compile>
     <Compile Include="ApplicationConstants.cs" />
+    <Compile Include="CommandSetGuard.cs" />
     <Compile Include="CommunicationSubjects.cs" />
     <Compile Include="ConsoleApplicationRunner.cs" />
     <Compile Include="CouldNotLoadEnvironmentException.cs" />

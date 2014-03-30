@@ -496,10 +496,13 @@ namespace Sherlock.Service.Executor
                     var commands = m_RemoteCommands.CommandsFor<IExecutorCommands>(endpoint);
                     if (commands != null)
                     {
-                        var task = commands.Terminate();
                         try
                         {
+                            var task = commands.Terminate();
                             task.Wait();
+                        }
+                        catch (CommandInvocationFailedException)
+                        {
                         }
                         catch (AggregateException)
                         {
