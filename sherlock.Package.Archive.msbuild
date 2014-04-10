@@ -18,12 +18,6 @@
         <DirInstall>$(DirWorkspace)\install</DirInstall>
         <DirInstallZip>$(DirInstall)\package</DirInstallZip>
         
-        <!-- Version number -->
-        <VersionMajor>0</VersionMajor>
-        <VersionMinor>0</VersionMinor>
-        <VersionBuild>0</VersionBuild>
-        <VersionRevision>0</VersionRevision>
-        
         <!-- Tools -->
         <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
     </PropertyGroup>
