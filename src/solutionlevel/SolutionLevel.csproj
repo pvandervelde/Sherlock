@@ -57,9 +57,11 @@
     <!-- Version number -->
     <VersionMajor>0</VersionMajor>
     <VersionMinor>0</VersionMinor>
+    <VersionPatch>0</VersionPatch>
     <VersionBuild>0</VersionBuild>
-    <VersionRevision>0</VersionRevision>
-    <!-- Jenkins, the build system adds the BUILD_NUMBER environment variable so we can get that here -->
+    <VersionSemantic>0</VersionSemantic>
+    <VersionSemanticFull>0</VersionSemanticFull>
+    <!-- TeamCity, the build system adds the BUILD_NUMBER environment variable so we can get that here -->
     <BuildNumber>$(BUILD_NUMBER)</BuildNumber>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
     <!-- Todays dates -->
@@ -69,6 +71,7 @@
   </PropertyGroup>
   <Import Project="$(MsBuildExtensionsPath)\TemplateFile.msbuild" Condition="Exists('$(MsBuildExtensionsPath)\TemplateFile.msbuild')" />
   <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+  <Import Project="$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild" Condition="Exists('$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild')" />
   <Import Project="$(MsBuildExtensionsPath)\GitCommitHash.msbuild" Condition="Exists('$(MsBuildExtensionsPath)\GitCommitHash.msbuild')" />
   <Import Project="$(MsBuildExtensionsPath)\PublicKeySignatureFromAssembly.msbuild" Condition="Exists('$(MsBuildExtensionsPath)\PublicKeySignatureFromAssembly.msbuild')" />
   <Import Project="$(MsBuildExtensionsPath)\PublicKeySignatureFromKeyFile.msbuild" Condition="Exists('$(MsBuildExtensionsPath)\PublicKeySignatureFromKeyFile.msbuild')" />
@@ -98,6 +101,7 @@
   <!-- Just before we start building we'll generate the AssemblyInfo.XX.cs files-->
   <PropertyGroup>
     <BuildDependsOn>
+            GetSemanticVersion;
             GenerateAssemblyInfoVersionNumber;
             GenerateAssemblyInfoBuildInfo;
             GenerateAssemblyInternalsVisbibleTo;
@@ -106,6 +110,23 @@
             $(BuildDependsOn);
         </BuildDependsOn>
   </PropertyGroup>
+  <PropertyGroup>
+    <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+  </PropertyGroup>
+  <Target Name="GetSemanticVersion">
+    <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
+      <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
+    </FindToolFromPackages>
+    
+    <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+        <Output TaskParameter="VersionMajor" PropertyName="VersionMajor" />
+        <Output TaskParameter="VersionMinor" PropertyName="VersionMinor" />
+        <Output TaskParameter="VersionPatch" PropertyName="VersionPatch" />
+        <Output TaskParameter="VersionBuild" PropertyName="VersionBuild" />
+        <Output TaskParameter="VersionSemantic" PropertyName="VersionSemantic" />
+        <Output TaskParameter="VersionSemanticFull" PropertyName="VersionSemanticFull" />
+    </GetSemanticVersion>
+  </Target>
   <Target Name="GenerateAssemblyInfoVersionNumber" DependsOnTargets="_PrepareBuildEnvironment">
     <!-- Generate the version number file -->
     <ItemGroup>
@@ -115,11 +136,14 @@
       <VersionTokens Include="Minor">
         <ReplacementValue>$(VersionMinor)</ReplacementValue>
       </VersionTokens>
+      <VersionTokens Include="Patch">
+        <ReplacementValue>$(VersionPatch)</ReplacementValue>
+      </VersionTokens>
       <VersionTokens Include="Build">
         <ReplacementValue>$(VersionBuild)</ReplacementValue>
       </VersionTokens>
-      <VersionTokens Include="Revision">
-        <ReplacementValue>$(VersionRevision)</ReplacementValue>
+      <VersionTokens Include="SemanticFull">
+        <ReplacementValue>$(VersionSemanticFull)</ReplacementValue>
       </VersionTokens>
     </ItemGroup>
     <TemplateFile Template="$(FileTemplateAssemblyVersion)" OutputFileName="$(FileGeneratedAssemblyVersion)" Tokens="@(VersionTokens)" />
