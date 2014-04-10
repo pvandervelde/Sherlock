@@ -23,9 +23,9 @@ using System.Reflection;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("${Major}.${Minor}.${Build}.${Revision}")]
-[assembly: AssemblyFileVersion("${Major}.${Minor}.${Build}.${Revision}")]
+[assembly: AssemblyVersion("${Major}.${Minor}.0.0")]
+[assembly: AssemblyFileVersion("${Major}.${Minor}.${Patch}.${Build}")]
 
 // The AssemblyInformationalVersion stores the version that will be displayed in
 // Windows explorer.
-[assembly: AssemblyInformationalVersion("${Major}.${Minor}.${Build}.${Revision}")]
+[assembly: AssemblyInformationalVersion("${SemanticFull}")]

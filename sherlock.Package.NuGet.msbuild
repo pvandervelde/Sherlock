@@ -10,6 +10,7 @@
     
         <!-- Directories -->
         <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirPackages>$(DirWorkspace)\packages</DirPackages>
         <DirSrc>$(DirWorkspace)\src</DirSrc>
         <DirTemplates>$(DirWorkspace)\templates</DirTemplates>
         <DirTools>$(DirWorkspace)\tools</DirTools>
@@ -21,10 +22,7 @@
         <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
         
         <!-- Version number -->
-        <VersionMajor>0</VersionMajor>
-        <VersionMinor>0</VersionMinor>
-        <VersionBuild>0</VersionBuild>
-        <VersionRevision>0</VersionRevision>
+        <VersionSemantic>0</VersionSemantic>
         
         <!-- Tools -->
         <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
@@ -32,6 +30,10 @@
     
     <Import Project="$(MsBuildExtensionsPath)\FindAndReplaceInFile.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\FindAndReplaceInFile.msbuild')"/>
+    <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild')" />
     <Import Project="$(MsBuildExtensionsPath)\NugetGatherDependencies.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\NugetGatherDependencies.msbuild')"/>
     <Import Project="$(MsBuildExtensionsPath)\NugetPack.msbuild"
@@ -39,15 +41,25 @@
     <Import Project="$(MsBuildExtensionsPath)\TemplateFile.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\TemplateFile.msbuild')"/>
             
-    <Import Project="$(DirWorkspace)\version.xml"
-            Condition="Exists('$(DirWorkspace)\version.xml')"/>
-    
     <Target Name="Run" DependsOnTargets="_DisplayInfo;_BuildNugetPackage" />
     
     <!-- Display info -->
     <Target Name="_DisplayInfo">
         <Message Text="Creating NuGet package..." />
         <Message Text="Version: $(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+    </PropertyGroup>
+    <Target Name="_GetSemanticVersion">
+        <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
+            <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
+        </FindToolFromPackages>
+        
+        <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+            <Output TaskParameter="VersionSemantic" PropertyName="VersionSemantic" />
+        </GetSemanticVersion>
     </Target>
     
     <PropertyGroup>
@@ -67,13 +79,13 @@
         <FileNuSpec>$(DirBuildTemp)\nuget.nuspec</FileNuSpec>
         <FileReleaseNotes>$(DirBuildTemp)\releasenotes.txt</FileReleaseNotes>
     </PropertyGroup>
-    <Target Name="_BuildNugetPackage" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
+    <Target Name="_BuildNugetPackage" DependsOnTargets="_DisplayInfo;_GetSemanticVersion;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildTemp)" Condition="!Exists('$(DirBuildTemp)')" />
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
 
         <ItemGroup>
             <NuSpecTokens Include="Version">
-                <ReplacementValue>$(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)</ReplacementValue>
+                <ReplacementValue>$(VersionSemantic)</ReplacementValue>
             </NuSpecTokens>
             <NuSpecTokens Include="DirBin">
                 <ReplacementValue>$(DirBuildBin)</ReplacementValue>
