@@ -21,8 +21,7 @@
         <!-- Version number -->
         <VersionMajor>0</VersionMajor>
         <VersionMinor>0</VersionMinor>
-        <VersionBuild>0</VersionBuild>
-        <VersionRevision>0</VersionRevision>
+        <VersionSemanticFull>0</VersionSemanticFull>
         
         <!-- Tools -->
         <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
@@ -30,13 +29,12 @@
     
     <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" 
             Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild')" />
     <Import Project="$(MsBuildExtensionsPath)\TemplateFile.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\TemplateFile.msbuild')"/>
     <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
-    
-    <Import Project="$(DirWorkspace)\version.xml" 
-            Condition="Exists('$(DirWorkspace)\version.xml')" />
     
     <Target Name="Run" DependsOnTargets="_DisplayInfo;_GenerateVerificationConfigurations;_PackageVerification">
         <!-- Do nothing here -->
@@ -45,6 +43,21 @@
     <!-- Display info -->
     <Target Name="_DisplayInfo">
         <Message Text="Packing verification files ..." />
+    </Target>
+    
+    <PropertyGroup>
+        <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+    </PropertyGroup>
+    <Target Name="_GetSemanticVersion">
+        <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
+            <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
+        </FindToolFromPackages>
+        
+        <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+            <Output TaskParameter="VersionMajor" PropertyName="VersionMajor" />
+            <Output TaskParameter="VersionMinor" PropertyName="VersionMinor" />
+            <Output TaskParameter="VersionSemanticFull" PropertyName="VersionSemanticFull" />
+        </GetSemanticVersion>
     </Target>
 
     <PropertyGroup>
@@ -56,12 +69,12 @@
         <FileGeneratedConfig11>$(DirBuildTempVerification)\Sherlock.Verification.v11.xml</FileGeneratedConfig11>
         <FileGeneratedConfig12>$(DirBuildTempVerification)\Sherlock.Verification.v12.xml</FileGeneratedConfig12>
     </PropertyGroup>
-    <Target Name="_GenerateVerificationConfigurations" DependsOnTargets="_DisplayInfo">
+    <Target Name="_GenerateVerificationConfigurations" DependsOnTargets="_DisplayInfo;_GetSemanticVersion">
         <MakeDir Directories="$(DirBuildTempVerification)" Condition="!Exists('$(DirBuildTempVerification)')" />
         
         <ItemGroup>
             <VersionTokens Include="version">
-                <ReplacementValue>$(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)</ReplacementValue>
+                <ReplacementValue>$(VersionSemanticFull)</ReplacementValue>
             </VersionTokens>
             <VersionTokens Include="versionsmall">
                 <ReplacementValue>$(VersionMajor).$(VersionMinor)</ReplacementValue>
