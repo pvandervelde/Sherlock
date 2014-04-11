@@ -38,6 +38,7 @@ namespace Sherlock.Shared.Core
                 try
                 {
                     functionToExecute();
+                    return;
                 }
                 catch (CommandInvocationFailedException e)
                 {
