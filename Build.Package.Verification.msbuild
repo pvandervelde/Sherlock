@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Build configuration -->
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Platform Condition=" '$(Platform)' == ''">Any CPU</Platform>
+        <PlatformTranslated>$(Platform.Replace(" ",""))</PlatformTranslated>
+    
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirPackages>$(DirWorkspace)\packages</DirPackages>
+        <DirTools>$(DirWorkspace)\tools</DirTools>
+        <DirBuild>$(DirWorkspace)\build</DirBuild>
+        <DirBuildBin>$(DirBuild)\bin\$(PlatformTranslated)\$(Configuration)</DirBuildBin>
+        <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
+        <DirVerification>$(DirWorkspace)\verification</DirVerification>
+        
+        <!-- Version number -->
+        <VersionMajor>0</VersionMajor>
+        <VersionMinor>0</VersionMinor>
+        <VersionSemanticFull>0</VersionSemanticFull>
+        
+        <!-- Tools -->
+        <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
+    </PropertyGroup>
+    
+    <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\TemplateFile.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\TemplateFile.msbuild')"/>
+    <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
+    
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes;_GenerateVerificationConfigurations;_PackageVerification">
+        <!-- Do nothing here -->
+    </Target>
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Packing verification files ..." />
+    </Target>
+    
+    <PropertyGroup>
+        <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+    </PropertyGroup>
+    <Target Name="_GetSemanticVersion">
+        <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
+            <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
+        </FindToolFromPackages>
+        
+        <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+            <Output TaskParameter="VersionMajor" PropertyName="VersionMajor" />
+            <Output TaskParameter="VersionMinor" PropertyName="VersionMinor" />
+            <Output TaskParameter="VersionSemanticFull" PropertyName="VersionSemanticFull" />
+        </GetSemanticVersion>
+    </Target>
+    
+    <PropertyGroup>
+        <FileTempReleaseNotes>$(DirBuildTemp)\releasenotes_full.md</FileTempReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_GatherReleaseNotes" Condition=" '$(GitHubUserName)' != '' AND '$(GitHubToken)' != '' ">
+        <Copy SourceFiles="$(FileTempReleaseNotes)" 
+              DestinationFiles="$(FileReleaseNotes)" />
+    </Target>
+
+    <PropertyGroup>
+        <DirBuildTempVerification>$(DirBuildTemp)\verification</DirBuildTempVerification>
+        <FileTemplateConfig10>$(DirVerification)\Sherlock.Verification.v10.xml</FileTemplateConfig10>
+        <FileTemplateConfig11>$(DirVerification)\Sherlock.Verification.v11.xml</FileTemplateConfig11>
+        <FileTemplateConfig12>$(DirVerification)\Sherlock.Verification.v12.xml</FileTemplateConfig12>
+        <FileGeneratedConfig10>$(DirBuildTempVerification)\Sherlock.Verification.v10.xml</FileGeneratedConfig10>
+        <FileGeneratedConfig11>$(DirBuildTempVerification)\Sherlock.Verification.v11.xml</FileGeneratedConfig11>
+        <FileGeneratedConfig12>$(DirBuildTempVerification)\Sherlock.Verification.v12.xml</FileGeneratedConfig12>
+    </PropertyGroup>
+    <Target Name="_GenerateVerificationConfigurations" DependsOnTargets="_DisplayInfo;_GetSemanticVersion">
+        <MakeDir Directories="$(DirBuildTempVerification)" Condition="!Exists('$(DirBuildTempVerification)')" />
+        
+        <ItemGroup>
+            <VersionTokens Include="version">
+                <ReplacementValue>$(VersionSemanticFull)</ReplacementValue>
+            </VersionTokens>
+            <VersionTokens Include="versionsmall">
+                <ReplacementValue>$(VersionMajor).$(VersionMinor)</ReplacementValue>
+            </VersionTokens>
+        </ItemGroup>
+        <TemplateFile Template="$(FileTemplateConfig10)" OutputFileName="$(FileGeneratedConfig10)" Tokens="@(VersionTokens)" />
+        <TemplateFile Template="$(FileTemplateConfig11)" OutputFileName="$(FileGeneratedConfig11)" Tokens="@(VersionTokens)" />
+        <TemplateFile Template="$(FileTemplateConfig12)" OutputFileName="$(FileGeneratedConfig12)" Tokens="@(VersionTokens)" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameVerificationPackage>verification.zip</FileNameVerificationPackage>
+        <FileVerificationPackage>$(DirBuildDeploy)\$(FileNameVerificationPackage)</FileVerificationPackage>
+    </PropertyGroup>
+    <Target Name="_PackageVerification" DependsOnTargets="_DisplayInfo;_GenerateVerificationConfigurations;_GatherReleaseNotes">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        <MakeDir Directories="$(DirBuildTempVerification)" Condition="!Exists('$(DirBuildTempVerification)')" />
+        
+        <ItemGroup>
+            <VerificationFiles Include="$(DirBuildDeploy)\**\*.msi" />
+            <VerificationFiles Include="$(DirBuildBin)\Lokad.Shared.dll" />
+            <VerificationFiles Include="$(DirBuildBin)\Nuclei.dll" />
+            <VerificationFiles Include="$(DirBuildBin)\Nuclei.Build.dll" />
+            <VerificationFiles Include="$(DirBuildBin)\Sherlock.Verification.Console.exe" />
+            <VerificationFiles Include="$(DirBuildBin)\Sherlock.Verification.Console.exe.config" />
+            <VerificationFiles Include="$(DirVerification)\Sherlock.ExecuteVerificationTests.msbuild" />
+            <VerificationFiles Include="$(DirVerification)\Sherlock.VerificationConfiguration.xml" />
+            <VerificationFiles Include="$(DirVerification)\SherlockRegisterTest.msbuild" />
+            <VerificationFiles Include="$(DirVerification)\WaitForFiles.msbuild" />
+            <VerificationFiles Include="$(DirVerification)\verify.ps1" />
+            <VerificationFiles Include="$(MsBuildExtensionsPath)\TemplateFile.msbuild" />
+            <VerificationFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <VerificationFiles Include="$(DirWorkspace)\README.md" />
+            <VerificationFiles Include="$(FileReleaseNotes)" />
+        </ItemGroup>
+        
+        <Copy SourceFiles="@(VerificationFiles)" 
+              DestinationFolder="$(DirBuildTempVerification)" />
+        
+        <ItemGroup>
+            <FilesToZip Include="$(DirBuildTempVerification)\*.*" />
+        </ItemGroup>
+    
+        <Message Text="Compressing verification files" />
+        <Zip InputFileNames="@(FilesToZip)"
+             OutputFileName="$(FileVerificationPackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+ </Project>
