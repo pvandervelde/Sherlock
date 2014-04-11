@@ -46,7 +46,9 @@
     
     <!-- Display info -->
     <Target Name="_DisplayInfo">
-        <Message Text="Preparing workspace ..." />
+        <Message Text="Gathering release notes ..." />
+        <Message Text="WARNING: Github username not specified" Condition=" '$(GitHubUserName)' == '' " />
+        <Message Text="WARNING: Github token not specified" Condition=" '$(GitHubToken)' == '' " />
     </Target>
     
     <PropertyGroup>
