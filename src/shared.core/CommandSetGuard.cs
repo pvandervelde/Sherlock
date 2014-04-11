@@ -24,6 +24,38 @@ namespace Sherlock.Shared.Core
         /// <summary>
         /// Invokes a given delegate <paramref name="retryCount"/> number of times or until success.
         /// </summary>
+        /// <param name="functionToExecute">The delegate to execute.</param>
+        /// <param name="retryCount">The number of times the command should be executed if it fails.</param>
+        public static void GuardAgainstCommunicationFailure(
+            Action functionToExecute,
+            int retryCount = DefaultRetryCount)
+        {
+            var exceptions = new List<Exception>();
+
+            var index = 0;
+            while (index < retryCount)
+            {
+                try
+                {
+                    functionToExecute();
+                }
+                catch (CommandInvocationFailedException e)
+                {
+                    exceptions.Add(e);
+                }
+
+                index++;
+            }
+
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
+            }
+        }
+
+        /// <summary>
+        /// Invokes a given delegate <paramref name="retryCount"/> number of times or until success.
+        /// </summary>
         /// <typeparam name="TResult">The output type of the delegate.</typeparam>
         /// <param name="functionToExecute">The delegate to execute.</param>
         /// <param name="retryCount">The number of times the command should be executed if it fails.</param>

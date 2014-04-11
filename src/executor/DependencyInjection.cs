@@ -60,12 +60,16 @@ namespace Sherlock.Executor
                     var command = hub.CommandsFor<ITransferTestReportDataCommands>(hostId);
 
                     var id = EndpointIdExtensions.CreateEndpointIdForCurrentProcess();
-                    var task = CommandSetGuard.GuardAgainstCommunicationFailure(
-                        command.PrepareReportFilesForTransfer,
-                        stepIndex,
-                        id,
-                        token);
-                    task.Wait();
+                    Action toExecute =
+                        () =>
+                        {
+                            var task = command.PrepareReportFilesForTransfer(
+                                stepIndex,
+                                id,
+                                token);
+                            task.Wait();
+                        };
+                    CommandSetGuard.GuardAgainstCommunicationFailure(toExecute);
                 };
 
             return uploader;
