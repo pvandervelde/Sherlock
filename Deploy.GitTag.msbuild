@@ -42,7 +42,7 @@
     </Target>
     
     <PropertyGroup>
-        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes_short.md</FileReleaseNotes>
     </PropertyGroup>
     <Target Name="_LoadReleaseNotes">
         <CreateProperty Condition="Exists('$(FileReleaseNotes)')" Value="$([System.IO.File]::ReadAllText('$(FileReleaseNotes)'))">
