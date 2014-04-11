@@ -63,9 +63,9 @@
     </Target>
     
     <PropertyGroup>
-        <FileReleaseNotes>$(DirWorkspace)\releasenotes.txt</FileReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes_full.md</FileReleaseNotes>
     </PropertyGroup>
-    <Target Name="_GatherReleaseNotes">
+    <Target Name="_GatherReleaseNotes" Condition=" '$(GitHubUserName)' != '' AND '$(GitHubToken)' != '' ">
         <CreateProperty Condition="Exists('$(FileReleaseNotes)')" Value="$([System.IO.File]::ReadAllText('$(FileReleaseNotes)'))">
             <Output TaskParameter="Value" PropertyName="ReleaseNotes" />
         </CreateProperty>
@@ -77,7 +77,6 @@
     <PropertyGroup>
         <FileTemplateNuSpec>$(DirTemplates)\nuget.nuspec.in</FileTemplateNuSpec>
         <FileNuSpec>$(DirBuildTemp)\nuget.nuspec</FileNuSpec>
-        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.txt</FileReleaseNotes>
     </PropertyGroup>
     <Target Name="_BuildNugetPackage" DependsOnTargets="_DisplayInfo;_GetSemanticVersion;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildTemp)" Condition="!Exists('$(DirBuildTemp)')" />

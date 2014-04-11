@@ -14,6 +14,7 @@
         <DirTools>$(DirWorkspace)\tools</DirTools>
         <DirBuild>$(DirWorkspace)\build</DirBuild>
         <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
         <DirScripts>$(DirWorkspace)\scripts</DirScripts>
         
         <!-- Tools -->
@@ -25,7 +26,7 @@
     <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
     
-    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageSql">
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes;_PackageSql">
         <!-- Do nothing here -->
     </Target>
     
@@ -35,16 +36,26 @@
     </Target>
     
     <PropertyGroup>
+        <FileTempReleaseNotes>$(DirBuildTemp)\releasenotes_full.md</FileTempReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_GatherReleaseNotes" Condition=" '$(GitHubUserName)' != '' AND '$(GitHubToken)' != '' ">
+        <Copy SourceFiles="$(FileTempReleaseNotes)" 
+              DestinationFiles="$(FileReleaseNotes)" />
+    </Target>
+    
+    <PropertyGroup>
         <FileNameSqlPackage>sql.zip</FileNameSqlPackage>
         <FileSqlPackage>$(DirBuildDeploy)\$(FileNameSqlPackage)</FileSqlPackage>
     </PropertyGroup>
-    <Target Name="_PackageSql" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageSql" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup Condition="'$(DirScripts)' != ''">
             <SqlFiles Include="$(DirScripts)\*.sql" />
             <SqlFiles Include="$(DirWorkspace)\LICENSE.md" />
             <SqlFiles Include="$(DirWorkspace)\README.md" />
+            <SqlFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
     
         <Message Text="Compressing SQL files" />

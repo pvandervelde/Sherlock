@@ -36,7 +36,7 @@
     <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
     
-    <Target Name="Run" DependsOnTargets="_DisplayInfo;_GenerateVerificationConfigurations;_PackageVerification">
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes;_GenerateVerificationConfigurations;_PackageVerification">
         <!-- Do nothing here -->
     </Target>
     
@@ -58,6 +58,15 @@
             <Output TaskParameter="VersionMinor" PropertyName="VersionMinor" />
             <Output TaskParameter="VersionSemanticFull" PropertyName="VersionSemanticFull" />
         </GetSemanticVersion>
+    </Target>
+    
+    <PropertyGroup>
+        <FileTempReleaseNotes>$(DirBuildTemp)\releasenotes_full.md</FileTempReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_GatherReleaseNotes" Condition=" '$(GitHubUserName)' != '' AND '$(GitHubToken)' != '' ">
+        <Copy SourceFiles="$(FileTempReleaseNotes)" 
+              DestinationFiles="$(FileReleaseNotes)" />
     </Target>
 
     <PropertyGroup>
@@ -89,7 +98,7 @@
         <FileNameVerificationPackage>verification.zip</FileNameVerificationPackage>
         <FileVerificationPackage>$(DirBuildDeploy)\$(FileNameVerificationPackage)</FileVerificationPackage>
     </PropertyGroup>
-    <Target Name="_PackageVerification" DependsOnTargets="_DisplayInfo;_GenerateVerificationConfigurations">
+    <Target Name="_PackageVerification" DependsOnTargets="_DisplayInfo;_GenerateVerificationConfigurations;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         <MakeDir Directories="$(DirBuildTempVerification)" Condition="!Exists('$(DirBuildTempVerification)')" />
         
@@ -108,6 +117,7 @@
             <VerificationFiles Include="$(MsBuildExtensionsPath)\TemplateFile.msbuild" />
             <VerificationFiles Include="$(DirWorkspace)\LICENSE.md" />
             <VerificationFiles Include="$(DirWorkspace)\README.md" />
+            <VerificationFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
         
         <Copy SourceFiles="@(VerificationFiles)" 

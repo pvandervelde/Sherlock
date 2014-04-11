@@ -15,6 +15,7 @@
         <DirBuild>$(DirWorkspace)\build</DirBuild>
         <DirBuildBin>$(DirBuild)\bin\$(PlatformTranslated)\$(Configuration)</DirBuildBin>
         <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
         <DirInstall>$(DirWorkspace)\install</DirInstall>
         <DirInstallZip>$(DirInstall)\package</DirInstallZip>
         
@@ -28,7 +29,7 @@
     <Import Project="$(DirWorkspace)\version.xml" 
             Condition="Exists('$(DirWorkspace)\version.xml')" />
     
-    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageConsole;_PackageService;_PackageMasterService;_PackageExecutorService">
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes;_PackageConsole;_PackageService;_PackageMasterService;_PackageExecutorService">
         <!-- Do nothing here -->
     </Target>
     
@@ -38,10 +39,19 @@
     </Target>
     
     <PropertyGroup>
+        <FileTempReleaseNotes>$(DirBuildTemp)\releasenotes_full.md</FileTempReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_GatherReleaseNotes" Condition=" '$(GitHubUserName)' != '' AND '$(GitHubToken)' != '' ">
+        <Copy SourceFiles="$(FileTempReleaseNotes)" 
+              DestinationFiles="$(FileReleaseNotes)" />
+    </Target>
+    
+    <PropertyGroup>
         <FileNameConsolePackage>console.zip</FileNameConsolePackage>
         <FileConsolePackage>$(DirBuildDeploy)\$(FileNameConsolePackage)</FileConsolePackage>
     </PropertyGroup>
-    <Target Name="_PackageConsole" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageConsole" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup Condition="'$(DirBuildBin)' != ''">
@@ -59,6 +69,7 @@
             <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Console.exe.config" />
             <ConsoleFiles Include="$(DirWorkspace)\LICENSE.md" />
             <ConsoleFiles Include="$(DirWorkspace)\README.md" />
+            <ConsoleFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
     
         <Message Text="Compressing console files" />
@@ -71,7 +82,7 @@
         <FileNameServicePackage>service.zip</FileNameServicePackage>
         <FileServicePackage>$(DirBuildDeploy)\$(FileNameServicePackage)</FileServicePackage>
     </PropertyGroup>
-    <Target Name="_PackageService" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageService" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup Condition="'$(DirBuildBin)' != ''">
@@ -91,6 +102,7 @@
             <ServiceFiles Include="$(DirBuildBin)\Sherlock.Service.exe.config" />
             <ServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
             <ServiceFiles Include="$(DirWorkspace)\README.md" />
+            <ServiceFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
     
         <Message Text="Compressing service files" />
@@ -103,7 +115,7 @@
         <FileNameMasterServicePackage>service.master.zip</FileNameMasterServicePackage>
         <FileMasterServicePackage>$(DirBuildDeploy)\$(FileNameMasterServicePackage)</FileMasterServicePackage>
     </PropertyGroup>
-    <Target Name="_PackageMasterService" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageMasterService" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup Condition="'$(DirBuildBin)' != ''">
@@ -132,6 +144,7 @@
             <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.pdb" />
             <MasterServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
             <MasterServiceFiles Include="$(DirWorkspace)\README.md" />
+            <MasterServiceFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
     
         <Message Text="Compressing master service files" />
@@ -144,7 +157,7 @@
         <FileNameExecutorServicePackage>service.executor.zip</FileNameExecutorServicePackage>
         <FileExecutorServicePackage>$(DirBuildDeploy)\$(FileNameExecutorServicePackage)</FileExecutorServicePackage>
     </PropertyGroup>
-    <Target Name="_PackageExecutorService" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageExecutorService" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup Condition="'$(DirBuildBin)' != ''">
@@ -176,6 +189,7 @@
             <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.pdb" />
             <ExecutorServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
             <ExecutorServiceFiles Include="$(DirWorkspace)\README.md" />
+            <ExecutorServiceFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
         
         <Message Text="Compressing executor service files" />

@@ -26,7 +26,7 @@
     <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
     
-    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageWebApi;_PackageWebIntranet">
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes;_PackageWebApi;_PackageWebIntranet">
         <!-- Do nothing here -->
     </Target>
     
@@ -36,18 +36,28 @@
     </Target>
     
     <PropertyGroup>
+        <FileTempReleaseNotes>$(DirBuildTemp)\releasenotes_full.md</FileTempReleaseNotes>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_GatherReleaseNotes" Condition=" '$(GitHubUserName)' != '' AND '$(GitHubToken)' != '' ">
+        <Copy SourceFiles="$(FileTempReleaseNotes)" 
+              DestinationFiles="$(FileReleaseNotes)" />
+    </Target>
+    
+    <PropertyGroup>
         <FileNameWebApi>Sherlock.Web.Api.zip</FileNameWebApi>
         <FileWebApiPackage>$(DirBuildDeploy)\$(FileNameWebApi)</FileWebApiPackage>
         <DirBuildTempWebApi>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Api</DirBuildTempWebApi>
     </PropertyGroup>
-    <Target Name="_PackageWebApi" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageWebApi" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup>
-            <WebApiLicenseAndReadmeFiles Include="$(DirWorkspace)\LICENSE.md" />
-            <WebApiLicenseAndReadmeFiles Include="$(DirWorkspace)\README.md" />
+            <WebApiAdditionalFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <WebApiAdditionalFiles Include="$(DirWorkspace)\README.md" />
+            <WebApiAdditionalFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
-        <Copy SourceFiles="@(WebApiLicenseAndReadmeFiles)" 
+        <Copy SourceFiles="@(WebApiAdditionalFiles)" 
               DestinationFolder="$(DirBuildTempWebApi)" />
         
         <ItemGroup>
@@ -66,14 +76,15 @@
         <FileWebIntranetPackage>$(DirBuildDeploy)\$(FileNameWebIntranet)</FileWebIntranetPackage>
         <DirBuildTempWebIntranet>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Intranet</DirBuildTempWebIntranet>
     </PropertyGroup>
-    <Target Name="_PackageWebIntranet" DependsOnTargets="_DisplayInfo">
+    <Target Name="_PackageWebIntranet" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes">
         <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
         
         <ItemGroup>
-            <WebIntranetLicenseAndReadmeFiles Include="$(DirWorkspace)\LICENSE.md" />
-            <WebIntranetLicenseAndReadmeFiles Include="$(DirWorkspace)\README.md" />
+            <WebIntranetAdditionalFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <WebIntranetAdditionalFiles Include="$(DirWorkspace)\README.md" />
+            <WebIntranetAdditionalFiles Include="$(FileReleaseNotes)" />
         </ItemGroup>
-        <Copy SourceFiles="@(WebIntranetLicenseAndReadmeFiles)" 
+        <Copy SourceFiles="@(WebIntranetAdditionalFiles)" 
               DestinationFolder="$(DirBuildTempWebIntranet)" />
         
         <ItemGroup>
