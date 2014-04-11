@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Build configuration -->
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Platform Condition=" '$(Platform)' == ''">Any CPU</Platform>
+        <PlatformTranslated>$(Platform.Replace(" ",""))</PlatformTranslated>
+    
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirPackages>$(DirWorkspace)\packages</DirPackages>
+        <DirTools>$(DirWorkspace)\tools</DirTools>
+        <DirBuild>$(DirWorkspace)\build</DirBuild>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
+        <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
+        <DirScripts>$(DirWorkspace)\scripts</DirScripts>
+       
+        <!-- Tools -->
+        <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
+    </PropertyGroup>
+    
+    <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
+    
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageWebApi;_PackageWebIntranet">
+        <!-- Do nothing here -->
+    </Target>
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Packing SQL upgrade files ..." />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameWebApi>Sherlock.Web.Api.zip</FileNameWebApi>
+        <FileWebApiPackage>$(DirBuildDeploy)\$(FileNameWebApi)</FileWebApiPackage>
+        <DirBuildTempWebApi>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Api</DirBuildTempWebApi>
+    </PropertyGroup>
+    <Target Name="_PackageWebApi" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup>
+            <WebApiLicenseAndReadmeFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <WebApiLicenseAndReadmeFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+        <Copy SourceFiles="@(WebApiLicenseAndReadmeFiles)" 
+              DestinationFolder="$(DirBuildTempWebApi)" />
+        
+        <ItemGroup>
+            <WebApiFiles Include="$(DirBuildTempWebApi)\**\*.*" />
+        </ItemGroup>
+    
+        <Message Text="Compressing files" />
+        <Zip InputFileNames="@(WebApiFiles)"
+             BaseDirectory="$(DirBuildTempWebApi)"
+             OutputFileName="$(FileWebApiPackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameWebIntranet>Sherlock.Web.Intranet.zip</FileNameWebIntranet>
+        <FileWebIntranetPackage>$(DirBuildDeploy)\$(FileNameWebIntranet)</FileWebIntranetPackage>
+        <DirBuildTempWebIntranet>$(DirBuildTemp)\publish\$(Configuration)\Sherlock.Web.Intranet</DirBuildTempWebIntranet>
+    </PropertyGroup>
+    <Target Name="_PackageWebIntranet" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup>
+            <WebIntranetLicenseAndReadmeFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <WebIntranetLicenseAndReadmeFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+        <Copy SourceFiles="@(WebIntranetLicenseAndReadmeFiles)" 
+              DestinationFolder="$(DirBuildTempWebIntranet)" />
+        
+        <ItemGroup>
+            <WebIntranetFiles Include="$(DirBuildTempWebIntranet)\**\*.*" />
+        </ItemGroup>
+    
+        <Message Text="Compressing files" />
+        <Zip InputFileNames="@(WebIntranetFiles)"
+             BaseDirectory="$(DirBuildTempWebIntranet)"
+             OutputFileName="$(FileWebIntranetPackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+ </Project>

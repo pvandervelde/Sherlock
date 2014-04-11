@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Build flags -->
+        <ShouldClean>true</ShouldClean>
+        <ShouldHaveCoverage>true</ShouldHaveCoverage>
+        <ShouldCleanPackages>true</ShouldCleanPackages>
+        
+        <!-- Build configuration -->
+        <Platform Condition=" '$(Platform)' == ''">Any CPU</Platform>
+        
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+    </PropertyGroup>
+    
+    <Target Name="Run" DependsOnTargets="_PrepareWorkspace;_BuildBinaries;_ExecuteUnitTests;_PackageSQL;_PackageArchive;_PackageWeb;_PackageVerification;_PackageNuget">
+        <!-- Do nothing here -->
+    </Target>
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Building Sherlock ..." />
+    </Target>
+    
+    <!-- Clean -->
+    <PropertyGroup>
+        <MsBuildPrepareWorkspace>$(DirWorkspace)\Build.PrepareWorkspace.msbuild</MsBuildPrepareWorkspace>
+    </PropertyGroup>
+    <Target Name="_PrepareWorkspace" DependsOnTargets="_DisplayInfo">
+        <MSBuild Projects="$(MsBuildPrepareWorkspace)" Properties="ShouldClean=$(ShouldClean);ShouldCleanPackages=$(ShouldCleanPackages)" />
+    </Target>
+    
+    <!-- Build binaries -->
+    <PropertyGroup>
+        <MsBuildBuildBinaries>$(DirWorkspace)\Build.Binaries.msbuild</MsBuildBuildBinaries>
+    </PropertyGroup>
+    <Target Name="_BuildBinaries" DependsOnTargets="_PrepareWorkspace">
+        <MSBuild Projects="$(MsBuildBuildBinaries)" Properties="Configuration=Release;Platform=$(Platform);DeployOnBuild=true;DeployTarget=Package" />
+        <MSBuild Projects="$(MsBuildBuildBinaries)" Properties="Configuration=Deploy;Platform=$(Platform);DeployOnBuild=true;DeployTarget=Package" />
+    </Target>
+    
+    <!-- Run unit tests -->
+    <PropertyGroup>
+        <MsBuildExecuteUnitTest>$(DirWorkspace)\Build.Test.Unit.msbuild</MsBuildExecuteUnitTest>
+    </PropertyGroup>
+    <Target Name="_ExecuteUnitTests" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildExecuteUnitTest)" Properties="ShouldHaveCoverage=$(ShouldHaveCoverage)" />
+    </Target>
+    
+    <!-- Build SQL updates -->
+    <PropertyGroup>
+        <MsBuildPackageSQL>$(DirWorkspace)\Build.Package.SQL.msbuild</MsBuildPackageSQL>
+    </PropertyGroup>
+    <Target Name="_PackageSQL" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageSQL)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+    
+    <!-- Build archive files -->
+    <PropertyGroup>
+        <MsBuildPackageArchive>$(DirWorkspace)\Build.Package.Archive.msbuild</MsBuildPackageArchive>
+    </PropertyGroup>
+    <Target Name="_PackageArchive" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageArchive)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+    
+    <!-- Build web project files -->
+    <PropertyGroup>
+        <MsBuildPackageWeb>$(DirWorkspace)\Build.Package.Web.msbuild</MsBuildPackageWeb>
+    </PropertyGroup>
+    <Target Name="_PackageWeb" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageWeb)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+    
+    <!-- Package verification files -->
+    <PropertyGroup>
+        <MsBuildPackageVerification>$(DirWorkspace)\Build.Package.Verification.msbuild</MsBuildPackageVerification>
+    </PropertyGroup>
+    <Target Name="_PackageVerification" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageVerification)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+    
+    <!-- Package nuget files -->
+    <PropertyGroup>
+        <MsBuildPackageNuget>$(DirWorkspace)\Build.Package.NuGet.msbuild</MsBuildPackageNuget>
+    </PropertyGroup>
+    <Target Name="_PackageNuget" DependsOnTargets="_BuildBinaries">
+        <MSBuild Projects="$(MsBuildPackageNuget)" Properties="Configuration=Deploy;Platform=$(Platform)" />
+    </Target>
+</Project>

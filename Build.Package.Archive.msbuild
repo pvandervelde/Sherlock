@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Build configuration -->
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Platform Condition=" '$(Platform)' == ''">Any CPU</Platform>
+        <PlatformTranslated>$(Platform.Replace(" ",""))</PlatformTranslated>
+    
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirPackages>$(DirWorkspace)\packages</DirPackages>
+        <DirTools>$(DirWorkspace)\tools</DirTools>
+        <DirBuild>$(DirWorkspace)\build</DirBuild>
+        <DirBuildBin>$(DirBuild)\bin\$(PlatformTranslated)\$(Configuration)</DirBuildBin>
+        <DirBuildDeploy>$(DirBuild)\deploy</DirBuildDeploy>
+        <DirInstall>$(DirWorkspace)\install</DirInstall>
+        <DirInstallZip>$(DirInstall)\package</DirInstallZip>
+        
+        <!-- Tools -->
+        <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
+    </PropertyGroup>
+    
+    <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
+            Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
+            
+    <Import Project="$(DirWorkspace)\version.xml" 
+            Condition="Exists('$(DirWorkspace)\version.xml')" />
+    
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_PackageConsole;_PackageService;_PackageMasterService;_PackageExecutorService">
+        <!-- Do nothing here -->
+    </Target>
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Packing binaries ..." />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameConsolePackage>console.zip</FileNameConsolePackage>
+        <FileConsolePackage>$(DirBuildDeploy)\$(FileNameConsolePackage)</FileConsolePackage>
+    </PropertyGroup>
+    <Target Name="_PackageConsole" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup Condition="'$(DirBuildBin)' != ''">
+            <ConsoleFiles Include="$(DirBuildBin)\Autofac.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Ionic.Zip.Reduced.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Lokad.Shared.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\NLog.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Nuclei.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Nuclei.Build.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Nuclei.Configuration.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Nuclei.Diagnostics.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\System.IO.Abstractions.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
+            <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Console.exe" />
+            <ConsoleFiles Include="$(DirBuildBin)\Sherlock.Console.exe.config" />
+            <ConsoleFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <ConsoleFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+    
+        <Message Text="Compressing console files" />
+        <Zip InputFileNames="@(ConsoleFiles)"
+             OutputFileName="$(FileConsolePackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameServicePackage>service.zip</FileNameServicePackage>
+        <FileServicePackage>$(DirBuildDeploy)\$(FileNameServicePackage)</FileServicePackage>
+    </PropertyGroup>
+    <Target Name="_PackageService" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup Condition="'$(DirBuildBin)' != ''">
+            <ServiceFiles Include="$(DirBuildBin)\Autofac.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Ionic.Zip.Reduced.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Lokad.Shared.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\nAdoni.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\NLog.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Nuclei.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Nuclei.Build.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Nuclei.Configuration.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Nuclei.Diagnostics.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\System.IO.Abstractions.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Topshelf.dll" />  
+            <ServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
+            <ServiceFiles Include="$(DirBuildBin)\Sherlock.Service.exe" />
+            <ServiceFiles Include="$(DirBuildBin)\Sherlock.Service.exe.config" />
+            <ServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <ServiceFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+    
+        <Message Text="Compressing service files" />
+        <Zip InputFileNames="@(ServiceFiles)"
+             OutputFileName="$(FileServicePackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameMasterServicePackage>service.master.zip</FileNameMasterServicePackage>
+        <FileMasterServicePackage>$(DirBuildDeploy)\$(FileNameMasterServicePackage)</FileMasterServicePackage>
+    </PropertyGroup>
+    <Target Name="_PackageMasterService" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup Condition="'$(DirBuildBin)' != ''">
+            <MasterServiceFiles Include="$(DirBuildBin)\Autofac.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Castle.Core.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\EntityFramework.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Ionic.Zip.Reduced.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Lokad.Shared.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\NLog.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.Build.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.Communication.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.Configuration.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Nuclei.Diagnostics.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.IO.Abstractions.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.Core.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.Interfaces.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.Linq.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\System.Reactive.PlatformServices.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.pdb" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.DataAccess.dll" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.DataAccess.pdb" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.exe" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.exe.config" />
+            <MasterServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Master.pdb" />
+            <MasterServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <MasterServiceFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+    
+        <Message Text="Compressing master service files" />
+        <Zip InputFileNames="@(MasterServiceFiles)"
+             OutputFileName="$(FileMasterServicePackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+    
+    <PropertyGroup>
+        <FileNameExecutorServicePackage>service.executor.zip</FileNameExecutorServicePackage>
+        <FileExecutorServicePackage>$(DirBuildDeploy)\$(FileNameExecutorServicePackage)</FileExecutorServicePackage>
+    </PropertyGroup>
+    <Target Name="_PackageExecutorService" DependsOnTargets="_DisplayInfo">
+        <MakeDir Directories="$(DirBuildDeploy)" Condition="!Exists('$(DirBuildDeploy)')" />
+        
+        <ItemGroup Condition="'$(DirBuildBin)' != ''">
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Autofac.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Castle.Core.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Ionic.Zip.Reduced.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Lokad.Shared.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\NLog.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Nuclei.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Nuclei.Build.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Nuclei.Communication.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Nuclei.Configuration.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Nuclei.Diagnostics.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.IO.Abstractions.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Management.Automation.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.Core.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.Interfaces.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.Linq.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\System.Reactive.PlatformServices.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.Core.pdb" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.DataAccess.dll" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Shared.DataAccess.pdb" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Executor.exe" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Executor.exe.config" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Service.Executor.pdb" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.exe" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.exe.config" />
+            <ExecutorServiceFiles Include="$(DirBuildBin)\Sherlock.Executor.pdb" />
+            <ExecutorServiceFiles Include="$(DirWorkspace)\LICENSE.md" />
+            <ExecutorServiceFiles Include="$(DirWorkspace)\README.md" />
+        </ItemGroup>
+        
+        <Message Text="Compressing executor service files" />
+        <Zip InputFileNames="@(ExecutorServiceFiles)"
+             OutputFileName="$(FileExecutorServicePackage)"
+             OverwriteExistingFile="true" />
+    </Target>
+ </Project>

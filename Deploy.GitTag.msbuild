@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Directories -->
+        <DirWorkspace>$(MSBuildProjectDirectory)</DirWorkspace>
+        <DirTools>$(DirWorkspace)\tools</DirTools>
+        <DirBuild>$(DirWorkspace)\build</DirBuild>
+        <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp>
+        
+        <!-- Version number -->
+        <VersionSemantic>0</VersionSemantic>
+        
+        <!-- Tools -->
+        <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
+    </PropertyGroup>
+    
+    <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild')" />
+    
+    <Target Name="Run" DependsOnTargets="_DisplayInfo;_TagRelease;" />
+    
+    <!-- Display info -->
+    <Target Name="_DisplayInfo">
+        <Message Text="Tagging release ..." />
+    </Target>
+    
+    <PropertyGroup>
+        <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+    </PropertyGroup>
+    <Target Name="_GetSemanticVersion">
+        <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
+            <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
+        </FindToolFromPackages>
+        
+        <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+            <Output TaskParameter="VersionSemantic" PropertyName="VersionSemantic" />
+        </GetSemanticVersion>
+    </Target>
+    
+    <PropertyGroup>
+        <FileReleaseNotes>$(DirBuildTemp)\releasenotes.md</FileReleaseNotes>
+    </PropertyGroup>
+    <Target Name="_LoadReleaseNotes">
+        <CreateProperty Condition="Exists('$(FileReleaseNotes)')" Value="$([System.IO.File]::ReadAllText('$(FileReleaseNotes)'))">
+            <Output TaskParameter="Value" PropertyName="ReleaseNotes" />
+        </CreateProperty>
+    </Target>
+    
+    <PropertyGroup>
+        <ExeGit>$(DirGit)\git.exe</ExeGit>
+    </PropertyGroup>
+    <Target Name="_TagRelease" DependsOnTargets="_DisplayInfo;_GetSemanticVersion" Condition="Exists('$(DirGit)')" >
+        <Exec Command="&quot;$(ExeGit)&quot; tag -a -m &quot;$(ReleaseNotes)&quot; &quot;$(VersionSemantic)&quot;"
+              WorkingDirectory="$(DirWorkspace)" />
+        <Exec Command="&quot;$(ExeGit)&quot; push origin --tags"
+              WorkingDirectory="$(DirWorkspace)" />
+    </Target>
+ </Project>
