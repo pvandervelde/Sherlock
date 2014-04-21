@@ -40,7 +40,7 @@ namespace Sherlock.Shared.Core
                     functionToExecute();
                     return;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
@@ -75,7 +75,7 @@ namespace Sherlock.Shared.Core
                     var result = functionToExecute();
                     return result;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
@@ -115,7 +115,7 @@ namespace Sherlock.Shared.Core
                     var result = functionToExecute(argument1);
                     return result;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
@@ -158,7 +158,7 @@ namespace Sherlock.Shared.Core
                     var result = functionToExecute(argument1, argument2);
                     return result;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
@@ -204,7 +204,7 @@ namespace Sherlock.Shared.Core
                     var result = functionToExecute(argument1, argument2, argument3);
                     return result;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
@@ -253,7 +253,7 @@ namespace Sherlock.Shared.Core
                     var result = functionToExecute(argument1, argument2, argument3, argument4);
                     return result;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
@@ -305,7 +305,7 @@ namespace Sherlock.Shared.Core
                     var result = functionToExecute(argument1, argument2, argument3, argument4, argument5);
                     return result;
                 }
-                catch (CommandInvocationFailedException e)
+                catch (Exception e)
                 {
                     exceptions.Add(e);
                 }
