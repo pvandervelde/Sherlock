@@ -29,14 +29,10 @@
     </Target>
     
     <PropertyGroup>
-        <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+        <FileSemanticVersion>$(DirBuildTemp)\semantic_version.json</FileSemanticVersion>
     </PropertyGroup>
     <Target Name="_GetSemanticVersion">
-        <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
-            <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
-        </FindToolFromPackages>
-        
-        <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+        <GetSemanticVersion VersionFile="$(FileSemanticVersion)">
             <Output TaskParameter="VersionSemantic" PropertyName="VersionSemantic" />
         </GetSemanticVersion>
     </Target>

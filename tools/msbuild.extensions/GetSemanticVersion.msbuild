@@ -1,5 +1,5 @@
 <!-- 
-     Copyright 2013 Sherlock. Licensed under the Apache License, Version 2.0.
+     Copyright 2013 nAnicitus. Licensed under the Apache License, Version 2.0.
 -->
 
 <Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003' 
@@ -8,8 +8,7 @@
                TaskFactory="CodeTaskFactory" 
                AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
         <ParameterGroup>
-            <ExePath ParameterType="System.String" Required="true" />
-            <TempDirectory ParameterType="System.String" Required="true" />
+            <VersionFile ParameterType="System.String" Required="true" />
             <VersionMajor ParameterType="System.String" Output="true" />
             <VersionMinor ParameterType="System.String" Output="true" />
             <VersionPatch ParameterType="System.String" Output="true" />
@@ -22,53 +21,10 @@
                 <![CDATA[
                     public override bool Execute()
                     {
-                        var outputPath = System.IO.Path.Combine(TempDirectory, "semantic_version.json");
-                        var info = new System.Diagnostics.ProcessStartInfo
-                        {
-                            FileName = ExePath,
-                            Arguments = string.Format("/ToFile \"{0}\"", outputPath),
-                            UseShellExecute = false,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true,
-                        };
-                        
-                        Log.LogMessage(MessageImportance.Normal, ExePath);
-                        Log.LogMessage(MessageImportance.Normal, info.Arguments);
-                        
-                        var process = new System.Diagnostics.Process();
-                        process.StartInfo = info;
-                        process.OutputDataReceived +=
-                            (s, e) =>
-                            {
-                                if (!string.IsNullOrWhiteSpace(e.Data))
-                                {
-                                    Log.LogMessage(MessageImportance.Normal, e.Data);
-                                }
-                            };
-                        process.ErrorDataReceived +=
-                            (s, e) =>
-                            {
-                                if (!string.IsNullOrWhiteSpace(e.Data))
-                                {
-                                    Log.LogError(e.Data);
-                                }
-                            };
-                        process.Start();
-
-                        process.BeginOutputReadLine();
-                        process.BeginErrorReadLine();
-                        process.WaitForExit();
-                        
-                        if (process.ExitCode != 0)
-                        {
-                            Log.LogError("Failed to get semantic version information");
-                            return false;
-                        }
-                        
                         try
                         {
                             string text;
-                            using (var reader = new System.IO.StreamReader(outputPath))
+                            using (var reader = new System.IO.StreamReader(VersionFile))
                             {
                                 text = reader.ReadToEnd();
                             }
