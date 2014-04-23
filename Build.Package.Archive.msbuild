@@ -26,9 +26,6 @@
     <Import Project="$(MsBuildExtensionsPath)\Zip.msbuild"
             Condition="Exists('$(MsBuildExtensionsPath)\Zip.msbuild')"/>
             
-    <Import Project="$(DirWorkspace)\version.xml" 
-            Condition="Exists('$(DirWorkspace)\version.xml')" />
-    
     <Target Name="Run" DependsOnTargets="_DisplayInfo;_GatherReleaseNotes;_PackageConsole;_PackageService;_PackageMasterService;_PackageExecutorService">
         <!-- Do nothing here -->
     </Target>
