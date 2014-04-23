@@ -20,10 +20,6 @@
        
         <!-- Tools -->
         <MsBuildExtensionsPath>$(DirTools)\msbuild.extensions</MsBuildExtensionsPath>
-        
-        <!-- Jenkins, the build system, adds the BZR_REVISION environment variable so we can get that here -->
-        <BZR_REVISION Condition="'$(BZR_REVISION)' == '' ">-1</BZR_REVISION>
-        <ScmRevision>$(BZR_REVISION)</ScmRevision>
     </PropertyGroup>
     
     <Import Project="$(MsBuildExtensionsPath)\NugetRestore.msbuild"

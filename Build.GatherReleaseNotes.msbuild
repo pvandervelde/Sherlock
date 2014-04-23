@@ -35,6 +35,8 @@
     
     <Import Project="$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild" 
             Condition="Exists('$(MsBuildExtensionsPath)\FindToolFromPackages.msbuild')" />
+    <Import Project="$(MsBuildExtensionsPath)\CalculateSemanticVersion.msbuild" 
+            Condition="Exists('$(MsBuildExtensionsPath)\CalculateSemanticVersion.msbuild')" />
     <Import Project="$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild" 
             Condition="Exists('$(MsBuildExtensionsPath)\GetSemanticVersion.msbuild')" />
     <Import Project="$(MsBuildExtensionsPath)\TemplateFile.msbuild"
@@ -53,13 +55,16 @@
     
     <PropertyGroup>
         <FileGitVersionExe>GitHubFlowVersion.exe</FileGitVersionExe>
+        <FileSemanticVersion>$(DirBuildTemp)\semantic_version.json</FileSemanticVersion>
     </PropertyGroup>
     <Target Name="_GetSemanticVersion">
         <FindToolFromPackages PackagesDir="$(DirPackages)" FileToLocate="$(FileGitVersionExe)">
             <Output TaskParameter="Path" PropertyName="PathGitVersionExe" />
         </FindToolFromPackages>
         
-        <GetSemanticVersion ExePath="$(PathGitVersionExe)" TempDirectory="$(DirBuildTemp)">
+        <CalculateSemanticVersion ExePath="$(PathGitVersionExe)" VersionFile="$(FileSemanticVersion)" Condition="!Exists('$(FileSemanticVersion)')" />
+        
+        <GetSemanticVersion VersionFile="$(FileSemanticVersion)">
             <Output TaskParameter="VersionSemantic" PropertyName="VersionSemantic" />
         </GetSemanticVersion>
     </Target>
