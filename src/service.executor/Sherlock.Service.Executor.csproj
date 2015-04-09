@@ -12,7 +12,50 @@
   <PropertyGroup>
     <ApplicationIcon>..\..\resource\icons\sherlock.ico</ApplicationIcon>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Deploy|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Deploy</OutputPath>
+  </PropertyGroup>
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.props') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.net.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.net.props') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/csharp.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/csharp.props') " />
   <ItemGroup>
     <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
@@ -116,48 +159,48 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\templates\AssemblyInfo.Base.cs">
+    <Compile Include="..\AssemblyInfo.Base.cs">
       <Link>Properties\AssemblyInfo.Base.cs</Link>
     </Compile>
-    <Compile Include="..\..\build\temp\AssemblyInfo.BuildInformation.cs">
-      <Link>Properties\AssemblyInfo.BuildInformation.cs</Link>
+    <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\build\temp\AssemblyInfo.InternalsVisibleTo.cs">
-      <Link>Properties\AssemblyInfo.InternalsVisibleTo.cs</Link>
+    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\build\temp\AssemblyInfo.VersionNumber.cs">
-      <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
+    <Compile Include="Properties\AssemblyInfo.InternalsVisibleTo.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActiveTestInformation.cs" />
     <Compile Include="DependencyInjection.cs" />
     <Compile Include="ExecutorServiceConfigurationKeys.cs" />
     <Compile Include="ExecutorServiceConstants.cs" />
     <Compile Include="HostInformationStorage.cs" />
-    <Compile Include="Nuclei\ExceptionHandling\EventType.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\EventType.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\EventTypeToEventCategoryMap.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\EventTypeToEventCategoryMap.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionFilter.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionFilter.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionHandler.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionHandler.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionProcessor.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\ExceptionTypeToEventIdMap.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\ExceptionTypeToEventIdMap.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\GuardResult.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\GuardResult.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Nuclei\ExceptionHandling\LogBasedExceptionProcessor.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Nuclei\ExceptionHandling\TopLevelExceptionGuard.cs" >
+    <Compile Include="Nuclei\ExceptionHandling\TopLevelExceptionGuard.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Program.cs" />
@@ -195,18 +238,20 @@
       <Project>{2fd8cade-136f-4f46-9de8-afd5955cf7fe}</Project>
       <Name>Sherlock.Shared.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\solutionlevel\SolutionLevel.csproj">
-      <Project>{b0b1c32a-53fc-4b7e-ba60-6dafb8180a42}</Project>
-      <Name>SolutionLevel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\build\temp\licenses.xml">
       <Link>Properties\licenses.xml</Link>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <Content Include="nbuildkit.csharp.readme.txt" />
+    <Content Include="nbuildkit.readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.targets') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.net.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/common.net.targets') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/csharp.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.4.7/build/csharp.targets') " />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
