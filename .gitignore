@@ -2,12 +2,14 @@
 ## Project
 #################
 
+**/App_Data/*.zip
 AssemblyInfo.VersionNumber.cs
 AssemblyInfo.InternalsVisibleTo.cs
 AssemblyInfo.BuildInformation.cs
+AssemblyInfo.Company.cs
+*.manifest
 
 licenses.xml
-Dependencies.wxi
 VersionNumber.wxi
 
 #################
@@ -165,4 +167,3 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
-**/App_Data/*.zip
