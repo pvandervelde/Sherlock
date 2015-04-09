@@ -15,12 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Service.Master", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Shared.Core", "test.unit.shared.core\Test.Unit.Shared.Core.csproj", "{639A5DBB-6925-4471-8EC5-19C38537B4CA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21FBE726-DA43-4CAE-B9AD-7468A01F5BFC}"
-	ProjectSection(SolutionItems) = preProject
-		..\NextVersion.txt = ..\NextVersion.txt
-		..\packages.config = ..\packages.config
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{F5EB46EC-24DA-4DDC-809B-797406054FAF}"
 	ProjectSection(SolutionItems) = preProject
 		..\samples\Sherlock.Configuration.v10.xml = ..\samples\Sherlock.Configuration.v10.xml
@@ -37,9 +31,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A5D55E4C-DDF4-407C-8DEE-DB86690EDBEE}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Shared.DataAccess", "shared.dataaccess\Sherlock.Shared.DataAccess.csproj", "{2FD8CADE-136F-4F46-9DE8-AFD5955CF7FE}"
@@ -57,6 +48,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Verification.Console", "verification.console\Sherlock.Verification.Console.csproj", "{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sherlock.Verification.Installer", "verification.installer\Sherlock.Verification.Installer.wixproj", "{B372ED92-63CB-4996-91B9-9DCBE4919CE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0CEDE332-DCA8-4466-8399-4A79C12F5A4F}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget.config = ..\nuget.config
+		..\packages.config = ..\packages.config
+		..\README.md = ..\README.md
+		..\settings.props = ..\settings.props
+		..\Settings.StyleCop = ..\Settings.StyleCop
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
