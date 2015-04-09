@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionLevel", "solutionlevel\SolutionLevel.csproj", "{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Console", "console\Sherlock.Console.csproj", "{E80D994B-A230-49F7-86A3-E5EA72246D96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Service.Master", "service.master\Sherlock.Service.Master.csproj", "{8FF62371-B2C4-45E3-AA72-1D8DD1ABB336}"
@@ -67,12 +65,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E80D994B-A230-49F7-86A3-E5EA72246D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E80D994B-A230-49F7-86A3-E5EA72246D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E80D994B-A230-49F7-86A3-E5EA72246D96}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
