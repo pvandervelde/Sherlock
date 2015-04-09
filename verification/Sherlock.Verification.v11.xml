@@ -6,7 +6,7 @@
     -->
     <description>
         <product>Sherlock</product>
-        <version>${version}</version>
+        <version>${VersionSemantic}</version>
         <testpurpose>Verify that Sherlock can process a version 1.1 configuration file.</testpurpose>
     </description>
 
@@ -99,7 +99,7 @@
         <console steporder="5"
                  environment="client"
                  onfailure="Continue">
-            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></exe>
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${VersionMajor}.${VersionMinor}\Sherlock.Verification.Console.exe]]></exe>
             <params>
             </params>
         </console>
@@ -107,7 +107,7 @@
         <console steporder="6"
                  environment="client"
                  onfailure="Continue">
-            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></exe>
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${VersionMajor}.${VersionMinor}\Sherlock.Verification.Console.exe]]></exe>
             <params>
                 <param><![CDATA[-f]]></param>
             </params>
@@ -116,7 +116,7 @@
         <console steporder="7"
                  environment="client"
                  onfailure="Continue">
-            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></exe>
+            <exe><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${VersionMajor}.${VersionMinor}\Sherlock.Verification.Console.exe]]></exe>
             <params>
                 <param><![CDATA[-c]]></param>
             </params>

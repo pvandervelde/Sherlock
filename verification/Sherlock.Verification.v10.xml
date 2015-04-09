@@ -10,7 +10,7 @@
     -->
     <description>
         <product>Sherlock</product>
-        <version>${version}</version>
+        <version>${VersionSemantic}</version>
         <testpurpose>Verify that Sherlock can process a version 1.0 configuration file.</testpurpose>
     </description>
 
@@ -73,7 +73,7 @@
                 environment="client">
             <file language="Powershell"><![CDATA[${scriptpath}\verify.ps1]]></file>
             <params>
-                <param key="installPath"><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${versionsmall}\Sherlock.Verification.Console.exe]]></param>
+                <param key="installPath"><![CDATA[c:\program files (x86)\Sherlock\Sherlock\${VersionMajor}.${VersionMinor}\Sherlock.Verification.Console.exe]]></param>
             </params>
         </script>
         
