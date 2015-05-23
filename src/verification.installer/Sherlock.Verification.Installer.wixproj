@@ -37,16 +37,17 @@
     <Content Include="..\..\build\temp\Dependencies.wxi">
       <Link>Dependencies.wxi</Link>
     </Content>
-    <Content Include="..\..\build\temp\VersionNumber.wxi">
-      <Link>VersionNumber.wxi</Link>
+    <Content Include="..\CompanyInformation.wxi">
+      <Link>CompanyInformation.wxi</Link>
     </Content>
-    <Content Include="..\..\Templates\CompanyIncludes.wxi">
-      <Link>CompanyIncludes.wxi</Link>
+    <Content Include="..\ProductInformation.wxi">
+      <Link>ProductInformation.wxi</Link>
     </Content>
     <Content Include="Includes.wxi" />
     <Content Include="nbuildkit.readme.txt" />
     <Content Include="nbuildkit.wix.readme.txt" />
     <Content Include="packages.config" />
+    <Content Include="VersionNumber.wxi" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">

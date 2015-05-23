@@ -13,13 +13,13 @@
         and the version number of the oldest version of Apollo that we allow 
         upgrading from.
    -->
-    <?include $(var.SolutionDir)..\build\temp\VersionNumber.wxi ?>
+    <?include $(var.SolutionDir)verification.installer\VersionNumber.wxi ?>
 
     <!--
         Include the company include file. This contains some general information
         regarding the manufacturer that is needed for the installer.
    -->
-    <?include $(var.SolutionDir)..\templates\CompanyIncludes.wxi ?>
+    <?include $(var.SolutionDir)CompanyInformation.wxi ?>
 
     <!--
         Include the include file. This contains some general information
