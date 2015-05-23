@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+<archive>
+    <name>service.master-${VersionSemantic}</name>
+    <files>
+        <file src="${DirWorkspace}\LICENSE.md;${DirWorkspace}\README.md" target="" />
+        <file src="${FileReleaseNotesShort}" target="" />
+        <file src="${DirBin}\Autofac.dll" target="" />
+        <file src="${DirBin}\Castle.Core.dll" target="" />
+        <file src="${DirBin}\EntityFramework.dll" target="" />
+        <file src="${DirBin}\Ionic.Zip.Reduced.dll" target="" />
+        <file src="${DirBin}\Lokad.Shared.dll" target="" />
+        <file src="${DirBin}\NLog.dll" target="" />
+        <file src="${DirBin}\Nuclei.dll" target="" />
+        <file src="${DirBin}\Nuclei.Build.dll" target="" />
+        <file src="${DirBin}\Nuclei.Communication.dll" target="" />
+        <file src="${DirBin}\Nuclei.Configuration.dll" target="" />
+        <file src="${DirBin}\Nuclei.Diagnostics.dll" target="" />
+        <file src="${DirBin}\System.IO.Abstractions.dll" target="" />
+        <file src="${DirBin}\System.Reactive.Core.dll" target="" />
+        <file src="${DirBin}\System.Reactive.Interfaces.dll" target="" />
+        <file src="${DirBin}\System.Reactive.Linq.dll" target="" />
+        <file src="${DirBin}\System.Reactive.PlatformServices.dll" target="" />
+        <file src="${DirBin}\Sherlock.Shared.Core.dll" target="" />
+        <file src="${DirBin}\Sherlock.Shared.DataAccess.dll" target="" />
+        <file src="${DirBin}\Sherlock.Service.Master.exe" target="" />
+        <file src="${DirBin}\Sherlock.Service.Master.exe.config" target="" />
+    </files>
+</archive>

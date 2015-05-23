@@ -1,0 +1,9 @@
+﻿<?xml version="1.0"?>
+<archive>
+    <name>web.api-${VersionSemantic}</name>
+    <files>
+        <file src="${DirWorkspace}\LICENSE.md;${DirWorkspace}\README.md" target="" />
+        <file src="${FileReleaseNotesShort}" target="" />
+        <file src="${DirTemp}\publish\${Configuration}\Sherlock.Web.Api\**\*.*" target="" />
+    </files>
+</archive>

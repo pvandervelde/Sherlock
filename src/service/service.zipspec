@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<archive>
+    <name>service-${VersionSemantic}</name>
+    <files>
+        <file src="${DirWorkspace}\LICENSE.md;${DirWorkspace}\README.md" target="" />
+        <file src="${FileReleaseNotesShort}" target="" />
+        <file src="${DirBin}\Autofac.dll" target="" />
+        <file src="${DirBin}\Ionic.Zip.Reduced.dll" target="" />
+        <file src="${DirBin}\Lokad.Shared.dll" target="" />
+        <file src="${DirBin}\nAdoni.dll" target="" />
+        <file src="${DirBin}\NLog.dll" target="" />
+        <file src="${DirBin}\Nuclei.dll" target="" />
+        <file src="${DirBin}\Nuclei.Build.dll" target="" />
+        <file src="${DirBin}\Nuclei.Configuration.dll" target="" />
+        <file src="${DirBin}\Nuclei.Diagnostics.dll" target="" />
+        <file src="${DirBin}\System.IO.Abstractions.dll" target="" />
+        <file src="${DirBin}\Topshelf.dll" target="" />
+        <file src="${DirBin}\Sherlock.Shared.Core.dll" target="" />
+        <file src="${DirBin}\Sherlock.Service.exe" target="" />
+        <file src="${DirBin}\Sherlock.Service.exe.config" target="" />
+    </files>
+</archive>

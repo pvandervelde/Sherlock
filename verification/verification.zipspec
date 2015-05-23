@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<archive>
+    <name>verification-${VersionSemantic}</name>
+    <files>
+        <file src="${DirWorkspace}\LICENSE.md;${DirWorkspace}\README.md" target="" />
+        <file src="${FileReleaseNotesShort}" target="" />
+        <file src="${DirDeploy}\**\*.msi" target="" />
+        <file src="${DirBin}\Lokad.Shared.dll" target="" />
+        <file src="${DirBin}\Nuclei.dll" target="" />
+        <file src="${DirBin}\Nuclei.Build.dll" target="" />
+        <file src="${DirBin}\Sherlock.Verification.Console.exe" target="" />
+        <file src="${DirBin}\Sherlock.Verification.Console.exe.config" target="" />
+        <file src="${DirVerification}\Sherlock.ExecuteVerificationTests.msbuild" target="" />
+        <file src="${DirVerification}\Sherlock.VerificationConfiguration.xml" target="" />
+        <file src="${DirVerification}\SherlockRegisterTest.msbuild" target="" />
+        <file src="${DirVerification}\WaitForFiles.msbuild" target="" />
+        <file src="${DirVerification}\verify.ps1" target="" />
+        <file src="${DirNBuildKitExtensions}\TemplateFile.msbuild" target="" />
+        <file src="${DirTemp}\verification\*.*" target="" />
+    </files>
+</archive>
