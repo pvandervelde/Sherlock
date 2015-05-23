@@ -9,6 +9,7 @@
     <AssemblyName>Test.Unit.Shared.Core</AssemblyName>
     <ShouldDoDocumentation>false</ShouldDoDocumentation>
     <RestorePackages>true</RestorePackages>
+    <IsTest Condition=" '$(IsTest)' == '' ">true</IsTest>
   </PropertyGroup>
   <PropertyGroup>
     <ProductVersion>9.0.30729</ProductVersion>
