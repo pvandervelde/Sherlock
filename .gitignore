@@ -167,3 +167,7 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+src/CompanyInformation.cs
+src/CompanyInformation.wxi
+src/ProductInformation.cs
+src/ProductInformation.wxi
