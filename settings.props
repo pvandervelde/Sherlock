@@ -263,6 +263,7 @@
 
         <!-- The directory that will contain all the temporary files needed during the build process -->
         <DirBuildTemp Condition=" '$(DirBuildTemp)' == '' ">$(DirBuild)\temp</DirBuildTemp>
+        <DirBuildTempVerification>$(DirBuildTemp)\verification</DirBuildTempVerification>
 
         <!-- The directory that will contain all the test files generated during the test process -->
         <DirBuildTest Condition=" '$(DirBuildTest)' == '' ">$(DirBuild)\tests</DirBuildTest>
