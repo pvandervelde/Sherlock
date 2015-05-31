@@ -22,7 +22,6 @@
     <TreatTSqlWarningsAsErrors>True</TreatTSqlWarningsAsErrors>
     <SqlTargetName>Sherlock</SqlTargetName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
   <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

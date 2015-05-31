@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionLevel", "solutionlevel\SolutionLevel.csproj", "{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Console", "console\Sherlock.Console.csproj", "{E80D994B-A230-49F7-86A3-E5EA72246D96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Service.Master", "service.master\Sherlock.Service.Master.csproj", "{8FF62371-B2C4-45E3-AA72-1D8DD1ABB336}"
@@ -16,12 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Service.Master", "test.unit.service.master\Test.Unit.Service.Master.csproj", "{99BD71FF-58B8-460E-84D8-FDB2CAC9E574}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Shared.Core", "test.unit.shared.core\Test.Unit.Shared.Core.csproj", "{639A5DBB-6925-4471-8EC5-19C38537B4CA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21FBE726-DA43-4CAE-B9AD-7468A01F5BFC}"
-	ProjectSection(SolutionItems) = preProject
-		..\NextVersion.txt = ..\NextVersion.txt
-		..\packages.config = ..\packages.config
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{F5EB46EC-24DA-4DDC-809B-797406054FAF}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,14 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Service.Executor", "service.executor\Sherlock.Service.Executor.csproj", "{FACEC6E2-6A48-43D8-BAA2-07A67C949073}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Service", "service\Sherlock.Service.csproj", "{7D3EAADE-61D7-42CD-9C24-258B94A974D0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A5D55E4C-DDF4-407C-8DEE-DB86690EDBEE}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Shared.DataAccess", "shared.dataaccess\Sherlock.Shared.DataAccess.csproj", "{2FD8CADE-136F-4F46-9DE8-AFD5955CF7FE}"
 EndProject
@@ -60,6 +44,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sherlock.Verification.Conso
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Sherlock.Verification.Installer", "verification.installer\Sherlock.Verification.Installer.wixproj", "{B372ED92-63CB-4996-91B9-9DCBE4919CE0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0CEDE332-DCA8-4466-8399-4A79C12F5A4F}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.prepare.generatelicenses.msbuild = ..\build.prepare.generatelicenses.msbuild
+		..\nuget.config = ..\nuget.config
+		..\packages.config = ..\packages.config
+		..\README.md = ..\README.md
+		..\settings.props = ..\settings.props
+		..\Settings.StyleCop = ..\Settings.StyleCop
+		..\sherlock.msbuild = ..\sherlock.msbuild
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{6E95D86B-27E1-4E82-BB5B-FCC9A2D5D19F}"
+	ProjectSection(SolutionItems) = preProject
+		..\scripts\Sherlock_Complete_V1.sql = ..\scripts\Sherlock_Complete_V1.sql
+		..\scripts\Sherlock_Upgrade_V1_To_V3.sql = ..\scripts\Sherlock_Upgrade_V1_To_V3.sql
+		..\scripts\Sherlock_Upgrade_V3_To_V4.sql = ..\scripts\Sherlock_Upgrade_V3_To_V4.sql
+		..\scripts\Sherlock_Upgrade_V4_To_V5.sql = ..\scripts\Sherlock_Upgrade_V4_To_V5.sql
+		..\scripts\sql.zipspec = ..\scripts\sql.zipspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "verification", "verification", "{981CC62B-8707-433E-83B9-97F740FBEFCE}"
+	ProjectSection(SolutionItems) = preProject
+		..\verification\Sherlock.ExecuteVerificationTests.msbuild = ..\verification\Sherlock.ExecuteVerificationTests.msbuild
+		..\verification\Sherlock.Verification.v10.xml = ..\verification\Sherlock.Verification.v10.xml
+		..\verification\Sherlock.Verification.v11.xml = ..\verification\Sherlock.Verification.v11.xml
+		..\verification\Sherlock.Verification.v12.xml = ..\verification\Sherlock.Verification.v12.xml
+		..\verification\Sherlock.VerificationConfiguration.xml = ..\verification\Sherlock.VerificationConfiguration.xml
+		..\verification\SherlockRegisterTest.msbuild = ..\verification\SherlockRegisterTest.msbuild
+		..\verification\verification.zipspec = ..\verification\verification.zipspec
+		..\verification\verify.ps1 = ..\verification\verify.ps1
+		..\verification\WaitForFiles.msbuild = ..\verification\WaitForFiles.msbuild
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,12 +84,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0B1C32A-53FC-4B7E-BA60-6DAFB8180A42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E80D994B-A230-49F7-86A3-E5EA72246D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E80D994B-A230-49F7-86A3-E5EA72246D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E80D994B-A230-49F7-86A3-E5EA72246D96}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
@@ -133,12 +144,8 @@ Global
 		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
-		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Deploy|Any CPU.Deploy.0 = Deploy|Any CPU
-		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FDF76D7-5CC0-48FF-B28A-F12D12D0E51B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{3EC24E27-D655-4121-B31A-B8C0F23A2A09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3EC24E27-D655-4121-B31A-B8C0F23A2A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EC24E27-D655-4121-B31A-B8C0F23A2A09}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
@@ -169,8 +176,8 @@ Global
 		{ADF18328-206B-48A7-90BD-2BF3EBCFB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Debug|Any CPU.Build.0 = Debug|x86
-		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Deploy|Any CPU.ActiveCfg = Debug|x86
-		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Deploy|Any CPU.Build.0 = Debug|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Deploy|Any CPU.ActiveCfg = Deploy|x86
+		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Deploy|Any CPU.Build.0 = Deploy|x86
 		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Release|Any CPU.ActiveCfg = Release|x86
 		{B372ED92-63CB-4996-91B9-9DCBE4919CE0}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection

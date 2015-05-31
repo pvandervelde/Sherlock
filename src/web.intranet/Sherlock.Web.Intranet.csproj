@@ -15,11 +15,57 @@
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <RestorePackages>true</RestorePackages>
-    <!-- Override the outputpath because web projects aren't able to have their bin paths redirected (due to IIS) -->
-    <OutputPath>bin\</OutputPath>
     <WebGreaseLibPath>..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\BaseConfiguration.targets" />
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Deploy|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Deploy</OutputPath>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+  </PropertyGroup>
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.props') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.props') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.props') " />
+  <PropertyGroup>
+    <!-- Override the outputpath because web projects aren't able to have their bin paths redirected (due to IIS) -->
+    <OutputPath Condition=" '$(Configuration)' == 'Debug' ">bin\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -246,6 +292,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="nbuildkit.csharp.readme.txt" />
+    <Content Include="nbuildkit.readme.txt" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
@@ -278,6 +326,7 @@
     <Content Include="Views\Machine\CreateHypervMachine.cshtml" />
     <Content Include="Views\Machine\EditHypervMachine.cshtml" />
     <Content Include="Views\Machine\EditPhysicalMachine.cshtml" />
+    <Content Include="web.intranet.zipspec" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -300,17 +349,14 @@
     <Compile Include="Models\OperatingSystemModel.cs" />
     <Compile Include="MvcExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\templates\AssemblyInfo.Base.cs">
+    <Compile Include="..\AssemblyInfo.Base.cs">
       <Link>Properties\AssemblyInfo.Base.cs</Link>
     </Compile>
-    <Compile Include="..\..\build\temp\AssemblyInfo.BuildInformation.cs">
-      <Link>Properties\AssemblyInfo.BuildInformation.cs</Link>
+    <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\build\temp\AssemblyInfo.InternalsVisibleTo.cs">
-      <Link>Properties\AssemblyInfo.InternalsVisibleTo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\build\temp\AssemblyInfo.VersionNumber.cs">
-      <Link>Properties\AssemblyInfo.VersionNumber.cs</Link>
+    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -362,10 +408,6 @@
       <Project>{2fd8cade-136f-4f46-9de8-afd5955cf7fe}</Project>
       <Name>Sherlock.Shared.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\solutionlevel\SolutionLevel.csproj">
-      <Project>{b0b1c32a-53fc-4b7e-ba60-6dafb8180a42}</Project>
-      <Name>SolutionLevel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -390,7 +432,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60111/</IISUrl>
+          <IISUrl>http://localhost:50283/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -400,14 +442,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!--
-  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
-  -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.targets') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.targets') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.targets') " />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
