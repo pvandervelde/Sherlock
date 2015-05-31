@@ -741,8 +741,7 @@
             <Platform>$(Platform)</Platform>
             <Targets>Rebuild</Targets>
             <Properties>
-                DeployOnBuild=true;
-                DeployTarget=Package
+                VisualStudioVersion=12.0
             </Properties>
         </SolutionsToBuild>
         <SolutionsToBuild Include="$(DirSrc)\sherlock.sln">
@@ -751,7 +750,8 @@
             <Targets>Rebuild</Targets>
             <Properties>
                 DeployOnBuild=true;
-                DeployTarget=Package
+                PublishProfile=ToFileSystem;
+                VisualStudioVersion=12.0
             </Properties>
         </SolutionsToBuild>
     </ItemGroup>

@@ -4,6 +4,6 @@
     <files>
         <file src="${DirWorkspace}\LICENSE.md;${DirWorkspace}\README.md" target="" />
         <file src="${FileReleaseNotesShort}" target="" />
-        <file src="${DirTemp}\publish\${Configuration}\Sherlock.Web.Intranet\**\*.*" target="" />
+        <file src="${DirTemp}\publish\Sherlock.Web.Intranet\**\*.*" target="" />
     </files>
 </archive>

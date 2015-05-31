@@ -15,8 +15,6 @@
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <RestorePackages>true</RestorePackages>
-    <!-- Override the outputpath because web projects aren't able to have their bin paths redirected (due to IIS) -->
-    <OutputPath>bin\</OutputPath>
     <WebGreaseLibPath>..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup>
@@ -59,10 +57,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
     <OutputPath>bin\Deploy</OutputPath>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.props') " />
   <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.props') " />
   <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.props') " />
+  <PropertyGroup>
+    <!-- Override the outputpath because web projects aren't able to have their bin paths redirected (due to IIS) -->
+    <OutputPath Condition=" '$(Configuration)' == 'Debug' ">bin\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -429,7 +432,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60111/</IISUrl>
+          <IISUrl>http://localhost:50283/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
