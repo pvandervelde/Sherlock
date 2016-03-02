@@ -140,9 +140,6 @@
     <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\test.srconly\MockDirectory.cs">
       <Link>MockDirectory.cs</Link>
     </Compile>

@@ -112,9 +112,6 @@
     <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mono.Options\Options.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>

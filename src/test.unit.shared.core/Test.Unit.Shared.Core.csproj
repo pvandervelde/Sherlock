@@ -175,9 +175,6 @@
     <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ApplicationConstantsTest.cs" />
     <Compile Include="CouldNotLoadEnvironmentExceptionTest.cs" />
     <Compile Include="EnvironmentAlreadyInUseExceptionTest.cs" />

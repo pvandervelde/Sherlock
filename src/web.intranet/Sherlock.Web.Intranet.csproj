@@ -353,9 +353,6 @@
     <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

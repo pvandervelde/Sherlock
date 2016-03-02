@@ -124,9 +124,6 @@
     <Compile Include="Properties\AssemblyInfo.BuildInformation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.VersionNumber.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="FailedToLocateEnvironmentExceptionTest.cs" />
     <Compile Include="InvalidSchemaVersionExceptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
