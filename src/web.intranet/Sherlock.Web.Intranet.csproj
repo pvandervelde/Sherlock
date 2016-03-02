@@ -59,9 +59,7 @@
     <OutputPath>bin\Deploy</OutputPath>
     <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.props') " />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.props') " />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.props') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.7.0/build/import.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.7.0/build/import.props') " />
   <PropertyGroup>
     <!-- Override the outputpath because web projects aren't able to have their bin paths redirected (due to IIS) -->
     <OutputPath Condition=" '$(Configuration)' == 'Debug' ">bin\</OutputPath>
@@ -443,9 +441,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.targets') " />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/common.net.targets') " />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.5.1/build/csharp.targets') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.CSharp.0.7.0/build/import.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.CSharp.0.7.0/build/import.targets') " />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
