@@ -27,8 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Deploy|x86' ">
     <DefineConstants>CurrentProjectDir=$(MSBuildProjectDirectory)</DefineConstants>
   </PropertyGroup>
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/common.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/common.props') " />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/wix.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/wix.props') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.WiX.0.7.0/build/import.props" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.WiX.0.7.0/build/import.props') " />
   <ItemGroup>
     <Compile Include="Product.wxs" />
     <Compile Include="Verification.Console.wxs" />
@@ -70,8 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/common.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/common.targets') " />
-  <Import Project="../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/wix.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.WiX.0.5.1/build/wix.targets') " />
+  <Import Project="../../packages/nBuildKit.MsBuild.Projects.WiX.0.7.0/build/import.targets" Condition=" Exists('../../packages/nBuildKit.MsBuild.Projects.WiX.0.7.0/build/import.targets') " />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Wix.targets.
